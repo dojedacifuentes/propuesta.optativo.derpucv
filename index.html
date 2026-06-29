@@ -22,7 +22,7 @@
       --radius:8px; --shadow:0 18px 80px rgba(0,0,0,0.55);
     }
     *{ box-sizing:border-box; }
-    html{ min-height:100%; background:var(--bg); color:var(--white); font-family:Inter,system-ui,sans-serif; scroll-behavior:smooth; }
+    html{ min-height:100%; background:var(--bg); color:var(--white); font-family:Inter,system-ui,sans-serif; scroll-behavior:smooth; scroll-padding-top:96px; }
     body{ min-height:100vh; margin:0; overflow-x:hidden; background:var(--bg); }
     button,input{ font:inherit; }
     button,a{ -webkit-tap-highlight-color:transparent; }
@@ -40,11 +40,14 @@
 
     .topbar,.shell,.ticker{ position:relative; z-index:4; }
     .topbar{
-      display:grid; grid-template-columns:minmax(220px,340px) minmax(320px,1fr) minmax(190px,290px);
-      gap:14px; align-items:center; padding:14px 18px;
-      border-bottom:1px solid var(--line); background:rgba(3,6,10,0.97); backdrop-filter:blur(20px);
+      display:grid; grid-template-columns:minmax(170px,250px) minmax(0,1fr) auto;
+      gap:16px; align-items:center; padding:11px 20px;
+      border-bottom:1px solid rgba(75,231,255,0.16); background:#04070c;
       position:sticky; top:0; z-index:50;
+      box-shadow:0 18px 36px -26px rgba(0,0,0,0.95);
     }
+    .topbar::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; height:1px;
+      background:linear-gradient(90deg, transparent, rgba(75,231,255,0.45), transparent); }
     .brand-lock{ display:flex; align-items:center; min-width:0; gap:12px; padding:8px; border:1px solid var(--line);
       border-radius:var(--radius); background:rgba(6,9,13,0.72); color:var(--white); cursor:pointer; text-align:left; }
     .brand-lock strong,.brand-lock small{ display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -52,11 +55,12 @@
     .brand-mark{ display:grid; flex:0 0 44px; width:44px; height:44px; place-items:center; border:1px solid var(--cyan);
       border-radius:6px; background:#020306; color:var(--cyan); font-family:"JetBrains Mono",monospace; font-weight:800;
       box-shadow:inset 0 0 18px rgba(75,231,255,0.14); }
-    .mode-switch{ display:grid; grid-template-columns:repeat(7,minmax(58px,1fr)); gap:6px; }
+    .mode-switch{ display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
     .mode-btn,.thin-command,.primary-command,.icon-only{ display:inline-flex; align-items:center; justify-content:center;
       gap:8px; min-height:38px; border:1px solid var(--line-soft); border-radius:6px; background:rgba(6,9,13,0.78);
       color:var(--white); cursor:pointer; text-decoration:none; }
-    .mode-btn{ min-width:0; padding:8px 8px; font-size:0.82rem; }
+    .mode-btn{ min-width:0; padding:8px 13px; font-size:0.8rem; border-radius:7px; background:rgba(8,13,20,0.6); }
+    .mode-btn.active{ background:rgba(75,231,255,0.1); }
     .mode-btn svg,.thin-command svg,.primary-command svg,.icon-only svg{ width:17px; height:17px; flex:0 0 17px; }
     .mode-btn span,.thin-command span,.primary-command span{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .mode-btn.active,.thin-command:hover,.primary-command:hover,.icon-only:hover,.brand-lock:hover,.mode-btn:hover{
@@ -375,7 +379,7 @@
       <span class="brand-mark">OJ</span>
       <span>
         <strong>Diego Ojeda Cifuentes</strong>
-        <small>Lic. Ciencias Jurídicas · Escuela de Derecho PUCV</small>
+        <small>Escuela de Derecho PUCV</small>
       </span>
     </button>
 
