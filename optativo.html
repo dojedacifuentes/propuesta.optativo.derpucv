@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DER-IA · Optativo · Inteligencia Artificial y Derecho · PUCV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#070A12; --void-2:#0A0F1A; --panel:#0D1422; --panel-2:#101A2B;
+    --line:#1B2840; --line-soft:#141E30;
+    --ink:#EAEEF6; --ink-dim:#97A3B8; --ink-faint:#5C6A82;
+    --cyan:#56C7F2; --cyan-deep:#2C7FB8; --cyan-glow:rgba(86,199,242,.14);
+    --gold:#E0B04A; --mint:#54D6A0; --coral:#EC7E72;
+    --maxw:940px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; color:var(--ink);
+    background:
+      radial-gradient(900px 420px at 80% -8%, var(--cyan-glow), transparent 70%),
+      radial-gradient(700px 360px at 0% 4%, rgba(224,176,74,.05), transparent 70%),
+      var(--void);
+    background-attachment:fixed;
+    font-family:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
+    font-size:16.5px; line-height:1.62; -webkit-font-smoothing:antialiased;
+  }
+  body::before{ /* faint technical grid */
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.5;
+    background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);
+    background-size:56px 56px; mask-image:radial-gradient(ellipse at 50% 0%, #000 0%, transparent 75%);
+  }
+  .wrap{position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:0 30px;}
+  p{margin:0 0 1.05em; color:var(--ink-dim);}
+  p.tight{margin-bottom:.5em;}
+  strong{color:var(--ink); font-weight:600;}
+  em{color:var(--cyan); font-style:normal;}
+  a{color:var(--cyan); text-decoration:none;}
+
+  .mono{font-family:"IBM Plex Mono",monospace;}
+
+  /* ---------- MASTHEAD ---------- */
+  .mast{padding:62px 0 30px;}
+  .wordmark{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--ink-faint);}
+  .wordmark b{color:var(--gold); font-weight:600;}
+  .h1{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:clamp(34px,6vw,60px);
+    line-height:1.02; letter-spacing:-.02em; margin:26px 0 0; color:var(--ink);}
+  .h1 .accent{color:var(--cyan);}
+  .mast .sub{font-family:"Space Grotesk"; font-weight:400; font-size:clamp(16px,2.4vw,20px);
+    color:var(--ink-dim); margin:18px 0 0; max-width:640px; line-height:1.45;}
+  .scan{height:2px; margin:34px 0 0;
+    background:linear-gradient(90deg,var(--cyan) 0%,var(--cyan-deep) 22%,transparent 70%);}
+
+  /* ---------- SPEC CARD ---------- */
+  .spec{position:relative; margin:26px 0 8px; border:1px solid var(--line);
+    background:linear-gradient(180deg,var(--panel-2),var(--panel)); border-radius:4px;
+    padding:22px 24px;}
+  .spec::before,.spec::after{content:""; position:absolute; width:12px; height:12px; border:1px solid var(--cyan);}
+  .spec::before{left:-1px; top:-1px; border-right:none; border-bottom:none;}
+  .spec::after{right:-1px; bottom:-1px; border-left:none; border-top:none;}
+  .spec-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px 22px;}
+  .spec-grid .it .k{font-family:"IBM Plex Mono"; font-size:10.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ink-faint); margin-bottom:5px;}
+  .spec-grid .it .v{font-size:14px; color:var(--ink); font-weight:500; line-height:1.35;}
+  .spec-grid .it .v small{color:var(--ink-dim); font-weight:400;}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:48px 0; border-top:1px solid var(--line-soft);}
+  .ey{display:flex; align-items:center; gap:12px; font-family:"IBM Plex Mono"; font-size:11px;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin-bottom:16px;}
+  .ey::before{content:""; width:22px; height:1px; background:var(--cyan); display:inline-block;}
+  .ey .c{color:var(--ink-faint);}
+  h2{font-family:"Space Grotesk"; font-weight:600; font-size:clamp(24px,3.8vw,33px);
+    line-height:1.12; letter-spacing:-.015em; margin:0 0 16px; color:var(--ink);}
+  h3{font-family:"Space Grotesk"; font-weight:600; font-size:18.5px; color:var(--ink);
+    margin:30px 0 10px;}
+  h3 .num{font-family:"IBM Plex Mono"; color:var(--cyan); font-size:13px; margin-right:9px; font-weight:500;}
+  h4{font-family:"IBM Plex Mono"; font-weight:600; font-size:12px; letter-spacing:.07em;
+    text-transform:uppercase; color:var(--gold); margin:24px 0 9px;}
+
+  ul,ol{margin:0 0 1.1em; padding-left:1.2em;}
+  li{margin:0 0 .52em; color:var(--ink-dim);}
+  li::marker{color:var(--cyan);}
+  li strong{color:var(--ink);}
+
+  /* ---------- PANELS / CALLOUTS ---------- */
+  .panel{border:1px solid var(--line); background:var(--panel); border-radius:4px;
+    padding:18px 22px; margin:22px 0;}
+  .panel.cy{border-left:2px solid var(--cyan); background:linear-gradient(90deg,rgba(86,199,242,.06),var(--panel));}
+  .panel.gold{border-left:2px solid var(--gold);}
+  .panel.coral{border-left:2px solid var(--coral);}
+  .panel.mint{border-left:2px solid var(--mint);}
+  .panel p:last-child{margin-bottom:0;}
+  .tag{font-family:"IBM Plex Mono"; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:600; padding:2px 7px; border-radius:3px; white-space:nowrap;}
+  .tag.no{color:var(--mint); background:rgba(84,214,160,.1); border:1px solid rgba(84,214,160,.3);}
+  .tag.neg{color:var(--cyan); background:rgba(86,199,242,.08); border:1px solid rgba(86,199,242,.28);}
+  .tag.lim{color:var(--coral); background:rgba(236,126,114,.08); border:1px solid rgba(236,126,114,.28);}
+
+  /* ---------- OBJ GRID ---------- */
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:22px 0;}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:22px 0;}
+  .card{border:1px solid var(--line); background:var(--panel); border-radius:4px; padding:16px 18px;}
+  .card .n{font-family:"IBM Plex Mono"; font-size:11px; color:var(--cyan); font-weight:600; letter-spacing:.06em;}
+  .card h5{margin:7px 0 6px; font-size:15px; font-weight:600; color:var(--ink); font-family:"Space Grotesk";}
+  .card p{font-size:13.5px; margin:0; color:var(--ink-dim);}
+
+  /* ---------- FIGURES ---------- */
+  figure{margin:30px 0;}
+  figure svg{width:100%; height:auto; display:block;}
+  .figcap{font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-faint); margin-top:11px; letter-spacing:.02em;}
+  .figtitle{font-family:"IBM Plex Mono"; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:14px;}
+
+  /* ---------- TABLES ---------- */
+  .tablewrap{overflow-x:auto; margin:22px 0; border:1px solid var(--line); border-radius:4px;}
+  table{border-collapse:collapse; width:100%; font-size:13.5px;}
+  th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--line-soft); vertical-align:top; color:var(--ink-dim);}
+  thead th{background:var(--panel-2); color:var(--cyan); font-family:"IBM Plex Mono"; font-weight:600;
+    font-size:11px; letter-spacing:.08em; text-transform:uppercase; border-bottom:1px solid var(--line);}
+  tbody tr:hover{background:rgba(86,199,242,.03);}
+  tbody td strong{color:var(--ink);}
+  td .wk{font-family:"IBM Plex Mono"; color:var(--cyan); font-weight:600;}
+  tbody tr:last-child td{border-bottom:none;}
+
+  footer{border-top:1px solid var(--line); padding:32px 0 70px; margin-top:8px;
+    font-family:"IBM Plex Mono"; font-size:11px; line-height:1.8; color:var(--ink-faint);}
+  footer b{color:var(--ink-dim);}
+
+  @media (max-width:720px){
+    body{font-size:15.5px;}
+    .spec-grid{grid-template-columns:1fr 1fr;}
+    .grid2,.grid3{grid-template-columns:1fr;}
+  }
+  @media print{ body{background:var(--void); -webkit-print-color-adjust:exact; print-color-adjust:exact;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= MASTHEAD ================= -->
+  <header class="mast">
+    <div class="wordmark">Pontificia Universidad Católica de Valparaíso &nbsp;//&nbsp; Escuela de Derecho &nbsp;//&nbsp; <b>Programa DIAT</b></div>
+    <div class="h1">Inteligencia Artificial<br>y Derecho<span class="accent">.</span></div>
+    <div class="sub">Construir, verificar y gobernar. Un optativo que enseña los fundamentos de la IA y la praxis de construir herramientas jurídicas con criterio.</div>
+    <div class="scan"></div>
+
+    <div class="spec">
+      <div class="spec-grid">
+        <div class="it"><div class="k">Código</div><div class="v">DER-IA · OPT-2026</div></div>
+        <div class="it"><div class="k">Carácter</div><div class="v">Optativa de profundización</div></div>
+        <div class="it"><div class="k">Régimen</div><div class="v">Semestral · 16 semanas</div></div>
+        <div class="it"><div class="k">Sesión</div><div class="v">1 × semana · 3 hrs pedagógicas</div></div>
+        <div class="it"><div class="k">Modalidad</div><div class="v">Presencial · laboratorio en aula</div></div>
+        <div class="it"><div class="k">Horas</div><div class="v">48 presenciales <small>+ ~4–5 autónomas/sem</small></div></div>
+        <div class="it"><div class="k">Créditos</div><div class="v">~5 SCT <small>(a confirmar)</small></div></div>
+        <div class="it"><div class="k">Prerrequisito</div><div class="v">Sin requisito técnico</div></div>
+      </div>
+    </div>
+    <div class="mono" style="font-size:10.5px;color:var(--ink-faint);letter-spacing:.14em;margin-top:14px;">VALPARAÍSO · 33°02′S 71°37′O &nbsp;//&nbsp; BORRADOR v1 · JUN 2026 &nbsp;//&nbsp; ESTÁNDAR VISUAL DIAT</div>
+  </header>
+
+  <!-- ================= 00 SÍNTESIS ================= -->
+  <section id="sintesis">
+    <div class="ey"><span class="c">§00</span> Síntesis</div>
+    <h2>El propósito en una frase</h2>
+    <p>Este curso no enseña a usar una herramienta. Forma una manera de trabajar: <strong>comprender cómo funciona y cómo falla un modelo, operar con rigor de verificación, construir herramientas jurídicas propias y razonar sobre su gobernanza</strong> conforme al marco chileno emergente. La unidad de aprendizaje deja de ser el <em>prompt</em> y pasa a ser el flujo, la herramienta y el proyecto.</p>
+    <div class="panel cy"><p>El sello que ninguna otra escuela puede copiar: <strong>la teoría normativa de la casa es la habilidad más escasa del futuro.</strong> Redactar la “constitución” de un sistema —distinguir reglas inquebrantables de preferencias y justificar su fundamento— es teoría de la normatividad aplicada. Cuando todos sepan usar las herramientas, lo escaso será saber construir reglas y gobernar sistemas.</p></div>
+  </section>
+
+  <!-- ================= 01 OBJETIVOS ================= -->
+  <section id="objetivos">
+    <div class="ey"><span class="c">§01</span> Objetivos</div>
+    <h2>Objetivo general y específicos</h2>
+    <h4>Objetivo general</h4>
+    <p>Formar estudiantes capaces de comprender los fundamentos técnicos y éticos de la inteligencia artificial, operarla con disciplina de verificación, <strong>construir herramientas y flujos jurídicos propios</strong>, y razonar sobre su gobernanza, ciberseguridad y cumplimiento —integrando teoría y praxis en igual medida—.</p>
+    <h4>Objetivos específicos</h4>
+    <div class="grid2">
+      <div class="card"><div class="n">OE1</div><h5>Fundamentos teóricos</h5><p>Comprender cómo funciona un modelo generativo y un modelo de ML clásico, y por qué uno es explicable y el otro opaco.</p></div>
+      <div class="card"><div class="n">OE2</div><h5>Límites éticos y técnicos</h5><p>Identificar alucinación, sesgo, opacidad y brecha de responsabilidad como problemas jurídicos, no solo técnicos.</p></div>
+      <div class="card"><div class="n">OE3</div><h5>Cambio de paradigma</h5><p>Pasar del prompt al flujo, la herramienta y el proyecto; usar la propia IA para formular y mejorar instrucciones.</p></div>
+      <div class="card"><div class="n">OE4</div><h5>Workflows y herramientas</h5><p>Operar ChatGPT, Gemini, Claude y NotebookLM en flujos reales con verificación incorporada.</p></div>
+      <div class="card"><div class="n">OE5</div><h5>Construcción</h5><p>Diseñar y desplegar un artefacto jurídico —dossier, plataforma o agente— con su constitución documentada.</p></div>
+      <div class="card"><div class="n">OE6</div><h5>Datos y ciberseguridad</h5><p>Aplicar protección de datos, anonimización y seguridad en la medida en que tocan a la IA y las decisiones automatizadas.</p></div>
+      <div class="card"><div class="n">OE7</div><h5>Escalamiento</h5><p>Recorrer la escalera de competencia desde la alfabetización al rol de constructor.</p></div>
+      <div class="card"><div class="n">OE8</div><h5>Sostenibilidad</h5><p>Comprender por qué el conocimiento de fondo sobrevive al cambio de herramienta.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= 02 FUNDAMENTOS ================= -->
+  <section id="fundamentos">
+    <div class="ey"><span class="c">§02</span> Fundamentos teóricos</div>
+    <h2>Cómo funcionan los modelos, y por qué eso es un problema jurídico</h2>
+    <p>No se puede gobernar lo que no se entiende. El curso parte por el fundamento técnico, pero lo trata como cuestión jurídica: la forma en que un modelo produce su salida determina qué garantías ofrece —y cuáles no— ante el debido proceso, la responsabilidad y la prueba.</p>
+
+    <h3><span class="num">2.1</span>Qué es, en rigor, un modelo de lenguaje</h3>
+    <p>Un modelo generativo predice el siguiente fragmento de texto a partir de patrones estadísticos aprendidos sobre enormes corpus. <strong>No tiene un modelo de la verdad; tiene un modelo del lenguaje.</strong> De ahí la alucinación: el sistema produce lo que es <em>plausible</em>, no necesariamente lo que es <em>cierto</em>. La generación es probabilística —la misma pregunta puede dar respuestas distintas—, lo que tiene consecuencias directas sobre la reproducibilidad y la confiabilidad de una prueba.</p>
+
+    <h3><span class="num">2.2</span>El contraste que lo explica todo: árbol de decisión vs. caja negra</h3>
+    <p>Para entender por qué la opacidad importa jurídicamente, se contrasta el modelo generativo con un modelo de machine learning clásico: el árbol de decisión. Un árbol es <strong>trazable</strong>: se puede seguir la rama que llevó a una conclusión y explicarla. Un modelo de lenguaje es <strong>opaco</strong>: produce una salida sin una ruta auditable. Esa diferencia es exactamente la que el régimen de alto riesgo del proyecto de ley de IA exige resolver mediante explicabilidad y supervisión humana.</p>
+
+    <figure>
+      <div class="figtitle">Fig. 01 — Explicabilidad: por qué importa el modelo subyacente</div>
+      <svg viewBox="0 0 940 280" role="img" aria-label="Contraste entre árbol de decisión trazable y modelo opaco">
+        <defs>
+          <marker id="ar" markerWidth="8" markerHeight="8" refX="5.5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5C6A82"/></marker>
+        </defs>
+        <!-- left: decision tree -->
+        <text x="20" y="30" font-family="IBM Plex Mono" font-size="12" fill="#54D6A0" letter-spacing="1">ÁRBOL DE DECISIÓN · trazable</text>
+        <g stroke="#54D6A0" stroke-width="1.4" fill="none" opacity="0.85">
+          <line x1="120" y1="70" x2="70" y2="130"/><line x1="120" y1="70" x2="170" y2="130"/>
+          <line x1="70" y1="130" x2="45" y2="195"/><line x1="70" y1="130" x2="100" y2="195"/>
+          <line x1="170" y1="130" x2="145" y2="195"/><line x1="170" y1="130" x2="205" y2="195"/>
+        </g>
+        <g fill="#0D1422" stroke="#54D6A0" stroke-width="1.4">
+          <circle cx="120" cy="70" r="13"/><circle cx="70" cy="130" r="11"/><circle cx="170" cy="130" r="11"/>
+          <circle cx="45" cy="195" r="10"/><circle cx="100" cy="195" r="10"/><circle cx="145" cy="195" r="10"/><circle cx="205" cy="195" r="10"/>
+        </g>
+        <!-- highlighted path -->
+        <g stroke="#54D6A0" stroke-width="3" fill="none"><line x1="120" y1="70" x2="170" y2="130"/><line x1="170" y1="130" x2="205" y2="195"/></g>
+        <text x="20" y="240" font-family="Inter" font-size="12.5" fill="#97A3B8">Se puede seguir la ruta y</text>
+        <text x="20" y="258" font-family="Inter" font-size="12.5" fill="#97A3B8">explicar la decisión.</text>
+
+        <!-- divider -->
+        <line x1="470" y1="20" x2="470" y2="260" stroke="#1B2840"/>
+
+        <!-- right: black box LLM -->
+        <text x="520" y="30" font-family="IBM Plex Mono" font-size="12" fill="#EC7E72" letter-spacing="1">MODELO DE LENGUAJE · opaco</text>
+        <line x1="540" y1="135" x2="640" y2="135" stroke="#5C6A82" stroke-width="1.4" marker-end="url(#ar)"/>
+        <text x="540" y="125" font-family="Inter" font-size="12" fill="#97A3B8">entrada</text>
+        <rect x="648" y="92" width="150" height="88" rx="4" fill="#160E12" stroke="#EC7E72" stroke-width="1.4"/>
+        <text x="723" y="132" text-anchor="middle" font-family="Space Grotesk" font-size="15" font-weight="600" fill="#EC7E72">¿ ? ? ?</text>
+        <text x="723" y="156" text-anchor="middle" font-family="IBM Plex Mono" font-size="10.5" fill="#97A3B8">probabilístico</text>
+        <line x1="798" y1="135" x2="898" y2="135" stroke="#5C6A82" stroke-width="1.4" marker-end="url(#ar)"/>
+        <text x="850" y="125" font-family="Inter" font-size="12" fill="#97A3B8">salida</text>
+        <text x="520" y="232" font-family="Inter" font-size="12.5" fill="#97A3B8">Produce una salida plausible</text>
+        <text x="520" y="250" font-family="Inter" font-size="12.5" fill="#97A3B8">sin ruta auditable.</text>
+      </svg>
+      <div class="figcap">El régimen de alto riesgo (proyecto de ley de IA, Chile) exige cerrar esta brecha mediante explicabilidad y supervisión humana significativa.</div>
+    </figure>
+
+    <div class="panel gold"><p><strong>Alcance deliberado.</strong> No se enseña ML a nivel de ingeniería. Se enseña lo justo para que el jurista comprenda qué garantiza cada tipo de sistema y qué exige el derecho —ni más, ni menos—.</p></div>
+  </section>
+
+  <!-- ================= 03 PARADIGMA ================= -->
+  <section id="paradigma">
+    <div class="ey"><span class="c">§03</span> Paradigma y estructuras</div>
+    <h2>Del prompt al flujo: pensar en sistemas</h2>
+    <p>El prompt es el primer eslabón, no la unidad de aprendizaje. La trayectoria del valor va de la instrucción puntual al sistema persistente. Cada salto agrega persistencia, verificación y reutilización.</p>
+
+    <figure>
+      <div class="figtitle">Fig. 02 — La cadena de valor</div>
+      <svg viewBox="0 0 940 150" role="img" aria-label="Cadena prompt flujo herramienta agente">
+        <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="5.5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5C6A82"/></marker></defs>
+        <g font-family="Space Grotesk">
+          <rect x="8" y="48" width="200" height="60" rx="4" fill="#0D1422" stroke="#1B2840"/>
+          <text x="108" y="74" text-anchor="middle" font-size="15" font-weight="600" fill="#97A3B8">Prompt</text>
+          <text x="108" y="94" text-anchor="middle" font-family="IBM Plex Mono" font-size="10.5" fill="#5C6A82">instrucción puntual</text>
+          <rect x="248" y="44" width="200" height="68" rx="4" fill="#0D1422" stroke="#2C7FB8"/>
+          <text x="348" y="72" text-anchor="middle" font-size="15" font-weight="600" fill="#56C7F2">Flujo</text>
+          <text x="348" y="92" text-anchor="middle" font-family="IBM Plex Mono" font-size="10.5" fill="#97A3B8">pasos + verificación</text>
+          <rect x="488" y="40" width="200" height="76" rx="4" fill="#0D1422" stroke="#54D6A0"/>
+          <text x="588" y="68" text-anchor="middle" font-size="15" font-weight="600" fill="#54D6A0">Herramienta</text>
+          <text x="588" y="88" text-anchor="middle" font-family="IBM Plex Mono" font-size="10.5" fill="#97A3B8">reutilizable · skill</text>
+          <rect x="728" y="36" width="204" height="84" rx="4" fill="#0C1A2C" stroke="#56C7F2" stroke-width="1.6"/>
+          <text x="830" y="64" text-anchor="middle" font-size="15" font-weight="700" fill="#EAEEF6">Agente</text>
+          <text x="830" y="84" text-anchor="middle" font-family="IBM Plex Mono" font-size="10.5" fill="#97A3B8">autónomo · con</text>
+          <text x="830" y="100" text-anchor="middle" font-family="IBM Plex Mono" font-size="10.5" fill="#97A3B8">confirmación humana</text>
+          <line x1="212" y1="78" x2="244" y2="78" stroke="#5C6A82" stroke-width="1.4" marker-end="url(#ar2)"/>
+          <line x1="452" y1="78" x2="484" y2="78" stroke="#5C6A82" stroke-width="1.4" marker-end="url(#ar2)"/>
+          <line x1="692" y1="78" x2="724" y2="78" stroke="#5C6A82" stroke-width="1.4" marker-end="url(#ar2)"/>
+        </g>
+      </svg>
+    </figure>
+
+    <h3><span class="num">3.1</span>Meta-prompting: usar la IA para construir la instrucción</h3>
+    <p>El uso más avanzado es meta: pedirle al propio modelo que <strong>diseñe el flujo, redacte la instrucción o esboce la herramienta</strong>, y luego dirigir y verificar ese trabajo. El jurista deja de competir con la máquina en redacción y pasa a orquestarla. Se enseña a iterar la instrucción como se itera un escrito: borrador, crítica, refinamiento.</p>
+
+    <h3><span class="num">3.2</span>Estructuras de flujo</h3>
+    <p>Pensar en flujos es mapear una tarea jurídica como una secuencia de pasos con <strong>puntos de control</strong> y ramas condicionales —un árbol de decisiones que indica qué hacer ante una anomalía: escalar, pedir más antecedentes o continuar con salvedades—. Esta estructura es la que después se empaqueta en una herramienta.</p>
+  </section>
+
+  <!-- ================= 04 WORKFLOWS ================= -->
+  <section id="workflows">
+    <div class="ey"><span class="c">§04</span> Herramientas y workflows</div>
+    <h2>Praxis real: cuatro plataformas, un criterio</h2>
+    <p>El estudiante trabaja de verdad con las herramientas, pero el foco no es la interfaz: es saber <strong>qué construir y qué verificar</strong> en cada una. Se distinguen por su nivel de construcción y por su relación con la fuente.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th style="width:16%">Plataforma</th><th style="width:42%">Fortaleza para el flujo jurídico</th><th style="width:42%">Workflow de ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ChatGPT</strong></td><td>Projects y GPTs personalizados; punto de entrada masivo</td><td>Construir un GPT que aplique un checklist de revisión a un contrato</td></tr>
+          <tr><td><strong>Gemini</strong></td><td>Gems y ventana de contexto amplia para corpus extensos</td><td>Analizar un expediente largo manteniendo el caso completo en contexto</td></tr>
+          <tr><td><strong>NotebookLM</strong></td><td>Síntesis <em>fundada en fuentes</em>: responde solo desde los documentos cargados y cita el pasaje</td><td>Cargar jurisprudencia y doctrina de un tema y consultar con respuestas ancladas y verificables</td></tr>
+          <tr><td><strong>Claude</strong></td><td>Projects, Artifacts y Skills: salidas desplegables y procedimientos reutilizables</td><td>Generar un dossier, una plataforma interactiva o una skill declarativa</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel cy"><p><strong>NotebookLM como herramienta de verificación.</strong> A diferencia del chat generativo, NotebookLM se ancla en las fuentes que el usuario carga y cita el pasaje exacto. Eso lo vuelve ideal para enseñar la disciplina troncal del curso: contrastar toda afirmación contra su fuente. El workflow estrella combina <em>NotebookLM</em> (síntesis fundada) → contraste → <em>Claude</em> (construcción del artefacto final).</p></div>
+  </section>
+
+  <!-- ================= 05 CONSTRUCCIÓN ================= -->
+  <section id="construccion">
+    <div class="ey"><span class="c">§05</span> Construcción de herramientas</div>
+    <h2>Qué construye el estudiante</h2>
+    <p>La praxis central no es producir texto, es <strong>construir artefactos desplegables</strong> y defenderlos. Tres productos posibles, de complejidad creciente:</p>
+    <div class="grid3">
+      <div class="card"><div class="n">A</div><h5>Dossier</h5><p>Documento jurídico estructurado y reutilizable: un dossier de cumplimiento, una minuta estandarizada.</p></div>
+      <div class="card"><div class="n">B</div><h5>Plataforma</h5><p>Pieza interactiva: una calculadora, un panel, un flujo guiado para el usuario final.</p></div>
+      <div class="card"><div class="n">C</div><h5>Agente / skill</h5><p>Un procedimiento jurídico empaquetado en lenguaje declarativo que automatiza una tarea repetitiva.</p></div>
+    </div>
+
+    <h4>El método de la Constitución</h4>
+    <p>El corazón del sello. Un artefacto robusto no se arma con una lista de tareas, sino redactando su <strong>constitución</strong>: identidad y rol, <strong>reglas duras inquebrantables separadas de preferencias adaptables</strong> (mezclarlas degrada el sistema), un algoritmo de pasos y un árbol de decisiones ante anomalías. Redactar el <em>porqué</em> de cada regla es teoría normativa aplicada —y es lo que vuelve al artefacto capaz de razonar ante lo ambiguo en lugar de alucinar con confianza—.</p>
+
+    <h4>Herramientas de base vs. contingentes</h4>
+    <p>Las <strong>de base</strong> resuelven tareas estables y se reusan semestre a semestre. Las <strong>contingentes</strong> se arman para un caso puntual y se descartan. Saber cuál construir es parte del oficio.</p>
+  </section>
+
+  <!-- ================= 06 DATOS Y CIBERSEGURIDAD ================= -->
+  <section id="datos">
+    <div class="ey"><span class="c">§06</span> Datos · ciberseguridad · anonimización</div>
+    <h2>Lo que la Ley obliga, acotado a la IA</h2>
+    <p>No es un curso de protección de datos. Se abordan los datos, la seguridad y la anonimización <strong>solo en la medida en que tocan a la inteligencia artificial</strong>: los datos como insumo de los modelos y las decisiones automatizadas. Pero ese recorte es obligatorio, no opcional, en el Chile de 2026.</p>
+    <ul>
+      <li><strong>Datos como insumo del modelo.</strong> Qué nunca ingresar a un modelo público; datos sensibles; retención cero; la diferencia entre un modelo público y un entorno cerrado del que la información no sale.</li>
+      <li><strong>Decisiones automatizadas y perfilamiento.</strong> La intersección de la Ley N.° 21.719 con los sistemas que clasifican o deciden sobre personas —justo lo que el proyecto de ley de IA trata como alto riesgo—.</li>
+      <li><strong>Anonimización y seudonimización.</strong> Despersonalizar un expediente antes de procesarlo: sustituir identificadores, generalizar atributos, separar la clave de reidentificación. Es la competencia que permite usar IA sobre datos reales sin infringir la ley.</li>
+      <li><strong>Inyección de instrucciones.</strong> Un documento externo puede contener instrucciones ocultas que alteren a un agente; separar siempre fuente de instrucción.</li>
+      <li><strong>Cadena de custodia.</strong> No eliminar evidencia: cuarentena, trazabilidad, reversibilidad.</li>
+    </ul>
+    <div class="panel coral"><p>Es la brecha más visible de la oferta nacional e internacional: casi nadie enseña a proteger los datos que atraviesan la IA. Un programa que lo omite forma profesionales que, al aplicar lo aprendido, exponen a sus clientes a sanción.</p></div>
+  </section>
+
+  <!-- ================= 07 LIMITACIONES ================= -->
+  <section id="limites">
+    <div class="ey"><span class="c">§07</span> Limitaciones</div>
+    <h2>Límites éticos y técnicos como contenido, no advertencia</h2>
+    <p>Los límites no van al pie de página: son materia evaluable. Comprenderlos es la base de la supervisión humana que el derecho exige.</p>
+    <div class="grid2">
+      <div class="card"><div class="n mono" style="color:var(--coral)">TÉCNICAS</div><h5>Lo que el modelo no puede</h5><p>Alucinación; ventana de contexto limitada; sin conocimiento en tiempo real; sensibilidad al fraseo; ninguna garantía de razonamiento correcto.</p></div>
+      <div class="card"><div class="n mono" style="color:var(--coral)">ÉTICAS</div><h5>Lo que el modelo arrastra</h5><p>Sesgo del entrenamiento; opacidad; brecha de responsabilidad; asimetría de poder; costos laborales y ambientales del entrenamiento.</p></div>
+    </div>
+    <p>La consecuencia es directa y se practica en cada laboratorio: <strong>la verificación y la supervisión humana son obligatorias, no opcionales.</strong> El egresado se distingue por responder por el resultado, no por producirlo.</p>
+  </section>
+
+  <!-- ================= 08 LÓGICA INSTRUCCIONAL ================= -->
+  <section id="logica">
+    <div class="ey"><span class="c">§08</span> Lógica instruccional</div>
+    <h2>Cómo se enseña</h2>
+    <p>Alineamiento constructivo: cada resultado de aprendizaje tiene una actividad que lo entrena y una evaluación que lo mide. Cuatro principios rectores:</p>
+    <ul>
+      <li><strong>Construir antes que describir.</strong> El estudiante termina con un artefacto entregado y defendido, no con un ensayo sobre artefactos.</li>
+      <li><strong>Andamiaje en espiral.</strong> El proyecto se construye por capas desde la semana 4; no aparece al cierre.</li>
+      <li><strong>Puente teoría–praxis.</strong> La constitución del agente materializa la teoría de la normatividad de la Escuela.</li>
+      <li><strong>Verificación incrustada.</strong> La trazabilidad y el cuestionamiento del sesgo se practican en cada laboratorio.</li>
+    </ul>
+  </section>
+
+  <!-- ================= 09 MALLA ================= -->
+  <section id="malla">
+    <div class="ey"><span class="c">§09</span> Malla · 16 semanas</div>
+    <h2>Secuencia</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th style="width:7%">Sem</th><th style="width:33%">Tema</th><th style="width:34%">Laboratorio</th><th style="width:26%">Capa del proyecto</th></tr></thead>
+        <tbody>
+          <tr><td><span class="wk">01</span></td><td>IA, sociedad y derecho</td><td>Debate: ¿puede una IA ejercer la abogacía?</td><td>—</td></tr>
+          <tr><td><span class="wk">02</span></td><td>Fundamentos I: qué es un modelo de lenguaje</td><td>Anatomía de una alucinación</td><td>Definir el problema</td></tr>
+          <tr><td><span class="wk">03</span></td><td>Fundamentos II: ML y árboles de decisión</td><td>Trazar un árbol vs. interrogar una caja negra</td><td>Especificar requisitos</td></tr>
+          <tr><td><span class="wk">04</span></td><td>Limitaciones éticas y técnicas</td><td>Auditar un output ajeno y documentar fallos</td><td>Diseñar el control de verificación</td></tr>
+          <tr><td><span class="wk">05</span></td><td>Del prompt a la especificación · meta-prompting</td><td>Usar la IA para redactar su propia instrucción</td><td>Borrador de instrucción</td></tr>
+          <tr><td><span class="wk">06</span></td><td>Estructuras de flujo</td><td>Mapear una tarea como flujo con ramas</td><td>Diagrama de flujo</td></tr>
+          <tr><td><span class="wk">07</span></td><td>Herramientas y workflows · NotebookLM</td><td>Síntesis fundada sobre un corpus jurídico</td><td>Conectar fuente verificable</td></tr>
+          <tr><td><span class="wk">08</span></td><td>Datos relevantes a la IA · Ley 21.719</td><td>Clasificar datos de un expediente</td><td>Política de datos</td></tr>
+          <tr><td><span class="wk">09</span></td><td>Ciberseguridad y anonimización</td><td>Anonimizar un expediente antes de procesarlo</td><td>Capa de seguridad</td></tr>
+          <tr><td><span class="wk">10</span></td><td>Método de la Constitución I</td><td>Redactar reglas duras vs. preferencias</td><td>Constitución: reglas</td></tr>
+          <tr><td><span class="wk">11</span></td><td>Método de la Constitución II</td><td>El porqué y el árbol de decisiones</td><td>Constitución: razonamiento</td></tr>
+          <tr><td><span class="wk">12</span></td><td>Construcción declarativa</td><td>Montar el artefacto (dossier / plataforma / skill)</td><td>Prototipo v1</td></tr>
+          <tr><td><span class="wk">13</span></td><td>Gobernanza y riesgos · proyecto de ley de IA</td><td>Esbozar una evaluación de impacto algorítmico</td><td>Análisis de gobernanza</td></tr>
+          <tr><td><span class="wk">14</span></td><td>Robustez: pruebas de estrés</td><td>Estresar el prototipo con casos extremos</td><td>Prototipo v2</td></tr>
+          <tr><td><span class="wk">15</span></td><td>Escalamiento y sostenibilidad</td><td>Plan de mantenimiento del artefacto</td><td>Documentación final</td></tr>
+          <tr><td><span class="wk">16</span></td><td>Defensa ante jurado simulado</td><td>Exposición y defensa</td><td>Entrega y defensa</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= 10 EVALUACIÓN ================= -->
+  <section id="evaluacion">
+    <div class="ey"><span class="c">§10</span> Evaluación</div>
+    <h2>Auténtica y alineada</h2>
+    <p>Privilegia la construcción y la verificación por sobre la reproducción memorística. Escala 1,0–7,0; aprobación con 4,0; exigencia y asistencia según reglamento de la Escuela.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th style="width:38%">Componente</th><th style="width:12%">Pond.</th><th style="width:50%">Evidencia</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Laboratorios y avances</strong></td><td><span class="mono" style="color:var(--cyan)">40%</span></td><td>Entregas por capa con rúbrica; recompensa el proceso de construcción</td></tr>
+          <tr><td><strong>Prueba integradora</strong></td><td><span class="mono" style="color:var(--cyan)">30%</span></td><td>Análisis de caso sobre fundamentos, límites, datos y constitución; no memorización</td></tr>
+          <tr><td><strong>Proyecto final + defensa</strong></td><td><span class="mono" style="color:var(--cyan)">30%</span></td><td>Originalidad, funcionamiento, verificación incorporada, fundamentación jurídica, robustez</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= 11 RESULTADOS ================= -->
+  <section id="resultados">
+    <div class="ey"><span class="c">§11</span> Resultados de aprendizaje</div>
+    <h2>Qué sabe hacer el egresado</h2>
+    <ul>
+      <li>Explica el funcionamiento y los límites de los modelos generativos y de ML, y la diferencia de explicabilidad entre ellos.</li>
+      <li>Opera ChatGPT, Gemini, Claude y NotebookLM en flujos reales con disciplina de trazabilidad.</li>
+      <li>Usa la propia IA para formular y refinar instrucciones, dirigiendo y verificando el resultado.</li>
+      <li>Aplica protección de datos, anonimización y seguridad en lo que toca a la IA y las decisiones automatizadas.</li>
+      <li>Diseña la constitución de un agente y construye, estresa y defiende un artefacto jurídico desplegable.</li>
+    </ul>
+  </section>
+
+  <!-- ================= 12 ESCALAMIENTO ================= -->
+  <section id="escalamiento">
+    <div class="ey"><span class="c">§12</span> Escalamiento y sostenibilidad</div>
+    <h2>Hacia dónde sube y por qué no envejece</h2>
+    <h3><span class="num">12.1</span>Escalamiento</h3>
+    <p>La formación es una trayectoria, no un punto. El optativo lleva al estudiante del peldaño 1 al 3 de la escalera de competencia y deja abierta la subida al 4.</p>
+
+    <figure>
+      <div class="figtitle">Fig. 03 — La escalera de competencia</div>
+      <svg viewBox="0 0 940 230" role="img" aria-label="Escalera de cuatro peldaños">
+        <g font-family="IBM Plex Mono">
+          <line x1="40" y1="200" x2="900" y2="56" stroke="#1B2840" stroke-width="1.4" stroke-dasharray="5 5"/>
+        </g>
+        <g font-family="Space Grotesk">
+          <rect x="30" y="170" width="200" height="46" rx="4" fill="#0D1422" stroke="#1B2840"/>
+          <text x="130" y="190" text-anchor="middle" font-size="13" font-weight="600" fill="#97A3B8">1 · Alfabetización</text>
+          <text x="130" y="207" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#5C6A82">comprender y desconfiar</text>
+          <rect x="250" y="124" width="200" height="46" rx="4" fill="#0D1422" stroke="#2C7FB8"/>
+          <text x="350" y="144" text-anchor="middle" font-size="13" font-weight="600" fill="#56C7F2">2 · Usuario crítico</text>
+          <text x="350" y="161" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#97A3B8">operar con verificación</text>
+          <rect x="470" y="78" width="200" height="46" rx="4" fill="#0D1422" stroke="#54D6A0"/>
+          <text x="570" y="98" text-anchor="middle" font-size="13" font-weight="600" fill="#54D6A0">3 · Constructor</text>
+          <text x="570" y="115" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#97A3B8">flujos y herramientas</text>
+          <rect x="690" y="32" width="214" height="46" rx="4" fill="#0C1A2C" stroke="#56C7F2" stroke-width="1.6"/>
+          <text x="797" y="52" text-anchor="middle" font-size="13" font-weight="700" fill="#EAEEF6">4 · Arquitecto / Gobernador</text>
+          <text x="797" y="69" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#97A3B8">diseñar · auditar · gobernar</text>
+          <text x="30" y="24" font-family="IBM Plex Mono" font-size="10.5" fill="#5C6A82" letter-spacing="1">+ AUTONOMÍA · + RESPONSABILIDAD · + VALOR DE MERCADO →</text>
+        </g>
+      </svg>
+      <div class="figcap">El optativo cubre 1→3. El trayecto de egresados continúa hasta el peldaño 4.</div>
+    </figure>
+
+    <h3><span class="num">12.2</span>Sostenibilidad</h3>
+    <p>El curso se diseña para no envejecer. Un <strong>núcleo permanente</strong> —fundamentos, teoría normativa, ética, verificación— sostiene un <strong>núcleo actualizable</strong> —las herramientas concretas, que rotan semestre a semestre sin tocar la estructura—. Una revisión anual ajusta el núcleo actualizable. Como el curso enseña <em>lógica</em> y no producto, sobrevive al cambio de versión de cualquier modelo.</p>
+  </section>
+
+  <!-- ================= 13 EQUIPO ================= -->
+  <section id="equipo">
+    <div class="ey"><span class="c">§13</span> Equipo · infraestructura · fuentes</div>
+    <h2>Condiciones de dictación</h2>
+    <h4>Equipo docente</h4>
+    <p>Co-docencia: un jurista de derecho digital y regulación de IA; un académico de teoría del derecho a cargo del método de la Constitución —componente irrepetible de la casa—; apoyo técnico para los laboratorios de construcción.</p>
+    <h4>Infraestructura</h4>
+    <p>Sala con computadores e internet; entorno con ejecución de código y creación de archivos; licencias educativas de al menos un modelo; corpus jurídico simulado. Regla permanente: jamás se ingresan datos reales confidenciales a modelos públicos.</p>
+    <h4>Fuentes normativas</h4>
+    <p>Ley N.° 21.719 (protección de datos personales); Proyecto de ley que regula los sistemas de IA (Boletín 16.821-19, en segundo trámite en el Senado); Reglamento (UE) 2024/1689 como contraste; recomendaciones OCDE y UNESCO. La bibliografía doctrinal específica la cura y actualiza la cátedra cada año.</p>
+  </section>
+
+  <footer>
+    <b>DER-IA · OPT-2026</b> · Inteligencia Artificial y Derecho · Escuela de Derecho PUCV · Programa DIAT<br>
+    Estándar visual DIAT v1 · Documento de trabajo para revisión y aprobación académica. Código, créditos SCT y referencias doctrinales se ajustan al formato oficial de la Escuela. El estado de tramitación legislativa se reconfirma a la fecha de dictación. Rasgos de producto sujetos a verificación; el currículo no depende de ninguna herramienta concreta.
+  </footer>
+
+</div>
+</body>
+</html>

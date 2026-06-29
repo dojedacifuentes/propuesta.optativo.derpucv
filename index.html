@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIAT · Curso IA y Derecho · PUCV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--void:#070A12;--panel:#0D1422;--panel-2:#101A2B;--line:#1B2840;--ink:#EAEEF6;--ink-dim:#97A3B8;--ink-faint:#5C6A82;--cyan:#56C7F2;--gold:#E0B04A;--mint:#54D6A0;}
+  *{box-sizing:border-box;}
+  body{margin:0;color:var(--ink);background:radial-gradient(1000px 480px at 82% -10%,rgba(86,199,242,.14),transparent 70%),radial-gradient(760px 380px at -4% 2%,rgba(224,176,74,.05),transparent 70%),var(--void);background-attachment:fixed;font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;background-image:linear-gradient(#141E30 1px,transparent 1px),linear-gradient(90deg,#141E30 1px,transparent 1px);background-size:58px 58px;mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 78%);}
+  .wrap{position:relative;max-width:1000px;margin:0 auto;padding:0 28px;}
+  .mast{padding:70px 0 30px;}
+  .mark{font-family:"IBM Plex Mono";font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);}
+  .mark b{color:var(--gold);}
+  h1{font-family:"Space Grotesk";font-weight:600;font-size:clamp(34px,6vw,56px);line-height:1.02;letter-spacing:-.02em;margin:22px 0 0;}
+  h1 .a{color:var(--cyan);}
+  .sub{font-size:clamp(16px,2.3vw,19px);color:var(--ink-dim);max-width:620px;margin:18px 0 0;}
+  .scan{height:2px;margin:32px 0 0;background:linear-gradient(90deg,var(--cyan),#2C7FB8 22%,transparent 70%);}
+  .ey{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:44px 0 16px;display:flex;align-items:center;gap:12px;}
+  .ey::before{content:"";width:22px;height:1px;background:var(--cyan);}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .c{display:block;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:22px;text-decoration:none;color:inherit;transition:.2s;position:relative;overflow:hidden;}
+  .c:hover{border-color:#2C7FB8;transform:translateY(-2px);}
+  .c .tag{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);}
+  .c.doc .tag{color:var(--gold);}
+  .c h3{font-family:"Space Grotesk";font-weight:600;font-size:19px;margin:10px 0 6px;}
+  .c p{font-size:13.5px;color:var(--ink-dim);margin:0 0 14px;}
+  .c .go{font-family:"IBM Plex Mono";font-size:11px;color:var(--cyan);letter-spacing:.06em;}
+  .c.doc .go{color:var(--gold);}
+  .c.big{grid-column:1 / -1;background:linear-gradient(180deg,var(--panel-2),var(--panel));}
+  .c.big::before,.c.big::after{content:"";position:absolute;width:14px;height:14px;border:1px solid var(--cyan);}
+  .c.big::before{left:-1px;top:-1px;border-right:none;border-bottom:none;}.c.big::after{right:-1px;bottom:-1px;border-left:none;border-top:none;}
+  footer{border-top:1px solid var(--line);padding:26px 0 70px;margin-top:50px;font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-faint);line-height:1.7;}
+  @media (max-width:680px){.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mast">
+    <div class="mark">Pontificia Universidad Católica de Valparaíso &nbsp;//&nbsp; Escuela de Derecho &nbsp;//&nbsp; <b>Programa DIAT</b></div>
+    <h1>Inteligencia Artificial<br>y Derecho<span class="a">.</span></h1>
+    <p class="sub">Suite de materiales del optativo DER-IA. Plataforma operativa, presentación, programa e informe de sustrato, en un solo lugar.</p>
+    <div class="scan"></div>
+  </div>
+
+  <div class="ey">Experiencias interactivas</div>
+  <a class="c big" href="app.html">
+    <div class="tag">Plataforma operativa · app</div>
+    <h3>Entrar a la plataforma del curso</h3>
+    <p>Navegación por vistas, detector de nivel, panel del estudiante, bandeja, escenarios y herramientas. Fondo interactivo y diseño cybertech DIAT.</p>
+    <div class="go">ABRIR PLATAFORMA →</div>
+  </a>
+  <div class="grid" style="margin-top:14px;">
+    <a class="c" href="landing.html"><div class="tag">Landing · presentación</div><h3>Página de presentación</h3><p>El curso explicado con arquitectura de conversión y descarga del programa.</p><div class="go">VER LANDING →</div></a>
+    <a class="c" href="optativo.html"><div class="tag">Programa · visual</div><h3>Programa del optativo</h3><p>El syllabus completo en el estándar visual DIAT, con fundamentos y malla.</p><div class="go">VER PROGRAMA →</div></a>
+  </div>
+
+  <div class="ey">Documentos de fondo</div>
+  <div class="grid">
+    <a class="c" href="informe.html"><div class="tag">Informe · sustrato</div><h3>Informe-sustrato</h3><p>Objetivos, cambio de paradigma, benchmark de mallas y datos de mercado.</p><div class="go">LEER INFORME →</div></a>
+    <a class="c doc" href="programa-pregrado.docx"><div class="tag">Word · formal</div><h3>Programa de asignatura (pregrado)</h3><p>Documento institucional para tramitación académica.</p><div class="go">DESCARGAR .DOCX ↓</div></a>
+    <a class="c doc" href="programa-egresados.docx"><div class="tag">Word · educación continua</div><h3>Programa de egresados (3 niveles)</h3><p>Trayecto modular Abogado Aumentado · Constructor · Arquitecto.</p><div class="go">DESCARGAR .DOCX ↓</div></a>
+  </div>
+
+  <footer>
+    DER-IA · OPT-2026 · Escuela de Derecho PUCV · Programa DIAT · Estándar visual DIAT v1<br>
+    Borrador para revisión institucional. Las experiencias interactivas funcionan en memoria, sin base de datos.
+  </footer>
+</div>
+</body>
+</html>

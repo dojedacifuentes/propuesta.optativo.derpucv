@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DER-IA · Inteligencia Artificial y Derecho · Optativo · Escuela de Derecho PUCV</title>
+<meta name="description" content="El optativo de la Escuela de Derecho PUCV que enseña a construir, verificar y gobernar herramientas jurídicas con inteligencia artificial. Fundamentos, praxis y un proyecto real.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#070A12; --void-2:#0A0F1A; --panel:#0D1422; --panel-2:#101A2B;
+    --line:#1B2840; --line-soft:#141E30;
+    --ink:#EAEEF6; --ink-dim:#97A3B8; --ink-faint:#5C6A82;
+    --cyan:#56C7F2; --cyan-deep:#2C7FB8; --cyan-glow:rgba(86,199,242,.14);
+    --gold:#E0B04A; --mint:#54D6A0; --coral:#EC7E72;
+    --maxw:1040px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; color:var(--ink);
+    background:radial-gradient(1100px 500px at 84% -12%, var(--cyan-glow), transparent 70%),
+      radial-gradient(820px 400px at -4% 2%, rgba(224,176,74,.05), transparent 70%), var(--void);
+    background-attachment:fixed;
+    font-family:"Inter",system-ui,-apple-system,Segoe UI,sans-serif; font-size:16.5px; line-height:1.62; -webkit-font-smoothing:antialiased;}
+  body::before{content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.5;
+    background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);
+    background-size:58px 58px; mask-image:radial-gradient(ellipse at 50% 0%, #000 0%, transparent 80%);}
+  .wrap{position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:0 30px;}
+  p{margin:0 0 1.05em; color:var(--ink-dim);}
+  strong{color:var(--ink); font-weight:600;} em{color:var(--cyan); font-style:normal;}
+  a{color:var(--cyan); text-decoration:none;} .mono{font-family:"IBM Plex Mono",monospace;}
+
+  /* progress + nav */
+  #progress{position:fixed; top:0; left:0; height:2px; width:0; z-index:60;
+    background:linear-gradient(90deg,var(--cyan),var(--gold)); box-shadow:0 0 8px rgba(86,199,242,.6); transition:width .08s linear;}
+  nav{position:sticky; top:0; z-index:50; backdrop-filter:blur(11px); background:rgba(7,10,18,.74); border-bottom:1px solid var(--line-soft);}
+  .nav-in{max-width:var(--maxw); margin:0 auto; padding:12px 30px; display:flex; align-items:center; justify-content:space-between; gap:16px;}
+  .nav-mark{font-family:"IBM Plex Mono"; font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim);}
+  .nav-mark b{color:var(--gold); font-weight:600;} .nav-mark .sep{color:var(--ink-faint); margin:0 6px;}
+
+  /* buttons */
+  .btn{display:inline-flex; align-items:center; gap:9px; font-family:"Space Grotesk"; font-weight:600; font-size:14px;
+    padding:11px 18px; border-radius:4px; cursor:pointer; border:1px solid transparent; text-decoration:none;
+    transition:transform .15s ease, box-shadow .25s ease, background .2s, border-color .2s;}
+  .btn svg{width:16px; height:16px; flex:none;}
+  .btn-dl{position:relative; color:#04121B; background:linear-gradient(180deg,#7CD7F7,#3FB3E6);
+    box-shadow:0 0 0 1px rgba(86,199,242,.4), 0 6px 22px -8px rgba(86,199,242,.55); overflow:hidden;}
+  .btn-dl::after{content:""; position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent); transform:skewX(-18deg); animation:sheen 4.4s ease-in-out infinite;}
+  @keyframes sheen{0%,72%{left:-60%}86%{left:130%}100%{left:130%}}
+  .btn-dl:hover{transform:translateY(-1px); box-shadow:0 0 0 1px rgba(86,199,242,.6), 0 10px 28px -8px rgba(86,199,242,.7);}
+  .btn-ghost{color:var(--ink); background:transparent; border-color:var(--line);}
+  .btn-ghost:hover{border-color:var(--cyan); color:var(--cyan); transform:translateY(-1px);}
+  .btn.lg{font-size:15px; padding:14px 24px;} .btn.busy{pointer-events:none; opacity:.85;}
+  .btn:focus-visible{outline:2px solid var(--cyan); outline-offset:2px;}
+
+  /* hero */
+  header.hero{padding:72px 0 26px;}
+  .eyebrow{font-family:"IBM Plex Mono"; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--cyan); display:flex; align-items:center; gap:12px;}
+  .eyebrow::before{content:""; width:24px; height:1px; background:var(--cyan);}
+  .hero h1{font-family:"Space Grotesk"; font-weight:600; font-size:clamp(33px,5.6vw,58px); line-height:1.04; letter-spacing:-.02em; margin:22px 0 0; max-width:14ch;}
+  .hero h1 .dim{color:var(--ink-faint);} .hero h1 .a{color:var(--cyan);}
+  .hero .pitch{font-family:"Inter"; font-size:clamp(16px,2.3vw,19px); color:var(--ink-dim); max-width:600px; margin:22px 0 0; line-height:1.55;}
+  .hero-cta{display:flex; flex-wrap:wrap; gap:12px; margin:30px 0 0; align-items:center;}
+  .hero-cta .micro{font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-faint); letter-spacing:.04em;}
+
+  /* stat band */
+  .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin:40px 0 0; border:1px solid var(--line);
+    border-radius:6px; overflow:hidden; background:var(--panel);}
+  .stat{padding:22px 24px; border-right:1px solid var(--line); position:relative;}
+  .stat:last-child{border-right:none;}
+  .stat .big{font-family:"Space Grotesk"; font-weight:700; font-size:clamp(28px,4.5vw,40px); line-height:1; color:var(--ink); letter-spacing:-.02em;}
+  .stat .big .u{color:var(--cyan);}
+  .stat .lab{font-family:"Inter"; font-size:12.5px; color:var(--ink-dim); margin-top:9px; line-height:1.4;}
+  .stat .src{font-family:"IBM Plex Mono"; font-size:9.5px; color:var(--ink-faint); margin-top:7px; letter-spacing:.04em; text-transform:uppercase;}
+
+  /* sections */
+  section{padding:54px 0; border-top:1px solid var(--line-soft);}
+  .ey{display:flex; align-items:center; gap:12px; font-family:"IBM Plex Mono"; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); margin-bottom:16px;}
+  .ey::before{content:""; width:22px; height:1px; background:var(--cyan);} .ey .c{color:var(--ink-faint);}
+  h2{font-family:"Space Grotesk"; font-weight:600; font-size:clamp(25px,4vw,37px); line-height:1.08; letter-spacing:-.02em; margin:0 0 14px;}
+  h2 .a{color:var(--cyan);}
+  .lead{max-width:680px; margin-bottom:8px;}
+
+  /* outcomes */
+  .outcomes{display:grid; grid-template-columns:1fr 1fr; gap:13px; margin-top:10px;}
+  .oc{display:flex; gap:14px; border:1px solid var(--line); background:var(--panel); border-radius:4px; padding:16px 18px;}
+  .oc .ck{flex:none; width:26px; height:26px; border-radius:6px; background:rgba(84,214,160,.12); border:1px solid rgba(84,214,160,.35); display:grid; place-items:center;}
+  .oc .ck svg{width:14px; height:14px; stroke:var(--mint);}
+  .oc p{margin:0; font-size:14.5px; color:var(--ink); line-height:1.45;}
+  .oc p span{color:var(--ink-dim);}
+
+  /* stakes */
+  .stakes{border:1px solid var(--line); border-left:2px solid var(--coral); background:linear-gradient(90deg,rgba(236,126,114,.05),var(--panel)); border-radius:4px; padding:22px 24px; margin-top:8px;}
+  .stakes h3{font-family:"Space Grotesk"; font-weight:600; font-size:19px; margin:0 0 10px; color:var(--ink);}
+  .stakes ul{margin:0; padding-left:1.15em;} .stakes li{margin-bottom:.5em; color:var(--ink-dim);} .stakes li::marker{color:var(--coral);}
+  .stakes li b{color:var(--ink);}
+
+  /* contrast */
+  .vs{border:1px solid var(--line); border-radius:6px; overflow:hidden; margin-top:8px;}
+  .vs-row{display:grid; grid-template-columns:1.1fr 1fr 1fr; border-bottom:1px solid var(--line-soft);}
+  .vs-row:last-child{border-bottom:none;}
+  .vs-row > div{padding:13px 16px; font-size:13.5px;}
+  .vs-row .k{color:var(--ink-faint); font-family:"IBM Plex Mono"; font-size:11px; letter-spacing:.06em; text-transform:uppercase; display:flex; align-items:center;}
+  .vs-row .typ{color:var(--ink-dim); border-left:1px solid var(--line-soft);}
+  .vs-row .ours{color:var(--ink); border-left:1px solid var(--cyan-deep); background:rgba(86,199,242,.04); font-weight:500;}
+  .vs-head .k{color:var(--ink-dim);}
+  .vs-head .typ{font-family:"Space Grotesk"; font-weight:600; color:var(--ink-dim); font-size:13px;}
+  .vs-head .ours{font-family:"Space Grotesk"; font-weight:700; color:var(--cyan); font-size:13px;}
+  .vs-head{background:var(--panel-2); border-bottom:1px solid var(--line);}
+
+  /* accordion (contenidos + faq) */
+  .acc{border:1px solid var(--line); background:var(--panel); border-radius:4px; margin-bottom:11px; overflow:hidden; transition:border-color .2s;}
+  .acc.open{border-color:var(--cyan-deep);}
+  .acc-head{display:flex; align-items:center; gap:16px; padding:17px 20px; cursor:pointer; user-select:none;}
+  .acc-head:hover{background:rgba(86,199,242,.03);}
+  .acc-head .mx{font-family:"IBM Plex Mono"; font-size:12px; color:var(--cyan); font-weight:600; flex:none; width:42px;}
+  .acc-head .ti{flex:1;}
+  .acc-head .ti b{font-family:"Space Grotesk"; font-weight:600; font-size:16.5px; color:var(--ink); display:block;}
+  .acc-head .ti span{font-size:13px; color:var(--ink-dim);}
+  .chev{flex:none; width:22px; height:22px; border:1px solid var(--line); border-radius:50%; display:grid; place-items:center; transition:transform .28s ease, border-color .2s, background .2s;}
+  .chev svg{width:11px; height:11px; stroke:var(--ink-dim);}
+  .acc.open .chev{transform:rotate(180deg); border-color:var(--cyan); background:rgba(86,199,242,.08);} .acc.open .chev svg{stroke:var(--cyan);}
+  .acc-body{max-height:0; overflow:hidden; transition:max-height .36s cubic-bezier(.4,0,.2,1);}
+  .acc-inner{padding:4px 20px 22px 78px; border-top:1px solid var(--line-soft);}
+  .acc-inner > p{font-size:14.5px;}
+  .faq .acc-inner{padding-left:20px;}
+  .eua{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px;}
+  .eua .b{border:1px solid var(--line-soft); border-radius:4px; padding:13px 14px; background:var(--void-2);}
+  .eua .b .lab{font-family:"IBM Plex Mono"; font-size:10px; letter-spacing:.12em; text-transform:uppercase; font-weight:600; margin-bottom:7px;}
+  .eua .b.ej .lab{color:var(--cyan);} .eua .b.us .lab{color:var(--gold);} .eua .b.ac .lab{color:var(--mint);}
+  .eua .b p{font-size:13px; margin:0; color:var(--ink-dim);}
+  @media (max-width:720px){ .acc-inner{padding-left:20px;} .eua{grid-template-columns:1fr;} }
+
+  /* deliverable */
+  .deliv{display:grid; grid-template-columns:repeat(4,1fr); gap:13px; margin-top:8px;}
+  .dv{border:1px solid var(--line); background:var(--panel); border-radius:4px; padding:17px;}
+  .dv .ic{width:30px; height:30px; border-radius:7px; background:rgba(86,199,242,.1); border:1px solid rgba(86,199,242,.3); display:grid; place-items:center; margin-bottom:11px;}
+  .dv .ic svg{width:16px; height:16px; stroke:var(--cyan);}
+  .dv b{font-family:"Space Grotesk"; font-size:14.5px; color:var(--ink); display:block; margin-bottom:4px;}
+  .dv p{font-size:13px; margin:0;}
+
+  /* ladder */
+  figure{margin:8px 0 0;} figure svg{width:100%; height:auto; display:block;}
+  .figcap{font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-faint); margin-top:10px;}
+
+  /* fit */
+  .fit{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px;}
+  .fit .col{border:1px solid var(--line); border-radius:6px; padding:20px 22px; background:var(--panel);}
+  .fit .col.yes{border-top:2px solid var(--mint);} .fit .col.no{border-top:2px solid var(--ink-faint);}
+  .fit .col h4{font-family:"Space Grotesk"; font-weight:600; font-size:16px; margin:0 0 12px; display:flex; align-items:center; gap:9px;}
+  .fit .col.yes h4{color:var(--mint);} .fit .col.no h4{color:var(--ink-dim);}
+  .fit ul{margin:0; padding-left:1.1em;} .fit li{margin-bottom:.5em; font-size:14px; color:var(--ink-dim);}
+  .fit .yes li::marker{color:var(--mint);} .fit .no li::marker{color:var(--ink-faint);}
+
+  /* cta */
+  .cta{position:relative; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:linear-gradient(180deg,var(--panel-2),var(--panel)); padding:42px 32px; text-align:center; margin-top:8px;}
+  .cta::before,.cta::after{content:""; position:absolute; width:16px; height:16px; border:1px solid var(--cyan);}
+  .cta::before{left:-1px; top:-1px; border-right:none; border-bottom:none;} .cta::after{right:-1px; bottom:-1px; border-left:none; border-top:none;}
+  .cta .ey{justify-content:center;}
+  .cta h3{font-family:"Space Grotesk"; font-weight:700; font-size:clamp(22px,3.4vw,32px); margin:6px 0 10px; letter-spacing:-.01em;}
+  .cta p{max-width:560px; margin:0 auto 22px;}
+  .cta .reassure{font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-faint); margin-top:16px; letter-spacing:.04em;}
+
+  footer{border-top:1px solid var(--line); padding:30px 0 70px; margin-top:46px; font-family:"IBM Plex Mono"; font-size:11px; line-height:1.8; color:var(--ink-faint);}
+  footer b{color:var(--ink-dim);}
+
+  [data-reveal]{opacity:0; transform:translateY(15px); transition:opacity .6s ease, transform .6s ease;}
+  [data-reveal].in{opacity:1; transform:none;}
+  @media (prefers-reduced-motion:reduce){ [data-reveal]{opacity:1; transform:none; transition:none;} .btn-dl::after{animation:none;} #progress{transition:none;} }
+  @media (max-width:820px){ .outcomes,.deliv,.fit{grid-template-columns:1fr;} .deliv{grid-template-columns:1fr 1fr;} .stats{grid-template-columns:1fr;} .stat{border-right:none; border-bottom:1px solid var(--line);} .stat:last-child{border-bottom:none;}
+    .vs-row{grid-template-columns:1fr;} .vs-row .typ,.vs-row .ours{border-left:none; border-top:1px solid var(--line-soft);} .vs-head{display:none;} }
+
+  /* print */
+  .print-cover{display:none;}
+  @media print{
+    @page{margin:15mm 13mm;}
+    nav,#progress,.hero-cta,.stats,.cta,.vs,body::before,.btn{display:none !important;}
+    body{background:var(--void) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    .wrap{max-width:none; padding:0;} section{padding:16px 0; break-inside:avoid;}
+    .acc-body{max-height:none !important;} .chev{display:none;}
+    .acc,.oc,.dv,.fit .col,.stakes{break-inside:avoid;}
+    .print-cover{display:block; padding:0 0 12px; border-bottom:2px solid var(--cyan); margin-bottom:8px;}
+    .print-cover .pm{font-family:"IBM Plex Mono"; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint);} .print-cover .pm b{color:var(--gold);}
+    .print-cover .pt{font-family:"Space Grotesk"; font-weight:700; font-size:28px; color:var(--ink); margin:10px 0 4px;}
+    .print-cover .ps{font-family:"IBM Plex Mono"; font-size:11px; color:var(--cyan);}
+    header.hero{padding:0;} .hero h1{font-size:30px;}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<nav>
+  <div class="nav-in">
+    <div class="nav-mark">PUCV<span class="sep">//</span>Escuela de Derecho<span class="sep">//</span><b>DIAT</b></div>
+    <button class="btn btn-dl" id="dlBtn" onclick="downloadPDF()" aria-label="Descargar programa en PDF">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+      <span id="dlLabel">Descargar PDF</span>
+    </button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="print-cover">
+    <div class="pm">Pontificia Universidad Católica de Valparaíso &nbsp;//&nbsp; Escuela de Derecho &nbsp;//&nbsp; <b>Programa DIAT</b></div>
+    <div class="pt">Inteligencia Artificial y Derecho</div>
+    <div class="ps">DER-IA · OPT-2026 · Programa del optativo · Valparaíso · Junio 2026</div>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="eyebrow">Optativo de pregrado · DER-IA · OPT-2026</div>
+    <h1>Casi todos aprenderán a <span class="dim">usar</span> la IA.<br>Tú aprenderás a <span class="a">construirla, verificarla y gobernarla.</span></h1>
+    <p class="pitch">El optativo de la Escuela de Derecho PUCV que convierte la tradición teórica de la casa en la habilidad jurídica más escasa de la próxima década. Fundamentos reales, praxis de construcción y un proyecto que defiendes ante un jurado.</p>
+    <div class="hero-cta">
+      <button class="btn btn-dl lg" onclick="downloadPDF()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+        Descargar programa (PDF)
+      </button>
+      <a class="btn btn-ghost lg" href="#contenidos">Ver los 6 módulos →</a>
+      <span class="micro">16 semanas · ~5 SCT · sin requisito técnico</span>
+    </div>
+
+    <div class="stats" data-reveal>
+      <div class="stat"><div class="big"><span class="num" data-to="24">0</span><span class="u">%</span></div><div class="lab">de adopción de IA en el sector legal chileno: el único país de la región bajo el 30%.</div><div class="src">Estudio gerencias legales LATAM</div></div>
+      <div class="stat"><div class="big">21.719</div><div class="lab">la ley que vuelve el cumplimiento obligatorio. Vigencia plena: diciembre de 2026.</div><div class="src">Ley de protección de datos · Chile</div></div>
+      <div class="stat"><div class="big">1<span class="u"> proyecto</span></div><div class="lab">real que construyes, sometes a estrés y defiendes ante un jurado simulado.</div><div class="src">Evaluación auténtica</div></div>
+    </div>
+  </header>
+
+  <!-- ============ OUTCOMES ============ -->
+  <section data-reveal>
+    <div class="ey"><span class="c">§01</span> Resultados</div>
+    <h2>Al terminar, serás capaz de…</h2>
+    <p class="lead">No de recitar sobre la IA, sino de operarla, construir con ella y responder por el resultado.</p>
+    <div class="outcomes">
+      <div class="oc"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><p>Explicar cómo funciona y por qué falla un modelo <span>— y por qué eso es un problema jurídico, no solo técnico.</span></p></div>
+      <div class="oc"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><p>Operar ChatGPT, Gemini, Claude y NotebookLM <span>en flujos reales con disciplina de verificación.</span></p></div>
+      <div class="oc"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><p>Construir una herramienta jurídica propia <span>— un dossier, una plataforma o un agente — sin programar.</span></p></div>
+      <div class="oc"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><p>Anonimizar datos y cumplir la Ley 21.719 <span>al usar IA sobre información real.</span></p></div>
+      <div class="oc"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><p>Redactar la «constitución» de un agente <span>— reglas, preferencias y su fundamento.</span></p></div>
+      <div class="oc"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><p>Razonar sobre riesgo y gobernanza <span>conforme al proyecto de ley de IA chileno.</span></p></div>
+    </div>
+  </section>
+
+  <!-- ============ STAKES ============ -->
+  <section data-reveal>
+    <div class="ey"><span class="c">§02</span> Por qué ahora</div>
+    <h2>La ventana que se está cerrando</h2>
+    <div class="stakes">
+      <h3>Tres cosas están pasando a la vez — y el que no se mueva, queda atrás.</h3>
+      <ul>
+        <li><b>El cumplimiento dejó de ser opcional.</b> La Ley 21.719 entra en vigencia plena en diciembre de 2026, con una Agencia que puede sancionar. Quien use IA sin saber anonimizar expone a su cliente.</li>
+        <li><b>El mercado está abierto.</b> Solo el 24% de adopción legal en Chile significa una brecha enorme: la demanda existe y está insatisfecha. Quien sepa construir, la captura.</li>
+        <li><b>La habilidad de recitar ya la perdiste.</b> Memorizar y exponer doctrina es justo lo que la máquina hace mejor y más barato. El valor se desplazó a verificar, construir y gobernar.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ CONTRAST ============ -->
+  <section data-reveal>
+    <div class="ey"><span class="c">§03</span> La diferencia</div>
+    <h2>Por qué este curso no se parece a los demás</h2>
+    <p class="lead">El mundo enseña a entender la IA o a regularla. Casi nadie enseña a construir con ella. Ese es el terreno que ocupa DER-IA.</p>
+    <div class="vs">
+      <div class="vs-row vs-head"><div class="k">Dimensión</div><div class="typ">La oferta típica</div><div class="ours">DER-IA · PUCV</div></div>
+      <div class="vs-row"><div class="k">Enfoque</div><div class="typ">Usar herramientas</div><div class="ours">Construir herramientas</div></div>
+      <div class="vs-row"><div class="k">Unidad</div><div class="typ">El prompt</div><div class="ours">El flujo y el proyecto</div></div>
+      <div class="vs-row"><div class="k">Evaluación</div><div class="typ">Ensayo o prueba escrita</div><div class="ours">Un artefacto desplegable y su defensa</div></div>
+      <div class="vs-row"><div class="k">Ciberseguridad</div><div class="typ">Ausente o nota al pie</div><div class="ours">Competencia troncal, con la Ley 21.719</div></div>
+      <div class="vs-row"><div class="k">Teoría</div><div class="typ">Genérica</div><div class="ours">El método de la Constitución, sello de la casa</div></div>
+      <div class="vs-row"><div class="k">Resultado</div><div class="typ">Un usuario más</div><div class="ours">Un constructor</div></div>
+    </div>
+  </section>
+
+  <!-- ============ CONTENIDOS ============ -->
+  <section id="contenidos" data-reveal>
+    <div class="ey"><span class="c">§04</span> Contenidos</div>
+    <h2>Seis módulos · clic para profundizar</h2>
+    <p class="lead">Cada módulo trae un ejemplo, un uso profesional y una actividad práctica de laboratorio. El proyecto se construye por capas a lo largo del semestre.</p>
+
+    <div class="acc">
+      <div class="acc-head" role="button" tabindex="0" aria-expanded="false"><span class="mx">M·01</span><span class="ti"><b>Fundamentos: cómo funcionan y fallan los modelos</b><span>Modelos de lenguaje, ML, árboles de decisión y explicabilidad.</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="acc-body"><div class="acc-inner"><p>Un modelo generativo predice el texto plausible, no el verdadero: de ahí la alucinación. Se contrasta con un árbol de decisión, trazable, para entender por qué la opacidad es un problema de debido proceso y de prueba.</p>
+        <div class="eua"><div class="b ej"><div class="lab">Ejemplo</div><p>Distinguir una cita jurisprudencial real de una inventada en un texto generado.</p></div><div class="b us"><div class="lab">Uso</div><p>Evaluar críticamente cualquier salida de IA antes de incorporarla a un escrito.</p></div><div class="b ac"><div class="lab">Actividad</div><p>«Anatomía de una alucinación»: trazar un árbol de decisión vs. interrogar una caja negra.</p></div></div>
+      </div></div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-head" role="button" tabindex="0" aria-expanded="false"><span class="mx">M·02</span><span class="ti"><b>Del prompt al flujo · meta-prompting</b><span>Pensar en sistemas; usar la IA para formular instrucciones.</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="acc-body"><div class="acc-inner"><p>El prompt es el primer eslabón, no la unidad de aprendizaje. Se enseña a mapear una tarea como un flujo con puntos de control, y a pedirle al propio modelo que construya y mejore la instrucción, dirigiendo y verificando ese trabajo.</p>
+        <div class="eua"><div class="b ej"><div class="lab">Ejemplo</div><p>Convertir una instrucción de una línea en una especificación con metadatos y exigencia de citas.</p></div><div class="b us"><div class="lab">Uso</div><p>Diseñar flujos reutilizables en lugar de improvisar consultas sueltas.</p></div><div class="b ac"><div class="lab">Actividad</div><p>Usar la IA para redactar su propia instrucción y mapear la tarea como flujo con ramas.</p></div></div>
+      </div></div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-head" role="button" tabindex="0" aria-expanded="false"><span class="mx">M·03</span><span class="ti"><b>Herramientas y workflows · NotebookLM</b><span>ChatGPT, Gemini, Claude y NotebookLM en flujos reales.</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="acc-body"><div class="acc-inner"><p>Praxis con las cuatro plataformas, distinguiéndolas por su nivel de construcción y su relación con la fuente. NotebookLM ocupa el centro: responde solo desde los documentos cargados y cita el pasaje, lo que lo vuelve la herramienta de verificación por excelencia.</p>
+        <div class="eua"><div class="b ej"><div class="lab">Ejemplo</div><p>Cargar jurisprudencia en NotebookLM y obtener respuestas ancladas con cita al pasaje.</p></div><div class="b us"><div class="lab">Uso</div><p>Investigación fundada y verificable, sin riesgo de cita inventada.</p></div><div class="b ac"><div class="lab">Actividad</div><p>Workflow estrella: NotebookLM → contraste → Claude (construcción del artefacto).</p></div></div>
+      </div></div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-head" role="button" tabindex="0" aria-expanded="false"><span class="mx">M·04</span><span class="ti"><b>Construcción · el método de la Constitución</b><span>Diseñar, construir y estresar un artefacto jurídico.</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="acc-body"><div class="acc-inner"><p>El corazón del curso. Un artefacto robusto se arma redactando su constitución: identidad, reglas duras inquebrantables separadas de preferencias, y un árbol de decisiones ante anomalías. Redactar el porqué de cada regla es teoría normativa aplicada.</p>
+        <div class="eua"><div class="b ej"><div class="lab">Ejemplo</div><p>Redactar la constitución de un agente que revisa cláusulas de cambio de control.</p></div><div class="b us"><div class="lab">Uso</div><p>Automatizar una tarea repetitiva con un dossier, una plataforma o una skill.</p></div><div class="b ac"><div class="lab">Actividad</div><p>Construir el artefacto y someterlo a pruebas de estrés con casos extremos.</p></div></div>
+      </div></div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-head" role="button" tabindex="0" aria-expanded="false"><span class="mx">M·05</span><span class="ti"><b>Datos, ciberseguridad y anonimización</b><span>Acotado a la IA y las decisiones automatizadas.</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="acc-body"><div class="acc-inner"><p>No es un curso de protección de datos: se aborda lo que toca a la IA. Qué nunca ingresar a un modelo público, cómo anonimizar antes de procesar, y cómo la Ley 21.719 se cruza con los sistemas que deciden sobre personas. Obligatorio en el Chile de 2026.</p>
+        <div class="eua"><div class="b ej"><div class="lab">Ejemplo</div><p>Anonimizar un expediente —sustituir identificadores, generalizar atributos— antes de usar IA.</p></div><div class="b us"><div class="lab">Uso</div><p>Usar IA sobre datos reales sin infringir la ley ni exponer al cliente.</p></div><div class="b ac"><div class="lab">Actividad</div><p>Clasificar datos de un expediente y detectar una inyección de instrucciones oculta.</p></div></div>
+      </div></div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-head" role="button" tabindex="0" aria-expanded="false"><span class="mx">M·06</span><span class="ti"><b>Gobernanza, límites y riesgos</b><span>Proyecto de ley de IA, alto riesgo y evaluación de impacto.</span></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="acc-body"><div class="acc-inner"><p>Los límites éticos y técnicos como materia evaluable, y la lógica de niveles de riesgo del proyecto de ley de IA chileno —en segundo trámite en el Senado—, que exige explicabilidad y supervisión humana para los sistemas de alto riesgo.</p>
+        <div class="eua"><div class="b ej"><div class="lab">Ejemplo</div><p>Clasificar un sistema de apoyo a decisiones por su nivel de riesgo regulatorio.</p></div><div class="b us"><div class="lab">Uso</div><p>Anticipar qué exigirá la regulación a un sistema antes de desplegarlo.</p></div><div class="b ac"><div class="lab">Actividad</div><p>Esbozar una evaluación de impacto algorítmico del propio artefacto.</p></div></div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ============ DELIVERABLE ============ -->
+  <section data-reveal>
+    <div class="ey"><span class="c">§05</span> Lo que te llevas</div>
+    <h2>No un certificado. Una capacidad demostrable.</h2>
+    <div class="deliv">
+      <div class="dv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div><b>Un artefacto funcional</b><p>Un dossier, una plataforma o un agente jurídico construido por ti.</p></div>
+      <div class="dv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div><b>Su constitución</b><p>Las reglas y el razonamiento del sistema, documentados.</p></div>
+      <div class="dv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><b>Verificar y proteger</b><p>La disciplina de trazabilidad, anonimización y seguridad.</p></div>
+      <div class="dv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div><b>Una defensa</b><p>La capacidad de sostener y explicar tu trabajo ante un jurado.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ LADDER ============ -->
+  <section data-reveal>
+    <div class="ey"><span class="c">§06</span> Escalamiento</div>
+    <h2>Una trayectoria, no un punto</h2>
+    <p class="lead">El optativo te lleva del peldaño 1 al 3 y deja abierta la subida al 4 en el trayecto de educación continua.</p>
+    <figure>
+      <svg viewBox="0 0 940 210" role="img" aria-label="Escalera de cuatro peldaños">
+        <line x1="40" y1="186" x2="900" y2="50" stroke="#1B2840" stroke-width="1.4" stroke-dasharray="5 5"/>
+        <g font-family="Space Grotesk">
+          <rect x="30" y="156" width="200" height="44" rx="4" fill="#0D1422" stroke="#1B2840"/><text x="130" y="175" text-anchor="middle" font-size="13" font-weight="600" fill="#97A3B8">1 · Alfabetización</text><text x="130" y="191" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#5C6A82">comprender y desconfiar</text>
+          <rect x="250" y="114" width="200" height="44" rx="4" fill="#0D1422" stroke="#2C7FB8"/><text x="350" y="133" text-anchor="middle" font-size="13" font-weight="600" fill="#56C7F2">2 · Usuario crítico</text><text x="350" y="149" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#97A3B8">operar con verificación</text>
+          <rect x="470" y="72" width="200" height="44" rx="4" fill="#0D1422" stroke="#54D6A0"/><text x="570" y="91" text-anchor="middle" font-size="13" font-weight="600" fill="#54D6A0">3 · Constructor</text><text x="570" y="107" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#97A3B8">flujos y herramientas</text>
+          <rect x="690" y="30" width="214" height="44" rx="4" fill="#0C1A2C" stroke="#56C7F2" stroke-width="1.6"/><text x="797" y="49" text-anchor="middle" font-size="13" font-weight="700" fill="#EAEEF6">4 · Arquitecto / Gobernador</text><text x="797" y="65" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#97A3B8">diseñar · auditar · gobernar</text>
+          <text x="30" y="22" font-family="IBM Plex Mono" font-size="10.5" fill="#5C6A82" letter-spacing="1">+ AUTONOMÍA · + RESPONSABILIDAD · + VALOR DE MERCADO →</text>
+        </g>
+      </svg>
+      <div class="figcap">El optativo cubre 1→3.</div>
+    </figure>
+  </section>
+
+  <!-- ============ FIT ============ -->
+  <section data-reveal>
+    <div class="ey"><span class="c">§07</span> Para quién es</div>
+    <h2>Honestidad antes de inscribirte</h2>
+    <div class="fit">
+      <div class="col yes">
+        <h4><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg> Es para ti si…</h4>
+        <ul>
+          <li>Quieres construir, no solo usar.</li>
+          <li>Te interesa el cruce real entre derecho y tecnología.</li>
+          <li>Buscas una ventaja concreta de empleabilidad.</li>
+          <li>Estás dispuesto a trabajar en laboratorio y entregar.</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <h4><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg> No es para ti si…</h4>
+        <ul>
+          <li>Buscas una receta de prompts para copiar y pegar.</li>
+          <li>Esperas un curso 100% teórico y expositivo.</li>
+          <li>No quieres construir ni defender nada propio.</li>
+          <li>Prefieres que la tecnología siga siendo una caja negra.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" data-reveal>
+    <div class="ey"><span class="c">§08</span> Preguntas</div>
+    <h2>Lo que probablemente te estás preguntando</h2>
+    <div class="acc">
+      <div class="acc-head" role="button" tabindex="0" aria-expanded="false"><span class="ti"><b>No sé programar. ¿Puedo tomarlo?</b></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="acc-body"><div class="acc-inner"><p>Sí. No hay requisito técnico. Se construye con métodos declarativos —lenguaje estructurado, no código—. Se enseña lo justo para gobernar la IA, no para programarla.</p></div></div>
+    </div>
+    <div class="acc">
+      <div class="acc-head" role="button" tabindex="0" aria-expanded="false"><span class="ti"><b>Ya uso ChatGPT. ¿Qué me aporta?</b></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="acc-body"><div class="acc-inner"><p>Usar no es construir ni verificar. Aquí pasas de usuario a constructor: aprendes a diseñar flujos, levantar herramientas propias y responder por su resultado. Es el salto que el mercado paga.</p></div></div>
+    </div>
+    <div class="acc">
+      <div class="acc-head" role="button" tabindex="0" aria-expanded="false"><span class="ti"><b>¿No quedará obsoleto en un año?</b></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="acc-body"><div class="acc-inner"><p>No. El curso enseña lógica —fundamentos, verificación, construcción, gobernanza—, no una herramienta concreta. Un núcleo permanente sostiene un núcleo actualizable que rota cada semestre. Sobrevive al cambio de versión de cualquier modelo.</p></div></div>
+    </div>
+    <div class="acc">
+      <div class="acc-head" role="button" tabindex="0" aria-expanded="false"><span class="ti"><b>¿Sirve para el mercado real chileno?</b></span><span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="acc-body"><div class="acc-inner"><p>Especialmente. Con 24% de adopción legal y dos leyes entrando en vigencia, la demanda de juristas que sepan construir, verificar y cumplir es real y está insatisfecha. El curso ancla todo en la Ley 21.719 y el proyecto de ley de IA chilenos.</p></div></div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section style="border-top:none; padding-top:26px;">
+    <div class="cta" data-reveal>
+      <div class="ey"><span class="c">→</span> Da el paso</div>
+      <h3>Sé de los que construyen, no de los que quedan mirando.</h3>
+      <p>Descarga el programa completo: malla de 16 semanas, sistema de evaluación y fundamentos, en formato DIAT.</p>
+      <button class="btn btn-dl lg" onclick="downloadPDF()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+        Descargar programa (PDF)
+      </button>
+      <div class="reassure">Cupo acotado por la modalidad de laboratorio · 20–30 estudiantes</div>
+    </div>
+  </section>
+
+  <footer>
+    <b>DER-IA · OPT-2026</b> · Inteligencia Artificial y Derecho · Escuela de Derecho PUCV · Programa DIAT<br>
+    Estándar visual DIAT v1 · Borrador para presentación. Código, créditos SCT y referencias se ajustan al formato oficial de la Escuela. Datos de mercado de estudios de gerencias legales LATAM; estado regulatorio a reconfirmar a la fecha. El currículo no depende de ninguna herramienta concreta.
+  </footer>
+</div>
+
+<script>
+  // progress bar
+  const prog=document.getElementById('progress');
+  function onScroll(){ const h=document.documentElement; const sc=h.scrollTop||document.body.scrollTop;
+    const max=(h.scrollHeight-h.clientHeight)||1; prog.style.width=(sc/max*100)+'%'; }
+  document.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  // accordions
+  function toggleAcc(head){ const acc=head.closest('.acc'); const body=acc.querySelector('.acc-body');
+    const open=acc.classList.toggle('open'); head.setAttribute('aria-expanded',open?'true':'false');
+    body.style.maxHeight=open?(body.scrollHeight+'px'):'0px'; }
+  document.querySelectorAll('.acc-head').forEach(h=>{
+    h.addEventListener('click',()=>toggleAcc(h));
+    h.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleAcc(h);}});
+  });
+
+  // count-up
+  function countUp(el){ const to=+el.dataset.to; const dur=1100; const t0=performance.now();
+    function step(t){ const p=Math.min((t-t0)/dur,1); const e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(to*e); if(p<1)requestAnimationFrame(step); else el.textContent=to; }
+    requestAnimationFrame(step); }
+
+  // reveal + count trigger
+  const rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!rm && 'IntersectionObserver' in window){
+    const io=new IntersectionObserver((es)=>{es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in');
+      e.target.querySelectorAll&&e.target.querySelectorAll('.num[data-to]').forEach(n=>countUp(n)); io.unobserve(e.target);} });},{threshold:.12});
+    document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+  } else { document.querySelectorAll('[data-reveal]').forEach(el=>el.classList.add('in'));
+    document.querySelectorAll('.num[data-to]').forEach(n=>n.textContent=n.dataset.to); }
+
+  // branded PDF
+  function downloadPDF(){
+    const btn=document.getElementById('dlBtn'), lab=document.getElementById('dlLabel');
+    document.querySelectorAll('.acc').forEach(a=>{ a.classList.add('open');
+      const b=a.querySelector('.acc-body'); if(b)b.style.maxHeight='none'; a.querySelector('.acc-head').setAttribute('aria-expanded','true'); });
+    if(btn&&lab){ const prev=lab.textContent; btn.classList.add('busy'); lab.textContent='Generando…';
+      setTimeout(()=>{ window.print(); btn.classList.remove('busy'); lab.textContent=prev; },420); }
+    else setTimeout(()=>window.print(),300);
+  }
+</script>
+</body>
+</html>

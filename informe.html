@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informe-sustrato · Rediseño de programas IA y Derecho · PUCV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202E; --ink-soft:#46525F; --ink-faint:#8A93A0;
+    --paper:#FCFCF9; --surface:#FFFFFF; --surface-2:#F6F5EF;
+    --line:#E4E2DA; --line-strong:#CDCAC0;
+    --accent:#2E5A8F; --accent-deep:#1B3A63; --accent-soft:#EAF0F7;
+    --amber:#B9772B; --green:#3C7457; --rule:#1B3A63;
+    --maxw:880px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    font-size:17px; line-height:1.62; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+  p{margin:0 0 1.05em;}
+  strong{font-weight:600; color:var(--ink);}
+  em{color:var(--accent-deep);}
+  a{color:var(--accent); text-decoration:none;}
+
+  /* ---------- masthead ---------- */
+  .mast{border-bottom:2px solid var(--rule); padding:64px 0 36px; margin-bottom:8px;}
+  .kicker{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--accent); margin-bottom:22px;}
+  h1{font-family:"IBM Plex Serif",Georgia,serif; font-weight:600; font-size:clamp(30px,5.2vw,46px);
+    line-height:1.08; letter-spacing:-.01em; margin:0 0 18px;}
+  .lede{font-family:"IBM Plex Serif",Georgia,serif; font-size:clamp(18px,2.5vw,21px);
+    line-height:1.5; color:var(--ink-soft); max-width:640px; margin:0 0 28px;}
+  .ficha{display:flex; flex-wrap:wrap; gap:0; border-top:1px solid var(--line);
+    font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink-soft);}
+  .ficha div{padding:12px 26px 12px 0;}
+  .ficha b{color:var(--ink); font-weight:600;}
+
+  /* ---------- sections ---------- */
+  section{padding:46px 0; border-top:1px solid var(--line);}
+  .sec-eyebrow{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); display:flex; align-items:baseline; gap:14px; margin-bottom:14px;}
+  .sec-num{color:var(--ink-faint);}
+  h2{font-family:"IBM Plex Serif",Georgia,serif; font-weight:600; font-size:clamp(23px,3.6vw,30px);
+    line-height:1.16; letter-spacing:-.01em; margin:0 0 18px;}
+  h3{font-family:"IBM Plex Sans",sans-serif; font-weight:600; font-size:18px; color:var(--accent-deep);
+    margin:30px 0 10px; letter-spacing:.005em;}
+  h4{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:13px; letter-spacing:.04em;
+    text-transform:uppercase; color:var(--ink-soft); margin:22px 0 8px;}
+
+  ul,ol{margin:0 0 1.1em; padding-left:1.25em;}
+  li{margin:0 0 .5em;}
+  li::marker{color:var(--accent);}
+
+  /* ---------- callouts ---------- */
+  .pull{border-left:3px solid var(--accent); background:var(--accent-soft);
+    padding:18px 22px; margin:24px 0; border-radius:0 6px 6px 0;}
+  .pull p:last-child{margin-bottom:0;}
+  .note{border:1px solid var(--line-strong); background:var(--surface-2);
+    padding:16px 20px; border-radius:8px; margin:22px 0; font-size:15.5px; color:var(--ink-soft);}
+  .note b{color:var(--ink);}
+  .flag{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--amber); font-weight:600;}
+
+  /* ---------- tables ---------- */
+  .tablewrap{overflow-x:auto; margin:22px 0; border:1px solid var(--line); border-radius:8px;}
+  table{border-collapse:collapse; width:100%; font-size:14.5px;}
+  th,td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top;}
+  thead th{background:var(--accent-deep); color:#fff; font-weight:600; font-size:13px;
+    letter-spacing:.02em; border-bottom:none;}
+  tbody tr:nth-child(even){background:var(--surface-2);}
+  tbody tr:last-child td{border-bottom:none;}
+  td .tag{font-family:"IBM Plex Mono",monospace; font-size:11px; padding:2px 7px; border-radius:4px;
+    white-space:nowrap; font-weight:500;}
+  .t-build{background:#E7F1EC; color:var(--green);}
+  .t-gov{background:#EAF0F7; color:var(--accent);}
+  .t-lit{background:#F6EEE0; color:var(--amber);}
+
+  /* ---------- figures ---------- */
+  figure{margin:30px 0;}
+  figure svg{width:100%; height:auto; display:block;}
+  figcaption{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink-faint);
+    margin-top:10px; letter-spacing:.02em;}
+  .fig-title{font-family:"IBM Plex Sans"; font-weight:600; font-size:14px; color:var(--ink-soft);
+    margin-bottom:12px; letter-spacing:.02em;}
+
+  /* ---------- objectives grid ---------- */
+  .obj{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:22px 0;}
+  .obj .card{border:1px solid var(--line); border-radius:8px; padding:16px 18px; background:var(--surface);}
+  .obj .card .n{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--accent); font-weight:600;}
+  .obj .card h5{margin:6px 0 6px; font-size:15.5px; font-weight:600;}
+  .obj .card p{font-size:14px; color:var(--ink-soft); margin:0;}
+
+  footer{border-top:2px solid var(--rule); padding:34px 0 70px; color:var(--ink-faint);
+    font-family:"IBM Plex Mono",monospace; font-size:12px; line-height:1.7;}
+
+  @media (max-width:640px){
+    body{font-size:16px;}
+    .obj{grid-template-columns:1fr;}
+    .ficha div{padding:8px 18px 8px 0;}
+  }
+  @media print{
+    body{background:#fff;} section{break-inside:avoid;} .mast{padding-top:0;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===================== MASTHEAD ===================== -->
+  <header class="mast">
+    <div class="kicker">Escuela de Derecho PUCV · Programa DIAT · Documento de trabajo</div>
+    <h1>Del prompting a la construcción: sustrato estratégico para el rediseño de los programas de IA y Derecho</h1>
+    <p class="lede">La pregunta ya no es cómo escribir una buena instrucción, sino cómo diagnosticar un proceso, construir una herramienta y responder por ella. Este informe fija el suelo conceptual y empírico sobre el cual se reformulan los dos cursos.</p>
+    <div class="ficha">
+      <div><b>Tipo</b> · Informe-sustrato</div>
+      <div><b>Destino</b> · Rediseño curricular DIAT</div>
+      <div><b>Estado</b> · Borrador para discusión</div>
+      <div><b>Fecha</b> · Junio 2026</div>
+    </div>
+  </header>
+
+  <!-- ===================== 1. PROPÓSITO ===================== -->
+  <section id="proposito">
+    <div class="sec-eyebrow"><span class="sec-num">01</span> Propósito</div>
+    <h2>Qué es este documento y qué no es</h2>
+    <p>Este informe no es un programa de curso. Es el <strong>sustrato</strong> sobre el cual se reformulan los dos programas encargados —el optativo de pregrado y el trayecto de educación continua para egresados—. Su función es triple: fijar objetivos, establecer un cambio de paradigma que reordena todo el resto, y respaldar las decisiones de diseño con evidencia de mercado, benchmark de programas reales y el marco regulatorio chileno vigente.</p>
+    <p>El giro central que articula el documento es deliberado: <strong>se desplaza el eje desde el <em>prompting</em> hacia la construcción</strong>. Aprender a redactar instrucciones fue la alfabetización de 2023. La competencia que define a un jurista valioso entre 2026 y 2030 es otra: diagnosticar procesos, diseñar flujos, construir herramientas —propias y reutilizables—, verificar con rigor y gobernar sistemas. Las herramientas concretas (ChatGPT, Gemini, Claude) son el medio; la capacidad de construir con ellas es el fin.</p>
+    <div class="note"><b>Nota de método.</b> Las cifras de productividad y retorno más altas que circulan en la industria provienen de proveedores y no son independientes; se usan como indicio de tendencia, no como dato establecido. El benchmark de programas y el estado regulatorio se apoyan en fuentes verificables, citadas en el cuerpo. El estado de tramitación legislativa conviene reconfirmarse a la fecha de uso.</p></div>
+  </section>
+
+  <!-- ===================== 2. OBJETIVOS ===================== -->
+  <section id="objetivos">
+    <div class="sec-eyebrow"><span class="sec-num">02</span> Objetivos</div>
+    <h2>Objetivo general y objetivos específicos</h2>
+    <h3>Objetivo general</h3>
+    <p>Formar juristas capaces de comprender los fundamentos de la inteligencia artificial, trabajar con ella con rigor de verificación, <strong>construir herramientas y flujos jurídicos propios</strong>, y razonar sobre su gobernanza, ciberseguridad y cumplimiento conforme al marco chileno emergente —integrando teoría y praxis en igual medida—.</p>
+    <h3>Objetivos específicos</h3>
+    <div class="obj">
+      <div class="card"><div class="n">OE1</div><h5>Alfabetización digital jurídica</h5><p>Comprender qué es y cómo falla un modelo generativo, sin lenguaje promocional, como base transversal de toda la formación.</p></div>
+      <div class="card"><div class="n">OE2</div><h5>Cambio de paradigma</h5><p>Pasar del prompting a los flujos, las herramientas y los proyectos: pensar en sistemas, no en instrucciones aisladas.</p></div>
+      <div class="card"><div class="n">OE3</div><h5>Construcción de herramientas</h5><p>Diseñar y desplegar artefactos jurídicos —dossiers, plataformas, agentes— incluso pidiéndole al propio modelo que ayude a construirlos.</p></div>
+      <div class="card"><div class="n">OE4</div><h5>Verificación y juicio</h5><p>Auditar resultados con trazabilidad y contraste de fuentes; responder por la decisión, no solo producirla.</p></div>
+      <div class="card"><div class="n">OE5</div><h5>Ciberseguridad y anonimización</h5><p>Proteger la confidencialidad, anonimizar datos y entender los riesgos de seguridad antes de operar con información real.</p></div>
+      <div class="card"><div class="n">OE6</div><h5>Cumplimiento y gobernanza</h5><p>Aplicar la Ley N.° 21.719 y la lógica de riesgos del proyecto de ley de IA a casos concretos.</p></div>
+      <div class="card"><div class="n">OE7</div><h5>Escalamiento</h5><p>Recorrer un trayecto que sube de la alfabetización al uso crítico, a la construcción y a la arquitectura-gobernanza.</p></div>
+      <div class="card"><div class="n">OE8</div><h5>Diferenciación</h5><p>Anclar todo en un sello que ninguna otra escuela puede replicar: la teoría normativa de la casa como ventaja.</p></div>
+    </div>
+  </section>
+
+  <!-- ===================== 3. CAMBIO DE PARADIGMA ===================== -->
+  <section id="paradigma">
+    <div class="sec-eyebrow"><span class="sec-num">03</span> El cambio de paradigma</div>
+    <h2>Del prompting a la construcción</h2>
+    <p>El error más extendido en la formación jurídica en IA es tratar el <em>prompt</em> como la unidad de aprendizaje. El prompt es importante, pero es solo el primer eslabón. La trayectoria real del valor va de la instrucción puntual al sistema persistente.</p>
+
+    <figure>
+      <div class="fig-title">Figura 1 — La cadena de valor: de la instrucción al agente</div>
+      <svg viewBox="0 0 880 240" role="img" aria-label="Progresión de prompt a flujo a herramienta a agente">
+        <defs>
+          <marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#8A93A0"/></marker>
+        </defs>
+        <!-- nodes -->
+        <g font-family="IBM Plex Sans" >
+          <!-- 1 prompt -->
+          <rect x="10" y="78" width="180" height="84" rx="9" fill="#F6F5EF" stroke="#CDCAC0"/>
+          <text x="100" y="106" text-anchor="middle" font-size="16" font-weight="600" fill="#46525F">Prompt</text>
+          <text x="100" y="128" text-anchor="middle" font-size="11.5" fill="#8A93A0" font-family="IBM Plex Mono">instrucción puntual</text>
+          <text x="100" y="146" text-anchor="middle" font-size="11.5" fill="#8A93A0" font-family="IBM Plex Mono">desechable</text>
+          <!-- 2 flujo -->
+          <rect x="240" y="70" width="180" height="100" rx="9" fill="#EAF0F7" stroke="#9BB6D4"/>
+          <text x="330" y="100" text-anchor="middle" font-size="16" font-weight="600" fill="#2E5A8F">Flujo</text>
+          <text x="330" y="122" text-anchor="middle" font-size="11.5" fill="#46525F" font-family="IBM Plex Mono">pasos encadenados</text>
+          <text x="330" y="140" text-anchor="middle" font-size="11.5" fill="#46525F" font-family="IBM Plex Mono">con verificación</text>
+          <!-- 3 herramienta -->
+          <rect x="470" y="62" width="180" height="116" rx="9" fill="#E7F1EC" stroke="#7FB199"/>
+          <text x="560" y="92" text-anchor="middle" font-size="16" font-weight="600" fill="#3C7457">Herramienta</text>
+          <text x="560" y="114" text-anchor="middle" font-size="11.5" fill="#46525F" font-family="IBM Plex Mono">reutilizable y</text>
+          <text x="560" y="132" text-anchor="middle" font-size="11.5" fill="#46525F" font-family="IBM Plex Mono">documentada</text>
+          <text x="560" y="152" text-anchor="middle" font-size="11.5" fill="#46525F" font-family="IBM Plex Mono">(skill / proyecto)</text>
+          <!-- 4 agente -->
+          <rect x="700" y="54" width="170" height="132" rx="9" fill="#1B3A63" stroke="#1B3A63"/>
+          <text x="785" y="86" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">Agente</text>
+          <text x="785" y="108" text-anchor="middle" font-size="11.5" fill="#CDD9E8" font-family="IBM Plex Mono">ejecución autónoma</text>
+          <text x="785" y="126" text-anchor="middle" font-size="11.5" fill="#CDD9E8" font-family="IBM Plex Mono">multi-paso</text>
+          <text x="785" y="146" text-anchor="middle" font-size="11.5" fill="#CDD9E8" font-family="IBM Plex Mono">con puerta de</text>
+          <text x="785" y="164" text-anchor="middle" font-size="11.5" fill="#CDD9E8" font-family="IBM Plex Mono">confirmación humana</text>
+          <!-- arrows -->
+          <line x1="194" y1="120" x2="234" y2="120" stroke="#8A93A0" stroke-width="1.6" marker-end="url(#arr)"/>
+          <line x1="424" y1="120" x2="464" y2="120" stroke="#8A93A0" stroke-width="1.6" marker-end="url(#arr)"/>
+          <line x1="654" y1="120" x2="694" y2="120" stroke="#8A93A0" stroke-width="1.6" marker-end="url(#arr)"/>
+          <!-- baseline label -->
+          <text x="10" y="218" font-size="11.5" fill="#8A93A0" font-family="IBM Plex Mono">2023 · alfabetización mínima</text>
+          <text x="870" y="218" text-anchor="end" font-size="11.5" fill="#1B3A63" font-family="IBM Plex Mono">2026–2030 · competencia escasa</text>
+        </g>
+      </svg>
+    </figure>
+
+    <p>Cada salto agrega persistencia y reutilización. El prompt se escribe y se olvida; el flujo encadena pasos con controles de verificación; la herramienta empaqueta ese flujo en algo que otros pueden reusar; el agente lo ejecuta de forma autónoma, siempre con una puerta de confirmación humana para cualquier acción vinculante. <strong>Enseñar solo el primer nodo es preparar al estudiante para la competencia que la máquina ya ganó.</strong></p>
+
+    <p>Este giro no es una intuición aislada. La edición 2026 del curso insignia de educación ejecutiva de Berkeley Law se construye sobre la premisa de que la ventaja sostenible no viene de las herramientas que se tienen, sino de los hábitos que se forman, y describe el tránsito <em>del prompting a la conversación activa e iterativa</em> con un flujo de trabajo humano-en-el-bucle (Berkeley Law Executive Education, 2026).</p>
+
+    <h3>Cuatro movimientos concretos del nuevo paradigma</h3>
+    <ul>
+      <li><strong>Pensar en flujos, no en respuestas.</strong> Mapear una tarea jurídica como una secuencia de pasos con puntos de control, en lugar de esperar una respuesta perfecta de una sola instrucción.</li>
+      <li><strong>Construir herramientas de base y herramientas contingentes.</strong> Las de base resuelven tareas estables y se reusan semestre a semestre (una plantilla de revisión documental, un dossier estandarizado). Las contingentes se arman para un caso puntual y se descartan. Saber cuál construir es parte del oficio.</li>
+      <li><strong>Pedirle al modelo que construya por uno.</strong> El uso más avanzado es meta: usar el propio ChatGPT o Claude para diseñar el flujo, redactar la instrucción o esbozar la herramienta. El jurista dirige y verifica; el modelo andamia.</li>
+      <li><strong>Gestionar contexto, no solo emitir órdenes.</strong> Cargar conocimiento en un Proyecto, mantener una fuente de verdad, curar lo que el sistema ve. La gestión del contexto reemplaza al prompt como habilidad central.</li>
+    </ul>
+  </section>
+
+  <!-- ===================== 4. ALFABETIZACIÓN Y ESCALAMIENTO ===================== -->
+  <section id="alfabetizacion">
+    <div class="sec-eyebrow"><span class="sec-num">04</span> Alfabetización y escalamiento</div>
+    <h2>Alfabetización digital jurídica y la escalera de competencia</h2>
+    <p>La alfabetización digital es el piso, no el techo. Significa comprender qué es un modelo, por qué alucina, qué garantías ofrece y cuáles no —antes de delegarle nada—. Es la base transversal que sostiene todo lo demás. Las facultades líderes la están volviendo obligatoria: la Universidad de Chicago incorpora módulos de alfabetización en IA exigibles a todos los estudiantes de primer año desde inicios de 2026, autodirigidos y orientados a las herramientas menos propensas a comprometer la confidencialidad (University of Chicago Law School, 2025).</p>
+
+    <p>Sobre ese piso se construye un <strong>escalamiento</strong> de cuatro peldaños. La formación no es un punto, es una trayectoria que sube de nivel.</p>
+
+    <figure>
+      <div class="fig-title">Figura 2 — La escalera de competencia jurídico-tecnológica</div>
+      <svg viewBox="0 0 880 300" role="img" aria-label="Escalera de cuatro niveles de competencia">
+        <g font-family="IBM Plex Sans">
+          <!-- connector trend line, drawn behind boxes -->
+          <line x1="40" y1="252" x2="858" y2="92" stroke="#CDCAC0" stroke-width="1.4" stroke-dasharray="5 4"/>
+          <!-- steps ascending -->
+          <!-- step 1 -->
+          <rect x="20" y="230" width="200" height="54" rx="7" fill="#F6EEE0" stroke="#D9B98A"/>
+          <text x="120" y="252" text-anchor="middle" font-size="14" font-weight="600" fill="#B9772B">1 · Alfabetización</text>
+          <text x="120" y="271" text-anchor="middle" font-size="11" fill="#8A6a3a" font-family="IBM Plex Mono">comprender y desconfiar</text>
+          <!-- step 2 -->
+          <rect x="230" y="176" width="200" height="54" rx="7" fill="#EAF0F7" stroke="#9BB6D4"/>
+          <text x="330" y="198" text-anchor="middle" font-size="14" font-weight="600" fill="#2E5A8F">2 · Usuario crítico</text>
+          <text x="330" y="217" text-anchor="middle" font-size="11" fill="#46607c" font-family="IBM Plex Mono">operar con verificación</text>
+          <!-- step 3 -->
+          <rect x="440" y="122" width="200" height="54" rx="7" fill="#E7F1EC" stroke="#7FB199"/>
+          <text x="540" y="144" text-anchor="middle" font-size="14" font-weight="600" fill="#3C7457">3 · Constructor</text>
+          <text x="540" y="163" text-anchor="middle" font-size="11" fill="#3a6a52" font-family="IBM Plex Mono">flujos y herramientas</text>
+          <!-- step 4 -->
+          <rect x="650" y="68" width="210" height="54" rx="7" fill="#1B3A63" stroke="#1B3A63"/>
+          <text x="755" y="90" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">4 · Arquitecto / Gobernador</text>
+          <text x="755" y="109" text-anchor="middle" font-size="11" fill="#CDD9E8" font-family="IBM Plex Mono">diseñar, auditar, gobernar</text>
+          <text x="20" y="40" font-size="12" fill="#8A93A0" font-family="IBM Plex Mono">+ autonomía · + responsabilidad · + valor de mercado →</text>
+        </g>
+      </svg>
+    </figure>
+
+    <p>El escalamiento tiene una consecuencia de diseño: <strong>cada nivel formativo apunta a un peldaño</strong>. El optativo de pregrado lleva del peldaño 1 al 3 (alfabetiza, vuelve usuario crítico y deja construir un primer artefacto). El trayecto de egresados recorre del 1 al 4, certificando cada escalón por separado. Nadie debería quedarse en el peldaño 1, que es justamente donde la mayoría de la oferta se detiene.</p>
+  </section>
+
+  <!-- ===================== 5. ECOSISTEMA DE HERRAMIENTAS ===================== -->
+  <section id="herramientas">
+    <div class="sec-eyebrow"><span class="sec-num">05</span> Ecosistema de herramientas</div>
+    <h2>ChatGPT, Gemini y Claude: praxis, no demostración</h2>
+    <p>La praxis no puede quedar fuera. El estudiante debe trabajar de verdad con los tres grandes modelos generalistas, entender en qué se distingue cada uno y, sobre todo, usar sus capacidades de <strong>construcción</strong>: proyectos con contexto persistente, asistentes personalizados y artefactos desplegables. No se trata de coleccionar interfaces, sino de saber qué construir en cada una.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th style="width:18%">Plataforma</th><th style="width:27%">Construcción persistente</th><th style="width:27%">Salidas desplegables</th><th style="width:28%">Rol pedagógico sugerido</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ChatGPT</strong></td><td>Projects y GPTs personalizados (asistentes con instrucciones y archivos propios)</td><td>Documentos, código, análisis; salida vía Canvas</td><td>Punto de entrada masivo; construir un GPT jurídico simple</td></tr>
+          <tr><td><strong>Gemini</strong></td><td>Gems (asistentes personalizados); integración con el ecosistema documental</td><td>Análisis sobre documentos extensos; integración ofimática</td><td>Contraste; ventana de contexto amplia para corpus largos</td></tr>
+          <tr><td><strong>Claude</strong></td><td>Projects, Skills (módulos procedimentales reutilizables) y conectores</td><td>Artifacts: dossiers, plataformas interactivas, paneles, herramientas</td><td>Eje del peldaño “constructor”: artefactos desplegables y skills declarativas</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>La distinción que importa para la enseñanza no es de marca, sino de <strong>nivel de construcción</strong>. Un asistente personalizado (un GPT, un Gem) es una herramienta de base liviana. Un Artifact en Claude permite generar algo desplegable —un dossier estructurado, una plataforma interactiva, un panel— que el estudiante puede mostrar y reusar. Una skill declarativa empaqueta un procedimiento completo. La progresión de complejidad de estos productos es, en sí misma, la espina del peldaño 3.</p>
+  </section>
+
+  <!-- ===================== 6. CLAUDE EN ESPECÍFICO ===================== -->
+  <section id="claude">
+    <div class="sec-eyebrow"><span class="sec-num">06</span> Claude en específico</div>
+    <h2>Evolución, dónde estamos y hacia dónde vamos</h2>
+    <p>Conviene una pieza propia sobre Claude, porque es la plataforma donde la lógica de <em>construcción</em> está más madura y porque su trayectoria ilustra el cambio de paradigma completo. La evolución va del chat al agente:</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th style="width:22%">Generación</th><th style="width:38%">Qué aporta</th><th style="width:40%">Qué puede construir el estudiante</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Chat</strong></td><td>Conversación transaccional: pregunta y respuesta</td><td>Resúmenes, análisis puntuales (peldaño 1–2)</td></tr>
+          <tr><td><strong>Projects</strong></td><td>Contexto persistente: cargar conocimiento y mantener una fuente de verdad</td><td>Un espacio de trabajo de un caso o una materia, con su corpus</td></tr>
+          <tr><td><strong>Artifacts</strong></td><td>Salidas desplegables generadas en la conversación</td><td>Dossiers, plataformas interactivas, calculadoras, paneles, documentos</td></tr>
+          <tr><td><strong>Skills / conectores</strong></td><td>Módulos procedimentales reutilizables y vínculos a sistemas</td><td>Una habilidad jurídica declarativa que automatiza una tarea repetitiva</td></tr>
+          <tr><td><strong>Agentes (Cowork)</strong></td><td>Ejecución autónoma multi-paso con confirmación humana</td><td>Un agente que recorre un flujo completo bajo supervisión</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Dónde estamos</h3>
+    <p>El presente es el de los <strong>artefactos y las skills</strong>: ya es posible, sin programar, definir un procedimiento jurídico en lenguaje estructurado y generar productos desplegables. Esto es lo que vuelve realista la pedagogía de construir: un estudiante de Derecho puede producir un dossier, una plataforma o una herramienta funcional sin pasar por ingeniería de software.</p>
+
+    <h3>Hacia dónde vamos</h3>
+    <p>La dirección es mayor autonomía agentiva con <strong>supervisión humana significativa</strong> como contrapeso obligatorio. A medida que el trabajo rutinario se absorbe, el valor humano se desplaza hacia diseñar, auditar y gobernar esos sistemas. Esa es exactamente la competencia que el peldaño 4 forma.</p>
+
+    <div class="note"><span class="flag">Verificar</span> &nbsp;Los nombres y rasgos concretos de producto evolucionan rápido y parte del material de respaldo contiene afirmaciones de producto que conviene confirmar antes de citar institucionalmente. La regla de diseño es no anclar el currículo a un producto: se enseña la <b>lógica</b> (construcción, verificación, gobernanza), que sobrevive al cambio de versión.</div>
+  </section>
+
+  <!-- ===================== 7. CIBERSEGURIDAD Y ANONIMIZACIÓN ===================== -->
+  <section id="ciberseguridad">
+    <div class="sec-eyebrow"><span class="sec-num">07</span> Ciberseguridad y anonimización</div>
+    <h2>Lo que casi nadie enseña, y la Ley obliga</h2>
+    <p>Es la brecha más visible de la oferta actual: se enseña a usar la IA, no a protegerla ni a proteger los datos que la atraviesan. Y sin embargo, en Chile esto dejó de ser opcional. La Ley N.° 21.719 impone responsabilidad proactiva sobre el tratamiento de datos personales y crea una Agencia con potestad sancionatoria; el proyecto de ley de IA, aprobado en particular por la Cámara de Diputadas y Diputados en octubre de 2025 y hoy en segundo trámite en el Senado, refuerza la exigencia de ciberseguridad sobre los sistemas que procesan datos críticos o apoyan decisiones (Biblioteca del Congreso Nacional; Cámara de Diputadas y Diputados, 2025).</p>
+
+    <h3>Núcleo mínimo que debe aprenderse</h3>
+    <ul>
+      <li><strong>Qué nunca ingresar a un modelo público.</strong> Datos personales reales, antecedentes sensibles, información sujeta a secreto profesional. La regla operativa es trabajar siempre con casos simulados.</li>
+      <li><strong>Retención cero y modelos cerrados.</strong> Distinguir entre un modelo público que puede retener datos y entornos empresariales o locales que garantizan que la información no abandona la organización.</li>
+      <li><strong>Anonimización y seudonimización.</strong> Técnicas para despersonalizar un expediente antes de procesarlo: sustituir identificadores, generalizar atributos, separar la clave de reidentificación. Es la competencia que permite usar IA sobre datos reales sin infringir la ley.</li>
+      <li><strong>Inyección de instrucciones (prompt injection).</strong> Reconocer que un documento externo puede contener instrucciones ocultas que alteren el comportamiento de un agente, y separar siempre el contenido recuperado de las instrucciones del sistema.</li>
+      <li><strong>Cadena de custodia y reversibilidad.</strong> No eliminar evidencia: mover a cuarentena, mantener trazabilidad, garantizar que toda decisión algorítmica sea auditable.</li>
+    </ul>
+    <div class="pull"><p>La ciberseguridad y la anonimización no son un módulo accesorio: son la condición de posibilidad de usar IA con datos jurídicos reales en Chile. Un programa que las omite forma profesionales que, al aplicar lo aprendido, exponen a sus clientes y a sí mismos a sanción.</p></div>
+  </section>
+
+  <!-- ===================== 8. BENCHMARK ===================== -->
+  <section id="benchmark">
+    <div class="sec-eyebrow"><span class="sec-num">08</span> Benchmark</div>
+    <h2>Qué están haciendo las escuelas de derecho con IA</h2>
+    <p>El panorama internacional muestra una ola de programas, casi todos concentrados en dos orientaciones: <strong>alfabetización</strong> (volver competente al usuario) y <strong>gobernanza/política</strong> (entender y regular la IA). Muy pocos enseñan a <strong>construir</strong>. Ahí está el terreno libre.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th style="width:24%">Institución / Programa</th><th style="width:14%">Formato</th><th style="width:18%">Orientación</th><th style="width:44%">Rasgo distintivo</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Harvard Law</strong> · AI and the Law; CS50 for Lawyers</td><td>Ejecutivo / curso JD</td><td><span class="tag t-lit">Alfabetización</span></td><td>Fundamento técnico de IA y de los regímenes que la gobiernan; CS50 adapta ciencia de la computación a juristas (Harvard Law School, 2026)</td></tr>
+          <tr><td><strong>USC Gould</strong> · Law and AI Certificate</td><td>Certificado · 12 unidades</td><td><span class="tag t-gov">Gobernanza</span></td><td>Traza la evolución de la IA y sus desafíos legales y éticos; sin requisito de título de abogado (USC Gould, 2024–26)</td></tr>
+          <tr><td><strong>U. of Chicago Law</strong> · Módulos 1L de IA</td><td>Obligatorio · autodirigido</td><td><span class="tag t-lit">Alfabetización</span></td><td>Alfabetización mínima exigible a todo primer año desde 2026, orientada a herramientas que no comprometan la confidencialidad (UChicago, 2025)</td></tr>
+          <tr><td><strong>Berkeley Law</strong> · GenAI Power User; AI Law &amp; Regulation</td><td>Ejecutivo + certificado LLM</td><td><span class="tag t-gov">Gobernanza</span></td><td>Edición 2026 centrada en hábitos y en el tránsito del prompting a la conversación iterativa con humano-en-el-bucle (Berkeley, 2026)</td></tr>
+          <tr><td><strong>Penn Carey Law</strong> · AI, Industry and the Law</td><td>Ejecutivo</td><td><span class="tag t-gov">Gobernanza</span></td><td>Historia, modelos fundacionales, aplicaciones (e-discovery, automatización) y navegación regulatoria (Penn, 2026–27)</td></tr>
+          <tr><td><strong>Cornell</strong> · AI Law and Policy</td><td>Certificado online</td><td><span class="tag t-gov">Gobernanza</span></td><td>Marcos basados en riesgo y en derechos; convertir principios en políticas internas y trazas de auditoría (eCornell, 2026)</td></tr>
+          <tr><td><strong>Drake Law</strong> · AI Law Certificate</td><td>Certificado JD</td><td><span class="tag t-gov">Gobernanza</span></td><td>Incluye ciberseguridad y temas emergentes; enfoque interdisciplinario (Drake Law, 2026)</td></tr>
+          <tr><td><strong>WashU Law</strong> · IA en Investigación Jurídica 1L</td><td>Curso anual · 1 crédito</td><td><span class="tag t-lit">Alfabetización</span></td><td>Detección de alucinaciones y contraste con métodos tradicionales; verificación como eje (WashU, 2025–26)</td></tr>
+          <tr><td><strong>Suffolk Law</strong> · Plataforma de negociación con IA</td><td>Herramienta práctica</td><td><span class="tag t-build">Construcción*</span></td><td>Bots que simulan abogados para practicar negociación; praxis interactiva (National Jurist, 2026)</td></tr>
+          <tr><td><strong>UBA · IALAB</strong> (Argentina)</td><td>Posgrado · 128 h</td><td><span class="tag t-build">Construcción</span></td><td>“Abogados desarrolladores”: GPTs personalizados, sistemas multiagente, automatización por el usuario (corpus de mercado)</td></tr>
+          <tr><td><strong>U. de La Sabana</strong> (Colombia)</td><td>Curso · 32 h</td><td><span class="tag t-lit">Alfabetización</span></td><td>Muy práctico; PromptLibrary colaborativa; herramientas locales y derecho colombiano (corpus de mercado)</td></tr>
+          <tr><td><strong>PUC Chile</strong> · Derecho e IA</td><td>Ed. continua · 64 h</td><td><span class="tag t-gov">Gobernanza</span></td><td>Conceptual y riguroso; ciclo de vida del proyecto de IA, sesgos, marco jurídico (corpus de mercado)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:13.5px;color:var(--ink-faint);font-family:'IBM Plex Mono'">* Suffolk construye una herramienta <em>para</em> el estudiante; no enseña al estudiante a construir. La distinción importa.</p>
+
+    <div class="pull"><p><strong>La lectura del benchmark es nítida.</strong> El mundo enseña a entender la IA y a regularla. Casi nadie —con la excepción parcial de UBA en la región— enseña al jurista a <em>construir</em> sus propias herramientas. Y prácticamente ninguno integra ciberseguridad y anonimización como competencia troncal. Esos dos vacíos son la oportunidad de diferenciación de PUCV.</p></div>
+  </section>
+
+  <!-- ===================== 9. MERCADO ===================== -->
+  <section id="mercado">
+    <div class="sec-eyebrow"><span class="sec-num">09</span> Necesidades del mercado</div>
+    <h2>El dato chileno: una brecha que es oportunidad</h2>
+    <p>Chile es pionero en IA en términos generales, pero su sector legal es el único de la región que no supera el umbral del 30% de adopción. La brecha no se explica por falta de acceso, sino por un error de método: discutir qué software comprar sin haber rediseñado procesos ni definido indicadores.</p>
+
+    <figure>
+      <div class="fig-title">Figura 3 — Adopción de IA legal: Chile frente a la región y a otros sectores</div>
+      <svg viewBox="0 0 880 250" role="img" aria-label="Barras de adopción de IA">
+        <g font-family="IBM Plex Sans" font-size="13">
+          <!-- axis -->
+          <line x1="180" y1="20" x2="180" y2="210" stroke="#E4E2DA"/>
+          <!-- 30% reference (vertical) -->
+          <line x1="564" y1="34" x2="564" y2="226" stroke="#D9B98A" stroke-width="1.4" stroke-dasharray="5 4"/>
+          <text x="572" y="30" font-size="11" fill="#B9772B" font-family="IBM Plex Mono">umbral 30%</text>
+          <!-- bars: scale 640px = 50% -> 12.8px per % -->
+          <!-- Chile legal 24% -->
+          <rect x="180" y="40" width="307" height="34" fill="#1B3A63"/>
+          <text x="175" y="62" text-anchor="end" font-size="13" fill="#16202E">Chile · legal</text>
+          <text x="497" y="62" font-size="13" font-weight="700" fill="#1B3A63">24%</text>
+          <!-- LatAm avg 28% -->
+          <rect x="180" y="90" width="358" height="34" fill="#2E5A8F"/>
+          <text x="175" y="112" text-anchor="end" font-size="13" fill="#16202E">LatAm · promedio</text>
+          <text x="548" y="112" font-size="13" font-weight="600" fill="#2E5A8F">28%</text>
+          <!-- Finance 37% -->
+          <rect x="180" y="140" width="474" height="34" fill="#7FA3C9"/>
+          <text x="175" y="162" text-anchor="end" font-size="13" fill="#16202E">Sector financiero</text>
+          <text x="664" y="162" font-size="13" fill="#46525F">37%</text>
+          <!-- Tech 40% -->
+          <rect x="180" y="190" width="512" height="34" fill="#A9C2DD"/>
+          <text x="175" y="212" text-anchor="end" font-size="13" fill="#16202E">Sector tecnológico</text>
+          <text x="702" y="212" font-size="13" fill="#46525F">40%</text>
+        </g>
+      </svg>
+      <figcaption>Fuente: estudio de gerencias legales LATAM (corpus de mercado, 2025–26). Chile es el único mercado evaluado bajo el 30%.</figcaption>
+    </figure>
+
+    <p>A esta brecha se suman dos <strong>aceleradores regulatorios</strong> que convierten la formación en urgencia: la Ley N.° 21.719, con vigencia plena programada para fines de 2026 y un período de gracia para PYMEs hasta fines de 2027, y el proyecto de ley de IA en segundo trámite en el Senado, con un modelo de riesgos que exige evaluación de impacto algorítmico y supervisión humana significativa para los sistemas de alto riesgo —entre ellos, los de apoyo a decisiones judiciales—.</p>
+
+    <figure>
+      <div class="fig-title">Figura 4 — Crecimiento del mercado: el software de IA legal corre más rápido que la LegalTech general</div>
+      <svg viewBox="0 0 880 210" role="img" aria-label="Comparación de tasas de crecimiento anual compuesto">
+        <g font-family="IBM Plex Sans">
+          <line x1="60" y1="170" x2="820" y2="170" stroke="#E4E2DA"/>
+          <!-- IA legal 29.4% -->
+          <rect x="150" y="40" width="160" height="130" fill="#1B3A63"/>
+          <text x="230" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#1B3A63">29,4%</text>
+          <text x="230" y="190" text-anchor="middle" font-size="13" fill="#46525F">Software de IA legal</text>
+          <!-- LegalTech ~10% -->
+          <rect x="560" y="126" width="160" height="44" fill="#A9C2DD"/>
+          <text x="640" y="118" text-anchor="middle" font-size="20" font-weight="600" fill="#46525F">≈10%</text>
+          <text x="640" y="190" text-anchor="middle" font-size="13" fill="#46525F">LegalTech general</text>
+          <text x="60" y="20" font-size="11.5" fill="#8A93A0" font-family="IBM Plex Mono">CAGR proyectado</text>
+        </g>
+      </svg>
+      <figcaption>Fuente: proyecciones de mercado (corpus, Fortune Business Insights / Mordor / FMI). La IA legal triplica el crecimiento de la LegalTech administrativa.</figcaption>
+    </figure>
+
+    <h3>Qué demanda concretamente el mercado</h3>
+    <p>El ecosistema chileno se mueve: la Asociación de Legaltech de Chile (ALTECH) articula al sector desde 2024, y el estudio más grande del país invirtió capital en una plataforma de IA entrenada en derecho local. Lo que las firmas buscan no son operadores de interfaces, sino juristas que sepan <strong>diagnosticar procesos, rediseñar flujos, cumplir la nueva normativa y construir</strong>. La segmentación a tres velocidades —vanguardia integrada, adoptantes pragmáticos y rezagados— define quién captura valor y quién pierde competitividad.</p>
+  </section>
+
+  <!-- ===================== 10. DIFERENCIACIÓN ===================== -->
+  <section id="diferenciacion">
+    <div class="sec-eyebrow"><span class="sec-num">10</span> Diferenciación</div>
+    <h2>El terreno libre para PUCV</h2>
+    <p>Cruzando benchmark y mercado, aparecen cinco posiciones que casi nadie ocupa en conjunto y que PUCV puede ocupar con credibilidad:</p>
+    <ul>
+      <li><strong>Construir, no solo usar.</strong> El vacío más claro del benchmark. Formar al jurista que arma sus propias herramientas con métodos declarativos accesibles.</li>
+      <li><strong>El método de la Constitución.</strong> Redactar la constitución de un agente —reglas duras, preferencias y su fundamento— es teoría de la normatividad aplicada. Es el diferenciador que la tradición teórica de la Escuela vuelve irrepetible: ninguna otra puede copiarlo sin esa fortaleza instalada.</li>
+      <li><strong>Anclaje chileno y regulatorio.</strong> Todo orbita la Ley N.° 21.719 y el proyecto de ley de IA; el marco europeo entra como contraste, no como modelo a importar.</li>
+      <li><strong>Verificación como competencia troncal.</strong> Transversal, no un módulo. El egresado responde por el resultado.</li>
+      <li><strong>Ciberseguridad y anonimización integradas.</strong> El otro gran vacío del benchmark, y una obligación legal en Chile.</li>
+    </ul>
+    <div class="pull"><p>La tesis de fondo, defendible ante cualquier auditorio: <strong>la fortaleza teórica de la Escuela —que parecía ajena a la tecnología— resulta ser la habilidad más escasa del futuro</strong>. Cuando todos sepan usar las herramientas, lo escaso será saber construir reglas y gobernar sistemas. Eso es, precisamente, lo que la Escuela ya enseña.</p></div>
+  </section>
+
+  <!-- ===================== 11. IMPLICANCIAS ===================== -->
+  <section id="implicancias">
+    <div class="sec-eyebrow"><span class="sec-num">11</span> Implicancias para el rediseño</div>
+    <h2>Qué cambia en los dos cursos</h2>
+    <p>Este sustrato obliga a reformular ambos programas en seis direcciones concretas, que serán el punto de partida del siguiente paso:</p>
+    <ol>
+      <li><strong>Equilibrio teórico-práctico real.</strong> Cada concepto se ancla en una construcción; cada construcción, en un fundamento. Ni taller sin teoría ni teoría sin taller.</li>
+      <li><strong>Praxis con los tres modelos.</strong> ChatGPT, Gemini y Claude entran como herramientas de trabajo efectivo, con énfasis en Projects, Artifacts y skills, no en demostraciones.</li>
+      <li><strong>Cambio de paradigma como columna.</strong> El hilo conductor deja de ser el prompt y pasa a ser el flujo, la herramienta y el proyecto, incluyendo el uso meta del modelo para construir.</li>
+      <li><strong>Módulo propio de ciberseguridad y anonimización.</strong> Deja de ser nota al pie y se vuelve competencia troncal, con la Ley N.° 21.719 como anclaje.</li>
+      <li><strong>Una pieza sobre Claude y la dirección del campo.</strong> Para que el estudiante entienda hacia dónde va el oficio y por qué construir y gobernar es la apuesta segura.</li>
+      <li><strong>Escalamiento explícito.</strong> Cada nivel apunta a un peldaño de la escalera, y el trayecto completo lleva del 1 al 4.</li>
+    </ol>
+    <div class="note"><b>Siguiente paso.</b> Sobre este sustrato se reformulan los dos programas: el optativo de pregrado y el trayecto de educación continua, con más aire, más praxis de construcción, el módulo de ciberseguridad incorporado y el paradigma reorganizado en torno a flujos y herramientas.</div>
+  </section>
+
+  <footer>
+    Informe-sustrato · Rediseño de programas IA y Derecho · Escuela de Derecho PUCV · Programa DIAT · Junio 2026<br>
+    Documento de trabajo para discusión interna. Cifras de proveedor marcadas como tales; estado regulatorio a reconfirmar a la fecha de uso; rasgos de producto sujetos a verificación. Fuentes de benchmark: sitios oficiales de los programas citados y prensa especializada (Harvard, USC, UChicago, Berkeley, Penn, Cornell, Drake, WashU, Suffolk vía National Jurist) y corpus de investigación de mercado provisto.
+  </footer>
+
+</div>
+</body>
+</html>
