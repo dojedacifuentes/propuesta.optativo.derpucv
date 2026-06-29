@@ -232,6 +232,50 @@
       .mode-switch{ grid-template-columns:repeat(2,1fr); }
       .hero h1{ font-size:2.3rem; } .hero{ padding:22px 18px; }
     }
+    /* PROGRAMAS EGRESADOS (3 propuestas) */
+    .track-intro{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:6px 0 18px; }
+    .track-step{ display:grid; gap:4px; padding:12px 14px; border:1px solid var(--line-soft); border-radius:var(--radius);
+      background:rgba(2,3,6,0.5); position:relative; }
+    .track-step .ar{ position:absolute; right:-15px; top:50%; transform:translateY(-50%); color:var(--muted); z-index:5; }
+    .track-step:last-child .ar{ display:none; }
+    .track-step .st{ font-family:"JetBrains Mono",monospace; font-size:0.7rem; color:var(--gold); }
+    .track-step b{ font-size:0.96rem; } .track-step span{ color:var(--muted); font-size:0.8rem; }
+
+    .programs{ display:grid; gap:16px; }
+    .program{ border:1px solid var(--line-soft); border-radius:var(--radius); overflow:hidden; background:var(--panel);
+      box-shadow:0 12px 40px rgba(0,0,0,0.36); transition:border-color .2s ease; }
+    .program:hover{ border-color:var(--accent,var(--cyan)); }
+    .program-art{ height:158px; border-bottom:1px solid var(--line-soft); position:relative; }
+    .program-art svg{ display:block; width:100%; height:100%; }
+    .program-badge{ position:absolute; top:12px; left:14px; display:inline-flex; gap:8px; align-items:center;
+      padding:5px 10px; border:1px solid color-mix(in srgb,var(--accent,var(--cyan)),transparent 50%); border-radius:20px;
+      background:rgba(2,3,6,0.74); font-family:"JetBrains Mono",monospace; font-size:0.72rem; color:var(--accent,var(--cyan)); }
+    .program-badge b{ color:var(--white); }
+    .program-en{ position:absolute; top:12px; right:14px; font-family:"JetBrains Mono",monospace; font-size:0.7rem; color:var(--muted); }
+    .program-body{ display:grid; grid-template-columns:1.05fr 1fr; gap:20px; padding:20px; }
+    .program h3{ margin:0 0 4px; font-family:Cinzel,serif; font-size:1.7rem; color:var(--accent,var(--cyan)); }
+    .program .tagline{ font-size:1.08rem; color:var(--white); font-weight:600; margin:0 0 14px; line-height:1.35; }
+    .program .who{ color:var(--muted); font-size:0.86rem; margin:0 0 14px; }
+    .program .who b{ color:var(--white); }
+    .fromto{ display:grid; gap:8px; margin:0 0 14px; padding:12px; border:1px solid var(--line-soft); border-radius:6px; background:rgba(2,3,6,0.5); }
+    .fromto .row{ display:grid; grid-template-columns:54px 1fr; gap:10px; align-items:center; font-size:0.88rem; }
+    .fromto .lab{ font-family:"JetBrains Mono",monospace; font-size:0.7rem; text-transform:uppercase; }
+    .fromto .lab.de{ color:var(--muted); } .fromto .lab.a{ color:var(--accent,var(--cyan)); }
+    .fromto .a-row b{ color:var(--white); }
+    .program .format{ display:flex; flex-wrap:wrap; gap:8px; }
+    .program .format .pill{ border-color:color-mix(in srgb,var(--accent,var(--cyan)),transparent 60%); color:var(--accent,var(--cyan)); }
+    .prog-mods h4{ margin:0 0 10px; font-family:"JetBrains Mono",monospace; font-size:0.74rem; text-transform:uppercase; color:var(--accent,var(--cyan)); }
+    .prog-mod{ display:grid; grid-template-columns:22px 1fr; gap:10px; padding:9px 0; border-bottom:1px solid var(--line-soft); }
+    .prog-mod:last-of-type{ border-bottom:0; }
+    .prog-mod .mn{ font-family:"JetBrains Mono",monospace; color:var(--accent,var(--cyan)); font-size:0.82rem; }
+    .prog-mod b{ display:block; font-size:0.9rem; }
+    .prog-mod span{ color:var(--muted); font-size:0.8rem; }
+    .prog-deliver{ margin-top:12px; display:grid; grid-template-columns:20px 1fr; gap:10px; padding:11px 12px; border-radius:6px;
+      background:color-mix(in srgb,var(--accent,var(--cyan)),transparent 92%); border:1px solid color-mix(in srgb,var(--accent,var(--cyan)),transparent 70%); }
+    .prog-deliver svg{ width:18px; height:18px; color:var(--accent,var(--cyan)); margin-top:2px; }
+    .prog-deliver b{ color:var(--white); } .prog-deliver span{ color:var(--muted); font-size:0.84rem; }
+    @media (max-width:900px){ .program-body{ grid-template-columns:1fr; } .track-intro{ grid-template-columns:1fr; } .track-step .ar{ display:none; } }
+
     @media (prefers-reduced-motion:reduce){ #tickerTrack{ animation:none; } .section-view{ animation:none; } a.link-card:hover,.exp-step:hover,button.flip-card:hover{ transform:none; } }
   </style>
 </head>
@@ -383,20 +427,29 @@
 
     <!-- ============ EGRESADOS ============ -->
     <section class="section-view" id="s-egresados">
-      <div class="section-head"><span class="eyebrow">La misma lógica, otros requisitos</span><h2>Trayecto para egresados y abogados en ejercicio</h2>
-        <p>El optativo de pregrado es la prueba de concepto. Para egresados, la misma filosofía —construir, verificar, gobernar— se condensa y profesionaliza en un trayecto modular con ritmo, profundidad y entregables distintos. Esta sección es un anticipo: el detalle se construye después del piloto.</p></div>
-      <div class="grid-3" id="ecWrap"></div>
-      <div class="note"><i data-lucide="route"></i><div>Secuencia recomendada: <b>pilotear el N1 primero</b> (barato, valida demanda, certifica cumplimiento de la Ley 21.719); recién después abrir N2 y N3. No lanzar el trayecto completo antes de validar demanda.</div></div>
+      <div class="section-head"><span class="eyebrow">Educación continua · la misma lógica, otra audiencia</span><h2>Tres propuestas. Tres contenidos. Una transformación.</h2>
+        <p>Para egresados y abogados en ejercicio no hay un solo curso: hay <b style="color:var(--white)">tres programas distintos y secuenciables</b>, cada uno con su propio contenido, formato y entregable. Se pueden contratar por separado o recorrer como ruta. Cada uno te mueve de una identidad profesional a la siguiente.</p></div>
+
+      <div class="track-intro">
+        <div class="track-step"><span class="st">Programa 1 · usa</span><b>Abogado Aumentado</b><span>Le pierde el miedo a la IA y delega con criterio.</span><i class="ar" data-lucide="chevron-right"></i></div>
+        <div class="track-step"><span class="st">Programa 2 · construye</span><b>Ingeniero Jurídico</b><span>Deja de usar herramientas ajenas: construye las suyas.</span><i class="ar" data-lucide="chevron-right"></i></div>
+        <div class="track-step"><span class="st">Programa 3 · gobierna</span><b>Arquitecto Jurídico-Algorítmico</b><span>Diseña y gobierna sistemas, no solo herramientas.</span></div>
+      </div>
+
+      <div class="programs" id="programsWrap"></div>
+
+      <div class="note"><i data-lucide="route"></i><div>Secuencia recomendada: <b>pilotear el Programa 1 primero</b> (bajo costo, valida demanda y certifica cumplimiento de la Ley 21.719); recién después abrir el 2 y el 3. No lanzar el trayecto completo antes de validar demanda.</div></div>
+
       <div class="grid-2" style="margin-top:14px">
-        <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--cyan)"><i data-lucide="git-compare"></i></span><div class="lc-title"><b>Qué cambia respecto del optativo</b><span>requisitos diferentes</span></div></div>
+        <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--cyan)"><i data-lucide="git-compare"></i></span><div class="lc-title"><b>Qué cambia respecto del optativo</b><span>otra audiencia, otros requisitos</span></div></div>
           <ul class="lc-steps" style="margin-top:10px">
-            <li>Audiencia con experiencia profesional: casos reales de su práctica.</li>
+            <li>Profesionales con experiencia: trabajan sobre casos reales de su práctica.</li>
             <li>Carga horaria mayor y comprimida (formato educación continua).</li>
-            <li>Énfasis en cumplimiento, ciberseguridad y responsabilidad profesional.</li>
-            <li>Entregable: herramienta desplegable para su propio ejercicio.</li>
+            <li>Más peso en cumplimiento, ciberseguridad y responsabilidad profesional.</li>
+            <li>Entregable: una herramienta o sistema desplegable para su propio ejercicio.</li>
           </ul>
         </div>
-        <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--gold)"><i data-lucide="target"></i></span><div class="lc-title"><b>Por qué importa para la Escuela</b><span>posicionamiento</span></div></div>
+        <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--gold)"><i data-lucide="target"></i></span><div class="lc-title"><b>Por qué importa para la Escuela</b><span>posicionamiento e ingreso recurrente</span></div></div>
           <ul class="lc-steps" style="margin-top:10px">
             <li>Línea de investigación: responsabilidad del abogado asistido por agentes.</li>
             <li>Auditoría de decisiones automatizadas y gobernanza de sistemas jurídicos.</li>
@@ -505,10 +558,51 @@
       { t:"Protege datos", d:"Anonimiza, minimiza y asegura la capa de datos del prototipo.", ic:"shield" },
       { t:"Elige con criterio", d:"Compara agentes y stacks por productividad, calidad y costo.", ic:"git-compare" }
     ];
-    const EC = [
-      { mx:"N1", t:"Abogado Aumentado", sub:"24–32 h", d:"Alfabetización crítica + primeros flujos. Valida demanda y certifica cumplimiento 21.719.", color:"var(--cyan)" },
-      { mx:"N2", t:"Abogado Constructor", sub:"48–60 h", d:"Construcción de herramientas propias y verificación troncal sobre casos reales.", color:"var(--mint)" },
-      { mx:"N3", t:"Arquitecto Jurídico-Algorítmico", sub:"90–120 h", d:"Gobernanza, agentes y diseño de sistemas jurídico-algorítmicos completos.", color:"var(--gold)" }
+    const PROGRAMS = [
+      { color:"var(--cyan)", en:"The Augmented Lawyer", name:"Abogado Aumentado",
+        tagline:"Deja de competir con la IA. Hazla trabajar para ti.",
+        who:"Para abogados y egresados <b>sin experiencia técnica</b> que sienten que la IA los está dejando atrás.",
+        from:"Usuario ansioso que copia y pega en un chatbot",
+        to:"Profesional que delega con criterio y verifica lo que firma",
+        format:["24–32 h","Modular","Sin requisito técnico"],
+        modules:[
+          { mn:"01", t:"Alfabetización crítica", o:"Distingues qué puede y qué no puede hacer la IA; dejas de creerle a ciegas." },
+          { mn:"02", t:"Del prompt al flujo", o:"Conviertes tareas repetitivas en flujos reproducibles y confiables." },
+          { mn:"03", t:"Verificación y datos", o:"Verificas salidas y proteges datos personales según la Ley 21.719." },
+          { mn:"04", t:"Tu primer asistente", o:"Documentas un asistente para una tarea real de tu práctica." }
+        ],
+        deliver:"Un flujo de trabajo asistido, verificado y conforme a la ley, listo para usar mañana.",
+        art:`<svg viewBox="0 0 440 158" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="440" height="158" fill="#03060a"/><g stroke="#4be7ff" stroke-opacity=".07"><path d="M0 40H440M0 80H440M0 120H440"/><path d="M80 0V158M160 0V158M240 0V158M320 0V158M400 0V158"/></g><g transform="translate(220 86)"><circle r="48" fill="none" stroke="#4be7ff" stroke-opacity=".16"/><circle r="31" fill="none" stroke="#4be7ff" stroke-opacity=".34"/><polygon points="0,-20 17,-10 17,10 0,20 -17,10 -17,-10" fill="none" stroke="#4be7ff" stroke-width="1.6"/><circle r="5" fill="#4be7ff"/></g><g fill="#8df6ff"><circle cx="118" cy="120" r="2"/><circle cx="150" cy="96" r="2"/><circle cx="300" cy="112" r="2"/><circle cx="332" cy="82" r="2"/></g><g stroke="#4be7ff" stroke-width="2" fill="none" stroke-opacity=".7" stroke-linecap="round"><path d="M360 52l10-10 10 10"/><path d="M360 74l10-10 10 10"/></g><text x="20" y="32" fill="#4be7ff" font-family="monospace" font-size="11" opacity=".8">USAR · DELEGAR</text></svg>` },
+
+      { color:"var(--mint)", en:"The Legal Engineer", name:"Ingeniero Jurídico",
+        tagline:"Tus problemas legales, resueltos con herramientas que tú construyes.",
+        who:"Para quienes <b>ya usan IA a diario</b> y quieren dejar de depender de productos ajenos.",
+        from:"Usuario avanzado de herramientas de otros",
+        to:"Profesional que construye y despliega sus propias herramientas",
+        format:["48–60 h","Proyecto real","Construcción asistida por agentes"],
+        modules:[
+          { mn:"01", t:"De la idea a la app", o:"Construyes una herramienta funcional con el flujo Claude Code → GitHub → Vercel." },
+          { mn:"02", t:"La Constitución del agente", o:"Redactas las reglas de tu sistema: el sello teórico difícil de copiar." },
+          { mn:"03", t:"Datos reales con Supabase", o:"Conectas tu herramienta a una base de datos y la haces persistente." },
+          { mn:"04", t:"Verificación y seguridad", o:"Auditas, anonimizas y endureces antes de usarla con clientes." }
+        ],
+        deliver:"Una herramienta jurídica funcional, desplegada en línea, hecha para tu propio ejercicio.",
+        art:`<svg viewBox="0 0 440 158" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="440" height="158" fill="#03060a"/><g stroke="#54d6a0" stroke-opacity=".07"><path d="M0 40H440M0 80H440M0 120H440"/><path d="M80 0V158M160 0V158M240 0V158M320 0V158M400 0V158"/></g><g stroke="#54d6a0" stroke-opacity=".5" fill="none"><path d="M120 96L220 62M220 62L320 96"/></g><g fill="none" stroke="#54d6a0" stroke-width="1.6"><rect x="96" y="80" width="48" height="40" rx="4"/><rect x="196" y="42" width="48" height="40" rx="4"/><rect x="296" y="80" width="48" height="40" rx="4"/></g><g fill="#54d6a0"><circle cx="120" cy="100" r="3"/><circle cx="220" cy="62" r="3"/><circle cx="320" cy="100" r="3"/></g><g stroke="#9bffd0" stroke-width="2" stroke-linecap="round"><path d="M214 62h12M220 56v12"/></g><text x="20" y="32" fill="#54d6a0" font-family="monospace" font-size="11" opacity=".85">CONSTRUIR · DESPLEGAR</text></svg>` },
+
+      { color:"var(--gold)", en:"The Legal-Algorithmic Architect", name:"Arquitecto Jurídico-Algorítmico",
+        tagline:"No uses sistemas de IA legal. Diséñalos y gobiérnalos.",
+        who:"Para <b>socios, líderes de equipos legales</b> y quienes quieren escalar de la herramienta al sistema.",
+        from:"Constructor de herramientas sueltas",
+        to:"Arquitecto que gobierna sistemas jurídico-algorítmicos completos",
+        format:["90–120 h","Sistema + gobernanza","Nivel avanzado"],
+        modules:[
+          { mn:"01", t:"Arquitectura de sistemas", o:"Diseñas sistemas que integran varios agentes y fuentes de datos." },
+          { mn:"02", t:"Gobernanza y responsabilidad", o:"Defines supervisión humana significativa y respondes por lo que el sistema decide." },
+          { mn:"03", t:"Agentes y automatización supervisada", o:"Orquestas agentes con límites, bitácora y mejora continua." },
+          { mn:"04", t:"Auditoría y cumplimiento avanzado", o:"Auditas decisiones automatizadas y las contrastas con la regulación vigente." }
+        ],
+        deliver:"Un sistema gobernado y su política de gobernanza, listo para operar en un equipo o estudio.",
+        art:`<svg viewBox="0 0 440 158" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="440" height="158" fill="#03060a"/><g stroke="#e0b04a" stroke-opacity=".07"><path d="M0 40H440M0 80H440M0 120H440"/><path d="M80 0V158M160 0V158M240 0V158M320 0V158M400 0V158"/></g><g fill="none" stroke="#e0b04a" stroke-opacity=".5"><path d="M120 122a100 100 0 0 1 200 0"/><path d="M150 122a70 70 0 0 1 140 0"/><path d="M180 122a40 40 0 0 1 80 0"/></g><g stroke="#e0b04a" stroke-opacity=".45" fill="none"><path d="M140 122L220 70L300 122M220 70V122"/></g><g fill="#e0b04a"><circle cx="220" cy="70" r="4"/><circle cx="140" cy="122" r="3"/><circle cx="220" cy="122" r="3"/><circle cx="300" cy="122" r="3"/></g><text x="20" y="32" fill="#e0b04a" font-family="monospace" font-size="11" opacity=".85">DISEÑAR · GOBERNAR</text></svg>` }
     ];
 
     const TICKER = ["Construir · Verificar · Gobernar","Del prompt al sistema","La Constitución del agente","Claude Code → GitHub → Vercel",
@@ -558,12 +652,31 @@
       $("diffWrap").innerHTML = DIFFS.map(d=>`<div class="diff-card"><span class="n">${esc(d.n)}</span><b>${esc(d.t)}</b><p>${esc(d.d)}</p></div>`).join("");
       $("compWrap").innerHTML = COMPS.map(c=>`<div class="diff-card"><span class="lc-logo" style="--accent:var(--cyan);width:40px;height:40px;flex:0 0 40px"><i data-lucide="${esc(c.ic)}"></i></span><b>${esc(c.t)}</b><p>${esc(c.d)}</p></div>`).join("");
     }
-    function renderEC(){
-      $("ecWrap").innerHTML = EC.map(e=>`
-        <div class="diff-card" style="--accent:${esc(e.color)}">
-          <span class="mod-mx" style="justify-self:start;border-color:${esc(e.color)};color:${esc(e.color)}">${esc(e.mx)}</span>
-          <b>${esc(e.t)} <span style="color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:.74rem">· ${esc(e.sub)}</span></b>
-          <p>${esc(e.d)}</p></div>`).join("");
+    function renderPrograms(){
+      $("programsWrap").innerHTML = PROGRAMS.map((p,i)=>`
+        <article class="program" style="--accent:${p.color}">
+          <div class="program-art">${p.art}
+            <span class="program-badge"><b>Propuesta ${i+1}</b> · Nivel ${i+1}</span>
+            <span class="program-en">${esc(p.en)}</span>
+          </div>
+          <div class="program-body">
+            <div class="program-meta">
+              <h3>${esc(p.name)}</h3>
+              <p class="tagline">${esc(p.tagline)}</p>
+              <p class="who">${p.who}</p>
+              <div class="fromto">
+                <div class="row"><span class="lab de">De</span><span>${esc(p.from)}</span></div>
+                <div class="row a-row"><span class="lab a">A</span><span><b>${esc(p.to)}</b></span></div>
+              </div>
+              <div class="format">${p.format.map(f=>`<span class="pill">${esc(f)}</span>`).join("")}</div>
+            </div>
+            <div class="prog-mods">
+              <h4>Qué construyes, módulo a módulo</h4>
+              ${p.modules.map(m=>`<div class="prog-mod"><span class="mn">${esc(m.mn)}</span><div><b>${esc(m.t)}</b><span>${esc(m.o)}</span></div></div>`).join("")}
+              <div class="prog-deliver"><i data-lucide="package-check"></i><div><b>Te llevas:</b> <span>${esc(p.deliver)}</span></div></div>
+            </div>
+          </div>
+        </article>`).join("");
     }
     function renderTicker(){
       $("tickerTrack").innerHTML = [...TICKER,...TICKER].map(t=>`<span>${esc(t)}</span>`).join("");
@@ -686,7 +799,7 @@
 
     function refresh(){ if(window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } }); }
 
-    renderExperience(); renderModules(); renderTools(); renderSello(); renderEC(); renderTicker();
+    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderTicker();
     refresh(); initCanvas();
   </script>
 </body>
