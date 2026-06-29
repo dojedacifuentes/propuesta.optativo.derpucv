@@ -304,6 +304,37 @@
     @media (max-width:560px){ .fab span{ display:none; } .fab{ padding:13px; bottom:48px; } }
     @media (prefers-reduced-motion:reduce){ .fab{ animation:none; } }
 
+    /* FAQ */
+    .faq details{ border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--panel); margin-bottom:8px; }
+    .faq summary{ list-style:none; cursor:pointer; padding:14px 16px; font-weight:600; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    .faq summary::-webkit-details-marker{ display:none; }
+    .faq summary::after{ content:"+"; color:var(--cyan); font-family:"JetBrains Mono",monospace; font-size:1.2rem; }
+    .faq details[open] summary::after{ content:"–"; }
+    .faq details[open] summary{ color:var(--cyan); }
+    .faq p{ margin:0; padding:0 16px 14px; color:var(--muted); font-size:0.9rem; }
+
+    /* MODO PRESENTACIÓN */
+    .fab-left{ left:18px; right:auto; border-color:var(--gold); color:var(--gold);
+      box-shadow:0 8px 30px rgba(0,0,0,.5), 0 0 14px rgba(224,176,74,.22); }
+    .fab-left:hover{ background:rgba(224,176,74,.14); color:var(--white); }
+    .present{ position:fixed; inset:0; z-index:200; display:none; flex-direction:column;
+      background:radial-gradient(circle at 70% 16%, rgba(75,231,255,.07), transparent 45%), #020306; }
+    .present.open{ display:flex; }
+    .present-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 22px; border-bottom:1px solid var(--line); }
+    .present-kor{ font-family:"JetBrains Mono",monospace; font-size:.78rem; color:var(--cyan); text-transform:uppercase; }
+    .present-ctrls{ display:flex; align-items:center; gap:8px; font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--muted); }
+    .present-ctrls button{ min-height:38px; padding:8px 12px; border:1px solid var(--line-soft); border-radius:6px; background:rgba(6,9,13,.8); color:var(--white); cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+    .present-ctrls button:hover{ border-color:var(--cyan); color:var(--cyan); }
+    .present-ctrls button svg{ width:18px; height:18px; }
+    .present-stage{ flex:1; display:grid; align-content:center; gap:16px; max-width:980px; width:92%; margin:0 auto; padding:24px 0; }
+    .present-stage .pk{ font-family:"JetBrains Mono",monospace; font-size:1rem; text-transform:uppercase; }
+    .present-stage h2{ font-family:"Space Grotesk",sans-serif; font-size:3rem; line-height:1.06; margin:0; }
+    .present-stage p{ font-size:1.3rem; line-height:1.5; color:var(--muted); max-width:840px; margin:0; }
+    .present-dots{ display:flex; gap:8px; justify-content:center; padding:18px; }
+    .present-dots i{ width:9px; height:9px; border-radius:50%; background:var(--line-soft); cursor:pointer; }
+    .present-dots i.on{ background:var(--cyan); box-shadow:0 0 10px var(--cyan); }
+    @media (max-width:680px){ .present-stage h2{ font-size:2rem; } .present-stage p{ font-size:1.05rem; } .present-top{ flex-direction:column; align-items:flex-start; } }
+
     /* DOSSIER (solo impresión / PDF) */
     #dossier{ display:none; }
     @media print{
@@ -487,6 +518,18 @@
       <div class="section-head"><span class="eyebrow">Lo que ningún otro programa está dando</span><h2>El sello: el método de la Constitución</h2>
         <p>Redactar la "constitución" de un agente —sus reglas duras, sus preferencias y el porqué de cada una— es teoría de la normatividad aplicada a un sistema que actúa. Es un sello anclado en la tradición teórica de la Escuela, difícil de copiar e imposible de improvisar.</p></div>
 
+      <div class="card" style="margin-bottom:16px">
+        <div class="lc-head"><span class="lc-logo" style="--accent:var(--gold)"><i data-lucide="scroll-text"></i></span>
+          <div class="lc-title"><b>La Constitución del agente</b><span>teoría jurídica aplicada al diseño de IA</span></div></div>
+        <p class="lc-body" style="margin:12px 0">Cada prototipo incluye una <b>Constitución del agente</b>: un documento normativo que define qué hace el sistema, qué no, con qué fuentes opera y cuándo debe detenerse. Establece:</p>
+        <div class="grid-3">
+          <ul class="lc-steps"><li>Finalidad del sistema</li><li>Ámbito de actuación</li><li>Límites materiales</li><li>Fuentes autorizadas</li></ul>
+          <ul class="lc-steps"><li>Reglas de verificación</li><li>Conductas prohibidas</li><li>Tratamiento de datos</li><li>Deberes de advertencia</li></ul>
+          <ul class="lc-steps"><li>Criterios de escalamiento humano</li><li>Responsabilidad del usuario</li><li>Registro de decisiones relevantes</li></ul>
+        </div>
+        <p class="lc-body" style="margin-top:12px;color:var(--white);font-style:italic">“Redactar la Constitución del agente convierte teoría de la normatividad, razonamiento jurídico y responsabilidad profesional en arquitectura práctica de sistemas inteligentes.”</p>
+      </div>
+
       <div class="section-head" style="margin-top:6px"><span class="eyebrow">Escalera de competencia</span><h2 style="font-size:1.4rem">El optativo lleva del 1 al 3</h2></div>
       <div class="ladder">
         <div class="rung"><span class="lvl">Nivel 1</span><b>Alfabetización</b><span>Entender qué es y qué no es la IA.</span></div>
@@ -500,6 +543,24 @@
 
       <div class="section-head"><span class="eyebrow">Competencias que se llevan al mercado</span><h2 style="font-size:1.4rem">Empleabilidad concreta, no promesas</h2></div>
       <div class="grid-3" id="compWrap"></div>
+
+      <div class="section-head"><span class="eyebrow">Perfil de egreso del curso</span><h2 style="font-size:1.4rem">Un abogado que diseña, dirige y evalúa sistemas</h2>
+        <p>No se forma un programador: se forma un abogado capaz de gobernar tecnología. Al terminar el curso, el estudiante puede:</p></div>
+      <div class="grid-2">
+        <div class="card"><ul class="lc-steps">
+          <li>Identificar problemas jurídicos susceptibles de apoyo tecnológico.</li>
+          <li>Diseñar un flujo jurídico asistido por IA.</li>
+          <li>Construir un prototipo funcional básico.</li>
+          <li>Evaluar riesgos de error, sesgo, opacidad y mal uso.</li>
+          <li>Verificar resultados con fuentes y criterios jurídicos.</li>
+        </ul></div>
+        <div class="card"><ul class="lc-steps">
+          <li>Documentar límites, instrucciones y reglas de operación.</li>
+          <li>Defender técnica y jurídicamente las decisiones de diseño.</li>
+          <li>Distinguir entre automatizar, asistir, recomendar y decidir.</li>
+          <li>Comprender la responsabilidad profesional en el uso de IA.</li>
+        </ul></div>
+      </div>
 
       <div class="note"><i data-lucide="info"></i><div>Comparaciones con otras escuelas basadas en fuentes públicas 2025–26, <b>a reconfirmar</b>. La única escasez que afirmamos es la real: cupo acotado por capacidad de laboratorio (20–30).</div></div>
     </section>
@@ -559,6 +620,18 @@
       <div class="section-head"><span class="eyebrow">Piloto 2026</span><h2 style="font-size:1.4rem">Acotado, medible, escalable</h2></div>
       <div class="card" id="pilotoWrap"></div>
 
+      <div class="section-head"><span class="eyebrow">Preguntas que conviene responder antes de implementar</span><h2 style="font-size:1.4rem">Objeciones frecuentes</h2></div>
+      <div class="faq">
+        <details><summary>¿Y si los estudiantes no saben programar?</summary><p>El curso está diseñado para estudiantes sin base técnica: plantillas, componentes guiados, repositorios base y acompañamiento paso a paso. Se evalúa el razonamiento jurídico, no la complejidad informática.</p></details>
+        <details><summary>¿Esto reemplaza la formación jurídica tradicional?</summary><p>No. La presupone y la potencia: usa la tradición dogmática, constitucional y argumentativa de la Escuela para diseñar y gobernar sistemas, no para sustituirla.</p></details>
+        <details><summary>¿Qué pasa con errores o alucinaciones?</summary><p>La verificación es competencia troncal: revisión humana obligatoria, contraste con fuentes y bitácora de pruebas en cada entrega.</p></details>
+        <details><summary>¿Qué datos se usarán?</summary><p>Casos ficticios, públicos o anonimizados, con criterios de minimización y tratamiento responsable de datos desde el diseño.</p></details>
+        <details><summary>¿Depende de una sola herramienta?</summary><p>No. Se comparan modelos y se enseñan principios transferibles, para no generar dependencia de un proveedor.</p></details>
+        <details><summary>¿Cómo se evalúa?</summary><p>Por proyecto, con rúbrica explícita: prototipo, corrección jurídica, verificación, Constitución del agente, matriz de riesgos y defensa final.</p></details>
+        <details><summary>¿Qué costo institucional tiene?</summary><p>Bajo: la mayor parte del stack tiene plan gratuito suficiente. Basta una sala con internet y proyector; idealmente un laboratorio de computación.</p></details>
+        <details><summary>¿Cómo puede escalar después del piloto?</summary><p>Optativo permanente, educación continua para egresados, talleres para estudios jurídicos, línea de investigación aplicada y vinculación con el medio.</p></details>
+      </div>
+
       <div class="note"><i data-lucide="info"></i><div>Evaluación formativa continua + sumativa final. Calendario y pesos referenciales, ajustables al calendario académico y a los reglamentos de la PUCV.</div></div>
     </section>
 
@@ -567,6 +640,24 @@
   <button type="button" class="fab" id="pdfBtn" title="Descargar dossier de contenidos en PDF" aria-label="Descargar PDF">
     <i data-lucide="file-down"></i><span>Descargar dossier PDF</span>
   </button>
+
+  <button type="button" class="fab fab-left" id="presBtn" title="Abrir modo presentación" aria-label="Modo presentación">
+    <i data-lucide="presentation"></i><span>Modo presentación</span>
+  </button>
+
+  <div id="present" class="present" role="dialog" aria-modal="true" aria-label="Modo presentación">
+    <div class="present-top">
+      <span class="present-kor">Modo presentación · pitch 5 minutos</span>
+      <div class="present-ctrls">
+        <span id="presCount">1 / 7</span>
+        <button type="button" data-pres="prev" aria-label="Anterior"><i data-lucide="chevron-left"></i></button>
+        <button type="button" data-pres="next" aria-label="Siguiente"><i data-lucide="chevron-right"></i></button>
+        <button type="button" data-pres="close"><i data-lucide="x"></i>Salir</button>
+      </div>
+    </div>
+    <div id="presStage" class="present-stage"></div>
+    <div class="present-dots" id="presDots"></div>
+  </div>
 
   <div id="dossier" aria-hidden="true"></div>
 
@@ -792,6 +883,15 @@
       "Cierre con demo final y posible presentación interna ante la Escuela.",
       "Resultados documentados para decidir continuidad — bajo riesgo institucional."
     ];
+    const PITCH = [
+      { k:"01 · Problema", t:"La IA ya entró al Derecho, sin formación suficiente", b:"Los estudiantes ya usan IA, muchas veces sin criterios de verificación, trazabilidad ni responsabilidad. La Escuela necesita responder formando, no prohibiendo.", a:"#e44949" },
+      { k:"02 · Oportunidad", t:"Transformar tradición jurídica en ventaja", b:"La tradición dogmática, constitucional y filosófica de Derecho PUCV es una ventaja para diseñar sistemas responsables. La ventaja no está en abandonar el Derecho, sino en usarlo para gobernar lo que otros solo aprenden a operar.", a:"#4be7ff" },
+      { k:"03 · Propuesta", t:"Un optativo práctico de 16 semanas", b:"Sin prerrequisito técnico, basado en proyectos. Cada estudiante desarrolla un prototipo jurídico funcional y lo defiende desde criterios jurídicos, técnicos y éticos.", a:"#4be7ff" },
+      { k:"04 · Método", t:"Construir · verificar · gobernar", b:"Cada sesión de 90 minutos: marco jurídico, laboratorio guiado y verificación. El entregable jurídico central es la Constitución del agente.", a:"#54d6a0" },
+      { k:"05 · Resultado", t:"Un sistema gobernado, no solo un chatbot", b:"Prototipo funcional + Constitución del agente + matriz de riesgos + bitácora de verificación + defensa final.", a:"#54d6a0" },
+      { k:"06 · Piloto 2026", t:"Acotado, medible, de bajo riesgo", b:"20 a 30 estudiantes, casos ficticios o anonimizados, resultados documentados para decidir continuidad. Escalable a educación continua e investigación.", a:"#e0b04a" },
+      { k:"07 · Decisión solicitada", t:"Autorizar el diseño formal del piloto 2026", b:"Evaluar la autorización para diseñar el programa, definir condiciones del piloto y revisar su implementación como optativo 2026.", a:"#4be7ff" }
+    ];
 
     /* ===================== RENDER ===================== */
     const $ = (id) => document.getElementById(id);
@@ -966,6 +1066,31 @@
     });
     document.addEventListener("keydown",(e)=>{
       if((e.key==="Enter"||e.key===" ") && e.target.matches("a.link-card[role='button']")){ e.preventDefault(); e.target.click(); }
+    });
+
+    /* ===================== MODO PRESENTACIÓN ===================== */
+    let presIndex = 0;
+    function renderPres(){
+      const s = PITCH[presIndex];
+      $("presStage").innerHTML = `<span class="pk" style="color:${s.a}">${esc(s.k)}</span><h2>${esc(s.t)}</h2><p>${esc(s.b)}</p>`;
+      $("presCount").textContent = `${presIndex + 1} / ${PITCH.length}`;
+      $("presDots").innerHTML = PITCH.map((_, i) => `<i class="${i === presIndex ? "on" : ""}" data-presdot="${i}"></i>`).join("");
+    }
+    function openPres(){ presIndex = 0; renderPres(); $("present").classList.add("open"); blip(440); }
+    function closePres(){ $("present").classList.remove("open"); }
+    function presMove(d){ presIndex = (presIndex + d + PITCH.length) % PITCH.length; renderPres(); blip(560); }
+    $("presBtn").addEventListener("click", openPres);
+    document.addEventListener("click", (e) => {
+      const c = e.target.closest("[data-pres]");
+      if(c){ const a = c.dataset.pres; if(a === "next") presMove(1); else if(a === "prev") presMove(-1); else closePres(); return; }
+      const d = e.target.closest("[data-presdot]");
+      if(d){ presIndex = Number(d.dataset.presdot); renderPres(); blip(560); }
+    });
+    document.addEventListener("keydown", (e) => {
+      if(!$("present").classList.contains("open")) return;
+      if(e.key === "Escape") closePres();
+      else if(e.key === "ArrowRight") presMove(1);
+      else if(e.key === "ArrowLeft") presMove(-1);
     });
 
     /* ===================== SONIDO (WebAudio, opt-in) ===================== */
