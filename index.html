@@ -1,75 +1,693 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CL">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DIAT · Curso IA y Derecho · PUCV</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{--void:#070A12;--panel:#0D1422;--panel-2:#101A2B;--line:#1B2840;--ink:#EAEEF6;--ink-dim:#97A3B8;--ink-faint:#5C6A82;--cyan:#56C7F2;--gold:#E0B04A;--mint:#54D6A0;}
-  *{box-sizing:border-box;}
-  body{margin:0;color:var(--ink);background:radial-gradient(1000px 480px at 82% -10%,rgba(86,199,242,.14),transparent 70%),radial-gradient(760px 380px at -4% 2%,rgba(224,176,74,.05),transparent 70%),var(--void);background-attachment:fixed;font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
-  body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;background-image:linear-gradient(#141E30 1px,transparent 1px),linear-gradient(90deg,#141E30 1px,transparent 1px);background-size:58px 58px;mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 78%);}
-  .wrap{position:relative;max-width:1000px;margin:0 auto;padding:0 28px;}
-  .mast{padding:70px 0 30px;}
-  .mark{font-family:"IBM Plex Mono";font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);}
-  .mark b{color:var(--gold);}
-  h1{font-family:"Space Grotesk";font-weight:600;font-size:clamp(34px,6vw,56px);line-height:1.02;letter-spacing:-.02em;margin:22px 0 0;}
-  h1 .a{color:var(--cyan);}
-  .sub{font-size:clamp(16px,2.3vw,19px);color:var(--ink-dim);max-width:620px;margin:18px 0 0;}
-  .scan{height:2px;margin:32px 0 0;background:linear-gradient(90deg,var(--cyan),#2C7FB8 22%,transparent 70%);}
-  .ey{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:44px 0 16px;display:flex;align-items:center;gap:12px;}
-  .ey::before{content:"";width:22px;height:1px;background:var(--cyan);}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  .c{display:block;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:22px;text-decoration:none;color:inherit;transition:.2s;position:relative;overflow:hidden;}
-  .c:hover{border-color:#2C7FB8;transform:translateY(-2px);}
-  .c .tag{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);}
-  .c.doc .tag{color:var(--gold);}
-  .c h3{font-family:"Space Grotesk";font-weight:600;font-size:19px;margin:10px 0 6px;}
-  .c p{font-size:13.5px;color:var(--ink-dim);margin:0 0 14px;}
-  .c .go{font-family:"IBM Plex Mono";font-size:11px;color:var(--cyan);letter-spacing:.06em;}
-  .c.doc .go{color:var(--gold);}
-  .c.big{grid-column:1 / -1;background:linear-gradient(180deg,var(--panel-2),var(--panel));}
-  .c.big::before,.c.big::after{content:"";position:absolute;width:14px;height:14px;border:1px solid var(--cyan);}
-  .c.big::before{left:-1px;top:-1px;border-right:none;border-bottom:none;}.c.big::after{right:-1px;bottom:-1px;border-left:none;border-top:none;}
-  footer{border-top:1px solid var(--line);padding:26px 0 70px;margin-top:50px;font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-faint);line-height:1.7;}
-  @media (max-width:680px){.grid{grid-template-columns:1fr;}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#020306">
+  <meta name="description" content="Propuesta de curso optativo de Derecho + IA para la Escuela de Derecho PUCV. Construir, verificar y gobernar sistemas jurídicos con IA. Por Diego Hernán Ojeda Cifuentes.">
+  <title>Derecho + IA · Construir · Verificar · Gobernar — Diego Ojeda Cifuentes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root{
+      --bg:#020306; --bg-2:#06090d;
+      --panel:rgba(5,10,14,0.86); --panel-strong:rgba(8,13,18,0.94);
+      --line:rgba(75,231,255,0.22); --line-soft:rgba(246,240,223,0.12);
+      --cyan:#4be7ff; --cyan-soft:#8df6ff;
+      --red:#800814; --red-bright:#e44949;
+      --gold:#e0b04a; --mint:#54d6a0;
+      --white:#f6f0df; --muted:#9ba7ad;
+      --radius:8px; --shadow:0 18px 80px rgba(0,0,0,0.55);
+    }
+    *{ box-sizing:border-box; }
+    html{ min-height:100%; background:var(--bg); color:var(--white); font-family:Inter,system-ui,sans-serif; scroll-behavior:smooth; }
+    body{ min-height:100vh; margin:0; overflow-x:hidden; background:var(--bg); }
+    button,input{ font:inherit; }
+    button,a{ -webkit-tap-highlight-color:transparent; }
+    h1,h2,h3,h4,p{ margin-top:0; }
+    a{ color:var(--cyan); }
+
+    #neuralCanvas,.scanlines,.hud-vignette,.cursor-glow{ position:fixed; inset:0; pointer-events:none; }
+    #neuralCanvas{ z-index:0; }
+    .cursor-glow{ z-index:1; transition:background .25s ease; }
+    .scanlines{ z-index:2; opacity:0.16; background:linear-gradient(rgba(246,240,223,0.04) 1px,transparent 1px); background-size:100% 4px; mix-blend-mode:screen; }
+    .hud-vignette{ z-index:3; background:
+      radial-gradient(circle at 76% 10%, rgba(75,231,255,0.08), transparent 34%),
+      radial-gradient(circle at 88% 0%, rgba(128,8,20,0.14), transparent 30%),
+      linear-gradient(180deg, rgba(2,3,6,0.62), transparent 22%, rgba(2,3,6,0.92)); }
+
+    .topbar,.shell,.ticker{ position:relative; z-index:4; }
+    .topbar{
+      display:grid; grid-template-columns:minmax(220px,340px) minmax(320px,1fr) minmax(190px,290px);
+      gap:14px; align-items:center; padding:14px 18px;
+      border-bottom:1px solid var(--line); background:rgba(2,3,6,0.84); backdrop-filter:blur(16px);
+      position:sticky; top:0;
+    }
+    .brand-lock{ display:flex; align-items:center; min-width:0; gap:12px; padding:8px; border:1px solid var(--line);
+      border-radius:var(--radius); background:rgba(6,9,13,0.72); color:var(--white); cursor:pointer; text-align:left; }
+    .brand-lock strong,.brand-lock small{ display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .brand-lock small{ color:var(--muted); font-family:"JetBrains Mono",monospace; font-size:0.72rem; }
+    .brand-mark{ display:grid; flex:0 0 44px; width:44px; height:44px; place-items:center; border:1px solid var(--cyan);
+      border-radius:6px; background:#020306; color:var(--cyan); font-family:"JetBrains Mono",monospace; font-weight:800;
+      box-shadow:inset 0 0 18px rgba(75,231,255,0.14); }
+    .mode-switch{ display:grid; grid-template-columns:repeat(6,minmax(72px,1fr)); gap:8px; }
+    .mode-btn,.thin-command,.primary-command,.icon-only{ display:inline-flex; align-items:center; justify-content:center;
+      gap:8px; min-height:38px; border:1px solid var(--line-soft); border-radius:6px; background:rgba(6,9,13,0.78);
+      color:var(--white); cursor:pointer; text-decoration:none; }
+    .mode-btn{ min-width:0; padding:8px 8px; font-size:0.82rem; }
+    .mode-btn svg,.thin-command svg,.primary-command svg,.icon-only svg{ width:17px; height:17px; flex:0 0 17px; }
+    .mode-btn span,.thin-command span,.primary-command span{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .mode-btn.active,.thin-command:hover,.primary-command:hover,.icon-only:hover,.brand-lock:hover,.mode-btn:hover{
+      border-color:var(--cyan); color:var(--cyan); box-shadow:inset 0 0 18px rgba(75,231,255,0.08); }
+    .system-readout{ display:grid; gap:4px; justify-items:end; min-width:0; font-family:"JetBrains Mono",monospace;
+      font-size:0.74rem; color:var(--muted); }
+    .system-readout .code{ padding:4px 8px; border:1px solid var(--line); border-radius:6px; color:var(--cyan-soft); }
+    .readout-row{ display:flex; align-items:center; gap:8px; }
+    .icon-only{ width:38px; min-width:38px; padding:0; }
+    .icon-only.on{ border-color:var(--cyan); color:var(--cyan); }
+
+    .shell{ width:min(1340px,calc(100% - 32px)); margin:22px auto 84px; }
+    .section-view{ display:none; animation:fade .4s ease; }
+    .section-view.active{ display:block; }
+    @keyframes fade{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:none; } }
+
+    .eyebrow{ font-family:"JetBrains Mono",monospace; font-size:0.76rem; color:var(--cyan); text-transform:uppercase; letter-spacing:.04em; }
+    .eyebrow::before{ content:"— "; color:var(--gold); }
+    .section-head{ margin:30px 0 14px; }
+    .section-head h2{ margin:6px 0 6px; font-family:Cinzel,Georgia,serif; font-size:2.05rem; }
+    .section-head p{ color:var(--muted); max-width:760px; }
+
+    /* HERO / RESUMEN */
+    .hero{ display:grid; grid-template-columns:minmax(0,1.35fr) minmax(300px,1fr); gap:18px; padding:34px 30px;
+      overflow:hidden; border:1px solid rgba(75,231,255,0.32); border-radius:var(--radius);
+      background:linear-gradient(135deg, rgba(6,9,13,0.5), rgba(2,3,6,0.84)),
+        linear-gradient(90deg, rgba(75,231,255,0.03), transparent 42%, rgba(75,231,255,0.06));
+      box-shadow:var(--shadow); }
+    .hero-copy{ display:flex; flex-direction:column; justify-content:center; min-width:0; }
+    .hero h1{ font-family:Cinzel,Georgia,serif; font-size:3rem; line-height:1.02; margin:12px 0 14px;
+      text-shadow:0 0 22px rgba(75,231,255,0.14); }
+    .hero h1 .accent{ color:var(--cyan); }
+    .lede{ font-size:1.12rem; color:var(--white); max-width:640px; line-height:1.5; }
+    .lede strong{ color:var(--gold); }
+    .hero-cta{ display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+    .primary-command{ min-height:44px; padding:10px 16px; border-color:rgba(75,231,255,0.48); background:rgba(75,231,255,0.12); font-weight:800; }
+    .thin-command{ padding:10px 14px; }
+
+    .readout-card{ align-self:start; display:grid; gap:10px; padding:16px; border:1px solid rgba(75,231,255,0.22);
+      border-radius:7px; background:linear-gradient(135deg, rgba(2,3,6,0.88), rgba(6,12,15,0.6)),
+        repeating-linear-gradient(90deg, rgba(75,231,255,0.035) 0 1px, transparent 1px 22px);
+      box-shadow:inset 0 0 28px rgba(75,231,255,0.06); }
+    .readout-card h3{ margin:0; font-family:"JetBrains Mono",monospace; font-size:0.78rem; color:var(--cyan); text-transform:uppercase; }
+    .spec-row{ display:grid; grid-template-columns:18px 1fr; gap:10px; align-items:start; padding:9px 0; border-bottom:1px solid var(--line-soft); }
+    .spec-row:last-child{ border-bottom:0; }
+    .spec-row svg{ width:18px; height:18px; color:var(--cyan); margin-top:2px; }
+    .spec-row b{ display:block; font-size:0.92rem; }
+    .spec-row span{ color:var(--muted); font-size:0.82rem; }
+
+    .marquee-thesis{ display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:center; margin:16px 0; padding:14px 16px;
+      border:1px solid rgba(224,176,74,0.3); border-radius:var(--radius); background:rgba(224,176,74,0.05); }
+    .marquee-thesis .tag{ font-family:"JetBrains Mono",monospace; font-size:0.72rem; color:var(--gold); text-transform:uppercase; }
+    .marquee-thesis p{ margin:0; font-family:"JetBrains Mono",monospace; font-size:1.02rem; font-weight:600; color:var(--white); }
+
+    /* GRIDS + CARDS */
+    .grid-3{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .grid-2{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .grid-4{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+
+    .card{ min-width:0; padding:18px; border:1px solid var(--line-soft); border-radius:var(--radius);
+      background:var(--panel); box-shadow:0 10px 38px rgba(0,0,0,0.34); }
+    .stat-card{ display:grid; gap:6px; }
+    .stat-card .num{ font-family:Cinzel,serif; font-size:2.1rem; color:var(--cyan); line-height:1; }
+    .stat-card .lab{ font-size:0.9rem; }
+    .stat-card small{ color:var(--muted); font-family:"JetBrains Mono",monospace; font-size:0.72rem; }
+
+    /* CLICKABLE LINK CARDS (full box) */
+    a.link-card,button.flip-card{ display:grid; gap:10px; padding:18px; border:1px solid var(--line-soft);
+      border-radius:var(--radius); background:var(--panel); color:var(--white); text-decoration:none; cursor:pointer;
+      text-align:left; width:100%; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    a.link-card:hover,button.flip-card:hover,.exp-step:hover{ transform:translateY(-3px); border-color:var(--accent,var(--cyan));
+      box-shadow:0 14px 44px rgba(0,0,0,0.4), inset 0 0 26px color-mix(in srgb, var(--accent,var(--cyan)), transparent 90%); }
+    .lc-head{ display:flex; align-items:center; gap:12px; }
+    .lc-logo{ display:grid; place-items:center; width:46px; height:46px; flex:0 0 46px; border-radius:8px;
+      border:1px solid color-mix(in srgb,var(--accent,var(--cyan)),transparent 55%); background:rgba(2,3,6,0.7);
+      color:var(--accent,var(--cyan)); font-family:"JetBrains Mono",monospace; font-weight:800; font-size:1.05rem; }
+    .lc-logo svg{ width:24px; height:24px; }
+    .lc-head .lc-title{ min-width:0; }
+    .lc-title b{ display:block; font-size:1.04rem; }
+    .lc-title span{ color:var(--muted); font-family:"JetBrains Mono",monospace; font-size:0.72rem; }
+    .lc-body{ color:var(--muted); font-size:0.88rem; line-height:1.45; }
+    .lc-steps{ margin:0; padding:0; list-style:none; display:grid; gap:6px; }
+    .lc-steps li{ position:relative; padding-left:20px; color:var(--muted); font-size:0.82rem; }
+    .lc-steps li::before{ content:""; position:absolute; left:0; top:6px; width:8px; height:8px; border-radius:2px;
+      background:var(--accent,var(--cyan)); box-shadow:0 0 8px var(--accent,var(--cyan)); }
+    .lc-foot{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:2px;
+      padding-top:10px; border-top:1px solid var(--line-soft); }
+    .lc-url{ font-family:"JetBrains Mono",monospace; font-size:0.74rem; color:var(--accent,var(--cyan)); overflow-wrap:anywhere; }
+    .lc-foot .go{ display:inline-flex; align-items:center; gap:6px; font-family:"JetBrains Mono",monospace; font-size:0.74rem; color:var(--muted); }
+
+    /* EXPERIENCE / SESSION TIMELINE */
+    .session-bar{ display:grid; grid-template-columns:1fr 2fr 1fr; gap:0; margin:14px 0; border:1px solid var(--line);
+      border-radius:var(--radius); overflow:hidden; }
+    .session-seg{ padding:16px; border-right:1px solid var(--line-soft); background:rgba(2,3,6,0.55); }
+    .session-seg:last-child{ border-right:0; }
+    .session-seg .min{ font-family:"JetBrains Mono",monospace; color:var(--cyan); font-size:0.82rem; }
+    .session-seg b{ display:block; margin:6px 0 4px; }
+    .session-seg span{ color:var(--muted); font-size:0.84rem; }
+    .session-seg.theory{ background:rgba(75,231,255,0.05); }
+    .session-seg.lab{ background:rgba(84,214,160,0.06); }
+    .session-seg.gov{ background:rgba(224,176,74,0.06); }
+
+    .exp-step{ display:grid; grid-template-columns:54px 1fr; gap:14px; align-items:start; padding:16px;
+      border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--panel); transition:transform .18s ease,border-color .18s ease; }
+    .exp-num{ display:grid; place-items:center; width:54px; height:54px; border-radius:50%; border:1px solid var(--cyan);
+      font-family:Cinzel,serif; font-size:1.3rem; color:var(--cyan); background:rgba(2,3,6,0.7); box-shadow:inset 0 0 20px rgba(75,231,255,0.1); }
+    .exp-step b{ font-size:1.02rem; }
+    .exp-step p{ margin:6px 0 0; color:var(--muted); font-size:0.9rem; }
+    .pill-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+    .pill{ padding:4px 9px; border:1px solid var(--line); border-radius:20px; font-family:"JetBrains Mono",monospace;
+      font-size:0.7rem; color:var(--cyan-soft); }
+    .pill.theory{ border-color:rgba(75,231,255,0.35); color:var(--cyan); }
+    .pill.lab{ border-color:rgba(84,214,160,0.4); color:var(--mint); }
+    .pill.gov{ border-color:rgba(224,176,74,0.4); color:var(--gold); }
+
+    /* MODULES (accordion) */
+    .mod{ border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--panel); margin-bottom:10px; overflow:hidden; }
+    .mod-head{ display:grid; grid-template-columns:64px 1fr 24px; gap:14px; align-items:center; width:100%;
+      padding:16px; background:transparent; border:0; color:var(--white); cursor:pointer; text-align:left; }
+    .mod-head:hover{ background:rgba(75,231,255,0.04); }
+    .mod-mx{ display:grid; place-items:center; height:46px; border-radius:6px; border:1px solid var(--line);
+      font-family:"JetBrains Mono",monospace; font-weight:800; color:var(--cyan); background:rgba(2,3,6,0.6); font-size:0.82rem; padding:0 8px; }
+    .mod-mx.spine{ border-color:var(--mint); color:var(--mint); }
+    .mod-mx.final{ border-color:var(--gold); color:var(--gold); }
+    .mod-head .mt b{ display:block; font-size:1.04rem; }
+    .mod-head .mt span{ color:var(--muted); font-size:0.84rem; }
+    .mod-head .chev{ transition:transform .2s ease; color:var(--muted); }
+    .mod.open .chev{ transform:rotate(90deg); color:var(--cyan); }
+    .mod-body{ display:none; padding:0 16px 18px 16px; }
+    .mod.open .mod-body{ display:grid; gap:14px; grid-template-columns:repeat(3,1fr); }
+    .mod-col h4{ margin:0 0 8px; font-family:"JetBrains Mono",monospace; font-size:0.74rem; text-transform:uppercase; }
+    .mod-col.t h4{ color:var(--cyan); } .mod-col.p h4{ color:var(--mint); } .mod-col.e h4{ color:var(--gold); }
+    .mod-col ul{ margin:0; padding-left:16px; color:var(--muted); font-size:0.86rem; }
+    .mod-col li{ margin:5px 0; }
+
+    /* SELLO / COMPETENCIES */
+    .diff-card{ display:grid; gap:8px; padding:18px; border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--panel); }
+    .diff-card .n{ font-family:"JetBrains Mono",monospace; color:var(--gold); font-size:0.8rem; }
+    .diff-card b{ font-size:1.02rem; }
+    .diff-card p{ margin:0; color:var(--muted); font-size:0.88rem; }
+    .ladder{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:6px 0; }
+    .rung{ padding:14px; border:1px solid var(--line-soft); border-radius:var(--radius); background:rgba(2,3,6,0.55); }
+    .rung .lvl{ font-family:"JetBrains Mono",monospace; font-size:0.72rem; color:var(--cyan); }
+    .rung b{ display:block; margin:6px 0 4px; }
+    .rung span{ color:var(--muted); font-size:0.82rem; }
+    .rung.cap{ border-color:rgba(84,214,160,0.4); }
+    .rung.cap .lvl{ color:var(--mint); }
+
+    .note{ display:grid; grid-template-columns:20px 1fr; gap:10px; padding:12px 14px; border-left:2px solid var(--gold);
+      background:rgba(224,176,74,0.05); border-radius:6px; color:var(--muted); font-size:0.84rem; margin-top:10px; }
+    .note svg{ width:18px; height:18px; color:var(--gold); margin-top:2px; }
+
+    .ticker{ position:fixed; right:0; bottom:0; left:0; height:36px; overflow:hidden;
+      border-top:1px solid rgba(75,231,255,0.24); background:rgba(2,3,6,0.94); }
+    #tickerTrack{ display:flex; width:max-content; height:100%; align-items:center; animation:ticker 40s linear infinite; }
+    #tickerTrack span{ padding:0 28px; color:var(--cyan); font-family:"JetBrains Mono",monospace; font-size:0.76rem; }
+    #tickerTrack span::after{ content:"·"; margin-left:28px; color:var(--gold); }
+    @keyframes ticker{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+    footer.credit{ position:relative; z-index:4; width:min(1340px,calc(100% - 32px)); margin:0 auto 60px; color:var(--muted);
+      font-family:"JetBrains Mono",monospace; font-size:0.76rem; border-top:1px solid var(--line-soft); padding-top:16px; }
+    footer.credit b{ color:var(--white); }
+
+    @media (max-width:1120px){
+      .topbar{ grid-template-columns:1fr; }
+      .system-readout{ justify-items:start; }
+      .hero,.grid-3,.grid-2,.grid-4,.ladder,.mod.open .mod-body{ grid-template-columns:1fr; }
+      .session-bar{ grid-template-columns:1fr; }
+      .mode-switch{ grid-template-columns:repeat(3,1fr); }
+    }
+    @media (max-width:680px){
+      .grid-3,.grid-2,.grid-4,.ladder{ grid-template-columns:1fr; }
+      .mode-switch{ grid-template-columns:repeat(2,1fr); }
+      .hero h1{ font-size:2.3rem; } .hero{ padding:22px 18px; }
+    }
+    @media (prefers-reduced-motion:reduce){ #tickerTrack{ animation:none; } .section-view{ animation:none; } a.link-card:hover,.exp-step:hover,button.flip-card:hover{ transform:none; } }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="mast">
-    <div class="mark">Pontificia Universidad Católica de Valparaíso &nbsp;//&nbsp; Escuela de Derecho &nbsp;//&nbsp; <b>Programa DIAT</b></div>
-    <h1>Inteligencia Artificial<br>y Derecho<span class="a">.</span></h1>
-    <p class="sub">Suite de materiales del optativo DER-IA. Plataforma operativa, presentación, programa e informe de sustrato, en un solo lugar.</p>
-    <div class="scan"></div>
-  </div>
+  <canvas id="neuralCanvas" aria-hidden="true"></canvas>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="hud-vignette" aria-hidden="true"></div>
 
-  <div class="ey">Experiencias interactivas</div>
-  <a class="c big" href="app.html">
-    <div class="tag">Plataforma operativa · app</div>
-    <h3>Entrar a la plataforma del curso</h3>
-    <p>Navegación por vistas, detector de nivel, panel del estudiante, bandeja, escenarios y herramientas. Fondo interactivo y diseño cybertech DIAT.</p>
-    <div class="go">ABRIR PLATAFORMA →</div>
-  </a>
-  <div class="grid" style="margin-top:14px;">
-    <a class="c" href="landing.html"><div class="tag">Landing · presentación</div><h3>Página de presentación</h3><p>El curso explicado con arquitectura de conversión y descarga del programa.</p><div class="go">VER LANDING →</div></a>
-    <a class="c" href="optativo.html"><div class="tag">Programa · visual</div><h3>Programa del optativo</h3><p>El syllabus completo en el estándar visual DIAT, con fundamentos y malla.</p><div class="go">VER PROGRAMA →</div></a>
-  </div>
+  <header class="topbar">
+    <button class="brand-lock" type="button" data-go="resumen" aria-label="Ir al resumen">
+      <span class="brand-mark">OJ</span>
+      <span>
+        <strong>Diego Ojeda Cifuentes</strong>
+        <small>Lic. Ciencias Jurídicas · Escuela de Derecho PUCV</small>
+      </span>
+    </button>
 
-  <div class="ey">Documentos de fondo</div>
-  <div class="grid">
-    <a class="c" href="informe.html"><div class="tag">Informe · sustrato</div><h3>Informe-sustrato</h3><p>Objetivos, cambio de paradigma, benchmark de mallas y datos de mercado.</p><div class="go">LEER INFORME →</div></a>
-    <a class="c doc" href="programa-pregrado.docx"><div class="tag">Word · formal</div><h3>Programa de asignatura (pregrado)</h3><p>Documento institucional para tramitación académica.</p><div class="go">DESCARGAR .DOCX ↓</div></a>
-    <a class="c doc" href="programa-egresados.docx"><div class="tag">Word · educación continua</div><h3>Programa de egresados (3 niveles)</h3><p>Trayecto modular Abogado Aumentado · Constructor · Arquitecto.</p><div class="go">DESCARGAR .DOCX ↓</div></a>
-  </div>
+    <nav class="mode-switch" aria-label="Secciones">
+      <button type="button" class="mode-btn active" data-go="resumen"><i data-lucide="gauge"></i><span>Resumen</span></button>
+      <button type="button" class="mode-btn" data-go="experiencia"><i data-lucide="route"></i><span>Experiencia</span></button>
+      <button type="button" class="mode-btn" data-go="ruta"><i data-lucide="layers"></i><span>Ruta</span></button>
+      <button type="button" class="mode-btn" data-go="herramientas"><i data-lucide="wrench"></i><span>Stack</span></button>
+      <button type="button" class="mode-btn" data-go="sello"><i data-lucide="award"></i><span>Sello</span></button>
+      <button type="button" class="mode-btn" data-go="egresados"><i data-lucide="briefcase"></i><span>Egresados</span></button>
+    </nav>
 
-  <footer>
-    DER-IA · OPT-2026 · Escuela de Derecho PUCV · Programa DIAT · Estándar visual DIAT v1<br>
-    Borrador para revisión institucional. Las experiencias interactivas funcionan en memoria, sin base de datos.
+    <div class="system-readout">
+      <div class="readout-row">
+        <button type="button" class="icon-only" id="soundToggle" title="Activar sonido ambiente" aria-label="Activar sonido"><i data-lucide="volume-x"></i></button>
+        <span class="code">DER-IA · OPT 2026</span>
+      </div>
+      <span id="coords">33°02′S 71°37′O · Valparaíso</span>
+    </div>
+  </header>
+
+  <main class="shell">
+
+    <!-- ============ RESUMEN (para Aldunate) ============ -->
+    <section class="section-view active" id="s-resumen">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">Propuesta de optativo · Escuela de Derecho PUCV</span>
+          <h1>Mientras todos aprenden a <span class="accent">usar</span> la IA,<br>aquí se aprende a <span class="accent">construirla, verificarla y gobernarla.</span></h1>
+          <p class="lede">Un semestre en que cada estudiante <strong>construye un prototipo jurídico funcional</strong> —no una presentación sobre IA, una herramienta que corre—. La fortaleza teórica de la Escuela, que parecía ajena a la tecnología, es exactamente la habilidad más escasa del momento: <strong>diseñar las reglas y gobernar los sistemas</strong> que integran a los modelos.</p>
+          <div class="hero-cta">
+            <button type="button" class="primary-command" data-go="experiencia"><i data-lucide="play"></i><span>Recorrer la experiencia</span></button>
+            <button type="button" class="thin-command" data-go="ruta"><i data-lucide="layers"></i><span>Ver la ruta de 16 semanas</span></button>
+          </div>
+        </div>
+        <aside class="readout-card">
+          <h3>Lectura rápida · 60 segundos</h3>
+          <div class="spec-row"><i data-lucide="calendar-clock"></i><div><b>1 sesión semanal · 90 min</b><span>Un semestre PUCV (16 semanas). Sin requisito técnico previo.</span></div></div>
+          <div class="spec-row"><i data-lucide="flask-conical"></i><div><b>Teórico-práctico siempre (ABP)</b><span>Cada sesión: marco jurídico + laboratorio de construcción + verificación.</span></div></div>
+          <div class="spec-row"><i data-lucide="rocket"></i><div><b>Entregable: prototipo funcional</b><span>Arranca construyendo en la semana 1; cierra con app jurídica sobre Supabase.</span></div></div>
+          <div class="spec-row"><i data-lucide="fingerprint"></i><div><b>Sello propio: la Constitución del agente</b><span>Redactar las reglas de un sistema de IA = teoría de la normatividad aplicada.</span></div></div>
+          <div class="spec-row"><i data-lucide="users"></i><div><b>Cupo acotado por laboratorio: 20–30</b><span>Escasez real y estructural, no urgencia de marketing.</span></div></div>
+        </aside>
+      </div>
+
+      <div class="marquee-thesis">
+        <span class="tag">Por qué ahora</span>
+        <p>El valor se está desplazando desde los modelos hacia los sistemas que los integran. Saber abrir un chatbot es común; construir herramientas útiles mientras se reflexiona sobre su gobernanza es raro.</p>
+      </div>
+
+      <div class="section-head"><span class="eyebrow">Qué se llevan los estudiantes</span><h2>De espectadores de la IA a constructores responsables</h2></div>
+      <div class="grid-3">
+        <div class="card stat-card"><span class="num">1 → 4</span><span class="lab">Escalera de competencia</span><small>Alfabetización → Usuario crítico → Constructor → Gobernador</small></div>
+        <div class="card stat-card"><span class="num">4</span><span class="lab">Capas que dominan</span><small>Prompt → Flujo → Herramienta → Agente</small></div>
+        <div class="card stat-card"><span class="num">100%</span><span class="lab">De las clases con práctica</span><small>No hay sesión sólo-teoría; tampoco práctica sin marco</small></div>
+        <div class="card stat-card"><span class="num">1</span><span class="lab">Prototipo defendible</span><small>Funcional, sobre datos reales (Supabase), evaluado al cierre</small></div>
+        <div class="card stat-card"><span class="num">24%</span><span class="lab">Adopción legal en Chile <span style="color:var(--gold)">*</span></span><small>Único país de la región bajo el 30% · tendencia de industria, a reconfirmar</small></div>
+        <div class="card stat-card"><span class="num">3</span><span class="lab">Vacíos del benchmark que cubre</span><small>Construir · verificación troncal · ciberseguridad/anonimización</small></div>
+      </div>
+
+      <div class="section-head"><span class="eyebrow">El diferenciador en una frase</span><h2>Un perfil poco común, formado en casa</h2></div>
+      <div class="grid-2">
+        <a class="link-card" data-go="sello" role="button" tabindex="0" style="--accent:var(--mint)">
+          <div class="lc-head"><span class="lc-logo"><i data-lucide="scale"></i></span><div class="lc-title"><b>Derecho + filosofía + prototipado</b><span>la mezcla escasa</span></div></div>
+          <p class="lc-body">Construir herramientas útiles mientras se piensa críticamente su gobernanza y sus efectos. Eso es mucho más raro —y más valioso— que saber escribir un prompt.</p>
+          <div class="lc-foot"><span class="lc-url">Ver sello y competencias</span><span class="go">abrir <i data-lucide="arrow-right"></i></span></div>
+        </a>
+        <a class="link-card" data-go="herramientas" role="button" tabindex="0" style="--accent:var(--cyan)">
+          <div class="lc-head"><span class="lc-logo"><i data-lucide="git-branch-plus"></i></span><div class="lc-title"><b>Flujo docente reutilizable</b><span>Claude Code → GitHub → Vercel</span></div></div>
+          <p class="lc-body">El mercado premia a quien construye soluciones completas con IA, no sólo a quien prompea. El curso documenta un flujo real de desarrollo asistido por agentes y lo convierte en material de clase.</p>
+          <div class="lc-foot"><span class="lc-url">Ver el stack y los tutoriales</span><span class="go">abrir <i data-lucide="arrow-right"></i></span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCIA ============ -->
+    <section class="section-view" id="s-experiencia">
+      <div class="section-head"><span class="eyebrow">Cómo se vive el optativo</span><h2>Un semestre que empieza construyendo y termina defendiendo</h2>
+        <p>No se enseña IA "sobre la pizarra". Desde la primera sesión el estudiante levanta algo que funciona; cada semana lo hace más capaz, más verificado y más gobernado. La metodología es Aprendizaje Basado en Proyectos (ABP): siempre teórico-práctico.</p></div>
+
+      <div class="section-head"><span class="eyebrow">Anatomía de una sesión · 90 minutos</span><h2>La misma estructura, cada semana</h2></div>
+      <div class="session-bar">
+        <div class="session-seg theory"><span class="min">0 → 25 min</span><b>Marco jurídico-teórico</b><span>El concepto de la casa: normatividad, debido proceso, datos, responsabilidad. La teoría que hace de brújula.</span></div>
+        <div class="session-seg lab"><span class="min">25 → 75 min</span><b>Laboratorio: construir</b><span>Manos en el teclado. Se levanta o mejora el prototipo con el agente y el stack del día. Producir, no mirar.</span></div>
+        <div class="session-seg gov"><span class="min">75 → 90 min</span><b>Verificación + gobernanza</b><span>¿Funciona? ¿Es correcto? ¿Cumple la ley? Se audita lo construido y se anota la decisión en la "Constitución".</span></div>
+      </div>
+
+      <div class="section-head"><span class="eyebrow">El arco del semestre</span><h2>Cinco momentos de la experiencia</h2></div>
+      <div class="grid-2" id="expSteps"></div>
+
+      <div class="note"><i data-lucide="shield-check"></i><div>El prototipo final se evalúa por funcionamiento real (corre sobre Supabase), por corrección jurídica y por la calidad de su gobernanza —su "Constitución"—, no por la estética de una presentación.</div></div>
+    </section>
+
+    <!-- ============ RUTA / MÓDULOS ============ -->
+    <section class="section-view" id="s-ruta">
+      <div class="section-head"><span class="eyebrow">Programa · 16 semanas · del prototipo al sistema</span><h2>La ruta empieza por el desarrollo de aplicaciones</h2>
+        <p>El módulo de construcción no va al final: va al principio y funciona como columna vertebral. Todo lo demás —paradigma, Constitución, datos, verificación, regulación, gobernanza— se cuelga de ese prototipo que crece semana a semana. Clic en cada módulo para ver teoría · práctica · entregable.</p></div>
+      <div id="modWrap"></div>
+      <div class="note"><i data-lucide="book-marked"></i><div>Bibliografía doctrinal específica <b>a curar por la cátedra</b>. Estado regulatorio (Ley 21.719; proyecto de ley de IA, Boletines 15.869-19 + 16.821-19) <b>a reconfirmar a la fecha de dictación</b>.</div></div>
+    </section>
+
+    <!-- ============ HERRAMIENTAS / STACK ============ -->
+    <section class="section-view" id="s-herramientas">
+      <div class="section-head"><span class="eyebrow">El stack del abogado constructor</span><h2>Herramientas, cuenta paso a paso y flujo de trabajo ideal</h2>
+        <p>Cada tarjeta es un acceso directo: haz clic en cualquier parte del recuadro para abrir el sitio oficial. No se enseña a depender de un solo ecosistema: se compara y se elige con criterio. El flujo troncal del curso es <b style="color:var(--cyan)">Claude Code → GitHub → Vercel</b>, con datos en Supabase.</p></div>
+      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Flujo troncal</span><h2 style="font-size:1.4rem">Construir · versionar · publicar · persistir</h2></div>
+      <div class="grid-4" id="toolsCore"></div>
+      <div class="section-head"><span class="eyebrow">Agentes y conocimiento</span><h2 style="font-size:1.4rem">Comparar modelos, no casarse con uno</h2></div>
+      <div class="grid-4" id="toolsAgents"></div>
+      <div class="note"><i data-lucide="alert-triangle"></i><div>Características y planes de cada producto <b>a verificar a la fecha</b> (cambian seguido). El curso enseña el criterio para evaluarlos, no a memorizar menús.</div></div>
+    </section>
+
+    <!-- ============ SELLO / COMPETENCIAS ============ -->
+    <section class="section-view" id="s-sello">
+      <div class="section-head"><span class="eyebrow">Lo que ningún otro programa está dando</span><h2>El sello: el método de la Constitución</h2>
+        <p>Redactar la "constitución" de un agente —sus reglas duras, sus preferencias y el porqué de cada una— es teoría de la normatividad aplicada a un sistema que actúa. Es un sello anclado en la tradición teórica de la Escuela, difícil de copiar e imposible de improvisar.</p></div>
+
+      <div class="section-head" style="margin-top:6px"><span class="eyebrow">Escalera de competencia</span><h2 style="font-size:1.4rem">El optativo lleva del 1 al 3</h2></div>
+      <div class="ladder">
+        <div class="rung"><span class="lvl">Nivel 1</span><b>Alfabetización</b><span>Entender qué es y qué no es la IA.</span></div>
+        <div class="rung"><span class="lvl">Nivel 2</span><b>Usuario crítico</b><span>Verificar, dudar, anonimizar.</span></div>
+        <div class="rung cap"><span class="lvl">Nivel 3</span><b>Constructor</b><span>Levantar herramientas que funcionan.</span></div>
+        <div class="rung"><span class="lvl">Nivel 4</span><b>Arquitecto / Gobernador</b><span>Reservado al trayecto de egresados.</span></div>
+      </div>
+
+      <div class="section-head"><span class="eyebrow">Diferenciadores · el terreno libre</span><h2 style="font-size:1.4rem">Cinco cosas que el benchmark casi no enseña</h2></div>
+      <div class="grid-3" id="diffWrap"></div>
+
+      <div class="section-head"><span class="eyebrow">Competencias que se llevan al mercado</span><h2 style="font-size:1.4rem">Empleabilidad concreta, no promesas</h2></div>
+      <div class="grid-3" id="compWrap"></div>
+
+      <div class="note"><i data-lucide="info"></i><div>Comparaciones con otras escuelas basadas en fuentes públicas 2025–26, <b>a reconfirmar</b>. La única escasez que afirmamos es la real: cupo acotado por capacidad de laboratorio (20–30).</div></div>
+    </section>
+
+    <!-- ============ EGRESADOS ============ -->
+    <section class="section-view" id="s-egresados">
+      <div class="section-head"><span class="eyebrow">La misma lógica, otros requisitos</span><h2>Trayecto para egresados y abogados en ejercicio</h2>
+        <p>El optativo de pregrado es la prueba de concepto. Para egresados, la misma filosofía —construir, verificar, gobernar— se condensa y profesionaliza en un trayecto modular con ritmo, profundidad y entregables distintos. Esta sección es un anticipo: el detalle se construye después del piloto.</p></div>
+      <div class="grid-3" id="ecWrap"></div>
+      <div class="note"><i data-lucide="route"></i><div>Secuencia recomendada: <b>pilotear el N1 primero</b> (barato, valida demanda, certifica cumplimiento de la Ley 21.719); recién después abrir N2 y N3. No lanzar el trayecto completo antes de validar demanda.</div></div>
+      <div class="grid-2" style="margin-top:14px">
+        <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--cyan)"><i data-lucide="git-compare"></i></span><div class="lc-title"><b>Qué cambia respecto del optativo</b><span>requisitos diferentes</span></div></div>
+          <ul class="lc-steps" style="margin-top:10px">
+            <li>Audiencia con experiencia profesional: casos reales de su práctica.</li>
+            <li>Carga horaria mayor y comprimida (formato educación continua).</li>
+            <li>Énfasis en cumplimiento, ciberseguridad y responsabilidad profesional.</li>
+            <li>Entregable: herramienta desplegable para su propio ejercicio.</li>
+          </ul>
+        </div>
+        <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--gold)"><i data-lucide="target"></i></span><div class="lc-title"><b>Por qué importa para la Escuela</b><span>posicionamiento</span></div></div>
+          <ul class="lc-steps" style="margin-top:10px">
+            <li>Línea de investigación: responsabilidad del abogado asistido por agentes.</li>
+            <li>Auditoría de decisiones automatizadas y gobernanza de sistemas jurídicos.</li>
+            <li>Contraste con el Reglamento de IA de la UE y su impacto en Latinoamérica.</li>
+            <li>Ingreso recurrente vía educación continua, con sello propio PUCV.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="credit">
+    <b>Diego Hernán Ojeda Cifuentes</b> · Licenciado en Ciencias Jurídicas · Propuesta para la Escuela de Derecho PUCV ·
+    Proyecto independiente, fuera del programa DIAT · DER-IA · OPT 2026 · documento de trabajo, datos a reconfirmar a la fecha.
   </footer>
-</div>
+
+  <div class="ticker" aria-label="Ideas fuerza"><div id="tickerTrack"></div></div>
+
+  <script>
+    /* ===================== DATOS EDITABLES ===================== */
+    const EXPERIENCE = [
+      { n:"1", t:"Semana 1 — Construir desde el primer día", d:"Antes de cualquier teoría densa, cada estudiante despliega un mini-prototipo en línea con un agente. El mensaje queda claro: aquí se produce.", pills:[["lab","Lab"],["theory","Marco"]] },
+      { n:"2", t:"Semanas 2–6 — La columna vertebral", d:"El prototipo crece. Se aprende el paradigma prompt → flujo → herramienta → agente y se redacta la primera versión de su Constitución de reglas.", pills:[["theory","Paradigma"],["lab","Iteración"],["gov","Constitución"]] },
+      { n:"3", t:"Semanas 7–11 — Datos, verificación y ley", d:"El prototipo se conecta a una base real (Supabase). Se vuelve verificable y se mide contra la regulación chilena de datos e IA.", pills:[["lab","Supabase"],["gov","Verificación"],["theory","21.719"]] },
+      { n:"4", t:"Semanas 12–15 — Gobernar y endurecer", d:"Ciberseguridad, anonimización y responsabilidad profesional dejan de ser teoría: se aplican sobre el sistema propio. Comparación de agentes.", pills:[["gov","Gobernanza"],["lab","Hardening"],["theory","Responsabilidad"]] },
+      { n:"5", t:"Semana 16 — Defensa del prototipo", d:"Cada estudiante defiende una herramienta jurídica que funciona, sobre datos reales, con su gobernanza documentada. Evaluación auténtica.", pills:[["lab","Demo viva"],["gov","Defensa"]] }
+    ];
+
+    const MODULES = [
+      { mx:"M0", kind:"spine", t:"Construir desde el día uno", sub:"Columna vertebral · prototipos funcionales",
+        teoria:["Qué es (y qué no es) un sistema de IA","Anatomía de una app: front, datos, lógica","Ética del construir: poder y responsabilidad"],
+        practica:["Crear cuentas del stack (GitHub, Vercel, Claude)","Desplegar un primer prototipo en línea","Flujo Claude Code → GitHub → Vercel"],
+        entregable:["Prototipo mínimo publicado con URL propia"] },
+      { mx:"M1", kind:"", t:"Del prompt al sistema", sub:"El cambio de paradigma",
+        teoria:["Prompt → flujo → herramienta → agente","Meta-prompting: usar la IA para instruir a la IA","Gestión de contexto y herramientas base vs. contingentes"],
+        practica:["Encadenar prompts en un flujo reproducible","Convertir un flujo en una herramienta reutilizable"],
+        entregable:["Una herramienta jurídica simple, documentada"] },
+      { mx:"M2", kind:"", t:"La Constitución del agente", sub:"El sello teórico de la Escuela",
+        teoria:["Reglas duras vs. preferencias, y su porqué","Teoría de la normatividad aplicada a sistemas","Cuando el sistema falla: jerarquía de reglas"],
+        practica:["Redactar la Constitución del propio agente","Probar conflictos de reglas y resolverlos"],
+        entregable:["Documento-constitución versionado del prototipo"] },
+      { mx:"M3", kind:"", t:"Datos y persistencia con Supabase", sub:"El backend del prototipo jurídico",
+        teoria:["Modelo de datos de un problema jurídico","Datos personales: minimización y base de licitud","Riesgos de seguridad en la capa de datos"],
+        practica:["Conectar el prototipo a Supabase","CRUD sobre datos jurídicos de prueba","Reglas de acceso y roles"],
+        entregable:["Prototipo con datos reales persistentes"] },
+      { mx:"M4", kind:"", t:"Verificación como competencia troncal", sub:"Transversal, no un módulo aislado",
+        teoria:["Alucinación, sesgo y trazabilidad","Carga de la verificación en el abogado","Auditoría de una decisión automatizada"],
+        practica:["Diseñar un protocolo de verificación propio","Auditar la salida del prototipo paso a paso"],
+        entregable:["Checklist de verificación aplicado al sistema"] },
+      { mx:"M5", kind:"", t:"Anclaje regulatorio chileno + ciberseguridad", sub:"21.719, proyecto de ley de IA, anonimización",
+        teoria:["Ley 21.719 y la Agencia de Protección de Datos","Proyecto de ley de IA basado en riesgos","El marco europeo (UE) solo como contraste"],
+        practica:["Mapear el prototipo contra obligaciones legales","Anonimizar un set de datos real"],
+        entregable:["Evaluación de cumplimiento del prototipo"] },
+      { mx:"M6", kind:"", t:"Gobernanza y responsabilidad profesional", sub:"El abogado asistido por agentes",
+        teoria:["Responsabilidad por sistemas que actúan","Supervisión humana significativa","Gobernanza de un sistema jurídico-algorítmico"],
+        practica:["Definir límites y bitácora del agente","Plan de supervisión y mejora continua"],
+        entregable:["Política de gobernanza del prototipo"] },
+      { mx:"FIN", kind:"final", t:"Defensa del prototipo funcional", sub:"Evaluación auténtica · corre sobre Supabase",
+        teoria:["Criterios: funciona · es correcto · cumple · se gobierna","Demo viva vs. presentación"],
+        practica:["Pulir, desplegar y defender la herramienta","Recibir y responder repreguntas del tribunal"],
+        entregable:["Prototipo jurídico funcional + su Constitución"] }
+    ];
+
+    const TOOLS_CORE = [
+      { k:"GH", name:"GitHub", tag:"versionar · colaborar", url:"https://github.com", color:"#f6f0df",
+        body:"Donde vive y se versiona el código del prototipo. Historial, respaldo y colaboración.",
+        steps:["Crear cuenta gratis con correo","Crear un repositorio nuevo","Conectar el proyecto local"] },
+      { k:"▲", name:"Vercel", tag:"publicar · desplegar", url:"https://vercel.com", color:"#8df6ff",
+        body:"Publica el prototipo en una URL real en segundos. Conecta el repo y cada cambio se despliega solo.",
+        steps:["Entrar con la cuenta de GitHub","Importar el repositorio","Deploy automático en cada push"] },
+      { k:"✶", name:"Claude / Claude Code", tag:"agente de desarrollo", url:"https://claude.ai", color:"#e0b04a",
+        body:"El agente que construye contigo. Claude Code escribe, edita y publica. Habilidad de alto valor de mercado.",
+        steps:["Crear cuenta en claude.ai","Probar Claude en el navegador","Usar Claude Code en la terminal"] },
+      { k:"⚡", name:"Supabase", tag:"datos · backend", url:"https://supabase.com", color:"#54d6a0",
+        body:"La base de datos del prototipo final. Tablas, autenticación y reglas de acceso sin servidor propio.",
+        steps:["Crear proyecto gratis","Definir tablas del problema jurídico","Conectar al prototipo con su clave"] }
+    ];
+    const TOOLS_AGENTS = [
+      { k:"GPT", name:"ChatGPT", tag:"asistente generalista", url:"https://chatgpt.com", color:"#54d6a0",
+        body:"Punto de partida para razonar, redactar y prototipar ideas antes de llevarlas al código.",
+        steps:["Crear cuenta con correo","Probar un caso jurídico acotado","Comparar su salida con otros agentes"] },
+      { k:"⌘", name:"Codex CLI", tag:"agente de terminal", url:"https://openai.com/codex", color:"#8df6ff",
+        body:"Agente de programación en la terminal. Útil para comparar productividad y costo frente a Claude Code.",
+        steps:["Instalar la CLI","Autenticar con la cuenta","Resolver la misma tarea y comparar"] },
+      { k:"◆", name:"Gemini", tag:"multimodal · Google", url:"https://gemini.google.com", color:"#4be7ff",
+        body:"Modelo de Google, fuerte en multimodal y contexto largo. Otra opción para no depender de un ecosistema.",
+        steps:["Entrar con cuenta Google","Probar con documentos largos","Contrastar calidad y velocidad"] },
+      { k:"NLM", name:"NotebookLM", tag:"investigación con fuentes", url:"https://notebooklm.google.com", color:"#e0b04a",
+        body:"Asistente anclado a tus propias fuentes (fallos, leyes, doctrina). Responde citando lo que cargaste.",
+        steps:["Entrar con cuenta Google","Subir fuentes jurídicas propias","Preguntar y verificar las citas"] }
+    ];
+
+    const DIFFS = [
+      { n:"01", t:"Construir, no sólo usar", d:"Casi nadie en el benchmark enseña a construir herramientas. Aquí es el eje." },
+      { n:"02", t:"El método de la Constitución", d:"Sello irrepetible, anclado en la teoría de la casa." },
+      { n:"03", t:"Anclaje chileno y regulatorio", d:"Ley 21.719 y el proyecto de ley de IA; el marco europeo solo como contraste." },
+      { n:"04", t:"Verificación troncal", d:"Competencia transversal a todo el curso, no un módulo suelto." },
+      { n:"05", t:"Ciberseguridad y anonimización", d:"El otro gran vacío del benchmark, y obligación legal en Chile." }
+    ];
+    const COMPS = [
+      { t:"Construye y despliega", d:"Levanta una app jurídica funcional de extremo a extremo, con datos reales." , ic:"hammer"},
+      { t:"Verifica y audita", d:"Detecta alucinaciones, sesgo y vicios; deja trazabilidad de cada decisión.", ic:"search-check" },
+      { t:"Gobierna sistemas", d:"Redacta reglas, define supervisión humana y responsabilidad del sistema.", ic:"landmark" },
+      { t:"Cumple la ley chilena", d:"Mapea un producto contra la 21.719 y la regulación de IA en trámite.", ic:"gavel" },
+      { t:"Protege datos", d:"Anonimiza, minimiza y asegura la capa de datos del prototipo.", ic:"shield" },
+      { t:"Elige con criterio", d:"Compara agentes y stacks por productividad, calidad y costo.", ic:"git-compare" }
+    ];
+    const EC = [
+      { mx:"N1", t:"Abogado Aumentado", sub:"24–32 h", d:"Alfabetización crítica + primeros flujos. Valida demanda y certifica cumplimiento 21.719.", color:"var(--cyan)" },
+      { mx:"N2", t:"Abogado Constructor", sub:"48–60 h", d:"Construcción de herramientas propias y verificación troncal sobre casos reales.", color:"var(--mint)" },
+      { mx:"N3", t:"Arquitecto Jurídico-Algorítmico", sub:"90–120 h", d:"Gobernanza, agentes y diseño de sistemas jurídico-algorítmicos completos.", color:"var(--gold)" }
+    ];
+
+    const TICKER = ["Construir · Verificar · Gobernar","Del prompt al sistema","La Constitución del agente","Claude Code → GitHub → Vercel",
+      "El valor se mueve del modelo al sistema","Cada clase: teoría + laboratorio","Prototipo funcional sobre Supabase","Cupo acotado por laboratorio: 20–30"];
+
+    /* ===================== RENDER ===================== */
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+
+    function renderExperience(){
+      $("expSteps").innerHTML = EXPERIENCE.map(s => `
+        <div class="exp-step">
+          <span class="exp-num">${esc(s.n)}</span>
+          <div><b>${esc(s.t)}</b><p>${esc(s.d)}</p>
+            <div class="pill-row">${s.pills.map(([c,l])=>`<span class="pill ${c}">${esc(l)}</span>`).join("")}</div>
+          </div>
+        </div>`).join("");
+    }
+    function renderModules(){
+      $("modWrap").innerHTML = MODULES.map((m,i) => `
+        <div class="mod ${i===0?"open":""}" data-mod>
+          <button type="button" class="mod-head" data-modtoggle>
+            <span class="mod-mx ${m.kind}">${esc(m.mx)}</span>
+            <span class="mt"><b>${esc(m.t)}</b><span>${esc(m.sub)}</span></span>
+            <i class="chev" data-lucide="chevron-right"></i>
+          </button>
+          <div class="mod-body">
+            <div class="mod-col t"><h4>Teoría</h4><ul>${m.teoria.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+            <div class="mod-col p"><h4>Práctica</h4><ul>${m.practica.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+            <div class="mod-col e"><h4>Entregable</h4><ul>${m.entregable.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+          </div>
+        </div>`).join("");
+    }
+    function toolCard(t){
+      return `<a class="link-card" href="${esc(t.url)}" target="_blank" rel="noopener noreferrer" style="--accent:${esc(t.color)}">
+          <div class="lc-head"><span class="lc-logo">${esc(t.k)}</span><div class="lc-title"><b>${esc(t.name)}</b><span>${esc(t.tag)}</span></div></div>
+          <p class="lc-body">${esc(t.body)}</p>
+          <ul class="lc-steps">${t.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ul>
+          <div class="lc-foot"><span class="lc-url">${esc(t.url.replace("https://",""))}</span><span class="go">abrir <i data-lucide="external-link"></i></span></div>
+        </a>`;
+    }
+    function renderTools(){
+      $("toolsCore").innerHTML = TOOLS_CORE.map(toolCard).join("");
+      $("toolsAgents").innerHTML = TOOLS_AGENTS.map(toolCard).join("");
+    }
+    function renderSello(){
+      $("diffWrap").innerHTML = DIFFS.map(d=>`<div class="diff-card"><span class="n">${esc(d.n)}</span><b>${esc(d.t)}</b><p>${esc(d.d)}</p></div>`).join("");
+      $("compWrap").innerHTML = COMPS.map(c=>`<div class="diff-card"><span class="lc-logo" style="--accent:var(--cyan);width:40px;height:40px;flex:0 0 40px"><i data-lucide="${esc(c.ic)}"></i></span><b>${esc(c.t)}</b><p>${esc(c.d)}</p></div>`).join("");
+    }
+    function renderEC(){
+      $("ecWrap").innerHTML = EC.map(e=>`
+        <div class="diff-card" style="--accent:${esc(e.color)}">
+          <span class="mod-mx" style="justify-self:start;border-color:${esc(e.color)};color:${esc(e.color)}">${esc(e.mx)}</span>
+          <b>${esc(e.t)} <span style="color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:.74rem">· ${esc(e.sub)}</span></b>
+          <p>${esc(e.d)}</p></div>`).join("");
+    }
+    function renderTicker(){
+      $("tickerTrack").innerHTML = [...TICKER,...TICKER].map(t=>`<span>${esc(t)}</span>`).join("");
+    }
+
+    /* ===================== NAVEGACIÓN ===================== */
+    function go(section){
+      document.querySelectorAll(".section-view").forEach(v => v.classList.toggle("active", v.id === "s-"+section));
+      document.querySelectorAll(".mode-btn").forEach(b => b.classList.toggle("active", b.dataset.go === section));
+      window.scrollTo({ top:0, behavior:"smooth" });
+      blip(520);
+    }
+    document.addEventListener("click", (e) => {
+      const nav = e.target.closest("[data-go]");
+      if(nav){ go(nav.dataset.go); return; }
+      const mt = e.target.closest("[data-modtoggle]");
+      if(mt){ mt.closest("[data-mod]").classList.toggle("open"); blip(400); refresh(); }
+    });
+    document.addEventListener("keydown",(e)=>{
+      if((e.key==="Enter"||e.key===" ") && e.target.matches("a.link-card[role='button']")){ e.preventDefault(); e.target.click(); }
+    });
+
+    /* ===================== SONIDO (WebAudio, opt-in) ===================== */
+    let audioCtx = null, soundOn = false;
+    function blip(freq){
+      if(!soundOn || !audioCtx) return;
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = "triangle"; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.05, audioCtx.currentTime + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.16);
+      o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime + 0.18);
+    }
+    $("soundToggle").addEventListener("click", () => {
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if(audioCtx.state === "suspended") audioCtx.resume();
+      soundOn = !soundOn;
+      const btn = $("soundToggle");
+      btn.classList.toggle("on", soundOn);
+      btn.innerHTML = soundOn ? '<i data-lucide="volume-2"></i>' : '<i data-lucide="volume-x"></i>';
+      btn.title = soundOn ? "Silenciar" : "Activar sonido ambiente";
+      refresh(); if(soundOn) blip(660);
+    });
+    document.addEventListener("mouseover",(e)=>{ if(e.target.closest("a.link-card,.exp-step,.mod-head")) blip(720); }, { passive:true });
+
+    /* ===================== FONDO NEURAL REACTIVO AL MOUSE ===================== */
+    const pointer = { x:0.7, y:0.4, tx:0.7, ty:0.4 };
+    window.addEventListener("pointermove",(e)=>{ pointer.tx = e.clientX/window.innerWidth; pointer.ty = e.clientY/window.innerHeight; }, { passive:true });
+    const glow = document.querySelector(".cursor-glow");
+
+    function initCanvas(){
+      const canvas = $("neuralCanvas"); const ctx = canvas.getContext("2d");
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const particles = Array.from({length:54},(_,i)=>({ seed:i*97, x:Math.random(), y:Math.random(),
+        speed:0.00016+Math.random()*0.00032, size:0.6+Math.random()*1.2 }));
+      function resize(){
+        const ratio = Math.min(window.devicePixelRatio||1,2);
+        canvas.width = Math.floor(window.innerWidth*ratio); canvas.height = Math.floor(window.innerHeight*ratio);
+        canvas.style.width = window.innerWidth+"px"; canvas.style.height = window.innerHeight+"px";
+        ctx.setTransform(ratio,0,0,ratio,0,0);
+      }
+      function hexPath(x,y,r){ ctx.beginPath();
+        for(let i=0;i<6;i++){ const a=Math.PI/3*i+Math.PI/6; const px=x+Math.cos(a)*r, py=y+Math.sin(a)*r; i?ctx.lineTo(px,py):ctx.moveTo(px,py);} ctx.closePath(); }
+      function draw(time){
+        const w = window.innerWidth, h = window.innerHeight;
+        pointer.x += (pointer.tx - pointer.x)*0.06; pointer.y += (pointer.ty - pointer.y)*0.06;
+        const px = pointer.x*w, py = pointer.y*h;
+        if(glow){ glow.style.background = `radial-gradient(380px circle at ${px}px ${py}px, rgba(75,231,255,0.10), transparent 70%)`; }
+        ctx.clearRect(0,0,w,h); ctx.fillStyle="#020306"; ctx.fillRect(0,0,w,h);
+
+        // grilla técnica (parallax suave hacia el mouse)
+        const ox = (pointer.x-0.5)*40, oy = (pointer.y-0.5)*40;
+        ctx.globalAlpha=0.34; ctx.strokeStyle="rgba(75,231,255,0.045)"; ctx.lineWidth=1;
+        for(let x=Math.floor(w*0.05);x<w;x+=64){ ctx.beginPath(); ctx.moveTo(x+ox,0); ctx.lineTo(x+ox,h); ctx.stroke(); }
+        for(let y=0;y<h;y+=64){ ctx.beginPath(); ctx.moveTo(0,y+oy); ctx.lineTo(w,y+oy); ctx.stroke(); }
+
+        // panal hexagonal, late con el tiempo y se acerca al cursor
+        ctx.globalAlpha=0.82;
+        for(let x=w*0.12;x<w+80;x+=120){
+          for(let y=-20;y<h+40;y+=104){
+            const cx = x + ((Math.round(y/104))%2)*60 + ox*0.6;
+            const cy = y + oy*0.6;
+            const dist = Math.hypot(cx-px, cy-py);
+            const near = Math.max(0, 1 - dist/260);
+            const pulse = Math.sin(time*0.001 + x*0.01 + y*0.008)*0.25 + 0.65;
+            ctx.strokeStyle = `rgba(246,240,223,${(0.05 + near*0.12)*pulse})`;
+            ctx.lineWidth = 1 + near*0.8; hexPath(cx,cy,42); ctx.stroke();
+            if(near>0.15){ ctx.strokeStyle=`rgba(75,231,255,${0.12*near})`; hexPath(cx,cy,24); ctx.stroke(); }
+          }
+        }
+
+        // núcleo que sigue al cursor
+        ctx.globalAlpha=0.55;
+        for(let i=0;i<7;i++){
+          const radius = Math.min(w,h)*(0.10+i*0.03) + Math.sin(time*0.001+i)*2;
+          ctx.strokeStyle = i%2 ? "rgba(128,8,20,0.10)" : "rgba(75,231,255,0.075)";
+          ctx.lineWidth = i===0?1.5:1; ctx.beginPath();
+          ctx.arc(px,py,radius,Math.PI*0.05,Math.PI*1.68); ctx.stroke();
+        }
+
+        // partículas (ascienden, leve atracción al cursor)
+        ctx.globalAlpha=0.9;
+        particles.forEach(p=>{
+          p.y = (p.y + p.speed*16)%1;
+          const x = p.x*w + Math.sin(time*0.0007+p.seed)*10 + (px-p.x*w)*0.01;
+          const y = p.y*h;
+          ctx.fillStyle = p.seed%3===0 ? "rgba(128,8,20,0.22)" : "rgba(75,231,255,0.20)";
+          ctx.fillRect(x,y,p.size,p.size);
+        });
+
+        // barrido
+        const scanY = (time*0.03)%h; ctx.globalAlpha=0.22; ctx.fillStyle="rgba(75,231,255,0.03)";
+        ctx.fillRect(0,scanY,w,54); ctx.globalAlpha=1;
+
+        if(!reduce) requestAnimationFrame(draw);
+      }
+      window.addEventListener("resize", resize); resize();
+      if(reduce){ draw(0); } else { requestAnimationFrame(draw); }
+    }
+
+    function refresh(){ if(window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } }); }
+
+    renderExperience(); renderModules(); renderTools(); renderSello(); renderEC(); renderTicker();
+    refresh(); initCanvas();
+  </script>
 </body>
 </html>
