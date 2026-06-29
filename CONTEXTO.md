@@ -1,4 +1,4 @@
-# CONTEXTO — Curso IA y Derecho · Programa DIAT · PUCV
+# CONTEXTO — Curso IA y Derecho · Diego Ojeda Cifuentes · Escuela de Derecho PUCV
 
 Documento de contexto portátil. Resume quién, qué, por qué y las decisiones tomadas, para que cualquier persona —o Claude Code— pueda retomar el desarrollo sin perder el hilo.
 
@@ -6,10 +6,11 @@ Documento de contexto portátil. Resume quién, qué, por qué y las decisiones 
 
 ## 1. Quién y dónde
 
-- **Institución:** Pontificia Universidad Católica de Valparaíso (PUCV), Escuela de Derecho.
-- **Programa:** DIAT (Derecho, IA y Tecnología).
-- **Encargo:** dos cursos de IA y Derecho.
-  - **Optativo de pregrado** (`DER-IA · OPT-2026`): semestral, 16 semanas, ~5 SCT, sin requisito técnico.
+- **Autor:** Diego Hernán Ojeda Cifuentes, Licenciado en Ciencias Jurídicas.
+- **Institución destinataria:** Pontificia Universidad Católica de Valparaíso (PUCV), Escuela de Derecho. Propuesta a presentar a la dirección (prof. Aldunate).
+- **Naturaleza:** proyecto **independiente, fuera del programa DIAT** (el autor pertenece a DIAT, pero estos cursos están fuera de esa esfera). **No** usar marca/nomenclatura DIAT en el contenido visible.
+- **Dos cursos:**
+  - **Optativo de pregrado** (`DER-IA · OPT 2026`): semestral PUCV (16 semanas), **1 sesión/semana de 90 min**, sin requisito técnico. Eje: prototipos primero (ABP), cierre con prototipo funcional sobre Supabase.
   - **Trayecto de educación continua** para egresados y abogados: tres niveles modulares — *Abogado Aumentado* (N1, 24–32 h) → *Abogado Constructor* (N2, 48–60 h) → *Arquitecto Jurídico-Algorítmico* (N3, 90–120 h).
 
 ## 2. Tesis y posicionamiento (no cambiar sin discutirlo)
@@ -58,21 +59,17 @@ La credibilidad persuade más que la urgencia barata. **Nunca**:
 - bibliografía doctrinal específica "a curar por la cátedra" (no inventar autores/años);
 - la única escasez afirmable es la real y estructural (cupo acotado por laboratorio, 20–30).
 
-## 5. Estándar visual DIAT v1
+## 5. Estándar visual
 
-Dark técnico-institucional, minimalista con registro cyberpunk contenido, formal y académico (registro MIT/Harvard/Oxford). Ver tokens exactos en `CLAUDE.md`.
+Dark técnico-institucional con registro cyber-jurídico legible ("war room": fondo neural reactivo al mouse, scanlines, HUD), formal y académico. Tipografías Cinzel / JetBrains Mono / Inter. Ver tokens exactos en `CLAUDE.md`.
 
 ## 6. Entregables del proyecto (en este repo)
 
 | Archivo | Qué es |
 |---|---|
-| `index.html` | Hub que enlaza todo (entrada del sitio). |
-| `app.html` | **Plataforma operativa** del curso (SPA): vistas, detector de nivel, panel, bandeja, escenarios, herramientas, fondo interactivo. |
-| `landing.html` | Landing de presentación con arquitectura de conversión. |
-| `optativo.html` | Programa del optativo en estándar visual DIAT. |
-| `informe.html` | Informe-sustrato (objetivos, paradigma, benchmark, mercado, gráficos). |
-| `programa-pregrado.docx` | Programa de asignatura formal (Word, tramitación académica). |
-| `programa-egresados.docx` | Programa de educación continua, 3 niveles (Word). |
+| `index.html` | **La plataforma** (única). SPA autocontenida: resumen ejecutivo para dirección, experiencia del curso, ruta de 16 semanas (prototipos primero → Supabase), stack con tutoriales, sello/competencias y trayecto de egresados. Fondo neural reactivo al mouse, sonido opt-in. |
+
+> Histórico: hubo versiones separadas (`app.html`, `landing.html`, `optativo.html`, `informe.html`) y dos `.docx`, todas con marca DIAT. Se **unificaron y eliminaron** el 2026-06-29 al consolidar todo en `index.html` y quitar la marca DIAT. Los `.docx` formales para tramitación académica se regenerarán cuando se necesiten.
 
 ## 7. Historia de decisiones (resumen)
 

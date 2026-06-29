@@ -1,8 +1,11 @@
-# Curso IA y Derecho — Programa DIAT · PUCV
+# Derecho + IA — Propuesta de curso optativo · Escuela de Derecho PUCV
 
-Suite de materiales y **plataforma operativa** del optativo de Inteligencia Artificial y Derecho de la Escuela de Derecho de la Pontificia Universidad Católica de Valparaíso (programa DIAT).
+Plataforma-propuesta de un **curso optativo de Inteligencia Artificial y Derecho** para la Escuela de Derecho de la Pontificia Universidad Católica de Valparaíso.
 
-`DER-IA · OPT-2026` · Estándar visual DIAT v1
+**Autor:** Diego Hernán Ojeda Cifuentes · Licenciado en Ciencias Jurídicas.
+Proyecto independiente, **fuera del programa DIAT**. `DER-IA · OPT 2026`.
+
+Tesis: el curso enseña a **construir, verificar y gobernar** sistemas de IA —no solo a usarlos—. La fortaleza teórica de la Escuela es la habilidad más escasa del momento: diseñar las reglas y gobernar los sistemas que integran a los modelos.
 
 ---
 
@@ -10,53 +13,34 @@ Suite de materiales y **plataforma operativa** del optativo de Inteligencia Arti
 
 | Archivo | Descripción |
 |---|---|
-| `index.html` | Hub que enlaza todo (entrada del sitio). |
-| `app.html` | **Plataforma operativa** del curso (SPA): vistas, detector de nivel, panel del estudiante, bandeja de entrada, escenarios y herramientas, fondo interactivo. |
-| `landing.html` | Página de presentación con arquitectura de conversión. |
-| `optativo.html` | Programa del optativo en estándar visual DIAT. |
-| `informe.html` | Informe-sustrato: objetivos, cambio de paradigma, benchmark y datos de mercado con gráficos. |
-| `programa-pregrado.docx` | Programa de asignatura formal (Word). |
-| `programa-egresados.docx` | Programa de educación continua, 3 niveles (Word). |
+| `index.html` | **La plataforma**. SPA de un solo archivo, autocontenida: resumen ejecutivo (para dirección), experiencia del curso, ruta de 16 semanas, stack de herramientas con tutoriales, sello/competencias y trayecto para egresados. Fondo neural reactivo al mouse, sonido opt-in. |
 
-Documentación: **`CONTEXTO.md`** (contexto, decisiones y hechos verificados) y **`CLAUDE.md`** (cómo seguir desarrollando).
+Documentación: **`CONTEXTO.md`** (tesis, decisiones, hechos verificados, guardarraíles) y **`CLAUDE.md`** (cómo seguir desarrollando con Claude Code).
 
 ## Sin build
 
-Todo es HTML/CSS/JS **autocontenido**. No hay framework, bundler ni backend. Para previsualizar, abre cualquier `.html` en el navegador (las fuentes cargan por CDN).
+Todo es HTML/CSS/JS **autocontenido**. Sin framework, sin bundler, sin backend. Estado en memoria. Para previsualizar, abre `index.html` en el navegador (solo las fuentes e iconos cargan por CDN).
+
+## Estructura del contenido
+
+Los contenidos editables viven como **arrays JS** al final de `index.html`: `EXPERIENCE`, `MODULES`, `TOOLS_CORE`, `TOOLS_AGENTS`, `DIFFS`, `COMPS`, `EC`, `TICKER`. Edita el array y se re-renderiza. Ver `CLAUDE.md`.
+
+> En HTML/CSS/SVG usa siempre caracteres UTF-8 reales o entidades (`—`, `→`, `°`), nunca escapes `\uXXXX` (se renderizan literales). En JS dentro de `<script>` sí funcionan.
 
 ## Desarrollar con Claude Code
 
-El repo incluye:
-- **`CLAUDE.md`** — mapa del proyecto, estándar visual, dónde vive cada contenido y playbooks de edición. Claude Code lo lee automáticamente.
-- **`.claude/skills/diat-curso/SKILL.md`** — skill para modificar contenidos, añadir módulos/escenarios/vistas y mantener el estándar.
-- **`.claude/commands/`** — comandos: `/nuevo-modulo`, `/actualizar-normativa`, `/nueva-vista`.
-
-Los contenidos del curso viven como arrays JS al final de `app.html` (`MODS`, `SCN`, `INBOX`, `QS`) y como HTML estático en las vistas. Ver `CLAUDE.md`.
-
-> Nota: en HTML/CSS/SVG usa siempre caracteres UTF-8 reales o entidades (`—`, `→`, `°`), nunca escapes `\uXXXX` (se renderizan literales). En JS dentro de `<script>` sí funcionan.
+- **`CLAUDE.md`** — mapa del proyecto, estándar visual, dónde editar cada contenido. Claude Code lo lee solo.
+- **`.claude/skills/`** y **`.claude/commands/`** — skill y comandos de apoyo.
 
 ## Desplegar (Vercel)
 
-Sitio estático. `vercel.json` activa `cleanUrls` (rutas `/app`, `/landing`, `/optativo`, `/informe`).
+Sitio estático. Conecta este repositorio a Vercel y cada push a `main` se publica solo.
 
 ```bash
-# opción CLI
 vercel            # preview
 vercel --prod     # producción
 ```
 
-O conecta este repositorio a Vercel para desplegar en cada push.
-
-## Subir este repo a GitHub
-
-Ya viene inicializado con un commit inicial. Para publicarlo:
-
-```bash
-git remote add origin https://github.com/<tu-usuario>/diat-curso-ia-derecho.git
-git branch -M main
-git push -u origin main
-```
-
 ---
 
-Borrador para revisión institucional. Las experiencias interactivas funcionan en memoria, sin base de datos. Estado regulatorio a reconfirmar a la fecha de uso.
+Borrador para revisión institucional. Experiencias interactivas en memoria, sin base de datos. Estado regulatorio y datos de mercado **a reconfirmar a la fecha de uso**.

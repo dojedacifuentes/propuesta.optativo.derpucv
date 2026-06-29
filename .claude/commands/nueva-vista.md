@@ -1,9 +1,10 @@
-Añade una vista nueva a la plataforma operativa (`app.html`).
+Añade una sección nueva a la plataforma (`index.html`).
 
 Pasos:
-1. Crea `<div class="view" id="v-NOMBRE"> … </div>` siguiendo la estructura de las vistas existentes (sección con `.ey` + `h2` + tarjetas `.card`).
-2. Añade su pestaña: `<div class="tab" data-view="NOMBRE">Etiqueta</div>` dentro de `#tabs`.
-3. No hace falta tocar el router: la delegación sobre `data-view`/`data-go` ya conecta la pestaña.
-4. Usa solo tokens DIAT (`:root`) y efectos medidos. Verifica render y consola.
+1. Crea `<section class="section-view" id="s-NOMBRE"> … </section>` siguiendo la estructura de las existentes (`.section-head` con `.eyebrow` + `h2`, y tarjetas/grids `.grid-3` / `.link-card`).
+2. Añade su botón de navegación: `<button type="button" class="mode-btn" data-go="NOMBRE"><i data-lucide="ICONO"></i><span>Etiqueta</span></button>` dentro de `.mode-switch`.
+3. No hace falta tocar el router: la delegación sobre `data-go` ya conecta el botón con la sección `s-NOMBRE`.
+4. Si la sección tiene contenido repetitivo, añádelo como array JS y renderízalo (patrón de `renderModules`/`renderTools`).
+5. Usa solo tokens de `:root` y efectos medidos. Verifica render y consola.
 
-Pídeme el nombre de la vista y su contenido si no te lo doy.
+Pídeme el nombre de la sección, su icono y su contenido si no te lo doy.
