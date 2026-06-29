@@ -55,11 +55,12 @@
     .brand-mark{ display:grid; flex:0 0 44px; width:44px; height:44px; place-items:center; border:1px solid var(--cyan);
       border-radius:6px; background:#020306; color:var(--cyan); font-family:"JetBrains Mono",monospace; font-weight:800;
       box-shadow:inset 0 0 18px rgba(75,231,255,0.14); }
-    .mode-switch{ display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+    .mode-switch{ display:flex; flex-wrap:wrap; gap:5px; justify-content:center; }
     .mode-btn,.thin-command,.primary-command,.icon-only{ display:inline-flex; align-items:center; justify-content:center;
       gap:8px; min-height:38px; border:1px solid var(--line-soft); border-radius:6px; background:rgba(6,9,13,0.78);
       color:var(--white); cursor:pointer; text-decoration:none; }
-    .mode-btn{ min-width:0; padding:8px 13px; font-size:0.8rem; border-radius:7px; background:rgba(8,13,20,0.6); }
+    .mode-btn{ min-width:0; padding:7px 10px; font-size:0.78rem; border-radius:7px; background:rgba(8,13,20,0.6); }
+    .mode-btn svg{ width:16px; height:16px; flex:0 0 16px; }
     .mode-btn.active{ background:rgba(75,231,255,0.1); }
     .mode-btn svg,.thin-command svg,.primary-command svg,.icon-only svg{ width:17px; height:17px; flex:0 0 17px; }
     .mode-btn span,.thin-command span,.primary-command span{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -339,6 +340,27 @@
     .present-dots i.on{ background:var(--cyan); box-shadow:0 0 10px var(--cyan); }
     @media (max-width:680px){ .present-stage h2{ font-size:2rem; } .present-stage p{ font-size:1.05rem; } .present-top{ flex-direction:column; align-items:flex-start; } }
 
+    /* DEMO INTERACTIVA */
+    .demo{ border:1px solid var(--line); border-radius:var(--radius); background:var(--panel-strong); padding:16px; }
+    .demo-bar{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+    .demo-chip{ padding:9px 13px; border:1px solid var(--line-soft); border-radius:20px; background:rgba(2,3,6,.6);
+      color:var(--white); cursor:pointer; font-size:.84rem; text-align:left; font-family:inherit; }
+    .demo-chip:hover{ border-color:var(--cyan); color:var(--cyan); }
+    .demo-input{ display:flex; gap:8px; margin-bottom:14px; }
+    .demo-input input{ flex:1; min-width:0; min-height:42px; padding:8px 12px; border:1px solid var(--line-soft);
+      border-radius:6px; background:#020306; color:var(--white); }
+    .demo-input input:focus{ outline:none; border-color:var(--cyan); }
+    .demo-out{ display:grid; gap:10px; }
+    .demo-q{ font-family:"JetBrains Mono",monospace; font-size:.8rem; color:var(--cyan-soft); }
+    .demo-block{ border-left:2px solid var(--accent,var(--cyan)); padding:10px 12px; background:rgba(2,3,6,.5); border-radius:0 6px 6px 0; }
+    .demo-block h4{ margin:0 0 6px; font-family:"JetBrains Mono",monospace; font-size:.72rem; text-transform:uppercase; color:var(--accent,var(--cyan)); }
+    .demo-block p{ margin:0; color:var(--muted); font-size:.88rem; }
+    .demo-block ul{ margin:0; padding-left:16px; } .demo-block li{ margin:3px 0; color:var(--muted); font-size:.88rem; }
+    .demo-gov{ display:inline-flex; align-items:center; gap:7px; font-family:"JetBrains Mono",monospace; font-size:.72rem;
+      color:var(--gold); border:1px solid rgba(224,176,74,.4); border-radius:20px; padding:5px 10px; }
+    .demo-gov svg{ width:15px; height:15px; }
+    .demo-empty{ color:var(--muted); margin:0; }
+
     /* DOSSIER (solo impresión / PDF) */
     #dossier{ display:none; }
     @media print{
@@ -391,6 +413,7 @@
       <button type="button" class="mode-btn" data-go="sello"><i data-lucide="award"></i><span>Sello</span></button>
       <button type="button" class="mode-btn" data-go="egresados"><i data-lucide="briefcase"></i><span>Egresados</span></button>
       <button type="button" class="mode-btn" data-go="logistica"><i data-lucide="clipboard-list"></i><span>Logística</span></button>
+      <button type="button" class="mode-btn" data-go="demo"><i data-lucide="app-window"></i><span>Demo</span></button>
     </nav>
 
     <div class="system-readout">
@@ -637,6 +660,21 @@
       </div>
 
       <div class="note"><i data-lucide="info"></i><div>Evaluación formativa continua + sumativa final. Calendario y pesos referenciales, ajustables al calendario académico y a los reglamentos de la PUCV.</div></div>
+    </section>
+
+    <!-- ============ DEMO INTERACTIVA ============ -->
+    <section class="section-view" id="s-demo">
+      <div class="section-head"><span class="eyebrow">Ejemplo de prototipo final</span><h2>Un sistema gobernado, no solo un chatbot</h2>
+        <p>Maqueta de demostración (respuestas simuladas, sin conexión real). Muestra lo que construye un estudiante: un agente que responde con advertencias, fuentes, reglas de verificación y un límite explícito de actuación. Elige un caso —o escribe otra consulta y observa cómo el agente declina lo que está fuera de su ámbito.</p></div>
+      <div class="demo">
+        <div class="demo-bar" id="demoChips"></div>
+        <div class="demo-input">
+          <input id="demoInput" type="text" placeholder="…escribe otra consulta y observa el límite del agente" autocomplete="off" aria-label="Consulta de demostración">
+          <button type="button" class="primary-command" id="demoAsk"><i data-lucide="send"></i><span>Consultar</span></button>
+        </div>
+        <div class="demo-out" id="demoOut"></div>
+      </div>
+      <div class="note"><i data-lucide="shield-alert"></i><div>Demostración con datos ficticios. Refuerza el punto central: el estudiante no solo usa IA — diseña un sistema que explica qué hace, con qué fuentes opera y cuándo debe detenerse.</div></div>
     </section>
 
   </main>
@@ -896,6 +934,33 @@
       { k:"06 · Piloto 2026", t:"Acotado, medible, de bajo riesgo", b:"20 a 30 estudiantes, casos ficticios o anonimizados, resultados documentados para decidir continuidad. Escalable a educación continua e investigación.", a:"#e0b04a" },
       { k:"07 · Decisión solicitada", t:"Autorizar el diseño formal del piloto 2026", b:"Evaluar la autorización para diseñar el programa, definir condiciones del piloto y revisar su implementación como optativo 2026.", a:"#4be7ff" }
     ];
+    const DEMO = [
+      { q:"Revisa una cláusula de no competencia (contrato ficticio)",
+        answer:"La cláusula parece amplia en duración y territorio. En Chile, las restricciones a la libertad de trabajo se evalúan por su razonabilidad —objeto, tiempo y territorio—. Conviene acotar el plazo, delimitar el giro y revisar la contraprestación.",
+        warnings:["Orientación preliminar; no constituye asesoría legal.","Requiere revisión de un abogado antes de cualquier decisión.","Basado en un contrato ficticio de demostración."],
+        sources:["Libertad de trabajo (Constitución, art. 19 N°16) — a verificar","Normas civiles y laborales sobre cláusulas restrictivas — a curar por la cátedra","Jurisprudencia sobre razonabilidad — a verificar"],
+        checks:["Contraste con la fuente normativa citada","Revisión humana obligatoria","Registro de la consulta en bitácora"],
+        limit:"El agente orienta y señala riesgos; no redacta la cláusula final ni decide por el abogado." },
+      { q:"Genera un checklist de protección de datos para una oficina jurídica",
+        answer:"Checklist preliminar: (1) inventario de datos personales tratados; (2) base de licitud por tratamiento; (3) minimización y plazos de conservación; (4) seguridad y cifrado; (5) cláusulas con encargados; (6) procedimiento de derechos; (7) registro de actividades de tratamiento.",
+        warnings:["Borrador de trabajo; no certifica cumplimiento.","Debe ajustarse a la Ley 21.719 vigente a la fecha.","Revisión humana requerida."],
+        sources:["Ley 21.719 sobre protección de datos personales — vigencia y alcance a reconfirmar","Lineamientos de la futura Agencia de Protección de Datos — a verificar"],
+        checks:["Mapa contra obligaciones legales vigentes","Anonimización de los ejemplos usados","Bitácora de versión del checklist"],
+        limit:"El agente propone un checklist base; no realiza la auditoría ni emite certificación de cumplimiento." },
+      { q:"¿Puedo poner término anticipado a un arriendo? (caso ficticio)",
+        answer:"Depende de las causales pactadas y de la ley aplicable. En general, el término anticipado exige causa legal o acuerdo; de lo contrario puede generar responsabilidad. Revise las cláusulas de terminación, el preaviso y las indemnizaciones pactadas.",
+        warnings:["Orientación general; no es asesoría para su caso concreto.","No reemplaza la revisión del contrato real por un abogado.","Caso ficticio de demostración."],
+        sources:["Normas civiles sobre arrendamiento — a curar por la cátedra","Ley de arrendamiento aplicable — a verificar"],
+        checks:["Verificación contra el texto del contrato","Revisión humana obligatoria","Distinción explícita: orientación, no decisión"],
+        limit:"El agente entrega orientación preliminar; no decide, no representa y no sustituye asesoría jurídica." }
+    ];
+    const DEMO_OOS = {
+      answer:"Esa consulta queda fuera del ámbito de actuación definido en mi Constitución. No la respondo: corresponde derivarla a revisión humana.",
+      warnings:["El agente declina actuar fuera de su finalidad declarada."],
+      sources:["— (sin fuente autorizada para este ámbito)"],
+      checks:["Escalamiento humano activado"],
+      limit:"El agente solo opera dentro de la finalidad y el ámbito autorizados por su Constitución."
+    };
 
     /* ===================== RENDER ===================== */
     const $ = (id) => document.getElementById(id);
@@ -1072,6 +1137,32 @@
       if((e.key==="Enter"||e.key===" ") && e.target.matches("a.link-card[role='button']")){ e.preventDefault(); e.target.click(); }
     });
 
+    /* ===================== DEMO INTERACTIVA ===================== */
+    function demoBlocks(d){
+      return `
+        <div class="demo-block" style="--accent:var(--cyan)"><h4>Respuesta (orientación preliminar)</h4><p>${esc(d.answer)}</p></div>
+        <div class="demo-block" style="--accent:var(--coral)"><h4>⚠ Advertencias</h4><ul>${d.warnings.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+        <div class="demo-block" style="--accent:var(--gold)"><h4>Fuentes requeridas</h4><ul>${d.sources.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+        <div class="demo-block" style="--accent:var(--mint)"><h4>Reglas de verificación aplicadas</h4><ul>${d.checks.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+        <div class="demo-block" style="--accent:var(--coral)"><h4>Límite de actuación</h4><p>${esc(d.limit)}</p></div>
+        <div><span class="demo-gov"><i data-lucide="scroll-text"></i>Operado bajo la Constitución del agente</span></div>`;
+    }
+    function runDemo(d, label){
+      $("demoOut").innerHTML = `<div class="demo-q">▸ ${esc(label)}</div>` + demoBlocks(d);
+      refresh();
+    }
+    function renderDemo(){
+      $("demoChips").innerHTML = DEMO.map((d,i)=>`<button type="button" class="demo-chip" data-demo="${i}">${esc(d.q)}</button>`).join("");
+      $("demoOut").innerHTML = `<p class="demo-empty">Elige un caso, o escribe una consulta para ver cómo el agente declina lo que está fuera de su ámbito.</p>`;
+    }
+    function demoAsk(){ const v = $("demoInput").value.trim(); if(!v) return; runDemo(DEMO_OOS, v); blip(360); }
+    $("demoAsk").addEventListener("click", demoAsk);
+    $("demoInput").addEventListener("keydown", (e)=>{ if(e.key === "Enter") demoAsk(); });
+    document.addEventListener("click", (e)=>{
+      const c = e.target.closest("[data-demo]");
+      if(c){ const d = DEMO[Number(c.dataset.demo)]; runDemo(d, d.q); blip(640); }
+    });
+
     /* ===================== MODO PRESENTACIÓN ===================== */
     let presIndex = 0;
     function renderPres(){
@@ -1210,7 +1301,7 @@
 
     function refresh(){ if(window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } }); }
 
-    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderGana(); renderLogistica(); renderTicker(); renderDossier();
+    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderGana(); renderLogistica(); renderDemo(); renderTicker(); renderDossier();
     $("pdfBtn").addEventListener("click", () => { blip(300); window.print(); });
     refresh(); initCanvas();
   </script>
