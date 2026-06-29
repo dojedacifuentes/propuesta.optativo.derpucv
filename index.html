@@ -8,7 +8,7 @@
   <title>Derecho + IA · Construir · Verificar · Gobernar — Diego Ojeda Cifuentes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
     :root{
@@ -42,8 +42,8 @@
     .topbar{
       display:grid; grid-template-columns:minmax(220px,340px) minmax(320px,1fr) minmax(190px,290px);
       gap:14px; align-items:center; padding:14px 18px;
-      border-bottom:1px solid var(--line); background:rgba(2,3,6,0.84); backdrop-filter:blur(16px);
-      position:sticky; top:0;
+      border-bottom:1px solid var(--line); background:rgba(3,6,10,0.97); backdrop-filter:blur(20px);
+      position:sticky; top:0; z-index:50;
     }
     .brand-lock{ display:flex; align-items:center; min-width:0; gap:12px; padding:8px; border:1px solid var(--line);
       border-radius:var(--radius); background:rgba(6,9,13,0.72); color:var(--white); cursor:pointer; text-align:left; }
@@ -76,7 +76,7 @@
     .eyebrow{ font-family:"JetBrains Mono",monospace; font-size:0.76rem; color:var(--cyan); text-transform:uppercase; letter-spacing:.04em; }
     .eyebrow::before{ content:"— "; color:var(--gold); }
     .section-head{ margin:30px 0 14px; }
-    .section-head h2{ margin:6px 0 6px; font-family:Cinzel,Georgia,serif; font-size:2.05rem; }
+    .section-head h2{ margin:6px 0 6px; font-family:"Space Grotesk",system-ui,sans-serif; font-size:2.05rem; }
     .section-head p{ color:var(--muted); max-width:760px; }
 
     /* HERO / RESUMEN */
@@ -86,7 +86,7 @@
         linear-gradient(90deg, rgba(75,231,255,0.03), transparent 42%, rgba(75,231,255,0.06));
       box-shadow:var(--shadow); }
     .hero-copy{ display:flex; flex-direction:column; justify-content:center; min-width:0; }
-    .hero h1{ font-family:Cinzel,Georgia,serif; font-size:3rem; line-height:1.02; margin:12px 0 14px;
+    .hero h1{ font-family:"Space Grotesk",system-ui,sans-serif; font-size:3rem; line-height:1.02; margin:12px 0 14px;
       text-shadow:0 0 22px rgba(75,231,255,0.14); }
     .hero h1 .accent{ color:var(--cyan); }
     .lede{ font-size:1.12rem; color:var(--white); max-width:640px; line-height:1.5; }
@@ -119,7 +119,7 @@
     .card{ min-width:0; padding:18px; border:1px solid var(--line-soft); border-radius:var(--radius);
       background:var(--panel); box-shadow:0 10px 38px rgba(0,0,0,0.34); }
     .stat-card{ display:grid; gap:6px; }
-    .stat-card .num{ font-family:Cinzel,serif; font-size:2.1rem; color:var(--cyan); line-height:1; }
+    .stat-card .num{ font-family:"Space Grotesk",system-ui,sans-serif; font-size:2.1rem; color:var(--cyan); line-height:1; }
     .stat-card .lab{ font-size:0.9rem; }
     .stat-card small{ color:var(--muted); font-family:"JetBrains Mono",monospace; font-size:0.72rem; }
 
@@ -162,7 +162,7 @@
     .exp-step{ display:grid; grid-template-columns:54px 1fr; gap:14px; align-items:start; padding:16px;
       border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--panel); transition:transform .18s ease,border-color .18s ease; }
     .exp-num{ display:grid; place-items:center; width:54px; height:54px; border-radius:50%; border:1px solid var(--cyan);
-      font-family:Cinzel,serif; font-size:1.3rem; color:var(--cyan); background:rgba(2,3,6,0.7); box-shadow:inset 0 0 20px rgba(75,231,255,0.1); }
+      font-family:"Space Grotesk",system-ui,sans-serif; font-size:1.3rem; color:var(--cyan); background:rgba(2,3,6,0.7); box-shadow:inset 0 0 20px rgba(75,231,255,0.1); }
     .exp-step b{ font-size:1.02rem; }
     .exp-step p{ margin:6px 0 0; color:var(--muted); font-size:0.9rem; }
     .pill-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
@@ -253,7 +253,7 @@
     .program-badge b{ color:var(--white); }
     .program-en{ position:absolute; top:12px; right:14px; font-family:"JetBrains Mono",monospace; font-size:0.7rem; color:var(--muted); }
     .program-body{ display:grid; grid-template-columns:1.05fr 1fr; gap:20px; padding:20px; }
-    .program h3{ margin:0 0 4px; font-family:Cinzel,serif; font-size:1.7rem; color:var(--accent,var(--cyan)); }
+    .program h3{ margin:0 0 4px; font-family:"Space Grotesk",system-ui,sans-serif; font-size:1.7rem; color:var(--accent,var(--cyan)); }
     .program .tagline{ font-size:1.08rem; color:var(--white); font-weight:600; margin:0 0 14px; line-height:1.35; }
     .program .who{ color:var(--muted); font-size:0.86rem; margin:0 0 14px; }
     .program .who b{ color:var(--white); }
@@ -275,6 +275,45 @@
     .prog-deliver svg{ width:18px; height:18px; color:var(--accent,var(--cyan)); margin-top:2px; }
     .prog-deliver b{ color:var(--white); } .prog-deliver span{ color:var(--muted); font-size:0.84rem; }
     @media (max-width:900px){ .program-body{ grid-template-columns:1fr; } .track-intro{ grid-template-columns:1fr; } .track-step .ar{ display:none; } }
+
+    /* BOTÓN FLOTANTE PDF */
+    .fab{ position:fixed; right:18px; bottom:50px; z-index:60; display:inline-flex; align-items:center; gap:9px;
+      padding:12px 16px; border-radius:30px; border:1px solid var(--cyan); background:rgba(2,3,6,0.9); color:var(--cyan);
+      cursor:pointer; font-family:"JetBrains Mono",monospace; font-size:0.78rem; font-weight:700; letter-spacing:.02em;
+      box-shadow:0 8px 30px rgba(0,0,0,.5), 0 0 16px rgba(75,231,255,.22); backdrop-filter:blur(8px);
+      animation:fabpulse 3.2s ease-in-out infinite; }
+    .fab:hover{ background:rgba(75,231,255,0.14); color:var(--white); }
+    .fab svg{ width:18px; height:18px; }
+    @keyframes fabpulse{ 0%,100%{ box-shadow:0 8px 30px rgba(0,0,0,.5), 0 0 12px rgba(75,231,255,.18); }
+      50%{ box-shadow:0 8px 30px rgba(0,0,0,.5), 0 0 28px rgba(75,231,255,.5); } }
+    @media (max-width:560px){ .fab span{ display:none; } .fab{ padding:13px; bottom:48px; } }
+    @media (prefers-reduced-motion:reduce){ .fab{ animation:none; } }
+
+    /* DOSSIER (solo impresión / PDF) */
+    #dossier{ display:none; }
+    @media print{
+      @page{ margin:15mm; }
+      html,body{ background:#fff !important; }
+      .topbar,.shell,.ticker,.fab,#neuralCanvas,.scanlines,.hud-vignette,.cursor-glow,footer.credit{ display:none !important; }
+      #dossier{ display:block !important; color:#10151f; font-family:Inter,Arial,sans-serif; font-size:10.5pt; line-height:1.5; }
+      #dossier .dz-cover{ padding-bottom:14px; border-bottom:2px solid #2c7fb8; margin-bottom:16px; }
+      #dossier .kor{ font-family:"JetBrains Mono",monospace; font-size:8.5pt; color:#2c7fb8; letter-spacing:.05em; text-transform:uppercase; }
+      #dossier h1{ font-family:"Space Grotesk",sans-serif; font-size:23pt; margin:8px 0 6px; color:#0b1020; }
+      #dossier .dz-author{ color:#48566b; font-size:9.5pt; }
+      #dossier h2{ font-family:"Space Grotesk",sans-serif; font-size:13.5pt; color:#10151f; margin:18px 0 8px;
+        padding-bottom:4px; border-bottom:1px solid #c9d4e2; page-break-after:avoid; }
+      #dossier h3{ font-size:11pt; margin:10px 0 4px; color:#1c3b5a; }
+      #dossier h4{ margin:0 0 4px; font-size:9pt; color:#2c7fb8; font-family:"JetBrains Mono",monospace; text-transform:uppercase; }
+      #dossier p{ margin:0 0 8px; } #dossier ul{ margin:4px 0 8px; padding-left:18px; } #dossier li{ margin:3px 0; }
+      #dossier .dz-tag{ font-family:"JetBrains Mono",monospace; font-size:8pt; color:#2c7fb8; text-transform:uppercase; }
+      #dossier table{ width:100%; border-collapse:collapse; margin:6px 0 8px; font-size:9.5pt; }
+      #dossier th,#dossier td{ border:1px solid #c9d4e2; padding:6px 8px; text-align:left; }
+      #dossier th{ background:#eef3f9; font-family:"JetBrains Mono",monospace; font-size:8.5pt; }
+      #dossier .dz-sec{ page-break-inside:avoid; }
+      #dossier .dz-mod,#dossier .dz-prog{ border:1px solid #d7e0ec; border-radius:6px; padding:9px 11px; margin:8px 0; page-break-inside:avoid; }
+      #dossier .dz-cols{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:4px; }
+      #dossier .dz-foot{ margin-top:16px; padding-top:8px; border-top:1px solid #c9d4e2; font-size:8pt; color:#667; }
+    }
 
     @media (prefers-reduced-motion:reduce){ #tickerTrack{ animation:none; } .section-view{ animation:none; } a.link-card:hover,.exp-step:hover,button.flip-card:hover{ transform:none; } }
   </style>
@@ -462,6 +501,12 @@
 
   </main>
 
+  <button type="button" class="fab" id="pdfBtn" title="Descargar dossier de contenidos en PDF" aria-label="Descargar PDF">
+    <i data-lucide="file-down"></i><span>Descargar dossier PDF</span>
+  </button>
+
+  <div id="dossier" aria-hidden="true"></div>
+
   <footer class="credit">
     <b>Diego Hernán Ojeda Cifuentes</b> · Licenciado en Ciencias Jurídicas · Propuesta para la Escuela de Derecho PUCV ·
     Proyecto independiente, fuera del programa DIAT · DER-IA · OPT 2026 · documento de trabajo, datos a reconfirmar a la fecha.
@@ -608,6 +653,24 @@
     const TICKER = ["Construir · Verificar · Gobernar","Del prompt al sistema","La Constitución del agente","Claude Code → GitHub → Vercel",
       "El valor se mueve del modelo al sistema","Cada clase: teoría + laboratorio","Prototipo funcional sobre Supabase","Cupo acotado por laboratorio: 20–30"];
 
+    const OBJ_G = "Formar abogados capaces de construir, verificar y gobernar sistemas de IA aplicados al Derecho, integrando la fortaleza teórica de la Escuela con el desarrollo de prototipos jurídicos funcionales.";
+    const OBJ_E = [
+      "Desplegar un prototipo jurídico funcional en línea desde las primeras sesiones, usando un flujo de desarrollo asistido por agentes (Claude Code → GitHub → Vercel).",
+      "Dominar el paradigma prompt → flujo → herramienta → agente como unidad de trabajo, más allá del prompt aislado.",
+      "Redactar la “Constitución” de un agente —reglas duras, preferencias y su fundamento— como teoría de la normatividad aplicada.",
+      "Modelar y conectar datos reales mediante Supabase, respetando minimización y licitud del tratamiento.",
+      "Aplicar la verificación como competencia troncal: detectar alucinación, sesgo y vicios, y dejar trazabilidad.",
+      "Evaluar un sistema frente a la regulación chilena (Ley 21.719 y proyecto de ley de IA) e integrar ciberseguridad y anonimización.",
+      "Definir la gobernanza y la responsabilidad profesional del abogado asistido por agentes.",
+      "Defender un prototipo funcional sobre datos reales, con su gobernanza documentada (evaluación auténtica)."
+    ];
+    const HOURS = [
+      ["Sesiones presenciales", "16 sesiones × 90 min", "24 h directas"],
+      ["Laboratorio de construcción (en aula)", "≈ 50 min por sesión", "≈ 13 h"],
+      ["Trabajo autónomo / proyecto", "Desarrollo del prototipo", "≈ 30–40 h (estimado)"],
+      ["Evaluación final", "Defensa del prototipo funcional", "Sesión 16"]
+    ];
+
     /* ===================== RENDER ===================== */
     const $ = (id) => document.getElementById(id);
     const esc = (s) => String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
@@ -636,9 +699,19 @@
           </div>
         </div>`).join("");
     }
+    const LOGOS = {
+      "GitHub":`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.6.1-3.3 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.7.2 3 .1 3.3.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.3v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 23.5 12C23.5 5.7 18.3.5 12 .5z"/></svg>`,
+      "Vercel":`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 22 21H2z"/></svg>`,
+      "Claude / Claude Code":`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M2 12h20M4.6 4.6l14.8 14.8M19.4 4.6 4.6 19.4M7 12l5-3 5 3-5 3z"/></svg>`,
+      "Supabase":`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 4 13.5h6.2L9 22l10-12.5h-6.4z"/></svg>`,
+      "ChatGPT":`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 7.5A4.5 4.5 0 1 1 7.5 12"/><path d="M12 16.5A4.5 4.5 0 1 1 16.5 12"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/></svg>`,
+      "Codex CLI":`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg>`,
+      "Gemini":`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c.6 5.4 3.6 8.4 9 9-5.4.6-8.4 3.6-9 9-.6-5.4-3.6-8.4-9-9 5.4-.6 8.4-3.6 9-9z"/></svg>`,
+      "NotebookLM":`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="13" height="18" rx="2"/><path d="M9 3v18"/><path d="M13.4 8.5l1 2.1 2.1 1-2.1 1-1 2.1-1-2.1-2.1-1 2.1-1z" fill="currentColor" stroke="none"/></svg>`
+    };
     function toolCard(t){
       return `<a class="link-card" href="${esc(t.url)}" target="_blank" rel="noopener noreferrer" style="--accent:${esc(t.color)}">
-          <div class="lc-head"><span class="lc-logo">${esc(t.k)}</span><div class="lc-title"><b>${esc(t.name)}</b><span>${esc(t.tag)}</span></div></div>
+          <div class="lc-head"><span class="lc-logo">${LOGOS[t.name] || esc(t.k)}</span><div class="lc-title"><b>${esc(t.name)}</b><span>${esc(t.tag)}</span></div></div>
           <p class="lc-body">${esc(t.body)}</p>
           <ul class="lc-steps">${t.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ul>
           <div class="lc-foot"><span class="lc-url">${esc(t.url.replace("https://",""))}</span><span class="go">abrir <i data-lucide="external-link"></i></span></div>
@@ -681,6 +754,70 @@
     function renderTicker(){
       $("tickerTrack").innerHTML = [...TICKER,...TICKER].map(t=>`<span>${esc(t)}</span>`).join("");
     }
+    function renderDossier(){
+      const tools = [...TOOLS_CORE, ...TOOLS_AGENTS];
+      $("dossier").innerHTML = `
+        <div class="dz-cover">
+          <div class="kor">Propuesta de curso optativo · Escuela de Derecho PUCV · DER-IA · OPT 2026</div>
+          <h1>Derecho + IA: construir, verificar y gobernar</h1>
+          <div class="dz-author">Diego Hernán Ojeda Cifuentes · Licenciado en Ciencias Jurídicas · Proyecto independiente, fuera del programa DIAT</div>
+        </div>
+
+        <div class="dz-sec"><h2>1 · Resumen ejecutivo</h2>
+          <p>Curso optativo semestral (16 semanas, una sesión de 90 minutos por semana, sin requisito técnico) en el que cada estudiante construye un prototipo jurídico funcional. Mientras el mercado aprende a <i>usar</i> la IA, este curso enseña a <b>construirla, verificarla y gobernarla</b>: diseñar las reglas y gobernar los sistemas que integran a los modelos —la habilidad más escasa del momento y la más cercana a la tradición teórica de la Escuela—.</p>
+          <p><span class="dz-tag">Metodología</span> Aprendizaje Basado en Proyectos (ABP): cada sesión es teórico-práctica. &nbsp; <span class="dz-tag">Entregable</span> prototipo funcional sobre Supabase, defendido al cierre. &nbsp; <span class="dz-tag">Cupo</span> acotado por laboratorio (20–30).</p>
+        </div>
+
+        <div class="dz-sec"><h2>2 · Objetivos</h2>
+          <h3>Objetivo general</h3><p>${esc(OBJ_G)}</p>
+          <h3>Objetivos específicos</h3>
+          <ul>${OBJ_E.map((o,i)=>`<li><b>OE${i+1}.</b> ${esc(o)}</li>`).join("")}</ul>
+        </div>
+
+        <div class="dz-sec"><h2>3 · Distribución de horas</h2>
+          <table><thead><tr><th>Componente</th><th>Detalle</th><th>Carga</th></tr></thead>
+          <tbody>${HOURS.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("")}</tbody></table>
+          <p style="font-size:9pt;color:#667">Horas directas de aula: 24 (16 × 90 min). Trabajo autónomo estimado; equivalencia en créditos SCT a confirmar según reglamento PUCV.</p>
+        </div>
+
+        <div class="dz-sec"><h2>4 · Anatomía de una sesión (90 min)</h2>
+          <ul>
+            <li><b>0–25 min · Marco jurídico-teórico:</b> el concepto de la casa (normatividad, debido proceso, datos, responsabilidad).</li>
+            <li><b>25–75 min · Laboratorio:</b> se construye o mejora el prototipo con el agente y el stack del día.</li>
+            <li><b>75–90 min · Verificación y gobernanza:</b> se audita lo construido y se anota la decisión en la “Constitución”.</li>
+          </ul>
+        </div>
+
+        <div class="dz-sec"><h2>5 · Ruta de módulos</h2>
+          ${MODULES.map(m=>`<div class="dz-mod"><b>${esc(m.mx)} · ${esc(m.t)}</b> — <span class="dz-tag">${esc(m.sub)}</span>
+            <div class="dz-cols">
+              <div><h4>Teoría</h4><ul>${m.teoria.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+              <div><h4>Práctica</h4><ul>${m.practica.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+              <div><h4>Entregable</h4><ul>${m.entregable.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+            </div></div>`).join("")}
+        </div>
+
+        <div class="dz-sec"><h2>6 · Stack de herramientas</h2>
+          <ul>${tools.map(t=>`<li><b>${esc(t.name)}</b> <span class="dz-tag">${esc(t.tag)}</span> — ${esc(t.body)} (${esc(t.url.replace("https://",""))})</li>`).join("")}</ul>
+        </div>
+
+        <div class="dz-sec"><h2>7 · Sello y competencias</h2>
+          <h3>Diferenciadores</h3>
+          <ul>${DIFFS.map(d=>`<li><b>${esc(d.t)}:</b> ${esc(d.d)}</li>`).join("")}</ul>
+          <h3>Competencias que se llevan al mercado</h3>
+          <ul>${COMPS.map(c=>`<li><b>${esc(c.t)}:</b> ${esc(c.d)}</li>`).join("")}</ul>
+        </div>
+
+        <div class="dz-sec"><h2>8 · Educación continua: tres propuestas para egresados</h2>
+          ${PROGRAMS.map((p,i)=>`<div class="dz-prog"><b>Propuesta ${i+1} · ${esc(p.name)}</b> <span class="dz-tag">${esc(p.format.join(" · "))}</span>
+            <p style="margin:4px 0">${esc(p.tagline)} De ${esc(p.from)} → a <b>${esc(p.to)}</b>.</p>
+            <ul>${p.modules.map(m=>`<li><b>${esc(m.t)}:</b> ${esc(m.o)}</li>`).join("")}</ul>
+            <p style="margin:2px 0"><b>Te llevas:</b> ${esc(p.deliver)}</p></div>`).join("")}
+        </div>
+
+        <div class="dz-foot">Documento de trabajo para revisión institucional. Datos de mercado y estado regulatorio a reconfirmar a la fecha de uso; bibliografía doctrinal a curar por la cátedra. © ${new Date().getFullYear()} Diego Hernán Ojeda Cifuentes.</div>
+      `;
+    }
 
     /* ===================== NAVEGACIÓN ===================== */
     function go(section){
@@ -703,12 +840,25 @@
     let audioCtx = null, soundOn = false;
     function blip(freq){
       if(!soundOn || !audioCtx) return;
-      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-      o.type = "triangle"; o.frequency.value = freq;
-      g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.05, audioCtx.currentTime + 0.01);
-      g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.16);
-      o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime + 0.18);
+      const t = audioCtx.currentTime;
+      const filt = audioCtx.createBiquadFilter();
+      filt.type = "lowpass";
+      filt.frequency.setValueAtTime(2800, t);
+      filt.frequency.exponentialRampToValueAtTime(640, t + 0.18);
+      filt.Q.value = 6;
+      const g = audioCtx.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.06, t + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+      const o1 = audioCtx.createOscillator();
+      o1.type = "square"; o1.frequency.setValueAtTime(freq, t);
+      o1.frequency.exponentialRampToValueAtTime(freq * 0.5, t + 0.2);
+      const o2 = audioCtx.createOscillator();
+      o2.type = "sawtooth"; o2.frequency.setValueAtTime(freq * 1.5, t);
+      o2.detune.setValueAtTime(14, t);
+      o2.frequency.exponentialRampToValueAtTime(freq * 0.74, t + 0.2);
+      o1.connect(filt); o2.connect(filt); filt.connect(g); g.connect(audioCtx.destination);
+      o1.start(t); o2.start(t); o1.stop(t + 0.24); o2.stop(t + 0.24);
     }
     $("soundToggle").addEventListener("click", () => {
       if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -799,7 +949,8 @@
 
     function refresh(){ if(window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } }); }
 
-    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderTicker();
+    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderTicker(); renderDossier();
+    $("pdfBtn").addEventListener("click", () => { blip(300); window.print(); });
     refresh(); initCanvas();
   </script>
 </body>
