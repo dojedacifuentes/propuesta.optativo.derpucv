@@ -214,12 +214,6 @@
       background:rgba(224,176,74,0.05); border-radius:6px; color:var(--muted); font-size:0.84rem; margin-top:10px; }
     .note svg{ width:18px; height:18px; color:var(--gold); margin-top:2px; }
 
-    .ticker{ position:fixed; right:0; bottom:0; left:0; height:36px; overflow:hidden;
-      border-top:1px solid rgba(75,231,255,0.24); background:rgba(2,3,6,0.94); }
-    #tickerTrack{ display:flex; width:max-content; height:100%; align-items:center; animation:ticker 40s linear infinite; }
-    #tickerTrack span{ padding:0 28px; color:var(--cyan); font-family:"JetBrains Mono",monospace; font-size:0.76rem; }
-    #tickerTrack span::after{ content:"·"; margin-left:28px; color:var(--gold); }
-    @keyframes ticker{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
 
     footer.credit{ position:relative; z-index:4; width:min(1340px,calc(100% - 32px)); margin:0 auto 60px; color:var(--muted);
       font-family:"JetBrains Mono",monospace; font-size:0.76rem; border-top:1px solid var(--line-soft); padding-top:16px; }
@@ -250,13 +244,16 @@
     .program{ border:1px solid var(--line-soft); border-radius:var(--radius); overflow:hidden; background:var(--panel);
       box-shadow:0 12px 40px rgba(0,0,0,0.36); transition:border-color .2s ease; }
     .program:hover{ border-color:var(--accent,var(--cyan)); }
-    .program-art{ height:158px; border-bottom:1px solid var(--line-soft); position:relative; }
-    .program-art svg{ display:block; width:100%; height:100%; }
-    .program-badge{ position:absolute; top:12px; left:14px; display:inline-flex; gap:8px; align-items:center;
-      padding:5px 10px; border:1px solid color-mix(in srgb,var(--accent,var(--cyan)),transparent 50%); border-radius:20px;
+    .program-head{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:13px 16px; position:relative;
+      border-bottom:1px solid var(--line-soft);
+      background:linear-gradient(90deg, color-mix(in srgb,var(--accent,var(--cyan)),transparent 86%), transparent 62%); }
+    .program-head::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--accent,var(--cyan)); }
+    .program-badge{ display:inline-flex; gap:8px; align-items:center; padding:5px 10px;
+      border:1px solid color-mix(in srgb,var(--accent,var(--cyan)),transparent 50%); border-radius:20px;
       background:rgba(2,3,6,0.74); font-family:"JetBrains Mono",monospace; font-size:0.72rem; color:var(--accent,var(--cyan)); }
     .program-badge b{ color:var(--white); }
-    .program-en{ position:absolute; top:12px; right:14px; font-family:"JetBrains Mono",monospace; font-size:0.7rem; color:var(--muted); }
+    .program-verb{ font-family:"JetBrains Mono",monospace; font-size:0.74rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent,var(--cyan)); }
+    .program-en{ margin-left:auto; font-family:"JetBrains Mono",monospace; font-size:0.72rem; color:var(--muted); }
     .program-body{ display:grid; grid-template-columns:1.05fr 1fr; gap:20px; padding:20px; }
     .program h3{ margin:0 0 4px; font-family:"Space Grotesk",system-ui,sans-serif; font-size:1.7rem; color:var(--accent,var(--cyan)); }
     .program .tagline{ font-size:1.08rem; color:var(--white); font-weight:600; margin:0 0 14px; line-height:1.35; }
@@ -595,7 +592,7 @@
     <!-- ============ EGRESADOS ============ -->
     <section class="section-view" id="s-egresados">
       <div class="section-head"><span class="eyebrow">Educación continua · la misma lógica, otra audiencia</span><h2>Tres propuestas. Tres contenidos. Una transformación.</h2>
-        <p>Para egresados y abogados en ejercicio no hay un solo curso: hay <b style="color:var(--white)">tres programas distintos y secuenciables</b>, cada uno con su propio contenido, formato y entregable. Se pueden contratar por separado o recorrer como ruta. Cada uno te mueve de una identidad profesional a la siguiente.</p></div>
+        <p><b style="color:var(--white)">Propuesta independiente del optativo de pregrado</b>, pensada para educación continua. No hay un solo curso: hay <b style="color:var(--white)">tres programas distintos y secuenciables</b>, cada uno con su propio contenido, formato y entregable. Se contratan por separado o se recorren como ruta. Las cargas horarias son estimadas y se ajustan al formato definitivo de educación continua.</p></div>
 
       <div class="track-intro">
         <div class="track-step"><span class="st">Programa 1 · usa</span><b>Abogado Aumentado</b><span>Le pierde el miedo a la IA y delega con criterio.</span><i class="ar" data-lucide="chevron-right"></i></div>
@@ -709,8 +706,6 @@
     DER-IA · OPT 2026 · documento de trabajo · datos de mercado y estado regulatorio a reconfirmar a la fecha.
   </footer>
 
-  <div class="ticker" aria-label="Ideas fuerza"><div id="tickerTrack"></div></div>
-
   <script>
     /* ===================== DATOS EDITABLES ===================== */
     const EXPERIENCE = [
@@ -806,7 +801,7 @@
         who:"Para abogados y egresados <b>sin experiencia técnica</b> que sienten que la IA los está dejando atrás.",
         from:"Usuario ansioso que copia y pega en un chatbot",
         to:"Profesional que delega con criterio y verifica lo que firma",
-        format:["24–32 h","Modular","Sin requisito técnico"],
+        format:["≈ 20 h","Modular","Sin requisito técnico"],
         modules:[
           { mn:"01", t:"Alfabetización crítica", o:"Distingues qué puede y qué no puede hacer la IA; dejas de creerle a ciegas." },
           { mn:"02", t:"Del prompt al flujo", o:"Conviertes tareas repetitivas en flujos reproducibles y confiables." },
@@ -821,7 +816,7 @@
         who:"Para quienes <b>ya usan IA a diario</b> y quieren dejar de depender de productos ajenos.",
         from:"Usuario avanzado de herramientas de otros",
         to:"Profesional que construye y despliega sus propias herramientas",
-        format:["48–60 h","Proyecto real","Construcción asistida por agentes"],
+        format:["≈ 40 h","Proyecto real","Construcción asistida por agentes"],
         modules:[
           { mn:"01", t:"De la idea a la app", o:"Construyes una herramienta funcional con el flujo Claude Code → GitHub → Vercel." },
           { mn:"02", t:"La Constitución del agente", o:"Redactas las reglas de tu sistema: el sello teórico difícil de copiar." },
@@ -836,7 +831,7 @@
         who:"Para <b>socios, líderes de equipos legales</b> y quienes quieren escalar de la herramienta al sistema.",
         from:"Constructor de herramientas sueltas",
         to:"Arquitecto que gobierna sistemas jurídico-algorítmicos completos",
-        format:["90–120 h","Sistema + gobernanza","Nivel avanzado"],
+        format:["≈ 60 h","Sistema + gobernanza","Nivel avanzado"],
         modules:[
           { mn:"01", t:"Arquitectura de sistemas", o:"Diseñas sistemas que integran varios agentes y fuentes de datos." },
           { mn:"02", t:"Gobernanza y responsabilidad", o:"Defines supervisión humana significativa y respondes por lo que el sistema decide." },
@@ -1017,10 +1012,12 @@
       $("compWrap").innerHTML = COMPS.map(c=>`<div class="diff-card"><span class="lc-logo" style="--accent:var(--cyan);width:40px;height:40px;flex:0 0 40px"><i data-lucide="${esc(c.ic)}"></i></span><b>${esc(c.t)}</b><p>${esc(c.d)}</p></div>`).join("");
     }
     function renderPrograms(){
+      const verbs = ["Usar · Delegar", "Construir · Desplegar", "Diseñar · Gobernar"];
       $("programsWrap").innerHTML = PROGRAMS.map((p,i)=>`
         <article class="program" style="--accent:${p.color}">
-          <div class="program-art">${p.art}
+          <div class="program-head">
             <span class="program-badge"><b>Propuesta ${i+1}</b> · Nivel ${i+1}</span>
+            <span class="program-verb">${esc(verbs[i] || "")}</span>
             <span class="program-en">${esc(p.en)}</span>
           </div>
           <div class="program-body">
@@ -1041,9 +1038,6 @@
             </div>
           </div>
         </article>`).join("");
-    }
-    function renderTicker(){
-      $("tickerTrack").innerHTML = [...TICKER,...TICKER].map(t=>`<span>${esc(t)}</span>`).join("");
     }
     function renderGana(){
       $("ganaWrap").innerHTML = GANA.map(g=>`<div class="diff-card"><span class="lc-logo" style="--accent:var(--mint);width:40px;height:40px;flex:0 0 40px"><i data-lucide="${esc(g[2])}"></i></span><b>${esc(g[0])}</b><p>${esc(g[1])}</p></div>`).join("");
@@ -1301,7 +1295,7 @@
 
     function refresh(){ if(window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } }); }
 
-    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderGana(); renderLogistica(); renderDemo(); renderTicker(); renderDossier();
+    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderGana(); renderLogistica(); renderDemo(); renderDossier();
     $("pdfBtn").addEventListener("click", () => { blip(300); window.print(); });
     refresh(); initCanvas();
   </script>
