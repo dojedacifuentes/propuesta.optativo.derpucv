@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Resumen ejecutivo · Optativo Derecho + IA 2026 · Propuesta piloto para la Escuela de Derecho PUCV.">
+  <title>Resumen ejecutivo · Optativo Derecho + IA 2026 · Escuela de Derecho PUCV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{ --ink:#10151f; --ink-2:#3a4658; --muted:#5f6c80; --line:#cdd7e4; --accent:#2c7fb8; --accent-soft:#eaf2f9; --warm:#b06a1f; }
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; background:#e9edf2; color:var(--ink); font-family:Inter,system-ui,sans-serif; line-height:1.5; }
+    .toolbar{ position:sticky; top:0; z-index:10; display:flex; gap:10px; align-items:center; justify-content:space-between;
+      padding:12px 18px; background:#0c1118; color:#dfe7f0; }
+    .toolbar .t{ font-family:"JetBrains Mono",monospace; font-size:0.8rem; color:#8fd0f0; }
+    .toolbar a,.toolbar button{ font:inherit; font-size:0.82rem; cursor:pointer; text-decoration:none; border-radius:6px;
+      padding:9px 14px; border:1px solid #2c7fb8; background:#13202e; color:#bfe3f7; display:inline-flex; align-items:center; gap:7px; }
+    .toolbar button.primary{ background:#2c7fb8; color:#fff; border-color:#2c7fb8; font-weight:700; }
+    .toolbar a:hover,.toolbar button:hover{ filter:brightness(1.12); }
+
+    .page{ width:210mm; min-height:297mm; margin:18px auto; padding:20mm 18mm; background:#fff;
+      box-shadow:0 10px 40px rgba(10,20,35,.22); }
+    .head{ display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
+      border-bottom:2px solid var(--accent); padding-bottom:12px; margin-bottom:18px; }
+    .kor{ font-family:"JetBrains Mono",monospace; font-size:8.5pt; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); }
+    h1{ font-family:"Space Grotesk",sans-serif; font-size:21pt; margin:6px 0 4px; line-height:1.1; }
+    .sub{ color:var(--muted); font-size:10.5pt; }
+    .pagetag{ font-family:"JetBrains Mono",monospace; font-size:8.5pt; color:var(--muted); white-space:nowrap; }
+    h2{ font-family:"Space Grotesk",sans-serif; font-size:12.5pt; margin:16px 0 6px; color:var(--ink);
+      display:flex; align-items:baseline; gap:8px; }
+    h2 .n{ font-family:"JetBrains Mono",monospace; font-size:9pt; color:var(--accent); }
+    p{ margin:0 0 8px; font-size:10.5pt; color:var(--ink-2); }
+    .lead{ color:var(--ink); }
+    ul{ margin:4px 0 8px; padding-left:18px; } li{ margin:3px 0; font-size:10.5pt; color:var(--ink-2); }
+    .cols{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .box{ border:1px solid var(--line); border-radius:7px; padding:12px 14px; background:#fbfcfe; }
+    .box h3{ font-size:10.5pt; margin:0 0 6px; color:var(--accent); }
+    table{ width:100%; border-collapse:collapse; margin:4px 0 8px; }
+    th,td{ border:1px solid var(--line); padding:6px 9px; text-align:left; font-size:9.7pt; vertical-align:top; }
+    th{ background:var(--accent-soft); font-family:"JetBrains Mono",monospace; font-size:8.5pt; text-transform:uppercase; color:#1c4f74; }
+    .decision{ border:1px solid var(--accent); background:var(--accent-soft); border-radius:8px; padding:14px 16px; margin-top:8px; }
+    .foot{ margin-top:18px; padding-top:8px; border-top:1px solid var(--line); font-size:8pt; color:var(--muted); }
+    @page{ size:A4; margin:14mm; }
+    @media print{
+      html,body{ background:#fff; }
+      .toolbar{ display:none !important; }
+      .page{ width:auto; min-height:0; margin:0; padding:0; box-shadow:none; page-break-after:always; }
+      .page:last-child{ page-break-after:auto; }
+    }
+    @media (max-width:780px){ .page{ width:auto; padding:22px 18px; } .cols{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="t">RESUMEN EJECUTIVO · DER-IA · OPT 2026</span>
+    <span>
+      <a href="index.html">&larr; Volver a la propuesta</a>
+      <button class="primary" onclick="window.print()">Imprimir / Guardar PDF</button>
+    </span>
+  </div>
+
+  <!-- PÁGINA 1 -->
+  <section class="page">
+    <div class="head">
+      <div>
+        <div class="kor">Propuesta piloto · Escuela de Derecho PUCV</div>
+        <h1>Optativo Derecho + IA 2026: construir, verificar y gobernar sistemas jurídicos</h1>
+        <div class="sub">Resumen ejecutivo para la Dirección de la Escuela de Derecho PUCV</div>
+      </div>
+      <div class="pagetag">1 / 2</div>
+    </div>
+
+    <h2><span class="n">1</span> Problema</h2>
+    <p class="lead">La IA ya está siendo usada en contextos jurídicos, pero muchas veces sin formación suficiente en verificación, trazabilidad, límites, datos y responsabilidad.</p>
+
+    <h2><span class="n">2</span> Oportunidad</h2>
+    <p>Derecho PUCV puede transformar su tradición jurídica, constitucional y teórica en una ventaja para formar abogados capaces de gobernar sistemas inteligentes. La ventaja no está en abandonar la formación jurídica clásica, sino en usarla para gobernar tecnologías que otros solo aprenden a operar.</p>
+
+    <h2><span class="n">3</span> Propuesta</h2>
+    <p>Optativo práctico de 16 semanas, sin prerrequisito técnico, basado en proyectos (ABP) y orientado al desarrollo de un prototipo jurídico funcional. El estudiante no se forma como programador, sino como abogado capaz de diseñar, dirigir y evaluar sistemas jurídicos asistidos por IA.</p>
+
+    <h2><span class="n">4</span> Resultado</h2>
+    <p>Cada estudiante o grupo entrega un prototipo funcional, una <b>Constitución del agente</b>, una matriz de riesgos, una bitácora de verificación y una defensa final jurídica y técnica de sus decisiones de diseño.</p>
+
+    <h2><span class="n">5</span> Por qué ahora</h2>
+    <p>Inminente entrada en vigencia de nuevas exigencias en protección de datos (Ley 21.719, prevista para el 1 de diciembre de 2026), discusión regulatoria sobre IA en Chile y transformación progresiva de la práctica legal. Estudios recientes sobre gerencias legales en Latinoamérica muestran que Chile mantiene una adopción todavía baja de IA en áreas legales, lo que abre una oportunidad formativa temprana.</p>
+
+    <div class="foot">Documento de trabajo para revisión institucional. Datos de mercado y estado regulatorio a reconfirmar a la fecha de uso; bibliografía doctrinal a curar por la cátedra.</div>
+  </section>
+
+  <!-- PÁGINA 2 -->
+  <section class="page">
+    <div class="head">
+      <div>
+        <div class="kor">Propuesta piloto · Escuela de Derecho PUCV</div>
+        <h1>Estructura, competencias, evaluación y decisión</h1>
+        <div class="sub">Construir · verificar · gobernar — un piloto acotado, medible y de bajo riesgo institucional</div>
+      </div>
+      <div class="pagetag">2 / 2</div>
+    </div>
+
+    <div class="cols">
+      <div class="box">
+        <h3>Estructura</h3>
+        <ul>
+          <li>16 semanas · sesiones de 90 minutos.</li>
+          <li>Laboratorio guiado en cada sesión.</li>
+          <li>Prototipo incremental, semana a semana.</li>
+          <li>Evaluación por proyecto.</li>
+          <li>Cupo acotado: 20 a 30 estudiantes.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Competencias</h3>
+        <ul>
+          <li>Diseñar flujos jurídicos asistidos por IA.</li>
+          <li>Verificar resultados con fuentes y criterios jurídicos.</li>
+          <li>Documentar límites e instrucciones del sistema.</li>
+          <li>Evaluar riesgos de error, sesgo y mal uso.</li>
+          <li>Gobernar sistemas de apoyo y defender el diseño.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2><span class="n">·</span> Evaluación</h2>
+    <table>
+      <thead><tr><th>Criterio</th><th>Peso</th></tr></thead>
+      <tbody>
+        <tr><td>Relevancia del problema jurídico</td><td>15%</td></tr>
+        <tr><td>Funcionamiento del prototipo</td><td>20%</td></tr>
+        <tr><td>Corrección jurídica y claridad del flujo</td><td>20%</td></tr>
+        <tr><td>Verificación y trazabilidad</td><td>15%</td></tr>
+        <tr><td>Constitución del agente</td><td>15%</td></tr>
+        <tr><td>Matriz de riesgos y responsabilidad</td><td>10%</td></tr>
+        <tr><td>Presentación y defensa final</td><td>5%</td></tr>
+      </tbody>
+    </table>
+
+    <h2><span class="n">·</span> Riesgos y mitigaciones</h2>
+    <table>
+      <thead><tr><th>Riesgo</th><th>Mitigación</th></tr></thead>
+      <tbody>
+        <tr><td>Alucinaciones o errores del modelo</td><td>Verificación con fuentes, revisión humana y bitácora de pruebas.</td></tr>
+        <tr><td>Datos personales o sensibles</td><td>Casos ficticios, públicos o anonimizados; minimización y tratamiento responsable.</td></tr>
+        <tr><td>Dependencia de una herramienta</td><td>Comparación de modelos; énfasis en principios transferibles.</td></tr>
+        <tr><td>Falta de base técnica</td><td>Plantillas, componentes guiados y acompañamiento paso a paso.</td></tr>
+        <tr><td>Automatización irresponsable</td><td>Constitución del agente, límites de actuación y escalamiento humano.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="decision">
+      <h2 style="margin-top:0"><span class="n">→</span> Decisión solicitada</h2>
+      <p style="margin:0">Evaluar la autorización para diseñar formalmente el programa, definir las condiciones del piloto y revisar su posible implementación como optativo 2026.</p>
+    </div>
+
+    <div class="foot">Propuesta académica independiente, elaborada por Diego Ojeda (licenciado en Derecho PUCV) para evaluación de la Dirección de la Escuela. Articulable, si se estima pertinente, con líneas institucionales de docencia, investigación, innovación, educación continua o vinculación con el medio.</div>
+  </section>
+</body>
+</html>
