@@ -590,6 +590,34 @@
         <p>El desafío no es solo aprender a preguntar mejor, sino aprender a diseñar sistemas jurídicos que puedan ser auditados, corregidos y gobernados.</p>
       </div>
 
+      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Cómo funciona por dentro</span><h2 style="font-size:1.4rem">El prototipo no es un chatbot libre: es un sistema en bucle</h2>
+        <p>Una consulta entra, se gobierna con la Constitución del agente y fuentes autorizadas, se verifica y se responde con advertencias; la bitácora retroalimenta el ciclo de mejora.</p></div>
+      <div class="viz">
+        <svg viewBox="0 0 1142 150" role="img" aria-label="Modelo del prototipo en bucle: consulta, fuentes, Constitución del agente, análisis IA, verificación, respuesta y revisión humana, con iteración que retroalimenta el inicio">
+          <defs>
+            <marker id="rva" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#4be7ff" opacity=".75"/></marker>
+            <marker id="rvg" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#e0b04a" opacity=".85"/></marker>
+          </defs>
+          <path class="viz-edge" d="M158 43 H172" marker-end="url(#rva)"/>
+          <path class="viz-edge" d="M322 43 H336" marker-end="url(#rva)"/>
+          <path class="viz-edge" d="M486 43 H500" marker-end="url(#rva)"/>
+          <path class="viz-edge" d="M650 43 H664" marker-end="url(#rva)"/>
+          <path class="viz-edge" d="M814 43 H828" marker-end="url(#rva)"/>
+          <path class="viz-edge" d="M978 43 H992" marker-end="url(#rva)"/>
+          <path class="viz-edge viz-edge--loop" d="M1067 76 C1067 134 83 134 83 80" marker-end="url(#rvg)"/>
+          <text class="viz-loop-lab" x="575" y="127" text-anchor="middle">iteración · mejora continua</text>
+          <circle class="viz-packet" cx="83" cy="88" r="3" fill="#4be7ff"><animate attributeName="cx" values="83;1067" dur="3.6s" repeatCount="indefinite"/></circle>
+          <g><rect x="8" y="10" width="150" height="66" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="24" cy="40" r="4.5" fill="#4be7ff"/><text x="38" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Consulta</text><text x="38" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">caso ficticio</text></g>
+          <g><rect x="172" y="10" width="150" height="66" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="188" cy="40" r="4.5" fill="#4be7ff"/><text x="202" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Fuentes</text><text x="202" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">autorizadas</text></g>
+          <g><rect x="336" y="10" width="150" height="66" rx="9" fill="rgba(224,176,74,.1)" stroke="#e0b04a" stroke-width="2.4"/><circle cx="352" cy="40" r="4.5" fill="#e0b04a"/><text x="366" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Constitución</text><text x="366" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">reglas · límites</text></g>
+          <g><rect x="500" y="10" width="150" height="66" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="516" cy="40" r="4.5" fill="#4be7ff"/><text x="530" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Análisis IA</text><text x="530" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">resp. preliminar</text></g>
+          <g><rect x="664" y="10" width="150" height="66" rx="9" fill="rgba(84,214,160,.08)" stroke="#54d6a0" stroke-width="1.6"/><circle cx="680" cy="40" r="4.5" fill="#54d6a0"/><text x="694" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Verificación</text><text x="694" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">fuentes · hechos</text></g>
+          <g><rect x="828" y="10" width="150" height="66" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="844" cy="40" r="4.5" fill="#4be7ff"/><text x="858" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Respuesta</text><text x="858" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">advertida</text></g>
+          <g><rect x="992" y="10" width="150" height="66" rx="9" fill="rgba(157,139,255,.08)" stroke="#9d8bff" stroke-width="1.6"/><circle cx="1008" cy="40" r="4.5" fill="#9d8bff"/><text x="1022" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Revisión humana</text><text x="1022" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">supervisión</text></g>
+        </svg>
+      </div>
+      <div style="margin:-4px 0 4px"><button type="button" class="thin-command" data-go="demo"><i data-lucide="git-branch"></i><span>Ver el modelo operativo completo</span></button></div>
+
       <div class="section-head"><span class="eyebrow">El problema</span><h2>La IA ya entró al Derecho, pero sin formación jurídica suficiente</h2></div>
       <div class="grid-3">
         <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--coral)"><i data-lucide="alert-circle"></i></span><div class="lc-title"><b>Uso sin criterio</b></div></div><p class="lc-body" style="margin-top:8px">Los estudiantes ya usan herramientas de IA, muchas veces sin criterios de verificación, trazabilidad ni responsabilidad.</p></div>
@@ -1310,15 +1338,15 @@
       $("riskWrap").innerHTML = `<table class="rtable"><thead><tr><th>Riesgo</th><th>Mitigación</th></tr></thead><tbody>${RISKS.map(r=>`<tr><td><b>${esc(r[0])}</b></td><td style="color:var(--muted)">${esc(r[1])}</td></tr>`).join("")}</tbody></table>`;
       $("pilotoWrap").innerHTML = `<ul class="lc-steps">${PILOTO.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>`;
     }
-    const WF_COMPACT = `<svg viewBox="0 0 1142 104" role="img" aria-label="Modelo operativo compacto del agente jurídico: consulta, fuentes, Constitución, análisis IA, verificación, respuesta y revisión humana" style="width:100%;height:auto;background:#f7f9fc;border:1px solid #cdd7e4;border-radius:6px">
-        <defs><marker id="wfc" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#2c7fb8"/></marker></defs>
-        <path d="M158 59 H172" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
-        <path d="M322 59 H336" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
-        <path d="M486 59 H500" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
-        <path d="M650 59 H664" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
-        <path d="M814 59 H828" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
-        <path d="M978 59 H992" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
-        ${[[8,"Consulta","caso ficticio","#2c7fb8",1.4],[172,"Fuentes","autorizadas","#2c7fb8",1.4],[336,"Constitución","reglas · límites","#b06a1f",2.2],[500,"Análisis IA","resp. preliminar","#2c7fb8",1.4],[664,"Verificación","fuentes · hechos","#2e8b6f",1.6],[828,"Respuesta","advertida","#2c7fb8",1.4],[992,"Revisión humana","supervisión","#6a5acd",1.6]].map(n=>`<g><rect x="${n[0]}" y="26" width="150" height="66" rx="8" fill="#ffffff" stroke="${n[3]}" stroke-width="${n[4]}"/><text x="${n[0]+13}" y="58" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="12.5" fill="#10151f">${n[1]}</text><text x="${n[0]+13}" y="76" font-family="'JetBrains Mono',monospace" font-size="9" fill="#5f6c80">${n[2]}</text></g>`).join("")}
+    const WF_COMPACT = `<svg viewBox="0 0 1142 150" role="img" aria-label="Modelo operativo del agente jurídico en bucle: consulta, fuentes, Constitución del agente, análisis IA, verificación, respuesta y revisión humana, con un ciclo de iteración que retroalimenta el inicio" style="width:100%;height:auto;background:#f7f9fc;border:1px solid #cdd7e4;border-radius:6px">
+        <defs>
+          <marker id="wfc" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#2c7fb8"/></marker>
+          <marker id="wfcl" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#b06a1f"/></marker>
+        </defs>
+        ${[158,322,486,650,814,978].map(x=>`<path d="M${x} 43 H${x+14}" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>`).join("")}
+        <path d="M1067 76 C1067 134 83 134 83 80" fill="none" stroke="#b06a1f" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#wfcl)"/>
+        <text x="575" y="127" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="10" fill="#b06a1f">iteración · mejora continua</text>
+        ${[[8,"Consulta","caso ficticio","#2c7fb8",1.4],[172,"Fuentes","autorizadas","#2c7fb8",1.4],[336,"Constitución","reglas · límites","#b06a1f",2.4],[500,"Análisis IA","resp. preliminar","#2c7fb8",1.4],[664,"Verificación","fuentes · hechos","#2e8b6f",1.6],[828,"Respuesta","advertida","#2c7fb8",1.4],[992,"Revisión humana","supervisión","#6a5acd",1.6]].map(n=>`<g><rect x="${n[0]}" y="10" width="150" height="66" rx="9" fill="#ffffff" stroke="${n[3]}" stroke-width="${n[4]}"/><circle cx="${n[0]+16}" cy="40" r="4.5" fill="${n[3]}"/><text x="${n[0]+30}" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#10151f">${n[1]}</text><text x="${n[0]+30}" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#5f6c80">${n[2]}</text></g>`).join("")}
       </svg>`;
     function renderDossier(){
       const tools = [...TOOLS_CORE, ...TOOLS_AGENTS];
