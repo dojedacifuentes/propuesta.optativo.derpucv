@@ -377,6 +377,17 @@
     .viz{ overflow-x:auto; }
     .viz-packet{ filter:drop-shadow(0 0 5px #4be7ff); }
     @media (max-width:760px){ .viz svg{ min-width:620px; } .viz-cap{ font-size:.84rem; } }
+    /* Movimiento cybertech sobrio (avanzado) */
+    .viz-edge{ filter:drop-shadow(0 0 2.5px rgba(75,231,255,.4)); }
+    .viz::before{ animation:vizgrid 26s linear infinite; }
+    @keyframes vizgrid{ from{ background-position:0 0,0 0; } to{ background-position:26px 26px,26px 26px; } }
+    .viz::after{ content:""; position:absolute; left:0; right:0; top:0; height:2px; pointer-events:none; z-index:2;
+      background:linear-gradient(90deg,transparent,rgba(75,231,255,.5),transparent); animation:vizsweep 6.5s linear infinite; }
+    @keyframes vizsweep{ 0%{ top:-2%; opacity:0; } 12%{ opacity:.5; } 88%{ opacity:.5; } 100%{ top:102%; opacity:0; } }
+    .viz-node--highlighted rect{ animation:vizglow 3.4s ease-in-out infinite; }
+    @keyframes vizglow{ 0%,100%{ filter:drop-shadow(0 0 5px rgba(224,176,74,.35)); } 50%{ filter:drop-shadow(0 0 12px rgba(224,176,74,.62)); } }
+    @media (prefers-reduced-motion:reduce){ .viz-edge{ filter:none; } .viz::before,.viz::after,.viz-node--highlighted rect{ animation:none; } .viz::after{ display:none; } }
+    @media print{ .viz::after{ display:none; } .viz::before{ animation:none; } .viz-edge{ filter:none; } .viz-node--highlighted rect{ animation:none; } }
     @media (prefers-reduced-motion:reduce){ .viz-packet{ display:none; } }
     @media print{ .viz-packet{ display:none; } }
 
