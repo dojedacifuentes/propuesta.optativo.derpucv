@@ -17,7 +17,7 @@
       --line:rgba(75,231,255,0.22); --line-soft:rgba(246,240,223,0.12);
       --cyan:#4be7ff; --cyan-soft:#8df6ff;
       --red:#800814; --red-bright:#e44949;
-      --gold:#e0b04a; --mint:#54d6a0;
+      --gold:#e0b04a; --mint:#54d6a0; --coral:#ec7e72;
       --white:#f6f0df; --muted:#9ba7ad;
       --radius:8px; --shadow:0 18px 80px rgba(0,0,0,0.55);
     }
@@ -375,6 +375,40 @@
     @media (prefers-reduced-motion:reduce){ .viz-edge{ animation:none; stroke-dasharray:none; } .viz-pulse,.viz-scan{ animation:none; opacity:.6; } }
     @media print{ .viz-edge{ animation:none; stroke-dasharray:none; stroke-opacity:.7; } .viz-pulse{ animation:none; opacity:1; } .viz-scan{ display:none; } }
 
+    /* MÉTODO DE LA CONSTITUCIÓN (ConstitutionalMethodFlow) */
+    .cmf{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:16px; align-items:start; margin-top:6px; }
+    .cmf-stack{ position:relative; border:1px solid var(--line); border-radius:var(--radius); background:rgba(2,3,6,.5); padding:14px; }
+    .cmf-io{ display:flex; align-items:center; gap:8px; font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--muted); margin:2px 2px 8px; }
+    .cmf-io.out{ margin:10px 2px 2px; }
+    .cmf-io.in{ color:var(--cyan); } .cmf-io.out{ color:var(--mint); }
+    .cmf-io svg{ width:15px; height:15px; }
+    .cmf-gates{ position:relative; }
+    .cmf-gate-list{ display:grid; gap:6px; }
+    .cmf-scan{ position:absolute; left:0; right:0; top:0; height:2px; pointer-events:none; z-index:3;
+      background:linear-gradient(90deg,transparent,var(--cyan),transparent); opacity:.45; animation:cmfscan 5s linear infinite; }
+    @keyframes cmfscan{ 0%{ top:0; opacity:0; } 8%{ opacity:.5; } 92%{ opacity:.5; } 100%{ top:100%; opacity:0; } }
+    .cmf-gate{ display:grid; grid-template-columns:28px 1fr 10px; gap:10px; align-items:center; width:100%; text-align:left;
+      padding:10px 12px; border:1px solid var(--line-soft); border-left:3px solid var(--line-soft); border-radius:6px;
+      background:rgba(6,11,16,.7); color:var(--white); cursor:pointer; font-family:inherit; transition:border-color .15s ease,background .15s ease; }
+    .cmf-gate .gn{ font-family:"JetBrains Mono",monospace; color:var(--muted); font-size:.8rem; }
+    .cmf-gate .gt{ font-size:.9rem; min-width:0; }
+    .cmf-gate .gtick{ width:10px; height:10px; border-radius:50%; background:var(--line-soft); }
+    .cmf-gate:hover{ border-color:var(--cyan); }
+    .cmf-gate.active{ border-left-color:var(--cyan); background:rgba(75,231,255,.08); }
+    .cmf-gate.active .gt{ color:var(--cyan); }
+    .cmf-gate.active .gtick{ background:var(--mint); box-shadow:0 0 9px var(--mint); animation:cmfpulse 1.7s ease-in-out infinite; }
+    @keyframes cmfpulse{ 0%,100%{ opacity:.5; } 50%{ opacity:1; } }
+    .cmf-detail{ border:1px solid var(--line); border-radius:var(--radius); background:var(--panel-strong); padding:18px; }
+    .cmf-detail .dn{ font-family:"JetBrains Mono",monospace; color:var(--cyan); font-size:.72rem; text-transform:uppercase; }
+    .cmf-detail h3{ margin:6px 0 10px; font-family:"Space Grotesk",sans-serif; font-size:1.25rem; }
+    .cmf-row{ margin:10px 0; } .cmf-row b{ display:block; font-family:"JetBrains Mono",monospace; font-size:.68rem; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+    .cmf-row p{ margin:0; color:var(--white); font-size:.9rem; }
+    .cmf-risk{ border-left:2px solid var(--coral); padding-left:10px; } .cmf-risk p{ color:var(--muted); }
+    .cmf-print{ display:none; }
+    @media (max-width:780px){ .cmf{ grid-template-columns:1fr; } }
+    @media (prefers-reduced-motion:reduce){ .cmf-scan{ animation:none; opacity:.3; } .cmf-gate.active .gtick{ animation:none; } }
+    @media print{ .cmf{ display:none; } .cmf-print{ display:block; } .cmf-prow{ margin:5px 0; font-size:9.5pt; } }
+
     /* DEMO INTERACTIVA */
     .demo{ border:1px solid var(--line); border-radius:var(--radius); background:var(--panel-strong); padding:16px; }
     .demo-bar{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
@@ -608,6 +642,18 @@
         </div>
         <p class="lc-body" style="margin-top:12px;color:var(--white);font-style:italic">“Redactar la Constitución del agente convierte teoría de la normatividad, razonamiento jurídico y responsabilidad profesional en arquitectura práctica de sistemas inteligentes.”</p>
       </div>
+
+      <div class="section-head" style="margin-top:8px"><span class="eyebrow">El método de la Constitución</span><h2 style="font-size:1.5rem">De la teoría jurídica a reglas operativas para un agente verificable</h2>
+        <p>No es el flujo técnico del agente: es el método con que se redacta su Constitución. Una intención entra, atraviesa capas normativas y sale como acción permitida, respuesta limitada o derivación humana. Selecciona una capa para ver qué controla.</p></div>
+      <div class="cmf">
+        <div class="cmf-stack">
+          <div class="cmf-io in"><i data-lucide="log-in"></i>entra · intención del agente</div>
+          <div class="cmf-gates"><div class="cmf-scan" aria-hidden="true"></div><div class="cmf-gate-list" id="cmfGates"></div></div>
+          <div class="cmf-io out"><i data-lucide="shield-check"></i>sale · acción permitida, respuesta limitada o derivación humana</div>
+        </div>
+        <div class="cmf-detail" id="cmfDetail"></div>
+      </div>
+      <div class="cmf-print" id="cmfPrint"></div>
 
       <div class="section-head" style="margin-top:6px"><span class="eyebrow">Escalera de competencia</span><h2 style="font-size:1.4rem">El optativo lleva del 1 al 3</h2></div>
       <div class="ladder">
@@ -1054,6 +1100,17 @@
       checks:["Escalamiento humano activado"],
       limit:"El agente solo opera dentro de la finalidad y el ámbito autorizados por su Constitución."
     };
+    const STAGES = [
+      { t:"Finalidad del agente", exp:"Define qué problema jurídico puede abordar.", ej:"Orientar sobre las cláusulas de un contrato ficticio de arriendo.", riesgo:"Que el agente intente resolver cualquier cosa, sin foco." },
+      { t:"Ámbito de actuación", exp:"Define qué tareas puede realizar y cuáles quedan fuera.", ej:"Revisar y explicar cláusulas; no redactar la versión final ni decidir.", riesgo:"Que actúe más allá de lo que se le encomendó." },
+      { t:"Fuentes autorizadas", exp:"Define qué documentos, normas o criterios puede usar.", ej:"Solo documentos cargados, normativa indicada y criterios docentes.", riesgo:"Invención de fuentes o citas inexistentes." },
+      { t:"Límites y prohibiciones", exp:"Define qué no puede afirmar, hacer ni sugerir.", ej:"No da por cierto lo no verificado ni promete resultados.", riesgo:"Afirmaciones falsas presentadas como ciertas." },
+      { t:"Deberes de advertencia", exp:"Define cuándo debe declarar incertidumbre, límites o necesidad de revisión.", ej:"Advierte: “orientación preliminar, requiere revisión de un abogado”.", riesgo:"Que el usuario confunda apoyo con asesoría definitiva." },
+      { t:"Reglas de verificación", exp:"Define cómo contrasta respuestas con fuentes y criterios jurídicos.", ej:"Separa hechos de inferencias y enlaza cada afirmación a su fuente.", riesgo:"Respuestas sin respaldo ni trazabilidad." },
+      { t:"Escalamiento humano", exp:"Define cuándo debe detenerse y derivar a revisión experta.", ej:"Si hay riesgo alto, datos sensibles o decisión relevante, deriva.", riesgo:"Automatizar decisiones que requieren juicio humano." },
+      { t:"Trazabilidad", exp:"Define qué consulta, reglas, fuentes y advertencias quedan registradas.", ej:"Bitácora de cada consulta, regla aplicada, fuente y advertencia.", riesgo:"Imposibilidad de auditar o corregir el sistema." },
+      { t:"Iteración constitucional", exp:"Define cómo los errores detectados corrigen la Constitución del agente.", ej:"Un error hallado en pruebas se traduce en una nueva regla o límite.", riesgo:"Que el sistema repita los mismos errores." }
+    ];
 
     /* ===================== RENDER ===================== */
     const $ = (id) => document.getElementById(id);
@@ -1283,6 +1340,22 @@
       if((e.key==="Enter"||e.key===" ") && e.target.matches("a.link-card[role='button']")){ e.preventDefault(); e.target.click(); }
     });
 
+    /* ===================== MÉTODO DE LA CONSTITUCIÓN ===================== */
+    function selectCMF(i){
+      const s = STAGES[i];
+      document.querySelectorAll(".cmf-gate").forEach((g,gi)=>g.classList.toggle("active", gi===i));
+      $("cmfDetail").innerHTML = `<span class="dn">Capa ${String(i+1).padStart(2,"0")} / ${STAGES.length}</span><h3>${esc(s.t)}</h3>
+        <div class="cmf-row"><b>Explicación</b><p>${esc(s.exp)}</p></div>
+        <div class="cmf-row"><b>Ejemplo aplicado</b><p>${esc(s.ej)}</p></div>
+        <div class="cmf-row cmf-risk"><b>Riesgo que evita</b><p>${esc(s.riesgo)}</p></div>`;
+    }
+    function renderCMF(){
+      $("cmfGates").innerHTML = STAGES.map((s,i)=>`<button type="button" class="cmf-gate ${i===0?"active":""}" data-cmf="${i}"><span class="gn">${String(i+1).padStart(2,"0")}</span><span class="gt">${esc(s.t)}</span><span class="gtick"></span></button>`).join("");
+      $("cmfPrint").innerHTML = `<h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;margin:0 0 8px">El método de la Constitución · 9 capas</h3>` + STAGES.map((s,i)=>`<div class="cmf-prow"><b>${i+1}. ${esc(s.t)}.</b> ${esc(s.exp)} <i>Evita:</i> ${esc(s.riesgo)}</div>`).join("");
+      selectCMF(0);
+    }
+    document.addEventListener("click",(e)=>{ const g=e.target.closest("[data-cmf]"); if(g){ selectCMF(Number(g.dataset.cmf)); blip(560); } });
+
     /* ===================== DEMO INTERACTIVA ===================== */
     function demoBlocks(d){
       return `
@@ -1447,7 +1520,7 @@
 
     function refresh(){ if(window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } }); }
 
-    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderGana(); renderLogistica(); renderDemo(); renderDossier(); mountDownloads();
+    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderGana(); renderLogistica(); renderCMF(); renderDemo(); renderDossier(); mountDownloads();
     $("pdfBtn").addEventListener("click", () => { blip(300); dlScope("all"); });
     refresh(); initCanvas();
   </script>
