@@ -75,14 +75,14 @@
     .icon-only{ width:38px; min-width:38px; padding:0; }
     .icon-only.on{ border-color:var(--cyan); color:var(--cyan); }
 
-    .shell{ width:min(1340px,calc(100% - 32px)); margin:22px auto 84px; }
+    .shell{ width:min(1180px,calc(100% - 40px)); margin:28px auto 120px; }
     .section-view{ display:none; animation:fade .4s ease; }
     .section-view.active{ display:block; }
     @keyframes fade{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:none; } }
 
     .eyebrow{ font-family:"JetBrains Mono",monospace; font-size:0.76rem; color:var(--cyan); text-transform:uppercase; letter-spacing:.04em; }
     .eyebrow::before{ content:"— "; color:var(--gold); }
-    .section-head{ margin:30px 0 14px; }
+    .section-head{ margin:46px 0 18px; }
     .section-head h2{ margin:6px 0 6px; font-family:"Space Grotesk",system-ui,sans-serif; font-size:2.05rem; }
     .section-head p{ color:var(--muted); max-width:760px; }
 
@@ -119,8 +119,8 @@
     .marquee-thesis p{ margin:0; font-family:"JetBrains Mono",monospace; font-size:1.02rem; font-weight:600; color:var(--white); }
 
     /* GRIDS + CARDS */
-    .grid-3{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
-    .grid-2{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .grid-3{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+    .grid-2{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
     .grid-4{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
 
     .card{ min-width:0; padding:18px; border:1px solid var(--line-soft); border-radius:var(--radius);
@@ -296,17 +296,13 @@
     @media (max-width:680px){ .cal-grid{ grid-template-columns:1fr; } }
 
     /* BOTÓN FLOTANTE PDF */
-    .fab{ position:fixed; right:18px; bottom:50px; z-index:60; display:inline-flex; align-items:center; gap:9px;
-      padding:12px 16px; border-radius:30px; border:1px solid var(--cyan); background:rgba(2,3,6,0.9); color:var(--cyan);
-      cursor:pointer; font-family:"JetBrains Mono",monospace; font-size:0.78rem; font-weight:700; letter-spacing:.02em;
-      box-shadow:0 8px 30px rgba(0,0,0,.5), 0 0 16px rgba(75,231,255,.22); backdrop-filter:blur(8px);
-      animation:fabpulse 3.2s ease-in-out infinite; }
-    .fab:hover{ background:rgba(75,231,255,0.14); color:var(--white); }
-    .fab svg{ width:18px; height:18px; }
-    @keyframes fabpulse{ 0%,100%{ box-shadow:0 8px 30px rgba(0,0,0,.5), 0 0 12px rgba(75,231,255,.18); }
-      50%{ box-shadow:0 8px 30px rgba(0,0,0,.5), 0 0 28px rgba(75,231,255,.5); } }
-    @media (max-width:560px){ .fab span{ display:none; } .fab{ padding:13px; bottom:48px; } }
-    @media (prefers-reduced-motion:reduce){ .fab{ animation:none; } }
+    .fab{ position:fixed; right:20px; bottom:24px; z-index:60; display:inline-flex; align-items:center; justify-content:center;
+      width:46px; height:46px; padding:0; border-radius:50%; border:1px solid var(--cyan); background:rgba(2,3,6,0.92); color:var(--cyan);
+      cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,.55); backdrop-filter:blur(8px); }
+    .fab span{ display:none; }
+    .fab:hover{ background:rgba(75,231,255,0.16); color:var(--white); transform:translateY(-2px); }
+    .fab svg{ width:19px; height:19px; }
+    @media (prefers-reduced-motion:reduce){ .fab:hover{ transform:none; } }
 
     /* FAQ */
     .faq details{ border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--panel); margin-bottom:8px; }
@@ -318,8 +314,8 @@
     .faq p{ margin:0; padding:0 16px 14px; color:var(--muted); font-size:0.9rem; }
 
     /* MODO PRESENTACIÓN */
-    .fab-left{ left:18px; right:auto; border-color:var(--gold); color:var(--gold);
-      box-shadow:0 8px 30px rgba(0,0,0,.5), 0 0 14px rgba(224,176,74,.22); }
+    .fab-left{ left:20px; right:auto; border-color:var(--gold); color:var(--gold);
+      box-shadow:0 10px 30px rgba(0,0,0,.55); }
     .fab-left:hover{ background:rgba(224,176,74,.14); color:var(--white); }
     .present{ position:fixed; inset:0; z-index:200; display:none; flex-direction:column;
       background:radial-gradient(circle at 70% 16%, rgba(75,231,255,.07), transparent 45%), #020306; }
@@ -603,27 +599,24 @@
       <div class="section-head" style="margin-top:8px"><span class="eyebrow">Ejemplo práctico · así se visualiza el flujo de un agente</span><h2 style="font-size:1.4rem">El prototipo no es un chatbot libre: es un sistema en bucle</h2>
         <p>Esto es, en concreto, lo que el curso enseña a diseñar: una consulta entra, se gobierna con la Constitución del agente y fuentes autorizadas, se verifica y se responde con advertencias; la bitácora retroalimenta el ciclo de mejora.</p></div>
       <div class="viz">
-        <svg viewBox="0 0 1142 150" role="img" aria-label="Modelo del prototipo en bucle: consulta, fuentes, Constitución del agente, análisis IA, verificación, respuesta y revisión humana, con iteración que retroalimenta el inicio">
+        <svg viewBox="0 0 1002 132" role="img" aria-label="Lectura rápida del modelo del agente en bucle: consulta, Constitución del agente, fuentes autorizadas, análisis IA, verificación y respuesta supervisada, con iteración que retroalimenta el inicio">
           <defs>
             <marker id="rva" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#4be7ff" opacity=".75"/></marker>
             <marker id="rvg" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#e0b04a" opacity=".85"/></marker>
           </defs>
-          <path class="viz-edge" d="M158 43 H172" marker-end="url(#rva)"/>
-          <path class="viz-edge" d="M322 43 H336" marker-end="url(#rva)"/>
-          <path class="viz-edge" d="M486 43 H500" marker-end="url(#rva)"/>
-          <path class="viz-edge" d="M650 43 H664" marker-end="url(#rva)"/>
-          <path class="viz-edge" d="M814 43 H828" marker-end="url(#rva)"/>
-          <path class="viz-edge" d="M978 43 H992" marker-end="url(#rva)"/>
-          <path class="viz-edge viz-edge--loop" d="M1067 76 C1067 134 83 134 83 80" marker-end="url(#rvg)"/>
-          <text class="viz-loop-lab" x="575" y="127" text-anchor="middle">iteración · mejora continua</text>
-          <circle class="viz-packet" cx="83" cy="88" r="3" fill="#4be7ff"><animate attributeName="cx" values="83;1067" dur="3.6s" repeatCount="indefinite"/></circle>
-          <g><rect x="8" y="10" width="150" height="66" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="24" cy="40" r="4.5" fill="#4be7ff"/><text x="38" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Consulta</text><text x="38" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">caso ficticio</text></g>
-          <g><rect x="172" y="10" width="150" height="66" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="188" cy="40" r="4.5" fill="#4be7ff"/><text x="202" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Fuentes</text><text x="202" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">autorizadas</text></g>
-          <g><rect x="336" y="10" width="150" height="66" rx="9" fill="rgba(224,176,74,.1)" stroke="#e0b04a" stroke-width="2.4"/><circle cx="352" cy="40" r="4.5" fill="#e0b04a"/><text x="366" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Constitución</text><text x="366" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">reglas · límites</text></g>
-          <g><rect x="500" y="10" width="150" height="66" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="516" cy="40" r="4.5" fill="#4be7ff"/><text x="530" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Análisis IA</text><text x="530" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">resp. preliminar</text></g>
-          <g><rect x="664" y="10" width="150" height="66" rx="9" fill="rgba(84,214,160,.08)" stroke="#54d6a0" stroke-width="1.6"/><circle cx="680" cy="40" r="4.5" fill="#54d6a0"/><text x="694" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Verificación</text><text x="694" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">fuentes · hechos</text></g>
-          <g><rect x="828" y="10" width="150" height="66" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="844" cy="40" r="4.5" fill="#4be7ff"/><text x="858" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Respuesta</text><text x="858" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">advertida</text></g>
-          <g><rect x="992" y="10" width="150" height="66" rx="9" fill="rgba(157,139,255,.08)" stroke="#9d8bff" stroke-width="1.6"/><circle cx="1008" cy="40" r="4.5" fill="#9d8bff"/><text x="1022" y="44" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Revisión humana</text><text x="1022" y="61" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">supervisión</text></g>
+          <path class="viz-edge" d="M152 40 H170" marker-end="url(#rva)"/>
+          <path class="viz-edge" d="M322 40 H340" marker-end="url(#rva)"/>
+          <path class="viz-edge" d="M492 40 H510" marker-end="url(#rva)"/>
+          <path class="viz-edge" d="M662 40 H680" marker-end="url(#rva)"/>
+          <path class="viz-edge" d="M832 40 H850" marker-end="url(#rva)"/>
+          <path class="viz-edge viz-edge--loop" d="M926 72 C926 118 76 118 76 76" marker-end="url(#rvg)"/>
+          <text class="viz-loop-lab" x="501" y="114" text-anchor="middle">iteración · mejora continua</text>
+          <g><rect x="0" y="8" width="152" height="64" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="16" cy="40" r="4.5" fill="#4be7ff"/><text x="30" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Consulta</text><text x="30" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">caso ficticio</text></g>
+          <g><rect x="170" y="8" width="152" height="64" rx="9" fill="rgba(224,176,74,.1)" stroke="#e0b04a" stroke-width="2.4"/><circle cx="186" cy="40" r="4.5" fill="#e0b04a"/><text x="200" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Constitución</text><text x="200" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">reglas · límites</text></g>
+          <g><rect x="340" y="8" width="152" height="64" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="356" cy="40" r="4.5" fill="#4be7ff"/><text x="370" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Fuentes</text><text x="370" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">autorizadas</text></g>
+          <g><rect x="510" y="8" width="152" height="64" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="526" cy="40" r="4.5" fill="#4be7ff"/><text x="540" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Análisis IA</text><text x="540" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">resp. preliminar</text></g>
+          <g><rect x="680" y="8" width="152" height="64" rx="9" fill="rgba(84,214,160,.08)" stroke="#54d6a0" stroke-width="1.6"/><circle cx="696" cy="40" r="4.5" fill="#54d6a0"/><text x="710" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Verificación</text><text x="710" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">fuentes · hechos</text></g>
+          <g><rect x="850" y="8" width="152" height="64" rx="9" fill="rgba(157,139,255,.08)" stroke="#9d8bff" stroke-width="1.6"/><circle cx="866" cy="40" r="4.5" fill="#9d8bff"/><text x="880" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Respuesta</text><text x="880" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">supervisada</text></g>
         </svg>
       </div>
       <div style="margin:-4px 0 4px"><button type="button" class="thin-command" data-go="demo"><i data-lucide="git-branch"></i><span>Ver el modelo operativo completo</span></button></div>
@@ -909,7 +902,7 @@
       <div class="section-head" style="margin-top:8px"><span class="eyebrow">Ese mismo prototipo, por dentro</span><h2 style="font-size:1.5rem">Modelo operativo del agente jurídico de apoyo</h2>
         <p>La maqueta de arriba muestra <i>qué</i> entrega el agente; este flujograma muestra <i>cómo</i> lo hace: cómo se traduce la teoría jurídica en un sistema verificable, gobernado y trazable.</p></div>
       <div class="viz">
-        <svg viewBox="0 0 1000 460" role="img" aria-label="Flujo del agente jurídico: consulta, clasificación, motor de análisis, verificación y respuesta gobernada, bajo la Constitución del agente y las fuentes autorizadas, con escalamiento humano condicional y bitácora que retroalimenta el inicio">
+        <svg viewBox="-8 0 1046 460" role="img" aria-label="Flujo del agente jurídico: consulta, clasificación, motor de análisis, verificación y respuesta gobernada, bajo la Constitución del agente y las fuentes autorizadas, con escalamiento humano condicional y bitácora que retroalimenta el inicio">
           <defs>
             <marker id="wva" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#4be7ff" opacity=".75"/></marker>
             <marker id="wvg" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#e0b04a" opacity=".85"/></marker>
