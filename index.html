@@ -689,8 +689,8 @@
 
     <!-- ============ RUTA / MÓDULOS ============ -->
     <section class="section-view" id="s-ruta">
-      <div class="section-head"><span class="eyebrow">Programa · 16 semanas · del prototipo al sistema</span><h2>La ruta empieza por el desarrollo de aplicaciones</h2>
-        <p>El módulo de construcción no va al final: va al principio y funciona como columna vertebral. Todo lo demás —paradigma, Constitución, datos, verificación, regulación, gobernanza— se cuelga de ese prototipo que crece semana a semana. Clic en cada módulo para ver teoría · práctica · entregable.</p></div>
+      <div class="section-head"><span class="eyebrow">Programa · 16 semanas · de usar con criterio a gobernar sistemas</span><h2>La ruta: usar bien, construir, verificar y gobernar</h2>
+        <p>Arranca dominando las herramientas base, la investigación asistida y la economía de contexto; muy pronto el estudiante construye y despliega un prototipo (Claude Code → GitHub → Vercel) que se vuelve la columna vertebral. Sobre él se cuelgan la Constitución del agente, los datos, la verificación, la regulación y la gobernanza, semana a semana. Clic en cada módulo para ver teoría · práctica · entregable.</p></div>
       <div id="modWrap"></div>
       <div class="note"><i data-lucide="book-marked"></i><div>Bibliografía doctrinal específica <b>a curar por la cátedra</b>. Estado regulatorio (Ley 21.719; proyecto de ley de IA, Boletines 15.869-19 + 16.821-19) <b>a reconfirmar a la fecha de dictación</b>.</div></div>
     </section>
@@ -998,31 +998,39 @@
     ];
 
     const MODULES = [
-      { mx:"M0", kind:"spine", t:"Construir desde el día uno", sub:"Columna vertebral · prototipos funcionales",
-        teoria:["Qué es (y qué no es) un sistema de IA","Anatomía de una app: front, datos, lógica","Ética del construir: poder y responsabilidad"],
-        practica:["Crear cuentas del stack (GitHub, Vercel, Claude)","Desplegar un primer prototipo en línea","Flujo Claude Code → GitHub → Vercel"],
-        entregable:["Prototipo mínimo publicado con URL propia"] },
-      { mx:"M1", kind:"", t:"Del prompt al sistema", sub:"El cambio de paradigma",
-        teoria:["Prompt → flujo → herramienta → agente","Meta-prompting: usar la IA para instruir a la IA","Gestión de contexto y herramientas base vs. contingentes"],
+      { mx:"M1", kind:"", t:"Herramientas base, investigación asistida y economía de contexto", sub:"El punto de partida: usar con criterio antes de construir",
+        teoria:["Panorama de modelos: ChatGPT, Gemini y Claude","Qué es el contexto y por qué gobierna la calidad","Economía de tokens: costo, límite y foco"],
+        practica:["ChatGPT Projects y GPTs personalizados","Deep Research y NotebookLM con fuentes jurídicas propias","Gemini Canvas y Markdown como formato de trabajo"],
+        entregable:["Dossier de investigación jurídica con fuentes verificadas (NotebookLM)"] },
+      { mx:"M2", kind:"", t:"Del prompt al sistema", sub:"El cambio de paradigma",
+        teoria:["Prompt → flujo → herramienta → agente","Meta-prompting: usar la IA para instruir a la IA","Herramientas base vs. contingentes; gestión del contexto"],
         practica:["Encadenar prompts en un flujo reproducible","Convertir un flujo en una herramienta reutilizable"],
         entregable:["Una herramienta jurídica simple, documentada"] },
-      { mx:"M2", kind:"", t:"La Constitución del agente", sub:"El sello teórico de la Escuela",
+      { mx:"M3", kind:"", t:"Claude: artefactos, Canvas y workflows", sub:"Del chat a algo construible",
+        teoria:["El modelo de artefactos y cuándo conviene","Workflows reproducibles; comparar agentes","No depender de un solo ecosistema"],
+        practica:["Construir un artefacto jurídico interactivo","Un workflow reproducible de revisión","Comparar Claude / ChatGPT / Gemini en una misma tarea"],
+        entregable:["Primer artefacto jurídico funcional"] },
+      { mx:"M4", kind:"spine", t:"Claude Code, GitHub y Vercel: del artefacto al despliegue", sub:"Columna vertebral · desarrollo asistido por agentes",
+        teoria:["Desarrollo asistido por agentes (Claude Code)","Control de versiones con GitHub","Despliegue continuo con Vercel"],
+        practica:["Flujo Claude Code → GitHub → Vercel","Desplegar el prototipo en una URL propia","Iterar con commits y previews"],
+        entregable:["Prototipo desplegado en línea con URL propia"] },
+      { mx:"M5", kind:"", t:"La Constitución del agente", sub:"El sello teórico de la Escuela",
         teoria:["Reglas duras vs. preferencias, y su porqué","Teoría de la normatividad aplicada a sistemas","Cuando el sistema falla: jerarquía de reglas"],
         practica:["Redactar la Constitución del propio agente","Probar conflictos de reglas y resolverlos"],
         entregable:["Documento-constitución versionado del prototipo"] },
-      { mx:"M3", kind:"", t:"Datos y persistencia con Supabase", sub:"El backend del prototipo jurídico",
+      { mx:"M6", kind:"", t:"Datos y persistencia con Supabase", sub:"El backend del prototipo jurídico",
         teoria:["Modelo de datos de un problema jurídico","Datos personales: minimización y base de licitud","Riesgos de seguridad en la capa de datos"],
         practica:["Conectar el prototipo a Supabase","CRUD sobre datos jurídicos de prueba","Reglas de acceso y roles"],
         entregable:["Prototipo con datos reales persistentes"] },
-      { mx:"M4", kind:"", t:"Verificación como competencia troncal", sub:"Transversal, no un módulo aislado",
+      { mx:"M7", kind:"", t:"Verificación como competencia troncal", sub:"Transversal, no un módulo aislado",
         teoria:["Alucinación, sesgo y trazabilidad","Carga de la verificación en el abogado","Auditoría de una decisión automatizada"],
         practica:["Diseñar un protocolo de verificación propio","Auditar la salida del prototipo paso a paso"],
         entregable:["Checklist de verificación aplicado al sistema"] },
-      { mx:"M5", kind:"", t:"Anclaje regulatorio chileno + ciberseguridad", sub:"21.719, proyecto de ley de IA, anonimización",
+      { mx:"M8", kind:"", t:"Anclaje regulatorio chileno + ciberseguridad", sub:"21.719, proyecto de ley de IA, anonimización",
         teoria:["Ley 21.719 y la Agencia de Protección de Datos","Proyecto de ley de IA basado en riesgos","El marco europeo (UE) solo como contraste"],
         practica:["Mapear el prototipo contra obligaciones legales","Anonimizar un set de datos real"],
         entregable:["Evaluación de cumplimiento del prototipo"] },
-      { mx:"M6", kind:"", t:"Gobernanza y responsabilidad profesional", sub:"El abogado asistido por agentes",
+      { mx:"M9", kind:"", t:"Gobernanza y responsabilidad profesional", sub:"El abogado asistido por agentes",
         teoria:["Responsabilidad por sistemas que actúan","Supervisión humana significativa","Gobernanza de un sistema jurídico-algorítmico"],
         practica:["Definir límites y bitácora del agente","Plan de supervisión y mejora continua"],
         entregable:["Política de gobernanza del prototipo"] },
@@ -1160,22 +1168,22 @@
       ["Presentación y defensa final","Demo viva y defensa jurídico-técnica.","5%"]
     ];
     const CALENDAR = [
-      ["01","Problema jurídico y primer prototipo mínimo","Prototipo mínimo"],
-      ["02","IA generativa: límites y usos jurídicos",""],
-      ["03","Diseño de flujos jurídicos",""],
-      ["04","Interfaces jurídicas y experiencia de usuario",""],
-      ["05","Datos, fuentes y estructura de información",""],
-      ["06","Prompting avanzado y sistemas de instrucciones",""],
-      ["07","Verificación jurídica de respuestas",""],
-      ["08","Riesgos, errores y alucinaciones","Revisión intermedia"],
-      ["09","Agentes jurídicos y límites de actuación",""],
-      ["10","La Constitución del agente","Constitución v1"],
-      ["11","Protección de datos y confidencialidad",""],
-      ["12","Responsabilidad profesional y trazabilidad",""],
-      ["13","Iteración del prototipo",""],
-      ["14","Pruebas con casos","Pruebas documentadas"],
-      ["15","Preparación de defensa final","Release candidate"],
-      ["16","Demo, evaluación y presentación","Entrega final"]
+      ["01","Herramientas base y panorama de modelos (ChatGPT · Gemini · Claude)","Dossier de fuentes"],
+      ["02","Investigación asistida y economía de contexto (NotebookLM · Deep Research · tokens)",""],
+      ["03","Del prompt al sistema: flujos reproducibles",""],
+      ["04","Claude: artefactos, Canvas y workflows","Artefacto v1"],
+      ["05","Claude Code + GitHub: desarrollo asistido",""],
+      ["06","Despliegue en Vercel: del artefacto a la URL","Prototipo desplegado"],
+      ["07","La Constitución del agente (I)",""],
+      ["08","La Constitución del agente (II)","Constitución v1 · revisión intermedia"],
+      ["09","Datos: modelar el problema jurídico",""],
+      ["10","Supabase: persistencia y roles","Datos reales conectados"],
+      ["11","Verificación jurídica y trazabilidad",""],
+      ["12","Regulación chilena: Ley 21.719 y proyecto de ley de IA",""],
+      ["13","Ciberseguridad y anonimización","Evaluación de cumplimiento"],
+      ["14","Gobernanza y responsabilidad profesional",""],
+      ["15","Hardening + ensayo de defensa","Release candidate"],
+      ["16","Defensa del prototipo funcional","Entrega final"]
     ];
     const RISKS = [
       ["Alucinaciones o errores del modelo","Verificación obligatoria con fuentes, revisión humana y bitácora de pruebas."],
