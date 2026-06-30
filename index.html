@@ -375,6 +375,50 @@
     @media (prefers-reduced-motion:reduce){ .viz-edge{ animation:none; stroke-dasharray:none; } .viz-pulse,.viz-scan{ animation:none; opacity:.6; } }
     @media print{ .viz-edge{ animation:none; stroke-dasharray:none; stroke-opacity:.7; } .viz-pulse{ animation:none; opacity:1; } .viz-scan{ display:none; } }
 
+    /* LIVE AGENT DEMO MOCKUP (ventana de app ContratoClaro) */
+    .lam{ position:relative; border:1px solid var(--line); border-radius:12px; overflow:hidden;
+      background:linear-gradient(180deg,rgba(8,13,20,.86),rgba(2,4,8,.93)); box-shadow:0 24px 70px rgba(0,0,0,.5); }
+    .lam-bar{ position:relative; z-index:2; display:flex; align-items:center; gap:10px; padding:11px 14px; border-bottom:1px solid var(--line-soft); background:rgba(2,4,8,.7); }
+    .lam-dots{ display:flex; gap:6px; } .lam-dots i{ width:11px; height:11px; border-radius:50%; display:block; }
+    .lam-dots i:nth-child(1){ background:#ec6a5e; } .lam-dots i:nth-child(2){ background:#f3bd4e; } .lam-dots i:nth-child(3){ background:#61c554; }
+    .lam-title{ font-family:"JetBrains Mono",monospace; font-size:.8rem; color:var(--white); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .lam-title b{ color:var(--cyan); }
+    .lam-chip{ margin-left:auto; flex:0 0 auto; font-family:"JetBrains Mono",monospace; font-size:.64rem; color:var(--gold); border:1px solid rgba(224,176,74,.4); border-radius:20px; padding:3px 9px; }
+    .lam-body{ position:relative; z-index:2; display:grid; grid-template-columns:0.85fr 1.3fr 0.95fr; }
+    .lam-col{ padding:14px; border-right:1px solid var(--line-soft); min-width:0; }
+    .lam-col:last-child{ border-right:0; }
+    .lam-h{ font-family:"JetBrains Mono",monospace; font-size:.66rem; text-transform:uppercase; color:var(--cyan); margin:0 0 10px; letter-spacing:.05em; }
+    .lam-doc{ border:1px solid var(--line-soft); border-radius:6px; padding:10px; background:rgba(2,3,6,.6); font-size:.78rem; color:var(--muted); line-height:1.5; }
+    .lam-doc b{ color:var(--white); }
+    .lam-state{ display:grid; gap:7px; margin-top:12px; }
+    .lam-st{ display:flex; align-items:center; gap:8px; font-size:.8rem; color:var(--white); }
+    .lam-st .pulse{ width:8px; height:8px; border-radius:50%; background:var(--mint); box-shadow:0 0 8px var(--mint); animation:lampulse 1.7s ease-in-out infinite; flex:0 0 8px; }
+    @keyframes lampulse{ 0%,100%{ opacity:.4; } 50%{ opacity:1; } }
+    .lam-warn{ margin-top:12px; border-left:2px solid var(--coral); padding:8px 10px; background:rgba(236,126,114,.08); border-radius:0 6px 6px 0; font-size:.76rem; color:var(--muted); }
+    .lam-run{ display:inline-flex; align-items:center; gap:8px; margin-top:12px; padding:8px 13px; border:1px solid var(--cyan); border-radius:6px; background:rgba(75,231,255,.1); color:var(--cyan); cursor:pointer; font-family:"JetBrains Mono",monospace; font-size:.78rem; }
+    .lam-run:hover{ background:rgba(75,231,255,.18); } .lam-run svg{ width:15px; height:15px; }
+    .lam-type{ font-size:.92rem; color:var(--white); line-height:1.55; min-height:3em; margin:0; }
+    .lam-cursor::after{ content:"▋"; color:var(--cyan); animation:lamblink 1s steps(1) infinite; }
+    @keyframes lamblink{ 50%{ opacity:0; } }
+    .lam-reveal{ opacity:0; transform:translateY(8px); }
+    .lam-reveal.show{ opacity:1; transform:none; transition:opacity .4s ease, transform .4s ease; }
+    .lam-block{ margin-top:12px; } .lam-block h5{ margin:0 0 5px; font-size:.72rem; font-family:"JetBrains Mono",monospace; text-transform:uppercase; }
+    .lam-block.risk h5{ color:var(--coral); } .lam-block.cl h5{ color:var(--cyan); } .lam-block.q h5{ color:var(--gold); } .lam-block.next h5{ color:var(--mint); }
+    .lam-block ul{ margin:0; padding-left:16px; } .lam-block li{ margin:3px 0; font-size:.84rem; color:var(--muted); }
+    .lam-side{ display:grid; gap:10px; }
+    .lam-card{ border:1px solid var(--line-soft); border-radius:6px; padding:10px; background:rgba(2,3,6,.6); }
+    .lam-card .k{ font-family:"JetBrains Mono",monospace; font-size:.62rem; text-transform:uppercase; color:var(--muted); }
+    .lam-card .v{ font-size:.82rem; color:var(--white); margin-top:3px; }
+    .lam-conf{ height:7px; border-radius:4px; background:rgba(246,240,223,.1); overflow:hidden; margin-top:7px; }
+    .lam-conf i{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--mint),var(--cyan)); transition:width 1.2s ease; }
+    .lam-log{ font-family:"JetBrains Mono",monospace; font-size:.7rem; color:var(--muted); display:grid; gap:3px; margin-top:6px; max-height:140px; overflow:auto; }
+    .lam-log span{ opacity:0; } .lam-log span.show{ opacity:1; transition:opacity .3s ease; }
+    .lam-esc{ border:1px solid rgba(157,139,255,.4); border-radius:6px; padding:9px 10px; background:rgba(157,139,255,.07); font-size:.78rem; color:#cfc6ff; display:flex; gap:8px; align-items:flex-start; }
+    .lam-scan{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(rgba(75,231,255,.045),transparent 14%); mix-blend-mode:screen; }
+    @media (max-width:880px){ .lam-body{ grid-template-columns:1fr; } .lam-col{ border-right:0; border-bottom:1px solid var(--line-soft); } }
+    @media (prefers-reduced-motion:reduce){ .lam-st .pulse{ animation:none; } .lam-cursor::after{ animation:none; } .lam-reveal{ opacity:1; transform:none; } }
+    @media print{ .lam-run,.lam-scan{ display:none; } .lam-reveal{ opacity:1; transform:none; } .lam-log span{ opacity:1; } }
+
     /* MÉTODO DE LA CONSTITUCIÓN (ConstitutionalMethodFlow) */
     .cmf{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:16px; align-items:start; margin-top:6px; }
     .cmf-stack{ position:relative; border:1px solid var(--line); border-radius:var(--radius); background:rgba(2,3,6,.5); padding:14px; }
@@ -762,8 +806,63 @@
 
     <!-- ============ DEMO INTERACTIVA ============ -->
     <section class="section-view" id="s-demo">
-      <div class="section-head"><span class="eyebrow">Ejemplo de prototipo final</span><h2>Un sistema gobernado, no solo un chatbot</h2>
-        <p>Maqueta de demostración (respuestas simuladas, sin conexión real). Muestra lo que construye un estudiante: un agente que responde con advertencias, fuentes, reglas de verificación y un límite explícito de actuación. Elige un caso —o escribe otra consulta y observa cómo el agente declina lo que está fuera de su ámbito.</p></div>
+      <div class="section-head"><span class="eyebrow">Demo de prototipo final</span><h2>Cómo se vería un agente terminado por estudiantes</h2>
+        <p>Maqueta de una interfaz funcional —pedagógica, no comercial—. Así podría verse un prototipo de revisión contractual al final del curso: asiste, advierte, verifica y deriva; nunca decide ni promete asesoría jurídica.</p></div>
+
+      <div class="lam" aria-label="Maqueta de aplicación: ContratoClaro, agente de revisión contractual preliminar">
+        <div class="lam-scan" aria-hidden="true"></div>
+        <div class="lam-bar">
+          <span class="lam-dots"><i></i><i></i><i></i></span>
+          <span class="lam-title"><b>ContratoClaro</b> · revisión contractual preliminar</span>
+          <span class="lam-chip">demo pedagógica</span>
+        </div>
+        <div class="lam-body">
+          <div class="lam-col">
+            <p class="lam-h">Entrada</p>
+            <div class="lam-doc"><b>Contrato de arriendo — ANONIMIZADO</b><br>Cláusula 4. El arrendatario no podrá desarrollar… <span style="opacity:.6">[texto ficticio de demostración]</span></div>
+            <div class="lam-state">
+              <div class="lam-st"><span class="pulse"></span>Documento anonimizado cargado</div>
+              <div class="lam-st"><span class="pulse"></span>Modo: revisión contractual preliminar</div>
+              <div class="lam-st"><span class="pulse"></span>Constitución activa</div>
+              <div class="lam-st"><span class="pulse"></span>Revisión humana si hay riesgo alto</div>
+            </div>
+            <div class="lam-warn">Documento ficticio o anonimizado · análisis con fines pedagógicos.</div>
+            <button type="button" class="lam-run" id="lamRun"><i data-lucide="play"></i>Analizar documento</button>
+          </div>
+
+          <div class="lam-col">
+            <p class="lam-h">Análisis del agente</p>
+            <p class="lam-type" id="lamType"></p>
+            <div class="lam-block risk lam-reveal"><h5>Riesgos detectados</h5><ul>
+              <li>Cláusula de no competencia sin límite claro de tiempo ni territorio.</li>
+              <li>Causal de término anticipado redactada de forma ambigua.</li>
+              <li>Sin mención al tratamiento de datos personales de las partes.</li></ul></div>
+            <div class="lam-block cl lam-reveal"><h5>Cláusulas relevantes</h5><ul>
+              <li>Cláusula 4 — No competencia</li>
+              <li>Cláusula 7 — Terminación anticipada</li>
+              <li>Cláusula 11 — Confidencialidad</li></ul></div>
+            <div class="lam-block q lam-reveal"><h5>Preguntas de revisión</h5><ul>
+              <li>¿Qué giro y territorio se busca proteger, y por cuánto tiempo?</li>
+              <li>¿Qué preaviso e indemnización se pactaron para el término?</li></ul></div>
+            <div class="lam-block next lam-reveal"><h5>Próximos pasos</h5><ul>
+              <li>Separar observación textual, inferencia y recomendación.</li>
+              <li>Contrastar con fuente y derivar a revisión humana antes de decidir.</li></ul></div>
+            <div class="lam-warn lam-reveal">Análisis preliminar con fines pedagógicos. No constituye asesoría jurídica.</div>
+          </div>
+
+          <div class="lam-col">
+            <p class="lam-h">Gobernanza</p>
+            <div class="lam-side">
+              <div class="lam-card"><span class="k">Constitución activa</span><div class="v">finalidad · límites · fuentes · advertencias</div></div>
+              <div class="lam-card"><span class="k">Fuentes revisadas</span><div class="v">Normativa cargada por la cátedra · criterios docentes · checklist de verificación · base pedagógica del curso</div></div>
+              <div class="lam-card"><span class="k">Nivel de confianza</span><div class="v">media — requiere verificación</div><div class="lam-conf"><i id="lamConf"></i></div></div>
+              <div class="lam-card"><span class="k">Verificación realizada</span><div class="v">hechos vs. inferencias separados; cada afirmación enlazada a su base</div></div>
+              <div class="lam-card"><span class="k">Bitácora / log</span><div class="lam-log" id="lamLog"></div></div>
+              <div class="lam-esc"><i data-lucide="user-check" style="width:16px;height:16px;flex:0 0 16px;color:#9d8bff"></i><span>Escalamiento humano sugerido antes de cualquier decisión.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="section-head" style="margin-top:8px"><span class="eyebrow">Arquitectura del agente</span><h2 style="font-size:1.5rem">Modelo operativo del agente jurídico de apoyo</h2>
         <p>Cómo se traduce la teoría jurídica en un sistema verificable, gobernado y trazable.</p></div>
       <div class="viz">
@@ -1326,6 +1425,7 @@
       document.querySelectorAll(".section-view").forEach(v => v.classList.toggle("active", v.id === "s-"+section));
       document.querySelectorAll(".mode-btn").forEach(b => b.classList.toggle("active", b.dataset.go === section));
       window.scrollTo({ top:0, behavior:"smooth" });
+      if(section === "demo") runLAM();
       blip(520);
     }
     document.addEventListener("click", (e) => {
@@ -1339,6 +1439,33 @@
     document.addEventListener("keydown",(e)=>{
       if((e.key==="Enter"||e.key===" ") && e.target.matches("a.link-card[role='button']")){ e.preventDefault(); e.target.click(); }
     });
+
+    /* ===================== LIVE AGENT DEMO MOCKUP ===================== */
+    const LAM = {
+      summary:"Observación preliminar: el contrato ficticio presenta una cláusula de no competencia amplia y una causal de término poco clara. Lo que sigue son observaciones para revisión, no una decisión.",
+      log:["consulta recibida","tarea: revisión contractual preliminar","Constitución del agente aplicada","fuentes: normativa cargada · criterios docentes","verificación: hechos vs. inferencias","nivel de confianza: media","escalamiento: revisión humana sugerida"]
+    };
+    let lamTimer = null;
+    function typeInto(el, text, done){
+      if(!el) return;
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      clearInterval(lamTimer);
+      if(reduce){ el.textContent = text; el.classList.remove("lam-cursor"); if(done) done(); return; }
+      el.textContent = ""; el.classList.add("lam-cursor"); let i = 0;
+      lamTimer = setInterval(()=>{ el.textContent = text.slice(0, ++i); if(i >= text.length){ clearInterval(lamTimer); el.classList.remove("lam-cursor"); if(done) done(); } }, 17);
+    }
+    function runLAM(){
+      const root = document.getElementById("s-demo"); if(!root || !$("lamType")) return;
+      const reveals = [...root.querySelectorAll(".lam-reveal")]; reveals.forEach(r=>r.classList.remove("show"));
+      const conf = $("lamConf"); if(conf) conf.style.width = "0";
+      $("lamLog").innerHTML = LAM.log.map(l=>`<span>› ${esc(l)}</span>`).join("");
+      typeInto($("lamType"), LAM.summary, ()=>{
+        reveals.forEach((r,i)=> setTimeout(()=>r.classList.add("show"), 110*i));
+        setTimeout(()=>{ if(conf) conf.style.width = "62%"; }, 220);
+        [...$("lamLog").children].forEach((s,i)=> setTimeout(()=>s.classList.add("show"), 150*i));
+      });
+    }
+    document.addEventListener("click",(e)=>{ if(e.target.closest("#lamRun")){ blip(520); runLAM(); } });
 
     /* ===================== MÉTODO DE LA CONSTITUCIÓN ===================== */
     function selectCMF(i){
@@ -1520,7 +1647,7 @@
 
     function refresh(){ if(window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } }); }
 
-    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderGana(); renderLogistica(); renderCMF(); renderDemo(); renderDossier(); mountDownloads();
+    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderGana(); renderLogistica(); renderCMF(); renderDemo(); renderDossier(); mountDownloads(); runLAM();
     $("pdfBtn").addEventListener("click", () => { blip(300); dlScope("all"); });
     refresh(); initCanvas();
   </script>
