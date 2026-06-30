@@ -1463,12 +1463,24 @@
     }
     function buildDef(key){
       const {A,INK,MUT,LINE,FILL,EM,WARM}=PDF;
-      const TL={ hLineWidth:()=>0.6, vLineWidth:()=>0.6, hLineColor:()=>LINE, vLineColor:()=>LINE, paddingTop:()=>4, paddingBottom:()=>4, paddingLeft:()=>6, paddingRight:()=>6 };
+      const TL={ hLineWidth:()=>0.6, vLineWidth:()=>0, hLineColor:()=>"#dbe4ef", paddingTop:()=>5, paddingBottom:()=>5, paddingLeft:()=>8, paddingRight:()=>8 };
       const cover=()=>[
-        { text:"PROPUESTA DE CURSO OPTATIVO · ESCUELA DE DERECHO PUCV · DER-IA · OPT 2026", style:"kor" },
-        { text:"Derecho + IA: construir, verificar y gobernar sistemas jurídicos", style:"h1" },
-        { text:"Propuesta académica independiente · Diego Ojeda, licenciado en Derecho PUCV · para evaluación de la Dirección de la Escuela de Derecho PUCV", style:"sub", margin:[0,3,0,9] },
-        { canvas:[{type:"line",x1:0,y1:0,x2:515,y2:0,lineWidth:1.4,lineColor:A}], margin:[0,0,0,8] }
+        { canvas:[{type:"rect",x:0,y:0,w:515,h:6,color:A},{type:"rect",x:0,y:0,w:118,h:6,color:WARM}], margin:[0,0,0,18] },
+        { text:"PROPUESTA DE CURSO OPTATIVO PILOTO · ESCUELA DE DERECHO PUCV · 2026", style:"kor" },
+        { text:"Derecho + IA: construir, verificar y gobernar sistemas jurídicos", style:"cover1" },
+        { text:"Cómo Derecho PUCV puede formar abogados capaces de diseñar, verificar y gobernar sistemas jurídicos asistidos por IA.", style:"covsub" },
+        { text:"Propuesta académica independiente · Diego Ojeda, licenciado en Derecho PUCV · para evaluación de la Dirección de la Escuela.", fontSize:8.5, color:MUT, margin:[0,9,0,20] },
+        { table:{ widths:["auto","*"], body:[
+            [ {text:"PROPUESTA EN 60 SEGUNDOS", colSpan:2, bold:true, fontSize:8.5, color:"#ffffff", fillColor:INK, margin:[10,7,10,7]}, {} ],
+            ...[["Formato","1 sesión semanal de 90 min · un semestre PUCV (16 semanas) · sin requisito técnico."],
+               ["Método","Aprendizaje basado en proyectos (ABP): cada sesión teórico-práctica."],
+               ["Entregable","Un prototipo jurídico funcional sobre Supabase, defendido al cierre."],
+               ["Sello","La Constitución del agente: teoría de la normatividad hecha reglas operativas."],
+               ["Cupo","Acotado por laboratorio: 20–30. Piloto medible y de bajo riesgo institucional."]
+            ].map(r=>[ {text:r[0], bold:true, color:A, fontSize:9, margin:[10,5,8,5]}, {text:r[1], fontSize:9, color:INK, margin:[0,5,10,5]} ])
+          ]}, layout:{ hLineWidth:(i)=>i<=1?0:0.5, vLineWidth:()=>0, hLineColor:()=>"#dbe4ef" }, margin:[0,0,0,18] },
+        { table:{ widths:["*"], body:[[ {text:[{text:"IDEA CLAVE   ",bold:true,color:WARM,fontSize:8},"El desafío no es aprender a preguntar mejor, sino diseñar sistemas jurídicos que puedan ser auditados, corregidos y gobernados."], fillColor:"#fbf3e6", color:INK, fontSize:10, margin:[12,10,12,10]} ]]}, layout:"noBorders" },
+        { text:"", pageBreak:"after" }
       ];
       const resumen=()=>[
         { text:"1 · Resumen ejecutivo", style:"h2" },
@@ -1551,10 +1563,12 @@
         pageSize:"A4", pageMargins:[40,44,40,40],
         defaultStyle:{ fontSize:9.5, color:"#334155", lineHeight:1.25 },
         styles:{
-          kor:{ fontSize:7.5, color:A, bold:true, margin:[0,0,0,2] },
+          kor:{ fontSize:7.5, color:A, bold:true, characterSpacing:0.4, margin:[0,0,0,2] },
           h1:{ fontSize:21, bold:true, color:INK, margin:[0,2,0,0] },
+          cover1:{ fontSize:26, bold:true, color:INK, lineHeight:1.05, margin:[0,8,0,6] },
+          covsub:{ fontSize:11.5, color:"#475569", lineHeight:1.3, margin:[0,0,0,2] },
           sub:{ fontSize:9, color:MUT },
-          h2:{ fontSize:13.5, bold:true, color:INK, margin:[0,14,0,5] },
+          h2:{ fontSize:14, bold:true, color:A, margin:[0,17,0,6] },
           h3:{ fontSize:10.5, bold:true, color:"#1e3a5f", margin:[0,8,0,3] },
           p:{ fontSize:9.5, color:"#334155", margin:[0,0,0,6] },
           tag:{ fontSize:7, color:A, bold:true, margin:[0,0,0,2] },

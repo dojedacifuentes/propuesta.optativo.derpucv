@@ -204,6 +204,7 @@
       var A="#2563eb",INK="#0f1b2d",MUT="#64748b",LINE="#e2e8f0",FILL="#eef4fb";
       var TL={hLineWidth:function(){return 0.6;},vLineWidth:function(){return 0.6;},hLineColor:function(){return LINE;},vLineColor:function(){return LINE;},paddingTop:function(){return 4;},paddingBottom:function(){return 4;},paddingLeft:function(){return 6;},paddingRight:function(){return 6;}};
       var content=[
+        {canvas:[{type:"rect",x:0,y:0,w:515,h:6,color:A},{type:"rect",x:0,y:0,w:118,h:6,color:"#b45309"}],margin:[0,0,0,14]},
         {text:"PROPUESTA PILOTO · ESCUELA DE DERECHO PUCV",style:"kor"},
         {text:"Optativo Derecho + IA 2026: construir, verificar y gobernar sistemas jurídicos",style:"h1"},
         {text:"Resumen ejecutivo para la Dirección de la Escuela de Derecho PUCV",style:"sub",margin:[0,3,0,8]},
@@ -233,7 +234,7 @@
         {text:"Propuesta académica independiente, elaborada por Diego Ojeda (licenciado en Derecho PUCV) para evaluación de la Dirección de la Escuela. Articulable con líneas institucionales de docencia, investigación, innovación, educación continua o vinculación con el medio.",fontSize:7.5,color:MUT,margin:[0,10,0,0]}
       ]);
       return {pageSize:"A4",pageMargins:[40,44,40,40],defaultStyle:{fontSize:9.5,color:"#334155",lineHeight:1.25},
-        styles:{kor:{fontSize:7.5,color:A,bold:true,margin:[0,0,0,2]},h1:{fontSize:20,bold:true,color:INK,margin:[0,2,0,0]},sub:{fontSize:9,color:MUT},h2:{fontSize:13.5,bold:true,color:INK,margin:[0,4,0,6]},h3:{fontSize:10.5,bold:true,color:"#1e3a5f",margin:[0,8,0,3]},p:{fontSize:9.5,color:"#334155",margin:[0,0,0,6]},th:{fontSize:8,bold:true,color:"#1e3a5f",fillColor:FILL},td:{fontSize:8.5,color:"#334155"}},
+        styles:{kor:{fontSize:7.5,color:A,bold:true,margin:[0,0,0,2]},h1:{fontSize:20,bold:true,color:INK,margin:[0,2,0,0]},sub:{fontSize:9,color:MUT},h2:{fontSize:13.5,bold:true,color:INK,margin:[0,4,0,6]},h3:{fontSize:10.5,bold:true,color:A,margin:[0,8,0,3]},p:{fontSize:9.5,color:"#334155",margin:[0,0,0,6]},th:{fontSize:8,bold:true,color:"#1e3a5f",fillColor:FILL},td:{fontSize:8.5,color:"#334155"}},
         content:content,
         footer:function(cur,total){return {columns:[{text:"Optativo Derecho + IA 2026 · Escuela de Derecho PUCV",fontSize:7,color:MUT,margin:[40,0,0,0]},{text:cur+" / "+total,fontSize:7,color:MUT,alignment:"right",margin:[0,0,40,0]}]};}};
     }
