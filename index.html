@@ -365,8 +365,15 @@
     .viz-legend span i{ width:9px; height:9px; border-radius:2px; display:inline-block; margin-right:6px; vertical-align:middle; }
     .viz-cap{ margin:10px 4px 2px; color:var(--muted); font-size:.86rem; }
     .viz-cap b{ color:var(--white); }
-    @media (prefers-reduced-motion:reduce){ .viz-edge{ animation:none; stroke-dasharray:none; } .viz-pulse{ animation:none; opacity:.9; } }
-    @media print{ .viz-edge{ animation:none; stroke-dasharray:none; stroke-opacity:.7; } .viz-pulse{ animation:none; opacity:1; } }
+    .viz-node{ transition:filter .2s ease; }
+    .viz-node:hover rect{ stroke-opacity:.98; } .viz-node:hover{ filter:drop-shadow(0 0 6px rgba(75,231,255,.35)); }
+    .viz-scan{ stroke:var(--mint); stroke-width:1.4; opacity:.7; animation:vizscan 2.3s ease-in-out infinite; }
+    @keyframes vizscan{ 0%,100%{ transform:translateY(2px); } 50%{ transform:translateY(42px); } }
+    .viz-edge--loop{ stroke:var(--gold); stroke-opacity:.45; stroke-width:1.4; }
+    .viz-cond{ fill:#9d8bff; font-family:"JetBrains Mono",monospace; font-size:10px; opacity:.8; }
+    .viz-loop-lab{ fill:var(--gold); font-family:"JetBrains Mono",monospace; font-size:10px; opacity:.75; }
+    @media (prefers-reduced-motion:reduce){ .viz-edge{ animation:none; stroke-dasharray:none; } .viz-pulse,.viz-scan{ animation:none; opacity:.6; } }
+    @media print{ .viz-edge{ animation:none; stroke-dasharray:none; stroke-opacity:.7; } .viz-pulse{ animation:none; opacity:1; } .viz-scan{ display:none; } }
 
     /* DEMO INTERACTIVA */
     .demo{ border:1px solid var(--line); border-radius:var(--radius); background:var(--panel-strong); padding:16px; }
@@ -711,38 +718,48 @@
     <section class="section-view" id="s-demo">
       <div class="section-head"><span class="eyebrow">Ejemplo de prototipo final</span><h2>Un sistema gobernado, no solo un chatbot</h2>
         <p>Maqueta de demostración (respuestas simuladas, sin conexión real). Muestra lo que construye un estudiante: un agente que responde con advertencias, fuentes, reglas de verificación y un límite explícito de actuación. Elige un caso —o escribe otra consulta y observa cómo el agente declina lo que está fuera de su ámbito.</p></div>
-      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Arquitectura del agente</span><h2 style="font-size:1.4rem">Cómo opera, gobernado por reglas</h2></div>
+      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Arquitectura del agente</span><h2 style="font-size:1.5rem">Modelo operativo del agente jurídico de apoyo</h2>
+        <p>Cómo se traduce la teoría jurídica en un sistema verificable, gobernado y trazable.</p></div>
       <div class="viz">
-        <svg viewBox="0 0 980 320" role="img" aria-label="Diagrama de la arquitectura de un agente jurídico gobernado: consulta, agente, verificación y respuesta, bajo la Constitución del agente y revisión humana, con registro en bitácora">
+        <svg viewBox="0 0 1000 460" role="img" aria-label="Flujo del agente jurídico: consulta, clasificación, motor de análisis, verificación y respuesta gobernada, bajo la Constitución del agente y las fuentes autorizadas, con escalamiento humano condicional y bitácora que retroalimenta el inicio">
           <defs>
-            <marker id="va" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#4be7ff" opacity=".7"/></marker>
-            <marker id="vg" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#e0b04a" opacity=".85"/></marker>
-            <marker id="vv" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#54d6a0" opacity=".85"/></marker>
-            <marker id="vh" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#9d8bff" opacity=".85"/></marker>
+            <marker id="wva" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#4be7ff" opacity=".75"/></marker>
+            <marker id="wvg" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#e0b04a" opacity=".85"/></marker>
+            <marker id="wvh" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#9d8bff" opacity=".85"/></marker>
           </defs>
-          <path class="viz-edge" d="M170 183 H250" marker-end="url(#va)"/>
-          <path class="viz-edge" d="M405 183 H485" marker-end="url(#va)"/>
-          <path class="viz-edge" d="M670 183 H750" marker-end="url(#va)"/>
-          <path class="viz-edge viz-edge--gov" d="M334 72 V146" marker-end="url(#vg)"/>
-          <path class="viz-edge viz-edge--human" d="M785 72 C785 116 837 116 837 146" marker-end="url(#vh)"/>
-          <path class="viz-edge viz-edge--ver" d="M580 216 V246" marker-end="url(#vv)"/>
-          <g class="viz-node viz-node--highlighted"><rect x="185" y="14" width="300" height="58" rx="8"/><circle class="vn-dot viz-pulse" cx="201" cy="32" r="3.4"/><text class="vn-t" x="214" y="38">Constitución del agente</text><text class="vn-s" x="214" y="56">reglas · límites · fuentes autorizadas</text></g>
-          <g class="viz-node viz-node--human"><rect x="690" y="14" width="190" height="58" rx="8"/><circle class="vn-dot" cx="706" cy="32" r="3.4"/><text class="vn-t" x="719" y="38">Revisión humana</text><text class="vn-s" x="719" y="56">supervisión significativa</text></g>
-          <g class="viz-node"><rect x="20" y="150" width="150" height="66" rx="8"/><circle class="vn-dot" cx="36" cy="170" r="3.4"/><text class="vn-t" x="36" y="186">Consulta</text><text class="vn-s" x="36" y="204">caso de prueba</text></g>
-          <g class="viz-node"><rect x="255" y="150" width="150" height="66" rx="8"/><circle class="vn-dot" cx="271" cy="170" r="3.4"/><text class="vn-t" x="271" y="186">Agente jurídico</text><text class="vn-s" x="271" y="204">procesa</text></g>
-          <g class="viz-node viz-node--verification"><rect x="490" y="150" width="180" height="66" rx="8"/><circle class="vn-dot" cx="506" cy="170" r="3.4"/><text class="vn-t" x="506" y="186">Verificación</text><text class="vn-s" x="506" y="204">fuentes · trazabilidad</text></g>
-          <g class="viz-node"><rect x="755" y="150" width="165" height="66" rx="8"/><circle class="vn-dot" cx="771" cy="170" r="3.4"/><text class="vn-t" x="771" y="186">Respuesta</text><text class="vn-s" x="771" y="204">gobernada · advertida</text></g>
-          <g class="viz-node viz-node--log"><rect x="485" y="246" width="200" height="50" rx="8"/><circle class="vn-dot" cx="501" cy="263" r="3.2"/><text class="vn-t" x="514" y="268">Bitácora / registro</text><text class="vn-s" x="514" y="284">auditable</text></g>
+          <path class="viz-edge" d="M174 192 H205" marker-end="url(#wva)"/>
+          <path class="viz-edge" d="M375 192 H420" marker-end="url(#wva)"/>
+          <path class="viz-edge" d="M590 192 H625" marker-end="url(#wva)"/>
+          <path class="viz-edge" d="M805 192 H835" marker-end="url(#wva)"/>
+          <path class="viz-edge viz-edge--gov" d="M500 72 V156" marker-end="url(#wvg)"/>
+          <path class="viz-edge" d="M300 300 C300 256 460 250 480 226" marker-end="url(#wva)"/>
+          <path class="viz-edge viz-edge--human" d="M722 160 C742 112 860 100 893 74" marker-end="url(#wvh)"/>
+          <path class="viz-edge" d="M905 224 C905 406 720 406 632 406" marker-end="url(#wva)"/>
+          <path class="viz-edge viz-edge--loop" d="M420 406 C180 428 36 360 92 226" marker-end="url(#wvg)"/>
+          <text class="viz-cond" x="745" y="126">si riesgo alto / datos sensibles</text>
+          <text class="viz-loop-lab" x="150" y="420">iteración · mejora continua</text>
+
+          <g class="viz-node viz-node--highlighted"><title>Constitución del agente: finalidad, ámbito, límites, fuentes autorizadas, advertencias y reglas de actuación que gobiernan todo el flujo.</title><rect x="355" y="14" width="290" height="58" rx="8"/><circle class="vn-dot viz-pulse" cx="371" cy="32" r="3.6"/><text class="vn-t" x="384" y="38">Constitución del agente</text><text class="vn-s" x="384" y="56">finalidad · límites · reglas · advertencias</text></g>
+          <g class="viz-node viz-node--human"><title>Escalamiento humano: deriva a una persona si hay riesgo alto, datos sensibles o una decisión relevante.</title><rect x="805" y="14" width="185" height="58" rx="8"/><circle class="vn-dot" cx="821" cy="32" r="3.4"/><text class="vn-t" x="834" y="38">Escalamiento humano</text><text class="vn-s" x="834" y="56">riesgo alto · decisión relevante</text></g>
+
+          <g class="viz-node"><title>Consulta jurídica: texto, caso ficticio o documento anonimizado.</title><rect x="16" y="160" width="158" height="64" rx="8"/><circle class="vn-dot" cx="32" cy="180" r="3.4"/><text class="vn-t" x="32" y="195">Consulta jurídica</text><text class="vn-s" x="32" y="212">caso ficticio · anonimizado</text></g>
+          <g class="viz-node"><title>Clasificación de tarea: contrato, checklist, lenguaje claro o matriz de riesgos.</title><rect x="205" y="160" width="170" height="64" rx="8"/><circle class="vn-dot" cx="221" cy="180" r="3.4"/><text class="vn-t" x="221" y="195">Clasificación</text><text class="vn-s" x="221" y="212">contrato · checklist · riesgos</text></g>
+          <g class="viz-node"><title>Motor de análisis IA: genera una respuesta preliminar bajo las reglas de la Constitución.</title><rect x="420" y="160" width="170" height="64" rx="8"/><circle class="vn-dot" cx="436" cy="180" r="3.4"/><text class="vn-t" x="436" y="195">Motor de análisis IA</text><text class="vn-s" x="436" y="212">respuesta preliminar</text></g>
+          <g class="viz-node viz-node--verification"><title>Verificación jurídica: contrasta fuentes, separa hechos de inferencias y detecta incertidumbre.</title><rect x="625" y="160" width="180" height="64" rx="8"/><line class="viz-scan" x1="633" y1="170" x2="797" y2="170"/><circle class="vn-dot" cx="641" cy="180" r="3.4"/><text class="vn-t" x="641" y="195">Verificación jurídica</text><text class="vn-s" x="641" y="212">hechos vs. inferencias</text></g>
+          <g class="viz-node"><title>Respuesta gobernada: análisis preliminar con advertencias, límites y próximos pasos.</title><rect x="835" y="160" width="150" height="64" rx="8"/><circle class="vn-dot" cx="851" cy="180" r="3.4"/><text class="vn-t" x="851" y="195">Respuesta gobernada</text><text class="vn-s" x="851" y="212">advertencias · pasos</text></g>
+
+          <g class="viz-node"><title>Fuentes autorizadas: normativa, documentos, criterios docentes y fuentes cargadas (ficticias o públicas).</title><rect x="205" y="300" width="190" height="56" rx="8"/><circle class="vn-dot" cx="221" cy="320" r="3.4"/><text class="vn-t" x="221" y="326">Fuentes autorizadas</text><text class="vn-s" x="221" y="344">normativa · criterios docentes</text></g>
+          <g class="viz-node viz-node--log"><title>Bitácora y mejora: registra reglas aplicadas, fuentes, advertencias y errores; retroalimenta el sistema.</title><rect x="420" y="378" width="210" height="52" rx="8"/><circle class="vn-dot" cx="436" cy="396" r="3.2"/><text class="vn-t" x="450" y="400">Bitácora y mejora</text><text class="vn-s" x="450" y="416">reglas · fuentes · errores</text></g>
         </svg>
         <div class="viz-legend">
-          <span><i style="background:var(--cyan)"></i>flujo</span>
-          <span><i style="background:var(--gold)"></i>reglas (Constitución)</span>
+          <span><i style="background:var(--cyan)"></i>flujo de datos</span>
+          <span><i style="background:var(--gold)"></i>reglas / iteración</span>
           <span><i style="background:var(--mint)"></i>verificación</span>
-          <span><i style="background:#9d8bff"></i>revisión humana</span>
+          <span><i style="background:#9d8bff"></i>escalamiento humano</span>
           <span><i style="background:var(--muted)"></i>registro</span>
         </div>
       </div>
-      <p class="viz-cap"><b>No es un chatbot libre.</b> Cada respuesta pasa por reglas, verificación con fuentes y revisión humana — y queda registrada.</p>
+      <p class="viz-cap"><b>No es un chatbot libre.</b> Es un sistema de apoyo gobernado por una Constitución, alimentado por fuentes autorizadas, verificado contra ellas, con escalamiento humano cuando hay riesgo y una bitácora que cierra el ciclo de mejora.</p>
 
       <div class="demo">
         <div class="demo-bar" id="demoChips"></div>
@@ -1130,6 +1147,16 @@
       $("riskWrap").innerHTML = `<table class="rtable"><thead><tr><th>Riesgo</th><th>Mitigación</th></tr></thead><tbody>${RISKS.map(r=>`<tr><td><b>${esc(r[0])}</b></td><td style="color:var(--muted)">${esc(r[1])}</td></tr>`).join("")}</tbody></table>`;
       $("pilotoWrap").innerHTML = `<ul class="lc-steps">${PILOTO.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>`;
     }
+    const WF_COMPACT = `<svg viewBox="0 0 1142 104" role="img" aria-label="Modelo operativo compacto del agente jurídico: consulta, fuentes, Constitución, análisis IA, verificación, respuesta y revisión humana" style="width:100%;height:auto;background:#f7f9fc;border:1px solid #cdd7e4;border-radius:6px">
+        <defs><marker id="wfc" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#2c7fb8"/></marker></defs>
+        <path d="M158 59 H172" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
+        <path d="M322 59 H336" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
+        <path d="M486 59 H500" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
+        <path d="M650 59 H664" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
+        <path d="M814 59 H828" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
+        <path d="M978 59 H992" stroke="#2c7fb8" stroke-width="1.6" fill="none" marker-end="url(#wfc)"/>
+        ${[[8,"Consulta","caso ficticio","#2c7fb8",1.4],[172,"Fuentes","autorizadas","#2c7fb8",1.4],[336,"Constitución","reglas · límites","#b06a1f",2.2],[500,"Análisis IA","resp. preliminar","#2c7fb8",1.4],[664,"Verificación","fuentes · hechos","#2e8b6f",1.6],[828,"Respuesta","advertida","#2c7fb8",1.4],[992,"Revisión humana","supervisión","#6a5acd",1.6]].map(n=>`<g><rect x="${n[0]}" y="26" width="150" height="66" rx="8" fill="#ffffff" stroke="${n[3]}" stroke-width="${n[4]}"/><text x="${n[0]+13}" y="58" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="12.5" fill="#10151f">${n[1]}</text><text x="${n[0]+13}" y="76" font-family="'JetBrains Mono',monospace" font-size="9" fill="#5f6c80">${n[2]}</text></g>`).join("")}
+      </svg>`;
     function renderDossier(){
       const tools = [...TOOLS_CORE, ...TOOLS_AGENTS];
       $("dossier").innerHTML = `
@@ -1142,6 +1169,8 @@
         <div class="dz-sec"><h2>1 · Resumen ejecutivo</h2>
           <p>Curso optativo semestral (16 semanas, una sesión de 90 minutos por semana, sin requisito técnico) en el que cada estudiante construye un prototipo jurídico funcional. Mientras el mercado aprende a <i>usar</i> la IA, este curso enseña a <b>construirla, verificarla y gobernarla</b>: diseñar las reglas y gobernar los sistemas que integran a los modelos —la habilidad más escasa del momento y la más cercana a la tradición teórica de la Escuela—.</p>
           <p><span class="dz-tag">Metodología</span> Aprendizaje Basado en Proyectos (ABP): cada sesión es teórico-práctica. &nbsp; <span class="dz-tag">Entregable</span> prototipo funcional sobre Supabase, defendido al cierre. &nbsp; <span class="dz-tag">Cupo</span> acotado por laboratorio (20–30).</p>
+          <h3>Modelo operativo del agente jurídico de apoyo</h3>
+          ${WF_COMPACT}
         </div>
 
         <div class="dz-sec"><h2>2 · Objetivos</h2>
