@@ -50,17 +50,22 @@
       .page:last-child{ page-break-after:auto; }
     }
     @media (max-width:780px){ .page{ width:auto; padding:22px 18px; } .cols{ grid-template-columns:1fr; } }
+    .pdfing{ background:#fff; }
+    .pdfing .toolbar{ display:none; }
+    .pdfing .page{ box-shadow:none; margin:0 auto; width:auto; }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
   <div class="toolbar">
     <span class="t">RESUMEN EJECUTIVO · DER-IA · OPT 2026</span>
     <span>
       <a href="index.html">&larr; Volver a la propuesta</a>
-      <button class="primary" onclick="window.print()">Imprimir / Guardar PDF</button>
+      <button class="primary" id="execDl">Descargar PDF</button>
     </span>
   </div>
 
+  <div id="execDoc">
   <!-- PÁGINA 1 -->
   <section class="page">
     <div class="head">
@@ -181,5 +186,22 @@
 
     <div class="foot">Propuesta académica independiente, elaborada por Diego Ojeda (licenciado en Derecho PUCV) para evaluación de la Dirección de la Escuela. Articulable, si se estima pertinente, con líneas institucionales de docencia, investigación, innovación, educación continua o vinculación con el medio.</div>
   </section>
+  </div>
+
+  <script>
+    document.getElementById("execDl").addEventListener("click", function(){
+      var el = document.getElementById("execDoc");
+      if(!window.html2pdf){ window.print(); return; }
+      document.body.classList.add("pdfing");
+      var done = function(){ document.body.classList.remove("pdfing"); };
+      window.html2pdf().set({
+        margin:0, filename:"Resumen-ejecutivo-Der-IA-PUCV.pdf",
+        image:{ type:"jpeg", quality:.97 },
+        html2canvas:{ scale:2, backgroundColor:"#ffffff", windowWidth:794 },
+        jsPDF:{ unit:"mm", format:"a4", orientation:"portrait" },
+        pagebreak:{ mode:["css","legacy"], after:".page" }
+      }).from(el).save().then(done, done);
+    });
+  </script>
 </body>
 </html>

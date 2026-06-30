@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root{
       --bg:#020306; --bg-2:#06090d;
@@ -506,31 +507,32 @@
     .dl-go{ margin-left:auto; font-family:"JetBrains Mono",monospace; font-size:0.74rem; color:var(--cyan); white-space:nowrap;
       border:1px solid color-mix(in srgb,var(--cyan),transparent 55%); border-radius:20px; padding:6px 12px; }
 
-    /* DOSSIER (solo impresión / PDF) */
+    /* DOSSIER (descarga PDF / impresión) — estilos light en .dz-render */
     #dossier{ display:none; }
+    .dz-render{ color:#10151f; font-family:Inter,Arial,sans-serif; font-size:10.5pt; line-height:1.5; background:#fff; padding:14mm 12mm; }
+    .dz-render .dz-hide{ display:none !important; }
+    .dz-render .dz-cover{ padding-bottom:14px; border-bottom:2px solid #2c7fb8; margin-bottom:16px; }
+    .dz-render .kor{ font-family:"JetBrains Mono",monospace; font-size:8.5pt; color:#2c7fb8; letter-spacing:.05em; text-transform:uppercase; }
+    .dz-render h1{ font-family:"Space Grotesk",sans-serif; font-size:23pt; margin:8px 0 6px; color:#0b1020; }
+    .dz-render .dz-author{ color:#48566b; font-size:9.5pt; }
+    .dz-render h2{ font-family:"Space Grotesk",sans-serif; font-size:13.5pt; color:#10151f; margin:18px 0 8px;
+      padding-bottom:4px; border-bottom:1px solid #c9d4e2; break-after:avoid; }
+    .dz-render h3{ font-size:11pt; margin:10px 0 4px; color:#1c3b5a; }
+    .dz-render h4{ margin:0 0 4px; font-size:9pt; color:#2c7fb8; font-family:"JetBrains Mono",monospace; text-transform:uppercase; }
+    .dz-render p{ margin:0 0 8px; } .dz-render ul{ margin:4px 0 8px; padding-left:18px; } .dz-render li{ margin:3px 0; }
+    .dz-render .dz-tag{ font-family:"JetBrains Mono",monospace; font-size:8pt; color:#2c7fb8; text-transform:uppercase; }
+    .dz-render table{ width:100%; border-collapse:collapse; margin:6px 0 8px; font-size:9.5pt; }
+    .dz-render th,.dz-render td{ border:1px solid #c9d4e2; padding:6px 8px; text-align:left; }
+    .dz-render th{ background:#eef3f9; font-family:"JetBrains Mono",monospace; font-size:8.5pt; }
+    .dz-render .dz-sec{ break-inside:avoid; page-break-inside:avoid; }
+    .dz-render .dz-mod,.dz-render .dz-prog{ border:1px solid #d7e0ec; border-radius:6px; padding:9px 11px; margin:8px 0; break-inside:avoid; page-break-inside:avoid; }
+    .dz-render .dz-cols{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:4px; }
+    .dz-render .dz-foot{ margin-top:16px; padding-top:8px; border-top:1px solid #c9d4e2; font-size:8pt; color:#667; }
     @media print{
       @page{ margin:15mm; }
       html,body{ background:#fff !important; }
       .topbar,.shell,.fab,.present,#neuralCanvas,.scanlines,.hud-vignette,.cursor-glow,footer.credit{ display:none !important; }
-      #dossier .dz-hide{ display:none !important; }
-      #dossier{ display:block !important; color:#10151f; font-family:Inter,Arial,sans-serif; font-size:10.5pt; line-height:1.5; }
-      #dossier .dz-cover{ padding-bottom:14px; border-bottom:2px solid #2c7fb8; margin-bottom:16px; }
-      #dossier .kor{ font-family:"JetBrains Mono",monospace; font-size:8.5pt; color:#2c7fb8; letter-spacing:.05em; text-transform:uppercase; }
-      #dossier h1{ font-family:"Space Grotesk",sans-serif; font-size:23pt; margin:8px 0 6px; color:#0b1020; }
-      #dossier .dz-author{ color:#48566b; font-size:9.5pt; }
-      #dossier h2{ font-family:"Space Grotesk",sans-serif; font-size:13.5pt; color:#10151f; margin:18px 0 8px;
-        padding-bottom:4px; border-bottom:1px solid #c9d4e2; page-break-after:avoid; }
-      #dossier h3{ font-size:11pt; margin:10px 0 4px; color:#1c3b5a; }
-      #dossier h4{ margin:0 0 4px; font-size:9pt; color:#2c7fb8; font-family:"JetBrains Mono",monospace; text-transform:uppercase; }
-      #dossier p{ margin:0 0 8px; } #dossier ul{ margin:4px 0 8px; padding-left:18px; } #dossier li{ margin:3px 0; }
-      #dossier .dz-tag{ font-family:"JetBrains Mono",monospace; font-size:8pt; color:#2c7fb8; text-transform:uppercase; }
-      #dossier table{ width:100%; border-collapse:collapse; margin:6px 0 8px; font-size:9.5pt; }
-      #dossier th,#dossier td{ border:1px solid #c9d4e2; padding:6px 8px; text-align:left; }
-      #dossier th{ background:#eef3f9; font-family:"JetBrains Mono",monospace; font-size:8.5pt; }
-      #dossier .dz-sec{ page-break-inside:avoid; }
-      #dossier .dz-mod,#dossier .dz-prog{ border:1px solid #d7e0ec; border-radius:6px; padding:9px 11px; margin:8px 0; page-break-inside:avoid; }
-      #dossier .dz-cols{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:4px; }
-      #dossier .dz-foot{ margin-top:16px; padding-top:8px; border-top:1px solid #c9d4e2; font-size:8pt; color:#667; }
+      #dossier{ display:block !important; padding:0; }
     }
 
     @media (prefers-reduced-motion:reduce){ #tickerTrack{ animation:none; } .section-view{ animation:none; } a.link-card:hover,.exp-step:hover,button.flip-card:hover{ transform:none; } }
@@ -601,8 +603,8 @@
         <p>El desafío no es solo aprender a preguntar mejor, sino aprender a diseñar sistemas jurídicos que puedan ser auditados, corregidos y gobernados.</p>
       </div>
 
-      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Cómo funciona por dentro</span><h2 style="font-size:1.4rem">El prototipo no es un chatbot libre: es un sistema en bucle</h2>
-        <p>Una consulta entra, se gobierna con la Constitución del agente y fuentes autorizadas, se verifica y se responde con advertencias; la bitácora retroalimenta el ciclo de mejora.</p></div>
+      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Ejemplo práctico · así se visualiza el flujo de un agente</span><h2 style="font-size:1.4rem">El prototipo no es un chatbot libre: es un sistema en bucle</h2>
+        <p>Esto es, en concreto, lo que el curso enseña a diseñar: una consulta entra, se gobierna con la Constitución del agente y fuentes autorizadas, se verifica y se responde con advertencias; la bitácora retroalimenta el ciclo de mejora.</p></div>
       <div class="viz">
         <svg viewBox="0 0 1142 150" role="img" aria-label="Modelo del prototipo en bucle: consulta, fuentes, Constitución del agente, análisis IA, verificación, respuesta y revisión humana, con iteración que retroalimenta el inicio">
           <defs>
@@ -907,8 +909,8 @@
           </div>
         </div>
       </div>
-      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Arquitectura del agente</span><h2 style="font-size:1.5rem">Modelo operativo del agente jurídico de apoyo</h2>
-        <p>Cómo se traduce la teoría jurídica en un sistema verificable, gobernado y trazable.</p></div>
+      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Ese mismo prototipo, por dentro</span><h2 style="font-size:1.5rem">Modelo operativo del agente jurídico de apoyo</h2>
+        <p>La maqueta de arriba muestra <i>qué</i> entrega el agente; este flujograma muestra <i>cómo</i> lo hace: cómo se traduce la teoría jurídica en un sistema verificable, gobernado y trazable.</p></div>
       <div class="viz">
         <svg viewBox="0 0 1000 460" role="img" aria-label="Flujo del agente jurídico: consulta, clasificación, motor de análisis, verificación y respuesta gobernada, bajo la Constitución del agente y las fuentes autorizadas, con escalamiento humano condicional y bitácora que retroalimenta el inicio">
           <defs>
@@ -987,7 +989,7 @@
     <div class="present-dots" id="presDots"></div>
   </div>
 
-  <div id="dossier" aria-hidden="true"></div>
+  <div id="dossier" class="dz-render" aria-hidden="true"></div>
 
   <footer class="credit">
     <p style="margin:0 0 8px"><b>Propuesta académica independiente</b>, desarrollada para ser evaluada por la Dirección de la Escuela y articulable, si se estima pertinente, con líneas institucionales de docencia, investigación, innovación, educación continua o vinculación con el medio.</p>
@@ -1449,12 +1451,24 @@
       logistica:["Logística y evaluación","Requisitos, rúbrica, calendario, riesgos y piloto."]
     };
     function dlScope(key){
-      const secs = [...document.querySelectorAll("#dossier .dz-sec")];
+      const d = document.getElementById("dossier");
+      const secs = [...d.querySelectorAll(".dz-sec")];
       const keep = (key && key !== "all" && DZ_MAP[key]) ? DZ_MAP[key] : null;
       secs.forEach((s,i)=> s.classList.toggle("dz-hide", keep ? !keep.includes(i) : false));
-      window.print();
+      const label = (key && key !== "all" && DL_INFO[key]) ? DL_INFO[key][0] : "Dossier completo";
+      const safe = label.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-");
+      const filename = "Propuesta-Der-IA-PUCV-" + safe + ".pdf";
+      const cleanup = ()=>{ d.style.cssText = ""; secs.forEach(s=>s.classList.remove("dz-hide")); };
+      if(!window.html2pdf){ window.print(); cleanup(); return; }
+      d.style.cssText = "display:block;position:fixed;left:0;top:0;width:794px;z-index:-1;";
+      window.html2pdf().set({
+        margin:0, filename,
+        image:{ type:"jpeg", quality:.97 },
+        html2canvas:{ scale:2, backgroundColor:"#ffffff", useCORS:true, windowWidth:794 },
+        jsPDF:{ unit:"mm", format:"a4", orientation:"portrait" },
+        pagebreak:{ mode:["css","legacy"] }
+      }).from(d).save().then(cleanup, cleanup);
     }
-    window.addEventListener("afterprint", ()=> document.querySelectorAll("#dossier .dz-hide").forEach(s=>s.classList.remove("dz-hide")));
     function mountDownloads(){
       Object.keys(DL_INFO).forEach(key=>{
         const sec = document.getElementById("s-"+key); if(!sec) return;
