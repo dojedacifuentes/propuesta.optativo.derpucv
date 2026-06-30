@@ -374,6 +374,11 @@
     .viz-loop-lab{ fill:var(--gold); font-family:"JetBrains Mono",monospace; font-size:10px; opacity:.75; }
     @media (prefers-reduced-motion:reduce){ .viz-edge{ animation:none; stroke-dasharray:none; } .viz-pulse,.viz-scan{ animation:none; opacity:.6; } }
     @media print{ .viz-edge{ animation:none; stroke-dasharray:none; stroke-opacity:.7; } .viz-pulse{ animation:none; opacity:1; } .viz-scan{ display:none; } }
+    .viz{ overflow-x:auto; }
+    .viz-packet{ filter:drop-shadow(0 0 5px #4be7ff); }
+    @media (max-width:760px){ .viz svg{ min-width:620px; } .viz-cap{ font-size:.84rem; } }
+    @media (prefers-reduced-motion:reduce){ .viz-packet{ display:none; } }
+    @media print{ .viz-packet{ display:none; } }
 
     /* LIVE AGENT DEMO MOCKUP (ventana de app ContratoClaro) */
     .lam{ position:relative; border:1px solid var(--line); border-radius:12px; overflow:hidden;
@@ -883,6 +888,8 @@
           <path class="viz-edge viz-edge--loop" d="M420 406 C180 428 36 360 92 226" marker-end="url(#wvg)"/>
           <text class="viz-cond" x="745" y="126">si riesgo alto / datos sensibles</text>
           <text class="viz-loop-lab" x="150" y="420">iteración · mejora continua</text>
+          <circle class="viz-packet" cx="91" cy="150" r="3" fill="#4be7ff"><animate attributeName="cx" values="91;902" dur="3.4s" repeatCount="indefinite"/></circle>
+          <circle class="viz-packet" cx="91" cy="150" r="2.4" fill="#8df6ff"><animate attributeName="cx" values="91;902" dur="3.4s" begin="1.7s" repeatCount="indefinite"/></circle>
 
           <g class="viz-node viz-node--highlighted"><title>Constitución del agente: finalidad, ámbito, límites, fuentes autorizadas, advertencias y reglas de actuación que gobiernan todo el flujo.</title><rect x="355" y="14" width="290" height="58" rx="8"/><circle class="vn-dot viz-pulse" cx="371" cy="32" r="3.6"/><text class="vn-t" x="384" y="38">Constitución del agente</text><text class="vn-s" x="384" y="56">finalidad · límites · reglas · advertencias</text></g>
           <g class="viz-node viz-node--human"><title>Escalamiento humano: deriva a una persona si hay riesgo alto, datos sensibles o una decisión relevante.</title><rect x="805" y="14" width="185" height="58" rx="8"/><circle class="vn-dot" cx="821" cy="32" r="3.4"/><text class="vn-t" x="834" y="38">Escalamiento humano</text><text class="vn-s" x="834" y="56">riesgo alto · decisión relevante</text></g>
@@ -1077,7 +1084,7 @@
         format:["≈ 60 h","Sistema + gobernanza","Nivel avanzado"],
         modules:[
           { mn:"01", t:"Arquitectura de sistemas", o:"Diseñas sistemas que integran varios agentes y fuentes de datos." },
-          { mn:"02", t:"Gobernanza y responsabilidad", o:"Defines supervisión humana significativa y respondes por lo que el sistema decide." },
+          { mn:"02", t:"Gobernanza y responsabilidad", o:"Defines supervisión humana significativa y respondes por el comportamiento del sistema." },
           { mn:"03", t:"Agentes y automatización supervisada", o:"Orquestas agentes con límites, bitácora y mejora continua." },
           { mn:"04", t:"Auditoría y cumplimiento avanzado", o:"Auditas decisiones automatizadas y las contrastas con la regulación vigente." }
         ],
