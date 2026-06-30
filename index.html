@@ -337,6 +337,37 @@
     .present-dots i.on{ background:var(--cyan); box-shadow:0 0 10px var(--cyan); }
     @media (max-width:680px){ .present-stage h2{ font-size:2rem; } .present-stage p{ font-size:1.05rem; } .present-top{ flex-direction:column; align-items:flex-start; } }
 
+    /* ===== SISTEMA VISUAL DE DIAGRAMAS (reutilizable) ===== */
+    .viz{ position:relative; overflow:hidden; padding:12px; border:1px solid var(--line); border-radius:var(--radius);
+      background:radial-gradient(circle at 30% 18%, rgba(75,231,255,.06), transparent 60%), linear-gradient(180deg, rgba(6,12,18,.7), rgba(2,3,6,.92)); }
+    .viz::before{ content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
+      background-image:linear-gradient(rgba(75,231,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(75,231,255,.05) 1px,transparent 1px);
+      background-size:26px 26px; -webkit-mask-image:radial-gradient(circle at 50% 42%,#000,transparent 82%); mask-image:radial-gradient(circle at 50% 42%,#000,transparent 82%); }
+    .viz svg{ display:block; width:100%; height:auto; position:relative; }
+    .viz-node rect{ fill:rgba(4,9,14,.94); stroke:var(--cyan); stroke-opacity:.5; stroke-width:1.3; }
+    .viz-node .vn-t{ fill:var(--white); font-family:"Space Grotesk",system-ui,sans-serif; font-weight:600; font-size:15px; }
+    .viz-node .vn-s{ fill:var(--muted); font-family:"JetBrains Mono",monospace; font-size:10.5px; }
+    .viz-node .vn-dot{ fill:var(--cyan); }
+    .viz-node--highlighted rect{ stroke:var(--gold); stroke-opacity:.95; filter:drop-shadow(0 0 7px rgba(224,176,74,.45)); }
+    .viz-node--highlighted .vn-dot{ fill:var(--gold); }
+    .viz-node--verification rect{ stroke:var(--mint); stroke-opacity:.85; } .viz-node--verification .vn-dot{ fill:var(--mint); }
+    .viz-node--warning rect{ stroke:var(--gold); stroke-opacity:.8; } .viz-node--warning .vn-dot{ fill:var(--gold); }
+    .viz-node--human rect{ stroke:#9d8bff; stroke-opacity:.9; } .viz-node--human .vn-dot{ fill:#9d8bff; }
+    .viz-node--log rect{ stroke:var(--muted); stroke-opacity:.45; stroke-dasharray:4 4; } .viz-node--log .vn-t{ fill:var(--muted); font-size:13px; } .viz-node--log .vn-dot{ fill:var(--muted); }
+    .viz-edge{ fill:none; stroke:var(--cyan); stroke-opacity:.5; stroke-width:1.6; stroke-dasharray:5 7; animation:vizflow 1.1s linear infinite; }
+    .viz-edge--gov{ stroke:var(--gold); stroke-opacity:.6; }
+    .viz-edge--ver{ stroke:var(--mint); stroke-opacity:.55; }
+    .viz-edge--human{ stroke:#9d8bff; stroke-opacity:.6; }
+    @keyframes vizflow{ to{ stroke-dashoffset:-24; } }
+    .viz-pulse{ transform-box:fill-box; transform-origin:center; animation:vizpulse 3s ease-in-out infinite; }
+    @keyframes vizpulse{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+    .viz-legend{ display:flex; flex-wrap:wrap; gap:14px; margin:10px 4px 2px; font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--muted); }
+    .viz-legend span i{ width:9px; height:9px; border-radius:2px; display:inline-block; margin-right:6px; vertical-align:middle; }
+    .viz-cap{ margin:10px 4px 2px; color:var(--muted); font-size:.86rem; }
+    .viz-cap b{ color:var(--white); }
+    @media (prefers-reduced-motion:reduce){ .viz-edge{ animation:none; stroke-dasharray:none; } .viz-pulse{ animation:none; opacity:.9; } }
+    @media print{ .viz-edge{ animation:none; stroke-dasharray:none; stroke-opacity:.7; } .viz-pulse{ animation:none; opacity:1; } }
+
     /* DEMO INTERACTIVA */
     .demo{ border:1px solid var(--line); border-radius:var(--radius); background:var(--panel-strong); padding:16px; }
     .demo-bar{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
@@ -680,6 +711,39 @@
     <section class="section-view" id="s-demo">
       <div class="section-head"><span class="eyebrow">Ejemplo de prototipo final</span><h2>Un sistema gobernado, no solo un chatbot</h2>
         <p>Maqueta de demostración (respuestas simuladas, sin conexión real). Muestra lo que construye un estudiante: un agente que responde con advertencias, fuentes, reglas de verificación y un límite explícito de actuación. Elige un caso —o escribe otra consulta y observa cómo el agente declina lo que está fuera de su ámbito.</p></div>
+      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Arquitectura del agente</span><h2 style="font-size:1.4rem">Cómo opera, gobernado por reglas</h2></div>
+      <div class="viz">
+        <svg viewBox="0 0 980 320" role="img" aria-label="Diagrama de la arquitectura de un agente jurídico gobernado: consulta, agente, verificación y respuesta, bajo la Constitución del agente y revisión humana, con registro en bitácora">
+          <defs>
+            <marker id="va" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#4be7ff" opacity=".7"/></marker>
+            <marker id="vg" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#e0b04a" opacity=".85"/></marker>
+            <marker id="vv" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#54d6a0" opacity=".85"/></marker>
+            <marker id="vh" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#9d8bff" opacity=".85"/></marker>
+          </defs>
+          <path class="viz-edge" d="M170 183 H250" marker-end="url(#va)"/>
+          <path class="viz-edge" d="M405 183 H485" marker-end="url(#va)"/>
+          <path class="viz-edge" d="M670 183 H750" marker-end="url(#va)"/>
+          <path class="viz-edge viz-edge--gov" d="M334 72 V146" marker-end="url(#vg)"/>
+          <path class="viz-edge viz-edge--human" d="M785 72 C785 116 837 116 837 146" marker-end="url(#vh)"/>
+          <path class="viz-edge viz-edge--ver" d="M580 216 V246" marker-end="url(#vv)"/>
+          <g class="viz-node viz-node--highlighted"><rect x="185" y="14" width="300" height="58" rx="8"/><circle class="vn-dot viz-pulse" cx="201" cy="32" r="3.4"/><text class="vn-t" x="214" y="38">Constitución del agente</text><text class="vn-s" x="214" y="56">reglas · límites · fuentes autorizadas</text></g>
+          <g class="viz-node viz-node--human"><rect x="690" y="14" width="190" height="58" rx="8"/><circle class="vn-dot" cx="706" cy="32" r="3.4"/><text class="vn-t" x="719" y="38">Revisión humana</text><text class="vn-s" x="719" y="56">supervisión significativa</text></g>
+          <g class="viz-node"><rect x="20" y="150" width="150" height="66" rx="8"/><circle class="vn-dot" cx="36" cy="170" r="3.4"/><text class="vn-t" x="36" y="186">Consulta</text><text class="vn-s" x="36" y="204">caso de prueba</text></g>
+          <g class="viz-node"><rect x="255" y="150" width="150" height="66" rx="8"/><circle class="vn-dot" cx="271" cy="170" r="3.4"/><text class="vn-t" x="271" y="186">Agente jurídico</text><text class="vn-s" x="271" y="204">procesa</text></g>
+          <g class="viz-node viz-node--verification"><rect x="490" y="150" width="180" height="66" rx="8"/><circle class="vn-dot" cx="506" cy="170" r="3.4"/><text class="vn-t" x="506" y="186">Verificación</text><text class="vn-s" x="506" y="204">fuentes · trazabilidad</text></g>
+          <g class="viz-node"><rect x="755" y="150" width="165" height="66" rx="8"/><circle class="vn-dot" cx="771" cy="170" r="3.4"/><text class="vn-t" x="771" y="186">Respuesta</text><text class="vn-s" x="771" y="204">gobernada · advertida</text></g>
+          <g class="viz-node viz-node--log"><rect x="485" y="246" width="200" height="50" rx="8"/><circle class="vn-dot" cx="501" cy="263" r="3.2"/><text class="vn-t" x="514" y="268">Bitácora / registro</text><text class="vn-s" x="514" y="284">auditable</text></g>
+        </svg>
+        <div class="viz-legend">
+          <span><i style="background:var(--cyan)"></i>flujo</span>
+          <span><i style="background:var(--gold)"></i>reglas (Constitución)</span>
+          <span><i style="background:var(--mint)"></i>verificación</span>
+          <span><i style="background:#9d8bff"></i>revisión humana</span>
+          <span><i style="background:var(--muted)"></i>registro</span>
+        </div>
+      </div>
+      <p class="viz-cap"><b>No es un chatbot libre.</b> Cada respuesta pasa por reglas, verificación con fuentes y revisión humana — y queda registrada.</p>
+
       <div class="demo">
         <div class="demo-bar" id="demoChips"></div>
         <div class="demo-input">
