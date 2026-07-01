@@ -442,35 +442,45 @@
     /* MÉTODO DE LA CONSTITUCIÓN (ConstitutionalMethodFlow) */
     .cmf{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:16px; align-items:start; margin-top:6px; }
     .cmf-stack{ position:relative; border:1px solid var(--line); border-radius:var(--radius); background:rgba(2,3,6,.5); padding:14px; }
-    .cmf-io{ display:flex; align-items:center; gap:8px; font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--muted); margin:2px 2px 8px; }
-    .cmf-io.out{ margin:10px 2px 2px; }
-    .cmf-io.in{ color:var(--cyan); } .cmf-io.out{ color:var(--mint); }
-    .cmf-io svg{ width:15px; height:15px; }
+    .cmf-io{ display:flex; align-items:center; justify-content:center; gap:8px; font-family:"JetBrains Mono",monospace;
+      font-size:.7rem; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin:2px 2px 10px; }
+    .cmf-io.out{ margin:12px 2px 2px; }
+    .cmf-io.in{ color:var(--gold); } .cmf-io.out{ color:var(--mint); }
+    .cmf-io svg{ width:14px; height:14px; }
     .cmf-gates{ position:relative; }
-    .cmf-gate-list{ display:grid; gap:6px; }
-    .cmf-scan{ position:absolute; left:0; right:0; top:0; height:2px; pointer-events:none; z-index:3;
-      background:linear-gradient(90deg,transparent,var(--cyan),transparent); opacity:.45; animation:cmfscan 5s linear infinite; }
-    @keyframes cmfscan{ 0%{ top:0; opacity:0; } 8%{ opacity:.5; } 92%{ opacity:.5; } 100%{ top:100%; opacity:0; } }
-    .cmf-gate{ display:grid; grid-template-columns:28px 1fr 10px; gap:10px; align-items:center; width:100%; text-align:left;
-      padding:10px 12px; border:1px solid var(--line-soft); border-left:3px solid var(--line-soft); border-radius:6px;
-      background:rgba(6,11,16,.7); color:var(--white); cursor:pointer; font-family:inherit; transition:border-color .15s ease,background .15s ease; }
-    .cmf-gate .gn{ font-family:"JetBrains Mono",monospace; color:var(--muted); font-size:.8rem; }
-    .cmf-gate .gt{ font-size:.9rem; min-width:0; }
-    .cmf-gate .gtick{ width:10px; height:10px; border-radius:50%; background:var(--line-soft); }
-    .cmf-gate:hover{ border-color:var(--cyan); }
-    .cmf-gate.active{ border-left-color:var(--cyan); background:rgba(75,231,255,.08); }
-    .cmf-gate.active .gt{ color:var(--cyan); }
-    .cmf-gate.active .gtick{ background:var(--mint); box-shadow:0 0 9px var(--mint); animation:cmfpulse 1.7s ease-in-out infinite; }
-    @keyframes cmfpulse{ 0%,100%{ opacity:.5; } 50%{ opacity:1; } }
-    .cmf-detail{ border:1px solid var(--line); border-radius:var(--radius); background:var(--panel-strong); padding:18px; }
-    .cmf-detail .dn{ font-family:"JetBrains Mono",monospace; color:var(--cyan); font-size:.72rem; text-transform:uppercase; }
-    .cmf-detail h3{ margin:6px 0 10px; font-family:"Space Grotesk",sans-serif; font-size:1.25rem; }
-    .cmf-row{ margin:10px 0; } .cmf-row b{ display:block; font-family:"JetBrains Mono",monospace; font-size:.68rem; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
-    .cmf-row p{ margin:0; color:var(--white); font-size:.9rem; }
-    .cmf-risk{ border-left:2px solid var(--coral); padding-left:10px; } .cmf-risk p{ color:var(--muted); }
+    .cmf-gate-list{ display:grid; justify-items:center; }
+    .cmf-scan{ position:absolute; left:6%; right:6%; top:0; height:1.5px; pointer-events:none; z-index:3;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent); opacity:.4; animation:cmfscan 7s linear infinite; }
+    @keyframes cmfscan{ 0%{ top:0; opacity:0; } 8%{ opacity:.45; } 92%{ opacity:.45; } 100%{ top:100%; opacity:0; } }
+    .cmf-connector{ display:flex; flex-direction:column; align-items:center; height:16px; color:var(--line); }
+    .cmf-connector svg{ width:13px; height:13px; opacity:.5; }
+    .cmf-gate{ position:relative; display:grid; grid-template-columns:26px 1fr 22px; gap:10px; align-items:center; text-align:left;
+      padding:10px 16px; border:1px solid var(--line-soft); border-radius:3px;
+      background:rgba(6,11,16,.72); color:var(--white); cursor:pointer; font-family:inherit;
+      transition:border-color .15s ease,background .15s ease,box-shadow .15s ease; }
+    .cmf-gate::before,.cmf-gate::after{ content:""; position:absolute; top:0; bottom:0; width:9px; border-color:var(--line-soft); opacity:.7; transition:border-color .15s ease; }
+    .cmf-gate::before{ left:-1px; border-left:1.5px solid; border-top:1.5px solid; border-bottom:1.5px solid; border-top-left-radius:3px; border-bottom-left-radius:3px; }
+    .cmf-gate::after{ right:-1px; border-right:1.5px solid; border-top:1.5px solid; border-bottom:1.5px solid; border-top-right-radius:3px; border-bottom-right-radius:3px; }
+    .cmf-gate .gn{ font-family:"JetBrains Mono",monospace; color:var(--muted); font-size:.78rem; }
+    .cmf-gate .gt{ font-size:.88rem; min-width:0; }
+    .cmf-gate .gtick{ width:16px; height:16px; border-radius:50%; border:1.5px solid var(--line-soft); display:grid; place-items:center; }
+    .cmf-gate .gtick svg{ width:10px; height:10px; }
+    .cmf-gate:hover{ border-color:var(--gold); } .cmf-gate:hover::before,.cmf-gate:hover::after{ border-color:var(--gold); }
+    .cmf-gate.active{ border-color:var(--gold); background:rgba(224,176,74,.08); box-shadow:0 0 0 1px rgba(224,176,74,.15), 0 8px 20px rgba(224,176,74,.08); }
+    .cmf-gate.active::before,.cmf-gate.active::after{ border-color:var(--gold); }
+    .cmf-gate.active .gt{ color:var(--gold); font-weight:600; }
+    .cmf-gate.active .gtick{ border-color:var(--mint); background:rgba(84,214,160,.12); animation:cmfpulse 2.2s ease-in-out infinite; }
+    .cmf-gate.active .gtick svg{ stroke:var(--mint); }
+    @keyframes cmfpulse{ 0%,100%{ box-shadow:0 0 0 rgba(84,214,160,0); } 50%{ box-shadow:0 0 10px rgba(84,214,160,.5); } }
+    .cmf-detail{ border:1px solid var(--line); border-radius:var(--radius); background:var(--panel-strong); padding:20px; }
+    .cmf-detail .dn{ font-family:"JetBrains Mono",monospace; color:var(--gold); font-size:.72rem; text-transform:uppercase; }
+    .cmf-detail h3{ margin:6px 0 12px; font-family:"Space Grotesk",sans-serif; font-size:1.25rem; padding-bottom:10px; border-bottom:1px solid var(--line-soft); }
+    .cmf-row{ margin:12px 0; } .cmf-row b{ display:block; font-family:"JetBrains Mono",monospace; font-size:.66rem; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); margin-bottom:4px; }
+    .cmf-row p{ margin:0; color:var(--white); font-size:.9rem; line-height:1.45; }
+    .cmf-risk{ border-left:2px solid var(--coral); padding-left:12px; } .cmf-risk p{ color:var(--muted); }
     .cmf-print{ display:none; }
-    @media (max-width:780px){ .cmf{ grid-template-columns:1fr; } }
-    @media (prefers-reduced-motion:reduce){ .cmf-scan{ animation:none; opacity:.3; } .cmf-gate.active .gtick{ animation:none; } }
+    @media (max-width:780px){ .cmf{ grid-template-columns:1fr; } .cmf-gate{ width:100% !important; } }
+    @media (prefers-reduced-motion:reduce){ .cmf-scan{ animation:none; opacity:.25; } .cmf-gate.active .gtick{ animation:none; } }
     @media print{ .cmf{ display:none; } .cmf-print{ display:block; } .cmf-prow{ margin:5px 0; font-size:9.5pt; } }
 
     /* DEMO INTERACTIVA */
@@ -1685,18 +1695,30 @@
     document.addEventListener("click",(e)=>{ if(e.target.closest("#lamRun")){ blip(520); runLAM(); } });
 
     /* ===================== MÉTODO DE LA CONSTITUCIÓN ===================== */
+    const CMF_CHECK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>`;
     function selectCMF(i){
       const s = STAGES[i];
-      document.querySelectorAll(".cmf-gate").forEach((g,gi)=>g.classList.toggle("active", gi===i));
+      document.querySelectorAll(".cmf-gate").forEach((g,gi)=>{
+        g.classList.toggle("active", gi===i);
+        const tick = g.querySelector(".gtick"); if(tick) tick.innerHTML = gi===i ? CMF_CHECK : "";
+      });
       $("cmfDetail").innerHTML = `<span class="dn">Capa ${String(i+1).padStart(2,"0")} / ${STAGES.length}</span><h3>${esc(s.t)}</h3>
         <div class="cmf-row"><b>Explicación</b><p>${esc(s.exp)}</p></div>
         <div class="cmf-row"><b>Ejemplo aplicado</b><p>${esc(s.ej)}</p></div>
         <div class="cmf-row cmf-risk"><b>Riesgo que evita</b><p>${esc(s.riesgo)}</p></div>`;
     }
     function renderCMF(){
-      $("cmfGates").innerHTML = STAGES.map((s,i)=>`<button type="button" class="cmf-gate ${i===0?"active":""}" data-cmf="${i}"><span class="gn">${String(i+1).padStart(2,"0")}</span><span class="gt">${esc(s.t)}</span><span class="gtick"></span></button>`).join("");
+      const connector = `<div class="cmf-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v14M6 13l6 6 6-6"/></svg></div>`;
+      $("cmfGates").innerHTML = STAGES.map((s,i)=>{
+        const width = 100 - i * 3.4;
+        const gate = `<button type="button" class="cmf-gate ${i===0?"active":""}" data-cmf="${i}" style="width:${width}%">
+            <span class="gn">${String(i+1).padStart(2,"0")}</span><span class="gt">${esc(s.t)}</span>
+            <span class="gtick">${i===0?CMF_CHECK:""}</span>
+          </button>`;
+        return i < STAGES.length - 1 ? gate + connector : gate;
+      }).join("");
       $("cmfPrint").innerHTML = `<h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;margin:0 0 8px">El método de la Constitución · 9 capas</h3>` + STAGES.map((s,i)=>`<div class="cmf-prow"><b>${i+1}. ${esc(s.t)}.</b> ${esc(s.exp)} <i>Evita:</i> ${esc(s.riesgo)}</div>`).join("");
-      selectCMF(0);
+      selectCMF(0); refresh();
     }
     document.addEventListener("click",(e)=>{ const g=e.target.closest("[data-cmf]"); if(g){ selectCMF(Number(g.dataset.cmf)); blip(560); } });
 
