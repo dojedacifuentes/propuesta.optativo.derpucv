@@ -233,14 +233,29 @@
         {table:{widths:["*"],body:[[{stack:[{text:"Decisión solicitada",style:"h3",margin:[0,0,0,2]},{text:"Evaluar la autorización para diseñar formalmente el programa, definir las condiciones del piloto y revisar su posible implementación como optativo 2026.",fontSize:9.5,color:INK}],fillColor:FILL,margin:[10,8,10,8]}]]},layout:"noBorders",margin:[0,8,0,0]},
         {text:"Propuesta académica independiente, elaborada por Diego Ojeda (licenciado en Derecho PUCV) para evaluación de la Dirección de la Escuela. Articulable con líneas institucionales de docencia, investigación, innovación, educación continua o vinculación con el medio.",fontSize:7.5,color:MUT,margin:[0,10,0,0]}
       ]);
-      return {pageSize:"A4",pageMargins:[40,44,40,40],defaultStyle:{fontSize:9.5,color:"#334155",lineHeight:1.25},
-        styles:{kor:{fontSize:7.5,color:A,bold:true,margin:[0,0,0,2]},h1:{fontSize:20,bold:true,color:INK,margin:[0,2,0,0]},sub:{fontSize:9,color:MUT},h2:{fontSize:13.5,bold:true,color:INK,margin:[0,4,0,6]},h3:{fontSize:10.5,bold:true,color:A,margin:[0,8,0,3]},p:{fontSize:9.5,color:"#334155",margin:[0,0,0,6]},th:{fontSize:8,bold:true,color:"#1e3a5f",fillColor:FILL},td:{fontSize:8.5,color:"#334155"}},
+      return {pageSize:"A4",pageMargins:[40,44,40,40],defaultStyle:{font:"IBMPlexSans",fontSize:9.5,color:"#334155",lineHeight:1.28},
+        styles:{kor:{font:"IBMPlexMono",fontSize:7.5,color:A,bold:true,margin:[0,0,0,2]},h1:{font:"IBMPlexSerif",fontSize:20,bold:true,color:INK,margin:[0,2,0,0]},sub:{fontSize:9,color:MUT},h2:{font:"IBMPlexSerif",fontSize:14,bold:true,color:INK,margin:[0,4,0,6]},h3:{font:"IBMPlexSerif",fontSize:10.5,bold:true,color:A,margin:[0,8,0,3]},p:{fontSize:9.5,color:"#334155",margin:[0,0,0,6]},th:{font:"IBMPlexMono",fontSize:7.5,bold:true,color:"#1e3a5f",fillColor:FILL},td:{fontSize:8.5,color:"#334155"}},
         content:content,
-        footer:function(cur,total){return {columns:[{text:"Optativo Derecho + IA 2026 · Escuela de Derecho PUCV",fontSize:7,color:MUT,margin:[40,0,0,0]},{text:cur+" / "+total,fontSize:7,color:MUT,alignment:"right",margin:[0,0,40,0]}]};}};
+        footer:function(cur,total){return {font:"IBMPlexMono",columns:[{text:"Optativo Derecho + IA 2026 · Escuela de Derecho PUCV",fontSize:7,color:MUT,margin:[40,0,0,0]},{text:cur+" / "+total,fontSize:7,color:MUT,alignment:"right",margin:[0,0,40,0]}]};}};
+    }
+    var plexFontsPromise = null;
+    function loadPlexFonts(){
+      if(plexFontsPromise) return plexFontsPromise;
+      plexFontsPromise = new Promise(function(resolve){
+        if(typeof pdfMake !== "undefined" && pdfMake.fonts && pdfMake.fonts.IBMPlexSans){ resolve(); return; }
+        var s = document.createElement("script");
+        s.src = "pdf-fonts.js";
+        s.onload = function(){ resolve(); };
+        s.onerror = function(){ resolve(); };
+        document.head.appendChild(s);
+      });
+      return plexFontsPromise;
     }
     document.getElementById("execDl").addEventListener("click",function(){
       if(typeof pdfMake==="undefined"||!pdfMake.createPdf){ window.print(); return; }
-      pdfMake.createPdf(buildExecDef()).download("Resumen-ejecutivo-Der-IA-PUCV.pdf");
+      loadPlexFonts().then(function(){
+        pdfMake.createPdf(buildExecDef()).download("Resumen-ejecutivo-Der-IA-PUCV.pdf");
+      });
     });
   </script>
 </body>
