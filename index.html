@@ -286,6 +286,23 @@
     .rtable tr:last-child td{ border-bottom:0; }
     .rtable th{ font-family:"JetBrains Mono",monospace; font-size:0.72rem; text-transform:uppercase; color:var(--cyan); }
     .rtable td.peso{ text-align:right; color:var(--gold); font-family:"JetBrains Mono",monospace; font-weight:700; white-space:nowrap; }
+    .rtable th.mid,.rtable td.mid{ text-align:center; }
+    .rtable td.mid svg{ width:17px; height:17px; }
+    .rtable td.mid.yes{ color:var(--mint); } .rtable td.mid.no{ color:var(--muted); }
+    .rtable tr.hl td{ color:var(--white); }
+    .rtable th.hl-col{ color:var(--gold); }
+    /* Cierre: Decisión solicitada + perfil */
+    .profile-card{ display:grid; grid-template-columns:64px 1fr; gap:16px; padding:20px; border:1px solid var(--line); border-radius:var(--radius); background:var(--panel-strong); }
+    .profile-mark{ display:grid; place-items:center; width:64px; height:64px; border-radius:50%; border:1.5px solid var(--gold);
+      background:rgba(224,176,74,.08); color:var(--gold); font-family:"Space Grotesk",sans-serif; font-weight:700; font-size:1.3rem; }
+    .profile-card h3{ margin:0 0 6px; font-size:1.1rem; }
+    .profile-card p{ margin:0; color:var(--muted); font-size:0.9rem; line-height:1.5; }
+    .ask-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .ask-card{ display:grid; grid-template-columns:38px 1fr; gap:12px; padding:16px; border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--panel); }
+    .ask-num{ display:grid; place-items:center; width:38px; height:38px; border-radius:50%; border:1px solid var(--cyan); color:var(--cyan); font-family:"JetBrains Mono",monospace; font-weight:700; }
+    .ask-card b{ display:block; font-size:0.95rem; margin-bottom:4px; }
+    .ask-card p{ margin:0; color:var(--muted); font-size:0.85rem; }
+    @media (max-width:780px){ .ask-grid{ grid-template-columns:1fr; } .profile-card{ grid-template-columns:52px 1fr; } }
     .cal-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
     .cal-row{ display:grid; grid-template-columns:46px 1fr auto; gap:10px; align-items:center; padding:10px 12px;
       border:1px solid var(--line-soft); border-radius:6px; background:rgba(2,3,6,0.5); }
@@ -604,6 +621,7 @@
       <button type="button" class="mode-btn" data-go="egresados"><i data-lucide="briefcase"></i><span>Egresados</span></button>
       <button type="button" class="mode-btn" data-go="logistica"><i data-lucide="clipboard-list"></i><span>Logística</span></button>
       <button type="button" class="mode-btn" data-go="demo"><i data-lucide="app-window"></i><span>Demo</span></button>
+      <button type="button" class="mode-btn" data-go="decision"><i data-lucide="flag"></i><span>Decisión</span></button>
     </nav>
 
     <div class="system-readout">
@@ -770,6 +788,7 @@
           <ul class="lc-steps"><li>Criterios de escalamiento humano</li><li>Responsabilidad del usuario</li><li>Registro de decisiones relevantes</li></ul>
         </div>
         <p class="lc-body" style="margin-top:12px;color:var(--white);font-style:italic">“Redactar la Constitución del agente convierte teoría de la normatividad, razonamiento jurídico y responsabilidad profesional en arquitectura práctica de sistemas inteligentes.”</p>
+        <div class="note" style="margin-top:14px"><i data-lucide="landmark"></i><div>Preguntar por la <b>finalidad</b>, el <b>ámbito</b> y los <b>límites</b> de un poder que actúa no es una pregunta nueva para el Derecho: es su pregunta constitucional central. Aplicarla al diseño de un agente de IA no es importar una lógica ajena a la Escuela — es extender su tradición de control del poder a un nuevo tipo de actor.</div></div>
       </div>
 
       <div class="section-head" style="margin-top:8px"><span class="eyebrow">El método de la Constitución</span><h2 style="font-size:1.5rem">De la teoría jurídica a reglas operativas para un agente verificable</h2>
@@ -794,6 +813,13 @@
 
       <div class="section-head"><span class="eyebrow">Diferenciadores · el terreno libre</span><h2 style="font-size:1.4rem">Cinco cosas que el benchmark casi no enseña</h2></div>
       <div class="grid-3" id="diffWrap"></div>
+
+      <div class="section-head"><span class="eyebrow">Mapa competitivo</span><h2 style="font-size:1.4rem">Dónde queda el hueco frente al curso típico de IA + Derecho</h2>
+        <p>No comparamos contra una escuela nombrada: comparamos contra el <b style="color:var(--white)">enfoque típico</b> de un curso de IA aplicada al Derecho, tal como circula hoy en el mercado (talleres de prompting, uso de ChatGPT, alfabetización general).</p></div>
+      <div class="card" style="overflow-x:auto">
+        <table class="rtable" id="compTable"></table>
+      </div>
+      <div class="note"><i data-lucide="info"></i><div>Comparación construida sobre el enfoque genérico observado en la oferta de mercado 2025–26, <b>a reconfirmar con fuentes públicas</b> antes de citarla frente a la Dirección. No se nombra a ninguna escuela ni proveedor específico.</div></div>
 
       <div class="section-head"><span class="eyebrow">Competencias que se llevan al mercado</span><h2 style="font-size:1.4rem">Empleabilidad concreta, no promesas</h2></div>
       <div class="grid-3" id="compWrap"></div>
@@ -1030,6 +1056,29 @@
       <div class="note"><i data-lucide="shield-alert"></i><div>Demostración con datos ficticios. Refuerza el punto central: el estudiante no solo usa IA — diseña un sistema que explica qué hace, con qué fuentes opera y cuándo debe detenerse.</div></div>
     </section>
 
+    <!-- ============ CIERRE: DECISIÓN SOLICITADA ============ -->
+    <section class="section-view" id="s-decision">
+      <div class="section-head"><span class="eyebrow">Cierre</span><h2>Decisión sugerida</h2>
+        <p>Esta propuesta no pide adoptar un programa completo de inmediato: pide autorizar un piloto acotado, medible y de bajo riesgo institucional, y decidir sus condiciones.</p></div>
+
+      <div class="profile-card" style="margin-bottom:18px">
+        <span class="profile-mark">OJ</span>
+        <div>
+          <h3>Diego Ojeda Cifuentes</h3>
+          <p>Licenciado en Derecho PUCV, con formación previa en filosofía, experiencia en proyectos de IA jurídica aplicada, docencia auxiliar, diseño de prototipos jurídicos y trabajo en iniciativas de Derecho y Tecnología. Propuesta académica independiente, elaborada para ser evaluada por la Dirección de la Escuela — articulable, si se estima pertinente, con líneas institucionales de docencia, investigación, innovación, educación continua o vinculación con el medio.</p>
+        </div>
+      </div>
+
+      <div class="ask-grid" id="askWrap"></div>
+
+      <div class="hero-cta" style="margin-top:18px">
+        <a class="primary-command" href="resumen-ejecutivo.html" target="_blank" rel="noopener"><i data-lucide="file-text"></i><span>Descargar resumen ejecutivo</span></a>
+        <button type="button" class="thin-command" data-go="logistica"><i data-lucide="table"></i><span>Ver rúbrica y calendario</span></button>
+        <button type="button" class="thin-command" data-go="ruta"><i data-lucide="layers"></i><span>Ver estructura del piloto</span></button>
+        <button type="button" class="thin-command" id="decisionPdfBtn"><i data-lucide="file-down"></i><span>Descargar dossier completo</span></button>
+      </div>
+    </section>
+
   </main>
 
   <button type="button" class="fab" id="pdfBtn" title="Descargar dossier de contenidos en PDF" aria-label="Descargar PDF">
@@ -1057,8 +1106,7 @@
   <div id="dossier" class="dz-render" aria-hidden="true"></div>
 
   <footer class="credit">
-    <p style="margin:0 0 8px"><b>Propuesta académica independiente</b>, desarrollada para ser evaluada por la Dirección de la Escuela y articulable, si se estima pertinente, con líneas institucionales de docencia, investigación, innovación, educación continua o vinculación con el medio.</p>
-    <p style="margin:0 0 8px">Propuesta elaborada por <b>Diego Ojeda</b>, licenciado en Derecho PUCV, con formación previa en filosofía, experiencia en proyectos de IA jurídica aplicada, docencia auxiliar, diseño de prototipos jurídicos y trabajo en iniciativas de Derecho y Tecnología.</p>
+    <p style="margin:0 0 6px"><b>Propuesta académica independiente</b> de Diego Ojeda, desarrollada para ser evaluada por la Dirección de la Escuela de Derecho PUCV.</p>
     DER-IA · OPT 2026 · documento de trabajo · datos de mercado y estado regulatorio a reconfirmar a la fecha.
   </footer>
 
@@ -1150,6 +1198,23 @@
       { n:"03", t:"Anclaje chileno y regulatorio", d:"Ley 21.719 y el proyecto de ley de IA; el marco europeo solo como contraste." },
       { n:"04", t:"Verificación troncal", d:"Competencia transversal a todo el curso, no un módulo suelto." },
       { n:"05", t:"Ciberseguridad y anonimización", d:"El otro gran vacío del benchmark, y obligación legal en Chile." }
+    ];
+    const COMPARE = [
+      ["Alfabetización y uso crítico de IA", true, true],
+      ["Prompting y flujos reproducibles", true, true],
+      ["Construcción de un prototipo funcional propio", false, true],
+      ["Despliegue real (Claude Code → GitHub → Vercel)", false, true],
+      ["Constitución del agente (reglas, límites, escalamiento)", false, true],
+      ["Verificación como competencia troncal evaluada", false, true],
+      ["Anclaje a la Ley 21.719 y el proyecto de ley de IA chilena", false, true],
+      ["Ciberseguridad y anonimización de datos", false, true],
+      ["Entregable evaluado: prototipo + defensa jurídico-técnica", false, true]
+    ];
+    const ASKS = [
+      ["1", "Autorizar el diseño formal del programa", "Encargar la formalización curricular del optativo para su tramitación regular en la Escuela."],
+      ["2", "Validar el piloto optativo 2026", "Aprobar una primera cohorte acotada (20–30 estudiantes) como piloto medible, no como programa permanente."],
+      ["3", "Revisar la propuesta curricular con Dirección", "Ajustar módulos, calendario y evaluación a los criterios y calendario académico que defina la Escuela."],
+      ["4", "Definir las condiciones institucionales de implementación", "Sala, cupo, docente a cargo y mecanismo de seguimiento para decidir la continuidad tras el piloto."]
     ];
     const COMPS = [
       { t:"Construye y despliega", d:"Levanta una app jurídica funcional de extremo a extremo, con datos reales." , ic:"hammer"},
@@ -1382,9 +1447,17 @@
       $("toolsCore").innerHTML = TOOLS_CORE.map(toolCard).join("");
       $("toolsAgents").innerHTML = TOOLS_AGENTS.map(toolCard).join("");
     }
+    const ICON_YES = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>`;
+    const ICON_NO = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>`;
     function renderSello(){
       $("diffWrap").innerHTML = DIFFS.map(d=>`<div class="diff-card"><span class="n">${esc(d.n)}</span><b>${esc(d.t)}</b><p>${esc(d.d)}</p></div>`).join("");
       $("compWrap").innerHTML = COMPS.map(c=>`<div class="diff-card"><span class="lc-logo" style="--accent:var(--cyan);width:40px;height:40px;flex:0 0 40px"><i data-lucide="${esc(c.ic)}"></i></span><b>${esc(c.t)}</b><p>${esc(c.d)}</p></div>`).join("");
+      $("compTable").innerHTML = `<thead><tr><th>Competencia</th><th class="mid">Curso típico de mercado</th><th class="mid hl-col">Der-IA · Escuela de Derecho PUCV</th></tr></thead>
+        <tbody>${COMPARE.map(r=>`<tr class="hl"><td>${esc(r[0])}</td><td class="mid ${r[1]?"yes":"no"}">${r[1]?ICON_YES:ICON_NO}</td><td class="mid ${r[2]?"yes":"no"}">${r[2]?ICON_YES:ICON_NO}</td></tr>`).join("")}</tbody>`;
+      refresh();
+    }
+    function renderAsks(){
+      $("askWrap").innerHTML = ASKS.map(a=>`<div class="ask-card"><span class="ask-num">${esc(a[0])}</span><div><b>${esc(a[1])}</b><p>${esc(a[2])}</p></div></div>`).join("");
     }
     function renderPrograms(){
       const verbs = ["Usar · Delegar", "Construir · Desplegar", "Diseñar · Gobernar"];
@@ -1946,8 +2019,9 @@
 
     function refresh(){ if(window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } }); }
 
-    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderGana(); renderLogistica(); renderCMF(); renderDemo(); renderDossier(); mountDownloads(); runLAM();
+    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderGana(); renderLogistica(); renderCMF(); renderDemo(); renderAsks(); renderDossier(); mountDownloads(); runLAM();
     $("pdfBtn").addEventListener("click", () => { blip(300); dlScope("all"); });
+    $("decisionPdfBtn").addEventListener("click", () => { blip(300); dlScope("all"); });
     refresh(); initCanvas();
   </script>
 </body>
