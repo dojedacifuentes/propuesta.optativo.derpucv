@@ -63,7 +63,10 @@
       color:var(--white); cursor:pointer; text-decoration:none; }
     .mode-btn{ min-width:0; padding:7px 10px; font-size:0.78rem; border-radius:7px; background:rgba(8,13,20,0.6); }
     .mode-btn svg{ width:16px; height:16px; flex:0 0 16px; }
+    .mode-btn{ position:relative; }
     .mode-btn.active{ background:rgba(75,231,255,0.1); }
+    .mode-btn.active::after{ content:""; position:absolute; left:12px; right:12px; bottom:-8px; height:2px;
+      background:var(--cyan); box-shadow:0 0 8px var(--cyan); border-radius:2px; }
     .mode-btn svg,.thin-command svg,.primary-command svg,.icon-only svg{ width:17px; height:17px; flex:0 0 17px; }
     .mode-btn span,.thin-command span,.primary-command span{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .mode-btn.active,.thin-command:hover,.primary-command:hover,.icon-only:hover,.brand-lock:hover,.mode-btn:hover{
@@ -75,9 +78,42 @@
     .icon-only{ width:38px; min-width:38px; padding:0; }
     .icon-only.on{ border-color:var(--cyan); color:var(--cyan); }
 
-    .shell{ width:min(1180px,calc(100% - 40px)); margin:28px auto 120px; }
-    .section-view{ display:none; animation:fade .4s ease; }
-    .section-view.active{ display:block; }
+    .shell{ width:min(1180px,calc(100% - 40px)); margin:28px auto 120px; display:flex; flex-direction:column; }
+    .section-view{ display:block; }
+    .macro-anchor{ scroll-margin-top:92px; height:0; }
+    /* Orden visual de las 6 zonas: Inicio(10) · Método(20-35) · Agente(40-55) · Programa(60-100) · Evaluación(110-115) · Cierre(130-135) */
+    #inicio{ order:5; }
+    #s-resumen{ order:10; }
+    #metodo{ order:20; }
+    #s-metodo-intro{ order:22; }
+    #s-sello{ order:30; }
+    #agente{ order:40; }
+    #s-agente-intro{ order:42; }
+    #s-ciclo-vida{ order:46; }
+    #s-demo{ order:50; }
+    #programa{ order:60; }
+    #s-experiencia{ order:70; }
+    #s-ruta{ order:80; }
+    #s-herramientas{ order:90; }
+    #s-egresados{ order:100; }
+    #evaluacion{ order:110; }
+    #s-logistica{ order:115; }
+    #cierre{ order:130; }
+    #s-decision{ order:135; }
+    .macro{ scroll-margin-top:92px; padding:56px 0; border-top:1px solid var(--line-soft); }
+    .macro:first-of-type{ border-top:0; padding-top:8px; }
+    /* Separación de las 6 macro-zonas (bloques completos, no bajada continua) */
+    #s-metodo-intro,#s-agente-intro,#s-experiencia,#s-logistica,#s-decision{
+      padding-top:60px; margin-top:38px; border-top:1px solid var(--line-soft); scroll-margin-top:92px; }
+    @media (max-width:760px){ #s-metodo-intro,#s-agente-intro,#s-experiencia,#s-logistica,#s-decision{ padding-top:40px; margin-top:26px; } }
+    .macro-head{ margin-bottom:34px; }
+    .macro-head .eyebrow{ font-size:0.86rem; }
+    .macro-head h2{ font-family:"Space Grotesk",system-ui,sans-serif; font-size:2.3rem; margin:8px 0 12px; }
+    .macro-head p{ color:var(--muted); max-width:760px; font-size:1.02rem; line-height:1.55; }
+    .macro-lede{ font-family:"Space Grotesk",system-ui,sans-serif; font-size:1.3rem; color:var(--white); max-width:820px;
+      line-height:1.4; margin:10px 0 26px; }
+    .macro-lede b{ color:var(--gold); }
+    @media (min-width:1080px){ .macro.tall{ min-height:82vh; display:flex; flex-direction:column; justify-content:center; } }
     @keyframes fade{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:none; } }
 
     .eyebrow{ font-family:"JetBrains Mono",monospace; font-size:0.76rem; color:var(--cyan); text-transform:uppercase; letter-spacing:.04em; }
@@ -96,8 +132,12 @@
     .hero h1{ font-family:"Space Grotesk",system-ui,sans-serif; font-size:3rem; line-height:1.02; margin:12px 0 14px;
       text-shadow:0 0 22px rgba(75,231,255,0.14); }
     .hero h1 .accent{ color:var(--cyan); }
+    .method-tagline{ margin:0 0 12px; font-family:"JetBrains Mono",monospace; font-size:0.92rem; color:var(--gold); text-transform:uppercase; letter-spacing:.03em; }
+    .method-tagline b{ color:var(--gold); }
     .lede{ font-size:1.12rem; color:var(--white); max-width:640px; line-height:1.5; }
     .lede strong{ color:var(--gold); }
+    .hero-highlight{ margin:16px 0 4px; padding:14px 18px; max-width:660px; border-left:2px solid var(--cyan);
+      background:rgba(75,231,255,0.05); color:var(--cyan-soft); font-size:0.98rem; line-height:1.5; font-style:italic; }
     .hero-cta{ display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
     .primary-command{ min-height:44px; padding:10px 16px; border-color:rgba(75,231,255,0.48); background:rgba(75,231,255,0.12); font-weight:800; }
     .thin-command{ padding:10px 14px; }
@@ -200,6 +240,22 @@
     .mod-col li{ margin:5px 0; }
 
     /* SELLO / COMPETENCIES */
+    /* Escalada "un chatbot responde / un agente ejecuta / actúa dentro de reglas" */
+    .escalation{ display:grid; gap:10px; max-width:640px; margin:0 0 26px; }
+    .esc-line{ display:flex; align-items:baseline; gap:14px; padding:10px 0; border-bottom:1px solid var(--line-soft); }
+    .esc-line:last-child{ border-bottom:0; }
+    .esc-n{ font-family:"JetBrains Mono",monospace; color:var(--muted); font-size:0.8rem; flex:0 0 20px; }
+    .esc-line p{ margin:0; font-size:1.05rem; color:var(--muted); }
+    .esc-line.final p{ color:var(--white); font-weight:600; font-size:1.15rem; }
+    .esc-line.final .esc-n{ color:var(--gold); }
+    /* Ciclo de vida: 3 fases iguales */
+    .cycle-bar{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:16px 0; }
+    .cycle-phase{ padding:18px; border:1px solid var(--line); border-radius:var(--radius); background:rgba(2,3,6,0.55); }
+    .cycle-phase .cy-n{ font-family:"JetBrains Mono",monospace; font-size:0.72rem; color:var(--gold); text-transform:uppercase; }
+    .cycle-phase h4{ margin:6px 0 8px; font-family:"Space Grotesk",system-ui,sans-serif; font-size:1.15rem; }
+    .cycle-phase .cy-flow{ font-family:"JetBrains Mono",monospace; font-size:0.74rem; color:var(--cyan-soft); line-height:1.6; margin-bottom:8px; overflow-wrap:anywhere; }
+    .cycle-phase p{ margin:0; color:var(--muted); font-size:0.88rem; line-height:1.5; }
+    @media (max-width:820px){ .cycle-bar{ grid-template-columns:1fr; } }
     .diff-card{ display:grid; gap:8px; padding:18px; border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--panel); }
     .diff-card .n{ font-family:"JetBrains Mono",monospace; color:var(--gold); font-size:0.8rem; }
     .diff-card b{ font-size:1.02rem; }
@@ -486,6 +542,20 @@
     @media print{ .lam-run,.lam-scan{ display:none; } .lam-reveal{ opacity:1; transform:none; } .lam-log span{ opacity:1; } }
 
     /* MÉTODO DE LA CONSTITUCIÓN (ConstitutionalMethodFlow) */
+    /* ARQUITECTURA DEL MÉTODO CONSTITUCIONAL (columna vertical de nodos conectados) */
+    .arch{ display:grid; gap:0; max-width:600px; margin:8px auto 0; }
+    .arch-node{ position:relative; padding:18px 24px; border:1px solid var(--line-soft); border-radius:10px;
+      background:var(--panel-strong); text-align:center; }
+    .arch-node.root{ border-color:var(--gold); border-width:1.6px; background:rgba(224,176,74,.09);
+      box-shadow:0 0 0 1px rgba(224,176,74,.12), 0 14px 34px rgba(224,176,74,.1); }
+    .arch-node.root .an-t{ font-size:1.28rem; color:var(--gold); }
+    .arch-node .an-l{ font-family:"JetBrains Mono",monospace; font-size:0.66rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+    .arch-node .an-t{ font-family:"Space Grotesk",system-ui,sans-serif; font-size:1.06rem; margin:5px 0 4px; }
+    .arch-node .an-s{ font-size:0.86rem; color:var(--muted); }
+    .arch-connector{ display:flex; justify-content:center; padding:6px 0; }
+    .arch-connector svg{ width:16px; height:22px; color:var(--gold); opacity:.55; }
+    @media (prefers-reduced-motion:reduce){ .arch-connector svg{ opacity:.4; } }
+
     .cmf{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:16px; align-items:start; margin-top:6px; }
     .cmf-stack{ position:relative; border:1px solid var(--line); border-radius:var(--radius); background:rgba(2,3,6,.5); padding:14px; }
     .cmf-io{ display:flex; align-items:center; justify-content:center; gap:8px; font-family:"JetBrains Mono",monospace;
@@ -604,7 +674,7 @@
   <div class="hud-vignette" aria-hidden="true"></div>
 
   <header class="topbar">
-    <button class="brand-lock" type="button" data-go="resumen" aria-label="Ir al resumen">
+    <button class="brand-lock" type="button" data-anchor="inicio" aria-label="Ir al inicio">
       <span class="brand-mark">OJ</span>
       <span>
         <strong>Diego Ojeda Cifuentes</strong>
@@ -613,15 +683,12 @@
     </button>
 
     <nav class="mode-switch" aria-label="Secciones">
-      <button type="button" class="mode-btn active" data-go="resumen"><i data-lucide="gauge"></i><span>Resumen</span></button>
-      <button type="button" class="mode-btn" data-go="experiencia"><i data-lucide="route"></i><span>Experiencia</span></button>
-      <button type="button" class="mode-btn" data-go="ruta"><i data-lucide="layers"></i><span>Ruta</span></button>
-      <button type="button" class="mode-btn" data-go="herramientas"><i data-lucide="wrench"></i><span>Stack</span></button>
-      <button type="button" class="mode-btn" data-go="sello"><i data-lucide="award"></i><span>Sello</span></button>
-      <button type="button" class="mode-btn" data-go="egresados"><i data-lucide="briefcase"></i><span>Egresados</span></button>
-      <button type="button" class="mode-btn" data-go="logistica"><i data-lucide="clipboard-list"></i><span>Logística</span></button>
-      <button type="button" class="mode-btn" data-go="demo"><i data-lucide="app-window"></i><span>Demo</span></button>
-      <button type="button" class="mode-btn" data-go="decision"><i data-lucide="flag"></i><span>Decisión</span></button>
+      <a href="#inicio" class="mode-btn active" data-anchor="inicio"><i data-lucide="gauge"></i><span>Inicio</span></a>
+      <a href="#metodo" class="mode-btn" data-anchor="metodo"><i data-lucide="scroll-text"></i><span>Método</span></a>
+      <a href="#agente" class="mode-btn" data-anchor="agente"><i data-lucide="bot"></i><span>Agente</span></a>
+      <a href="#programa" class="mode-btn" data-anchor="programa"><i data-lucide="layers"></i><span>Programa</span></a>
+      <a href="#evaluacion" class="mode-btn" data-anchor="evaluacion"><i data-lucide="clipboard-check"></i><span>Evaluación</span></a>
+      <a href="#cierre" class="mode-btn" data-anchor="cierre"><i data-lucide="flag"></i><span>Cierre</span></a>
     </nav>
 
     <div class="system-readout">
@@ -634,17 +701,24 @@
   </header>
 
   <main class="shell">
+    <div id="inicio" class="macro-anchor" aria-hidden="true"></div>
+    <div id="metodo" class="macro-anchor" aria-hidden="true"></div>
+    <div id="agente" class="macro-anchor" aria-hidden="true"></div>
+    <div id="programa" class="macro-anchor" aria-hidden="true"></div>
+    <div id="evaluacion" class="macro-anchor" aria-hidden="true"></div>
+    <div id="cierre" class="macro-anchor" aria-hidden="true"></div>
 
     <!-- ============ RESUMEN (para Aldunate) ============ -->
     <section class="section-view active" id="s-resumen">
       <div class="hero">
         <div class="hero-copy">
           <span class="eyebrow">Propuesta piloto 2026 · Escuela de Derecho PUCV</span>
-          <h1>Formar abogados capaces de <span class="accent">construir, verificar y gobernar</span> sistemas jurídicos con IA</h1>
-          <p class="lede">Propuesta de optativo para Derecho PUCV: un curso práctico, jurídico y técnicamente guiado en que los estudiantes desarrollan un <strong>prototipo funcional</strong>, documentan sus reglas de operación, verifican sus resultados y defienden sus decisiones de diseño desde criterios jurídicos, técnicos y éticos.</p>
-          <p class="lede" style="font-size:1rem;color:var(--muted);margin-top:12px">No se propone enseñar tecnología al margen del Derecho, sino convertir la tradición jurídica de la Escuela en una ventaja para diseñar y gobernar sistemas inteligentes. Mientras el mercado aprende a <i>usar</i> IA, Derecho PUCV puede formar abogados capaces de diseñar, verificar y gobernar su uso jurídico.</p>
+          <h1>Formar abogados capaces de <span class="accent">construir, verificar y gobernar</span> agentes con reglas</h1>
+          <p class="method-tagline">Basado en el <b>Método Constitucional</b></p>
+          <p class="lede">Un curso práctico e institucional donde los estudiantes diseñan un agente funcional, redactan su Constitución, delimitan sus fuentes, verifican sus respuestas y defienden sus decisiones de diseño.</p>
+          <div class="hero-highlight">No se trata de enseñar tecnología al margen del Derecho, sino de convertir la tradición constitucional, filosófica y argumentativa de la Escuela en una arquitectura para gobernar sistemas inteligentes.</div>
           <div class="hero-cta">
-            <button type="button" class="primary-command" data-go="logistica"><i data-lucide="flag"></i><span>Ver propuesta piloto 2026</span></button>
+            <button type="button" class="primary-command" data-go="metodo"><i data-lucide="scroll-text"></i><span>Conocer el Método Constitucional</span></button>
             <a class="thin-command" href="resumen-ejecutivo.html" target="_blank" rel="noopener"><i data-lucide="file-text"></i><span>Descargar resumen ejecutivo</span></a>
           </div>
         </div>
@@ -652,41 +726,16 @@
           <h3>Lectura rápida · 60 segundos</h3>
           <div class="spec-row"><i data-lucide="calendar-clock"></i><div><b>1 sesión semanal · 90 min</b><span>Un semestre PUCV (16 semanas). Sin requisito técnico previo.</span></div></div>
           <div class="spec-row"><i data-lucide="flask-conical"></i><div><b>Teórico-práctico siempre (ABP)</b><span>Cada sesión: marco jurídico + laboratorio de construcción + verificación.</span></div></div>
-          <div class="spec-row"><i data-lucide="rocket"></i><div><b>Entregable: prototipo funcional</b><span>Arranca construyendo en la semana 1; cierra con app jurídica sobre Supabase.</span></div></div>
-          <div class="spec-row"><i data-lucide="fingerprint"></i><div><b>Sello propio: la Constitución del agente</b><span>Redactar las reglas de un sistema de IA = teoría de la normatividad aplicada.</span></div></div>
+          <div class="spec-row"><i data-lucide="rocket"></i><div><b>Entregable: agente gobernado</b><span>Arranca construyendo en la semana 1; cierra con un agente defendido en audiencia.</span></div></div>
+          <div class="spec-row"><i data-lucide="scroll-text"></i><div><b>Sello propio: el Método Constitucional</b><span>Una arquitectura para diseñar, verificar y mantener agentes — no un taller de prompts.</span></div></div>
           <div class="spec-row"><i data-lucide="users"></i><div><b>Cupo acotado por laboratorio: 20–30</b><span>Escasez real y estructural, no urgencia de marketing.</span></div></div>
         </aside>
       </div>
 
       <div class="marquee-thesis">
-        <span class="tag">Idea clave</span>
-        <p>El desafío no es solo aprender a preguntar mejor, sino aprender a diseñar sistemas jurídicos que puedan ser auditados, corregidos y gobernados.</p>
+        <span class="tag">Idea central</span>
+        <p>No diseñamos agentes para que respondan más. Diseñamos agentes para que respondan dentro de reglas.</p>
       </div>
-
-      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Ejemplo práctico · así se visualiza el flujo de un agente</span><h2 style="font-size:1.4rem">El prototipo no es un chatbot libre: es un sistema en bucle</h2>
-        <p>Esto es, en concreto, lo que el curso enseña a diseñar: una consulta entra, se gobierna con la Constitución del agente y fuentes autorizadas, se verifica y se responde con advertencias; la bitácora retroalimenta el ciclo de mejora.</p></div>
-      <div class="viz">
-        <svg viewBox="0 0 1002 132" role="img" aria-label="Lectura rápida del modelo del agente en bucle: consulta, Constitución del agente, fuentes autorizadas, análisis IA, verificación y respuesta supervisada, con iteración que retroalimenta el inicio">
-          <defs>
-            <marker id="rva" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#4be7ff" opacity=".75"/></marker>
-            <marker id="rvg" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#e0b04a" opacity=".85"/></marker>
-          </defs>
-          <path class="viz-edge" d="M152 40 H170" marker-end="url(#rva)"/>
-          <path class="viz-edge" d="M322 40 H340" marker-end="url(#rva)"/>
-          <path class="viz-edge" d="M492 40 H510" marker-end="url(#rva)"/>
-          <path class="viz-edge" d="M662 40 H680" marker-end="url(#rva)"/>
-          <path class="viz-edge" d="M832 40 H850" marker-end="url(#rva)"/>
-          <path class="viz-edge viz-edge--loop" d="M926 72 C926 118 76 118 76 76" marker-end="url(#rvg)"/>
-          <text class="viz-loop-lab" x="501" y="114" text-anchor="middle">iteración · mejora continua</text>
-          <g><rect x="0" y="8" width="152" height="64" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="16" cy="40" r="4.5" fill="#4be7ff"/><text x="30" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Consulta</text><text x="30" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">caso ficticio</text></g>
-          <g><rect x="170" y="8" width="152" height="64" rx="9" fill="rgba(224,176,74,.1)" stroke="#e0b04a" stroke-width="2.4"/><circle cx="186" cy="40" r="4.5" fill="#e0b04a"/><text x="200" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Constitución</text><text x="200" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">reglas · límites</text></g>
-          <g><rect x="340" y="8" width="152" height="64" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="356" cy="40" r="4.5" fill="#4be7ff"/><text x="370" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Fuentes</text><text x="370" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">autorizadas</text></g>
-          <g><rect x="510" y="8" width="152" height="64" rx="9" fill="rgba(6,11,16,.85)" stroke="#4be7ff" stroke-width="1.4"/><circle cx="526" cy="40" r="4.5" fill="#4be7ff"/><text x="540" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Análisis IA</text><text x="540" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">resp. preliminar</text></g>
-          <g><rect x="680" y="8" width="152" height="64" rx="9" fill="rgba(84,214,160,.08)" stroke="#54d6a0" stroke-width="1.6"/><circle cx="696" cy="40" r="4.5" fill="#54d6a0"/><text x="710" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Verificación</text><text x="710" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">fuentes · hechos</text></g>
-          <g><rect x="850" y="8" width="152" height="64" rx="9" fill="rgba(157,139,255,.08)" stroke="#9d8bff" stroke-width="1.6"/><circle cx="866" cy="40" r="4.5" fill="#9d8bff"/><text x="880" y="37" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="11.5" fill="#f6f0df">Respuesta</text><text x="880" y="54" font-family="'JetBrains Mono',monospace" font-size="8.5" fill="#9ba7ad">supervisada</text></g>
-        </svg>
-      </div>
-      <div style="margin:-4px 0 4px"><button type="button" class="thin-command" data-go="demo"><i data-lucide="git-branch"></i><span>Ver el modelo operativo completo</span></button></div>
 
       <div class="section-head"><span class="eyebrow">El problema</span><h2>La IA ya entró al Derecho, pero sin formación jurídica suficiente</h2></div>
       <div class="grid-3">
@@ -758,6 +807,23 @@
     <section class="section-view" id="s-ruta">
       <div class="section-head"><span class="eyebrow">Programa · 16 semanas · de usar con criterio a gobernar sistemas</span><h2>La ruta: usar bien, construir, verificar y gobernar</h2>
         <p>Arranca dominando las herramientas base, la investigación asistida y la economía de contexto; muy pronto el estudiante construye y despliega un prototipo (Claude Code → GitHub → Vercel) que se vuelve la columna vertebral. Sobre él se cuelgan la Constitución del agente, los datos, la verificación, la regulación y la gobernanza, semana a semana. Clic en cada módulo para ver teoría · práctica · entregable.</p></div>
+
+      <div class="card" style="margin-bottom:20px">
+        <div class="lc-head"><span class="lc-logo" style="--accent:var(--gold)"><i data-lucide="scroll-text"></i></span>
+          <div class="lc-title"><b>El Método Constitucional atraviesa todo el programa</b><span>no es una sección ornamental</span></div></div>
+        <p class="lc-body" style="margin:12px 0 10px">Cada módulo aplica el método sobre el prototipo del estudiante, en este orden recurrente:</p>
+        <ol class="lc-steps" style="counter-reset:mc; margin:0; padding-left:0; list-style:none">
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">1</span>Identificación de problemas</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">2</span>Diseño de agentes</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">3</span>Redacción de la Constitución del agente</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">4</span>Definición de fuentes</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">5</span>Construcción de funciones</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">6</span>Verificación de respuestas</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">7</span>Evaluación de riesgos</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">8</span>Defensa final del diseño</li>
+        </ol>
+      </div>
+
       <div id="modWrap"></div>
       <div class="note"><i data-lucide="book-marked"></i><div>Bibliografía doctrinal específica <b>a curar por la cátedra</b>. Estado regulatorio (Ley 21.719; proyecto de ley de IA, Boletines 15.869-19 + 16.821-19) <b>a reconfirmar a la fecha de dictación</b>.</div></div>
     </section>
@@ -774,8 +840,21 @@
     </section>
 
     <!-- ============ SELLO / COMPETENCIAS ============ -->
+    <section class="section-view macro-lead" id="s-metodo-intro">
+      <div class="section-head"><span class="eyebrow">El sello de la casa</span><h2 style="font-size:2.1rem">Método Constitucional</h2>
+        <p class="macro-lede">La arquitectura de la casa.</p>
+        <p>El Método Constitucional permite crear agentes que no operan como chatbots libres, sino como sistemas gobernados por mandato, reglas, principios, fuentes autorizadas, verificación y mantenimiento. Cada agente construido bajo este método tiene una <b style="color:var(--white)">Constitución propia</b>: un documento que define su finalidad, competencia, límites, fuentes, funciones, advertencias, criterios de revisión y condiciones de escalamiento humano.</p>
+        <p>El objetivo no es producir herramientas que respondan más rápido, sino sistemas que puedan ser explicados, corregidos, auditados y defendidos.</p>
+      </div>
+      <div class="marquee-thesis" style="margin-bottom:30px">
+        <span class="tag">Frase visual</span>
+        <p>Cada agente responde desde una Constitución, no desde la improvisación.</p>
+      </div>
+      <div class="arch" id="archWrap"></div>
+    </section>
+
     <section class="section-view" id="s-sello">
-      <div class="section-head"><span class="eyebrow">Lo que ningún otro programa está dando</span><h2>El sello: el método de la Constitución</h2>
+      <div class="section-head"><span class="eyebrow">Pieza operativa del método</span><h2>La Constitución del agente</h2>
         <p>Redactar la "constitución" de un agente —sus reglas duras, sus preferencias y el porqué de cada una— es teoría de la normatividad aplicada a un sistema que actúa. Es un sello anclado en la tradición teórica de la Escuela, difícil de copiar e imposible de improvisar.</p></div>
 
       <div class="card" style="margin-bottom:16px">
@@ -791,8 +870,8 @@
         <div class="note" style="margin-top:14px"><i data-lucide="landmark"></i><div>Preguntar por la <b>finalidad</b>, el <b>ámbito</b> y los <b>límites</b> de un poder que actúa no es una pregunta nueva para el Derecho: es su pregunta constitucional central. Aplicarla al diseño de un agente de IA no es importar una lógica ajena a la Escuela — es extender su tradición de control del poder a un nuevo tipo de actor.</div></div>
       </div>
 
-      <div class="section-head" style="margin-top:8px"><span class="eyebrow">El método de la Constitución</span><h2 style="font-size:1.5rem">De la teoría jurídica a reglas operativas para un agente verificable</h2>
-        <p>No es el flujo técnico del agente: es el método con que se redacta su Constitución. Una intención entra, atraviesa capas normativas y sale como acción permitida, respuesta limitada o derivación humana. Selecciona una capa para ver qué controla.</p></div>
+      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Anatomía de una Constitución</span><h2 style="font-size:1.5rem">Nueve capas normativas, no una lista plana</h2>
+        <p>Así se redacta una Constitución dentro del Método Constitucional. Una intención entra, atraviesa capas normativas y sale como acción permitida, respuesta limitada o derivación humana. Selecciona una capa para ver qué controla.</p></div>
       <div class="cmf">
         <div class="cmf-stack">
           <div class="cmf-io in"><i data-lucide="log-in"></i>entra · intención del agente</div>
@@ -820,6 +899,13 @@
         <table class="rtable" id="compTable"></table>
       </div>
       <div class="note"><i data-lucide="info"></i><div>Comparación construida sobre el enfoque genérico observado en la oferta de mercado 2025–26, <b>a reconfirmar con fuentes públicas</b> antes de citarla frente a la Dirección. No se nombra a ninguna escuela ni proveedor específico.</div></div>
+
+      <div class="section-head"><span class="eyebrow">La teoría jurídica convertida en diseño</span><h2 style="font-size:1.4rem">El Método Constitucional no inventa teoría: la aplica</h2>
+        <p>Un bloque breve, no una clase eterna de filosofía del derecho: cada tradición aporta una intuición concreta al diseño de un agente gobernado.</p></div>
+      <div class="card" style="overflow-x:auto">
+        <table class="rtable" id="doctrineTable"></table>
+      </div>
+      <div class="note"><i data-lucide="sparkles"></i><div>Anthropic aparece solo como <b>referencia conceptual secundaria</b>, no como centro del curso. El Método Constitucional toma la intuición de la alineación por principios y la convierte en una metodología de diseño y mantenimiento de agentes — el eje sigue siendo la tradición jurídica de la Escuela.</div></div>
 
       <div class="section-head"><span class="eyebrow">Competencias que se llevan al mercado</span><h2 style="font-size:1.4rem">Empleabilidad concreta, no promesas</h2></div>
       <div class="grid-3" id="compWrap"></div>
@@ -888,8 +974,10 @@
       <div class="section-head" style="margin-top:6px"><span class="eyebrow">Requisitos</span><h2 style="font-size:1.4rem">Bajo costo, sin barreras técnicas</h2></div>
       <div class="grid-4" id="reqWrap"></div>
 
-      <div class="section-head"><span class="eyebrow">Evaluación</span><h2 style="font-size:1.4rem">Rúbrica del proyecto final</h2></div>
+      <div class="section-head"><span class="eyebrow">Evaluación</span><h2 style="font-size:1.4rem">Rúbrica del proyecto final</h2>
+        <p>Cada grupo no entrega una app: entrega un <b style="color:var(--white)">agente gobernado</b>, evaluado como tal.</p></div>
       <div class="card" id="rubricWrap"></div>
+      <div class="marquee-thesis"><span class="tag">Frase clave</span><p>El estudiante no entrega solo una herramienta. Entrega una herramienta gobernada.</p></div>
 
       <div class="section-head"><span class="eyebrow">Calendario · 16 semanas</span><h2 style="font-size:1.4rem">Ruta semana a semana</h2></div>
       <div id="calWrap"></div>
@@ -915,9 +1003,37 @@
       <div class="note"><i data-lucide="info"></i><div>Evaluación formativa continua + sumativa final. Calendario y pesos referenciales, ajustables al calendario académico y a los reglamentos de la PUCV.</div></div>
     </section>
 
+    <!-- ============ EL AGENTE COMO INSTITUCIÓN MÍNIMA ============ -->
+    <section class="section-view" id="s-agente-intro">
+      <div class="section-head"><span class="eyebrow">Qué es un agente bajo el método</span><h2>El agente como institución mínima</h2></div>
+
+      <div class="escalation">
+        <div class="esc-line"><span class="esc-n">01</span><p>Un chatbot responde.</p></div>
+        <div class="esc-line"><span class="esc-n">02</span><p>Un agente ejecuta.</p></div>
+        <div class="esc-line final"><span class="esc-n">03</span><p>Un agente constitucionalmente diseñado actúa dentro de reglas.</p></div>
+      </div>
+
+      <p class="lc-body" style="max-width:760px;font-size:0.98rem;margin-bottom:24px">Bajo el Método Constitucional, un agente se entiende como una <b style="color:var(--white)">institución mínima</b>. Tiene mandato, competencia, fuentes, procedimiento, control y responsabilidad. No actúa fuera de su finalidad, no afirma sin fuente, no oculta incertidumbre y no reemplaza la revisión humana cuando su Constitución exige escalar.</p>
+
+      <div class="grid-4" id="instWrap"></div>
+
+      <div class="marquee-thesis" style="margin-top:26px">
+        <span class="tag">Frase clave</span>
+        <p>Un agente no es un chatbot libre. Es una institución mínima: tiene mandato, competencia, fuentes, procedimiento, control y responsabilidad.</p>
+      </div>
+    </section>
+
+    <!-- ============ CICLO DE VIDA DEL AGENTE ============ -->
+    <section class="section-view" id="s-ciclo-vida">
+      <div class="section-head"><span class="eyebrow">El método en la práctica, no solo en la teoría</span><h2>Ciclo de vida del agente</h2>
+        <p>El Método Constitucional no termina cuando el agente se despliega: sigue tres momentos operativos, cada uno con su propio flujo.</p></div>
+      <div class="cycle-bar" id="cycleWrap"></div>
+      <div class="marquee-thesis"><span class="tag">Frase clave</span><p>Un agente no se termina: se mantiene.</p></div>
+    </section>
+
     <!-- ============ DEMO INTERACTIVA ============ -->
     <section class="section-view" id="s-demo">
-      <div class="section-head"><span class="eyebrow">Demo de prototipo final</span><h2>Cómo se vería un agente terminado por estudiantes</h2>
+      <div class="section-head"><span class="eyebrow">Ese mismo agente, en código</span><h2>Cómo se vería un agente terminado por estudiantes</h2>
         <p>Maqueta de una interfaz funcional —pedagógica, no comercial—. Así podría verse un prototipo de revisión contractual al final del curso: asiste, advierte, verifica y deriva; nunca decide ni promete asesoría jurídica.</p></div>
 
       <div class="lam" aria-label="Maqueta de aplicación: ContratoClaro, agente de revisión contractual preliminar">
@@ -1194,7 +1310,7 @@
 
     const DIFFS = [
       { n:"01", t:"Construir, no sólo usar", d:"Casi nadie en el benchmark enseña a construir herramientas. Aquí es el eje." },
-      { n:"02", t:"El método de la Constitución", d:"Sello irrepetible, anclado en la teoría de la casa." },
+      { n:"02", t:"El Método Constitucional", d:"Sello irrepetible, anclado en la teoría de la casa." },
       { n:"03", t:"Anclaje chileno y regulatorio", d:"Ley 21.719 y el proyecto de ley de IA; el marco europeo solo como contraste." },
       { n:"04", t:"Verificación troncal", d:"Competencia transversal a todo el curso, no un módulo suelto." },
       { n:"05", t:"Ciberseguridad y anonimización", d:"El otro gran vacío del benchmark, y obligación legal en Chile." }
@@ -1209,6 +1325,41 @@
       ["Anclaje a la Ley 21.719 y el proyecto de ley de IA chilena", false, true],
       ["Ciberseguridad y anonimización de datos", false, true],
       ["Entregable evaluado: prototipo + defensa jurídico-técnica", false, true]
+    ];
+    const ARCH = [
+      { l:"La arquitectura madre", t:"Método Constitucional", s:"gobierna todo lo que sigue", root:true },
+      { l:"El instrumento operativo", t:"Constitución del agente", s:"finalidad, competencia, límites, principios" },
+      { l:"Qué puede saber", t:"Sistema de fuentes", s:"qué información puede usar y citar" },
+      { l:"Qué puede hacer", t:"Funciones autorizadas", s:"qué puede ejecutar y qué queda fuera" },
+      { l:"Cómo se controla", t:"Verificación del output", s:"cómo revisa su propia salida" },
+      { l:"Qué queda registrado", t:"Bitácora y trazabilidad", s:"qué se documenta de cada respuesta" },
+      { l:"Cómo sigue vivo", t:"Mantenimiento y mejora", s:"cómo se corrige, versiona y actualiza" }
+    ];
+    const DOCTRINE = [
+      ["Kelsen", "Jerarquía normativa", "El prompt no puede superar la Constitución del agente."],
+      ["Hart", "Reglas primarias y secundarias", "Reglas de uso más reglas de validación."],
+      ["Dworkin", "Principios e integridad", "La respuesta debe ser coherente con el sistema."],
+      ["Alexy", "Proporcionalidad", "El uso del agente debe ser idóneo, necesario y equilibrado."],
+      ["MacCormick", "Justificación institucional", "Consistencia, coherencia, consecuencias y derrotabilidad."],
+      ["Anthropic *", "Alineación por principios", "Autocrítica, revisión y mejora del output."]
+    ];
+    const INST = [
+      ["Mandato", "Para qué existe.", "target"],
+      ["Competencia", "Qué puede hacer.", "check-circle"],
+      ["Límites", "Qué no puede hacer.", "ban"],
+      ["Fuentes", "Desde dónde puede responder.", "library"],
+      ["Procedimiento", "Cómo procesa una consulta.", "workflow"],
+      ["Verificación", "Cómo controla su salida.", "shield-check"],
+      ["Bitácora", "Qué registra.", "notebook-text"],
+      ["Mantenimiento", "Cómo se corrige y actualiza.", "refresh-cw"]
+    ];
+    const CYCLE = [
+      { n:"I", t:"Creación", flow:"Problema → Mandato → Constitución → Fuentes → Funciones → Interfaz → Pruebas",
+        d:"Se diseña el agente, se define su Constitución, sus fuentes y sus funciones." },
+      { n:"II", t:"Operación", flow:"Consulta → Clasificación → Constitución → Fuentes → Respuesta preliminar → Verificación → Entrega → Bitácora",
+        d:"El agente responde siguiendo reglas, verificando fuentes y declarando límites." },
+      { n:"III", t:"Mantenimiento", flow:"Uso real → Errores → Revisión → Nueva versión → Nuevas pruebas → Despliegue controlado",
+        d:"El sistema se corrige, actualiza y versiona a partir de errores, nuevos casos y revisión humana." }
     ];
     const ASKS = [
       ["1", "Autorizar el diseño formal del programa", "Encargar la formalización curricular del optativo para su tramitación regular en la Escuela."],
@@ -1299,13 +1450,13 @@
       ["Grupo acotado","Cupo de 20 a 30 estudiantes, por capacidad de acompañamiento.","users"]
     ];
     const RUBRIC = [
-      ["Relevancia del problema jurídico","Que el problema elegido importe y sea jurídicamente pertinente.","15%"],
-      ["Funcionamiento del prototipo","Que corra y haga lo que promete.","20%"],
-      ["Corrección jurídica y claridad del flujo","Rigor legal y diseño comprensible.","20%"],
-      ["Verificación y trazabilidad","Fuentes, control de errores y registro de pruebas.","15%"],
-      ["Constitución del agente","Reglas claras, justificadas y versionadas.","15%"],
-      ["Matriz de riesgos y responsabilidad","Riesgos identificados y mitigados.","10%"],
-      ["Presentación y defensa final","Demo viva y defensa jurídico-técnica.","5%"]
+      ["Prototipo funcional","Que corra y haga lo que promete.","25%"],
+      ["Constitución del agente","Reglas claras, justificadas y versionadas.","20%"],
+      ["Sistema de fuentes y trazabilidad","Fuentes autorizadas y registro de cada respuesta.","15%"],
+      ["Verificación y casos de prueba","Protocolo de verificación aplicado y documentado.","15%"],
+      ["Matriz de riesgos y límites","Riesgos identificados, mitigados y delimitados.","10%"],
+      ["Plan de mantenimiento","Cómo se corrige, versiona y actualiza el agente.","10%"],
+      ["Defensa final","Demo viva y defensa jurídico-técnica del diseño.","5%"]
     ];
     const CALENDAR = [
       ["01","Herramientas base y panorama de modelos (ChatGPT · Gemini · Claude)","Dossier de fuentes"],
@@ -1454,7 +1605,23 @@
       $("compWrap").innerHTML = COMPS.map(c=>`<div class="diff-card"><span class="lc-logo" style="--accent:var(--cyan);width:40px;height:40px;flex:0 0 40px"><i data-lucide="${esc(c.ic)}"></i></span><b>${esc(c.t)}</b><p>${esc(c.d)}</p></div>`).join("");
       $("compTable").innerHTML = `<thead><tr><th>Competencia</th><th class="mid">Curso típico de mercado</th><th class="mid hl-col">Der-IA · Escuela de Derecho PUCV</th></tr></thead>
         <tbody>${COMPARE.map(r=>`<tr class="hl"><td>${esc(r[0])}</td><td class="mid ${r[1]?"yes":"no"}">${r[1]?ICON_YES:ICON_NO}</td><td class="mid ${r[2]?"yes":"no"}">${r[2]?ICON_YES:ICON_NO}</td></tr>`).join("")}</tbody>`;
+      $("doctrineTable").innerHTML = `<thead><tr><th>Autor</th><th>Concepto</th><th>Aplicación en el método</th></tr></thead>
+        <tbody>${DOCTRINE.map(r=>`<tr><td style="color:var(--white);font-weight:600">${esc(r[0])}</td><td>${esc(r[1])}</td><td style="color:var(--muted)">${esc(r[2])}</td></tr>`).join("")}</tbody>`;
       refresh();
+    }
+    function renderArch(){
+      $("archWrap").innerHTML = ARCH.map((a,i)=>{
+        const node = `<div class="arch-node ${a.root?"root":""}"><span class="an-l">${esc(a.l)}</span><div class="an-t">${esc(a.t)}</div><span class="an-s">${esc(a.s)}</span></div>`;
+        const conn = i < ARCH.length-1 ? `<div class="arch-connector"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v14M6 12l6 6 6-6"/></svg></div>` : "";
+        return node + conn;
+      }).join("");
+    }
+    function renderInst(){
+      $("instWrap").innerHTML = INST.map(x=>`<div class="diff-card"><span class="lc-logo" style="--accent:var(--gold);width:40px;height:40px;flex:0 0 40px"><i data-lucide="${esc(x[2])}"></i></span><b>${esc(x[0])}</b><p>${esc(x[1])}</p></div>`).join("");
+      refresh();
+    }
+    function renderCycle(){
+      $("cycleWrap").innerHTML = CYCLE.map(c=>`<div class="cycle-phase"><span class="cy-n">Momento ${esc(c.n)}</span><h4>${esc(c.t)}</h4><div class="cy-flow">${esc(c.flow)}</div><p>${esc(c.d)}</p></div>`).join("");
     }
     function renderAsks(){
       $("askWrap").innerHTML = ASKS.map(a=>`<div class="ask-card"><span class="ask-num">${esc(a[0])}</span><div><b>${esc(a[1])}</b><p>${esc(a[2])}</p></div></div>`).join("");
@@ -1592,7 +1759,7 @@
       experiencia:["Metodología","Enfoque ABP y anatomía de la sesión de 90 min."],
       ruta:["Ruta de 16 semanas","Módulos con teoría, práctica y entregable."],
       herramientas:["Stack de herramientas","Herramientas, creación de cuenta y flujo de trabajo."],
-      sello:["Sello y competencias","Diferenciadores, Constitución del agente y perfil de egreso."],
+      sello:["Método Constitucional","Constitución del agente, mapa competitivo, doctrina y perfil de egreso."],
       egresados:["Propuestas para egresados","Los tres programas de educación continua."],
       logistica:["Logística y evaluación","Requisitos, rúbrica, calendario, riesgos y piloto."]
     };
@@ -1623,7 +1790,7 @@
             ...[["Formato","1 sesión semanal de 90 min · un semestre PUCV (16 semanas) · sin requisito técnico."],
                ["Método","Aprendizaje basado en proyectos (ABP): cada sesión teórico-práctica."],
                ["Entregable","Un prototipo jurídico funcional sobre Supabase, defendido al cierre."],
-               ["Sello","La Constitución del agente: teoría de la normatividad hecha reglas operativas."],
+               ["Sello","Método Constitucional: arquitectura para crear agentes gobernados por reglas."],
                ["Cupo","Acotado por laboratorio: 20–30. Piloto medible y de bajo riesgo institucional."]
             ].map(r=>[ {text:r[0], bold:true, color:A, fontSize:9, margin:[10,5,8,5]}, {text:r[1], fontSize:9, color:INK, margin:[0,5,10,5]} ])
           ]}, layout:{ hLineWidth:(i)=>i<=1?0:0.5, vLineWidth:()=>0, hLineColor:()=>"#dbe4ef" }, margin:[0,0,0,18] },
@@ -1668,10 +1835,10 @@
         ] })) ];
       const stack=()=>[ { text:"6 · Stack de herramientas", style:"h2" },
         { ul:[...TOOLS_CORE,...TOOLS_AGENTS].map(t=>({text:[{text:t.name+" ",bold:true,color:INK},{text:"("+t.tag+")  ",color:A,fontSize:8},t.body]})), style:"p" } ];
-      const sello=()=>[ { text:"7 · Sello y competencias", style:"h2" },
+      const sello=()=>[ { text:"7 · Método Constitucional", style:"h2" },
         { text:"Diferenciadores", style:"h3" },
         { ul:DIFFS.map(d=>({text:[{text:d.t+": ",bold:true,color:INK},d.d]})), style:"p" } ];
-      const metodo=()=>[ { text:"El método de la Constitución — 9 capas", style:"h3" },
+      const metodo=()=>[ { text:"Anatomía de una Constitución — 9 capas normativas", style:"h3" },
         { ol:STAGES.map(s=>({text:[{text:s.t+". ",bold:true,color:INK},s.exp,{text:"  Evita: "+s.riesgo,italics:true,color:MUT}]})), style:"p" } ];
       const competencias=()=>[ { text:"Competencias que se llevan al mercado", style:"h3" },
         { ul:COMPS.map(c=>({text:[{text:c.t+": ",bold:true,color:INK},c.d]})), style:"p" } ];
@@ -1758,22 +1925,45 @@
       });
     }
 
-    /* ===================== NAVEGACIÓN ===================== */
+    /* ===================== NAVEGACIÓN (scroll continuo + anclas) ===================== */
     function go(section){
-      document.querySelectorAll(".section-view").forEach(v => v.classList.toggle("active", v.id === "s-"+section));
-      document.querySelectorAll(".mode-btn").forEach(b => b.classList.toggle("active", b.dataset.go === section));
-      window.scrollTo({ top:0, behavior:"smooth" });
-      if(section === "demo") runLAM();
+      const target = document.getElementById(section) || document.getElementById("s-"+section);
+      if(target) target.scrollIntoView({ behavior:"smooth", block:"start" });
+      if(section === "demo" || section === "agente") runLAM();
       blip(520);
     }
     document.addEventListener("click", (e) => {
+      const anchorBtn = e.target.closest("[data-anchor]");
+      if(anchorBtn){ blip(520); return; }
       const nav = e.target.closest("[data-go]");
-      if(nav){ go(nav.dataset.go); return; }
+      if(nav){ e.preventDefault(); go(nav.dataset.go); return; }
       const dl = e.target.closest("[data-dl]");
       if(dl){ blip(300); dlScope(dl.dataset.dl); return; }
       const mt = e.target.closest("[data-modtoggle]");
       if(mt){ mt.closest("[data-mod]").classList.toggle("open"); blip(400); refresh(); }
     });
+    (function initScrollSpy(){
+      const anchors = ["inicio","metodo","agente","programa","evaluacion","cierre"];
+      const navMap = new Map(anchors.map(a => [a, document.querySelector(`.mode-btn[data-anchor="${a}"]`)]));
+      const targets = anchors.map(a => ({ id:a, el:document.getElementById(a) })).filter(t => t.el);
+      if(!targets.length) return;
+      let current = null;
+      function update(){
+        const probe = window.scrollY + 110;
+        let activeId = targets[0].id;
+        targets.forEach(t => { if(t.el.getBoundingClientRect().top + window.scrollY <= probe) activeId = t.id; });
+        if(activeId === current) return;
+        current = activeId;
+        navMap.forEach((el, key) => { if(el) el.classList.toggle("active", key === activeId); });
+      }
+      let ticking = false;
+      window.addEventListener("scroll", () => {
+        if(ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { update(); ticking = false; });
+      }, { passive:true });
+      update();
+    })();
     document.addEventListener("keydown",(e)=>{
       if((e.key==="Enter"||e.key===" ") && e.target.matches("a.link-card[role='button']")){ e.preventDefault(); e.target.click(); }
     });
@@ -1850,7 +2040,7 @@
           </button>`;
         return i < STAGES.length - 1 ? gate + connector : gate;
       }).join("");
-      $("cmfPrint").innerHTML = `<h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;margin:0 0 8px">El método de la Constitución · 9 capas</h3>` + STAGES.map((s,i)=>`<div class="cmf-prow"><b>${i+1}. ${esc(s.t)}.</b> ${esc(s.exp)} <i>Evita:</i> ${esc(s.riesgo)}</div>`).join("");
+      $("cmfPrint").innerHTML = `<h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;margin:0 0 8px">Anatomía de una Constitución · 9 capas</h3>` + STAGES.map((s,i)=>`<div class="cmf-prow"><b>${i+1}. ${esc(s.t)}.</b> ${esc(s.exp)} <i>Evita:</i> ${esc(s.riesgo)}</div>`).join("");
       selectCMF(0); refresh();
     }
     document.addEventListener("click",(e)=>{ const g=e.target.closest("[data-cmf]"); if(g){ selectCMF(Number(g.dataset.cmf)); blip(560); } });
@@ -2019,7 +2209,7 @@
 
     function refresh(){ if(window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } }); }
 
-    renderExperience(); renderModules(); renderTools(); renderSello(); renderPrograms(); renderGana(); renderLogistica(); renderCMF(); renderDemo(); renderAsks(); renderDossier(); mountDownloads(); runLAM();
+    renderExperience(); renderModules(); renderTools(); renderSello(); renderArch(); renderInst(); renderCycle(); renderPrograms(); renderGana(); renderLogistica(); renderCMF(); renderDemo(); renderAsks(); renderDossier(); mountDownloads(); runLAM();
     $("pdfBtn").addEventListener("click", () => { blip(300); dlScope("all"); });
     $("decisionPdfBtn").addEventListener("click", () => { blip(300); dlScope("all"); });
     refresh(); initCanvas();
