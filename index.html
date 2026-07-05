@@ -8,7 +8,7 @@
   <title>Derecho + IA · Construir · Verificar · Gobernar — Diego Ojeda Cifuentes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..800&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.js"></script>
@@ -874,7 +874,7 @@
       <div class="section-head" style="margin-top:8px"><span class="eyebrow">Ese mismo prototipo, por dentro</span><h2 style="font-size:1.5rem">Modelo operativo del agente jurídico de apoyo</h2>
         <p>La maqueta de arriba muestra <i>qué</i> entrega el agente; este flujograma muestra <i>cómo</i> lo hace: cómo se traduce la teoría jurídica en un sistema verificable, gobernado y trazable.</p></div>
       <div class="viz">
-        <svg viewBox="0 0 1180 610" role="img" aria-label="Arquitectura del agente jurídico en cinco zonas: Entrada, Gobernanza (Constitución del agente como umbral constitucional), Conocimiento, Ejecución y Control, con escalamiento humano condicional y bitácora que retroalimenta el inicio">
+        <svg class="fx-trazo" viewBox="0 0 1180 610" role="img" aria-label="Arquitectura del agente jurídico en cinco zonas: Entrada, Gobernanza (Constitución del agente como umbral constitucional), Conocimiento, Ejecución y Control, con escalamiento humano condicional y bitácora que retroalimenta el inicio">
           <defs>
             <marker id="wva" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#4be7ff" opacity=".8"/></marker>
             <marker id="wvg" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#e0b04a" opacity=".9"/></marker>
@@ -917,25 +917,33 @@
           <text class="viz-loop-lab" x="360" y="601" text-anchor="middle">iteración · mejora continua — la bitácora retroalimenta la consulta inicial</text>
           <circle class="viz-packet" cx="130" cy="62" r="3" fill="#4be7ff"><animate attributeName="cx" values="130;266" dur="2.6s" repeatCount="indefinite"/></circle>
 
-          <!-- Zona 1 · Entrada -->
+          <!-- Zona 1 · Entrada (fx-trazo etapa 1) -->
+          <g data-fx-orden="1">
           <g class="viz-node"><title>Consulta jurídica: texto, caso ficticio o documento anonimizado.</title><rect x="16" y="34" width="250" height="52" rx="8"/><circle class="vn-dot" cx="32" cy="60" r="3.4"/><text class="vn-t" x="46" y="55" font-size="13.5">Consulta jurídica</text><text class="vn-s" x="46" y="71">caso ficticio · anonimizado</text></g>
           <g class="viz-node"><title>Router de tarea: clasifica la consulta — contrato, checklist, lenguaje claro o matriz de riesgos — y decide el camino a seguir.</title><rect x="296" y="34" width="230" height="52" rx="8"/><circle class="vn-dot" cx="312" cy="60" r="3.4"/><text class="vn-t" x="326" y="55" font-size="13.5">Router de tarea</text><text class="vn-s" x="326" y="71">contrato · checklist · riesgos</text></g>
+          </g>
 
           <!-- Zona 2 · Gobernanza (umbral constitucional) -->
           <g class="viz-node viz-gate viz-node--highlighted"><title>Constitución del agente actuando como umbral constitucional: finalidad, ámbito, límites, fuentes autorizadas y advertencias que toda solicitud debe atravesar antes de ejecutarse.</title><rect x="216" y="128" width="748" height="46" rx="8"/><circle class="vn-dot viz-pulse" cx="238" cy="151" r="4" fill="#e0b04a"/><text class="vn-t" x="254" y="147">Umbral constitucional</text><text class="vn-s" x="254" y="163">finalidad · ámbito · límites · fuentes autorizadas · advertencias</text></g>
 
-          <!-- Zona 3 · Conocimiento -->
+          <!-- Zona 3 · Conocimiento (fx-trazo etapa 2) -->
+          <g data-fx-orden="2">
           <g class="viz-node"><title>Fuentes autorizadas: normativa, documentos, criterios docentes y fuentes cargadas (ficticias o públicas).</title><rect x="16" y="218" width="280" height="52" rx="8"/><circle class="vn-dot" cx="32" cy="244" r="3.4"/><text class="vn-t" x="46" y="239" font-size="13.5">Fuentes autorizadas</text><text class="vn-s" x="46" y="255">normativa · criterios docentes</text></g>
           <g class="viz-node"><title>Recuperación: selecciona y trae los fragmentos de fuente pertinentes para la consulta clasificada.</title><rect x="316" y="218" width="230" height="52" rx="8"/><circle class="vn-dot" cx="332" cy="244" r="3.4"/><text class="vn-t" x="346" y="239" font-size="13.5">Recuperación</text><text class="vn-s" x="346" y="255">fragmentos pertinentes</text></g>
+          </g>
 
-          <!-- Zona 4 · Ejecución -->
+          <!-- Zona 4 · Ejecución (fx-trazo etapa 3) -->
+          <g data-fx-orden="3">
           <g class="viz-node viz-node--tool"><title>Herramientas: funciones auxiliares del agente (cálculo de plazos, plantillas, checklist) invocadas durante el análisis.</title><rect x="16" y="314" width="180" height="56" rx="8"/><circle class="vn-dot" cx="32" cy="342" r="3.2"/><text class="vn-t" x="46" y="338" font-size="12.5">Herramientas</text><text class="vn-s" x="46" y="354" font-size="9.5">plazos · plantillas</text></g>
           <g class="viz-node"><title>Motor de análisis IA: genera una respuesta preliminar bajo las reglas de la Constitución y con las fuentes recuperadas.</title><rect x="226" y="314" width="250" height="56" rx="8"/><circle class="vn-dot" cx="242" cy="342" r="3.4"/><text class="vn-t" x="256" y="338" font-size="13.5">Motor de análisis IA</text><text class="vn-s" x="256" y="354">respuesta preliminar</text></g>
           <g class="viz-node viz-node--verification"><title>Verificador jurídico: contrasta fuentes, separa hechos de inferencias y detecta incertidumbre.</title><rect x="496" y="314" width="250" height="56" rx="8"/><line class="viz-scan" x1="504" y1="326" x2="738" y2="326"/><circle class="vn-dot" cx="512" cy="342" r="3.4"/><text class="vn-t" x="526" y="338" font-size="13.5">Verificador jurídico</text><text class="vn-s" x="526" y="354">hechos vs. inferencias</text></g>
           <g class="viz-node"><title>Respuesta gobernada: análisis preliminar con advertencias, límites y próximos pasos.</title><rect x="226" y="390" width="280" height="56" rx="8"/><circle class="vn-dot" cx="242" cy="418" r="3.4"/><text class="vn-t" x="256" y="414" font-size="13.5">Respuesta gobernada</text><text class="vn-s" x="256" y="430">advertencias · próximos pasos</text></g>
+          </g>
 
-          <!-- Zona 5 · Control -->
+          <!-- Zona 5 · Control (fx-trazo etapa 4; la bitácora punteada es estructura permanente) -->
+          <g data-fx-orden="4">
           <g class="viz-node viz-node--human"><title>Escalamiento humano: deriva a una persona si hay riesgo alto, datos sensibles o una decisión relevante.</title><rect x="786" y="490" width="230" height="56" rx="8"/><circle class="vn-dot" cx="802" cy="518" r="3.4"/><text class="vn-t" x="816" y="514" font-size="13.5">Escalamiento humano</text><text class="vn-s" x="816" y="530">riesgo alto · decisión relevante</text></g>
+          </g>
           <g class="viz-node viz-node--log"><title>Bitácora y mejora: registra reglas aplicadas, fuentes, advertencias y errores; retroalimenta la Constitución y el sistema.</title><rect x="16" y="490" width="250" height="56" rx="8"/><circle class="vn-dot" cx="32" cy="518" r="3.2"/><text class="vn-t" x="46" y="514" font-size="13">Bitácora y mejora</text><text class="vn-s" x="46" y="530">reglas · fuentes · errores</text></g>
         </svg>
         <div class="viz-legend">
@@ -2154,5 +2162,12 @@
     $("decisionPdfBtn").addEventListener("click", () => { blip(300); dlScope("all"); });
     refresh(); initCanvas();
   </script>
+
+  <!-- Sistema fx (Fase A): GSAP con defer; si el CDN falla, los módulos degradan a estático sin romper la página -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/DrawSVGPlugin.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/SplitText.min.js" defer></script>
+  <script type="module" src="fx/bootstrap.js"></script>
 </body>
 </html>
