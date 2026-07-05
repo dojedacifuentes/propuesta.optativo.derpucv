@@ -256,6 +256,17 @@
     .cycle-phase .cy-flow{ font-family:"JetBrains Mono",monospace; font-size:0.74rem; color:var(--cyan-soft); line-height:1.6; margin-bottom:8px; overflow-wrap:anywhere; }
     .cycle-phase p{ margin:0; color:var(--muted); font-size:0.88rem; line-height:1.5; }
     @media (max-width:820px){ .cycle-bar{ grid-template-columns:1fr; } }
+    /* Pasos que respiran (Constitución del agente: Qué es → Qué contiene → Cómo opera → Por qué es distintiva) */
+    .breath{ display:grid; gap:36px; max-width:820px; margin:22px auto 0; }
+    .breath-step{ position:relative; padding-left:56px; }
+    .breath-step:not(:last-child){ padding-bottom:36px; border-bottom:1px solid var(--line-soft); }
+    .breath-step .bn{ position:absolute; left:0; top:0; width:40px; height:40px; border-radius:50%; border:1.4px solid var(--gold);
+      color:var(--gold); font-family:"Space Grotesk",system-ui,sans-serif; font-weight:700; font-size:1.05rem; display:grid; place-items:center; }
+    .breath-step .bt{ font-family:"Space Grotesk",system-ui,sans-serif; font-size:1.22rem; margin:0 0 10px; color:var(--white); }
+    .breath-step p{ margin:0; color:var(--muted); line-height:1.65; font-size:0.98rem; }
+    .breath-step .lc-steps{ margin-top:4px; }
+    .breath-step blockquote{ margin:0; padding:0; color:var(--white); font-style:italic; font-size:1.05rem; line-height:1.55; }
+    @media (max-width:600px){ .breath-step{ padding-left:0; padding-top:52px; } .breath-step .bn{ position:static; margin-bottom:10px; } }
     .diff-card{ display:grid; gap:8px; padding:18px; border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--panel); }
     .diff-card .n{ font-family:"JetBrains Mono",monospace; color:var(--gold); font-size:0.8rem; }
     .diff-card b{ font-size:1.02rem; }
@@ -713,7 +724,7 @@
       <div class="hero">
         <div class="hero-copy">
           <span class="eyebrow">Propuesta piloto 2026 · Escuela de Derecho PUCV</span>
-          <h1>Formar abogados capaces de <span class="accent">construir, verificar y gobernar</span> agentes con reglas</h1>
+          <h1>Formar abogados capaces de <span class="accent">construir, verificar y gobernar</span> agentes dentro de reglas</h1>
           <p class="method-tagline">Basado en el <b>Método Constitucional</b></p>
           <p class="lede">Un curso práctico e institucional donde los estudiantes diseñan un agente funcional, redactan su Constitución, delimitan sus fuentes, verifican sus respuestas y defienden sus decisiones de diseño.</p>
           <div class="hero-highlight">No se trata de enseñar tecnología al margen del Derecho, sino de convertir la tradición constitucional, filosófica y argumentativa de la Escuela en una arquitectura para gobernar sistemas inteligentes.</div>
@@ -766,7 +777,7 @@
         <div class="card stat-card"><span class="num">4</span><span class="lab">Capas que dominan</span><small>Prompt → Flujo → Herramienta → Agente</small></div>
         <div class="card stat-card"><span class="num">100%</span><span class="lab">De las clases con práctica</span><small>No hay sesión sólo-teoría; tampoco práctica sin marco</small></div>
         <div class="card stat-card"><span class="num">1</span><span class="lab">Prototipo defendible</span><small>Funcional, sobre datos reales (Supabase), evaluado al cierre</small></div>
-        <div class="card stat-card"><span class="num">24%</span><span class="lab">Adopción legal en Chile <span style="color:var(--gold)">*</span></span><small>Único país de la región bajo el 30% · tendencia de industria, a reconfirmar</small></div>
+        <div class="card stat-card"><span class="num">Baja</span><span class="lab">Adopción de IA en la práctica legal chilena</span><small>Dato de mercado en validación · tendencia de industria regional</small></div>
         <div class="card stat-card"><span class="num">3</span><span class="lab">Vacíos del benchmark que cubre</span><small>Construir · verificación troncal · ciberseguridad/anonimización</small></div>
       </div>
 
@@ -825,7 +836,7 @@
       </div>
 
       <div id="modWrap"></div>
-      <div class="note"><i data-lucide="book-marked"></i><div>Bibliografía doctrinal específica <b>a curar por la cátedra</b>. Estado regulatorio (Ley 21.719; proyecto de ley de IA, Boletines 15.869-19 + 16.821-19) <b>a reconfirmar a la fecha de dictación</b>.</div></div>
+      <div class="note"><i data-lucide="book-marked"></i><div>Bibliografía doctrinal específica <b>a curar por la cátedra</b>. <b>Estado regulatorio actualizado al 1 de julio de 2026:</b> Ley 21.719 publicada (crea la Agencia de Protección de Datos Personales), con entrada en vigencia diferida al 1 de diciembre de 2026; proyecto de ley que regula sistemas de IA en <b>segundo trámite constitucional</b> (Boletín 16.821-19, refundido con el 15.869-19).</div></div>
     </section>
 
     <!-- ============ HERRAMIENTAS / STACK ============ -->
@@ -842,7 +853,7 @@
     <!-- ============ SELLO / COMPETENCIAS ============ -->
     <section class="section-view macro-lead" id="s-metodo-intro">
       <div class="section-head"><span class="eyebrow">El sello de la casa</span><h2 style="font-size:2.1rem">Método Constitucional</h2>
-        <p class="macro-lede">La arquitectura de la casa.</p>
+        <p class="macro-lede">La arquitectura de la casa para crear agentes gobernados.</p>
         <p>El Método Constitucional permite crear agentes que no operan como chatbots libres, sino como sistemas gobernados por mandato, reglas, principios, fuentes autorizadas, verificación y mantenimiento. Cada agente construido bajo este método tiene una <b style="color:var(--white)">Constitución propia</b>: un documento que define su finalidad, competencia, límites, fuentes, funciones, advertencias, criterios de revisión y condiciones de escalamiento humano.</p>
         <p>El objetivo no es producir herramientas que respondan más rápido, sino sistemas que puedan ser explicados, corregidos, auditados y defendidos.</p>
       </div>
@@ -1087,7 +1098,7 @@
       <div class="section-head" style="margin-top:8px"><span class="eyebrow">Ese mismo prototipo, por dentro</span><h2 style="font-size:1.5rem">Modelo operativo del agente jurídico de apoyo</h2>
         <p>La maqueta de arriba muestra <i>qué</i> entrega el agente; este flujograma muestra <i>cómo</i> lo hace: cómo se traduce la teoría jurídica en un sistema verificable, gobernado y trazable.</p></div>
       <div class="viz">
-        <svg viewBox="0 0 1180 610" role="img" aria-label="Arquitectura del agente jurídico en cinco zonas: Entrada, Gobernanza (Constitución del agente como policy gate), Conocimiento, Ejecución y Control, con escalamiento humano condicional y bitácora que retroalimenta el inicio">
+        <svg viewBox="0 0 1180 610" role="img" aria-label="Arquitectura del agente jurídico en cinco zonas: Entrada, Gobernanza (Constitución del agente como umbral constitucional), Conocimiento, Ejecución y Control, con escalamiento humano condicional y bitácora que retroalimenta el inicio">
           <defs>
             <marker id="wva" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#4be7ff" opacity=".8"/></marker>
             <marker id="wvg" markerWidth="8" markerHeight="8" refX="6" refY="3.2" orient="auto"><path d="M0 0L6.5 3.2L0 6.4z" fill="#e0b04a" opacity=".9"/></marker>
@@ -1107,7 +1118,7 @@
           <line class="viz-lane-div" x1="0" y1="280" x2="1180" y2="280"/>
           <line class="viz-lane-div" x1="0" y1="456" x2="1180" y2="456"/>
           <text class="viz-lane-label" x="16" y="15" fill="#4be7ff">Zona 1 · Entrada</text>
-          <text class="viz-lane-label" x="16" y="111" fill="#e0b04a">Zona 2 · Gobernanza — policy gate</text>
+          <text class="viz-lane-label" x="16" y="111" fill="#e0b04a">Zona 2 · Gobernanza — umbral constitucional</text>
           <text class="viz-lane-label" x="16" y="199" fill="#8df6ff">Zona 3 · Conocimiento</text>
           <text class="viz-lane-label" x="16" y="295" fill="#f6f0df">Zona 4 · Ejecución</text>
           <text class="viz-lane-label" x="16" y="471" fill="#9d8bff">Zona 5 · Control</text>
@@ -1134,8 +1145,8 @@
           <g class="viz-node"><title>Consulta jurídica: texto, caso ficticio o documento anonimizado.</title><rect x="16" y="34" width="250" height="52" rx="8"/><circle class="vn-dot" cx="32" cy="60" r="3.4"/><text class="vn-t" x="46" y="55" font-size="13.5">Consulta jurídica</text><text class="vn-s" x="46" y="71">caso ficticio · anonimizado</text></g>
           <g class="viz-node"><title>Router de tarea: clasifica la consulta — contrato, checklist, lenguaje claro o matriz de riesgos — y decide el camino a seguir.</title><rect x="296" y="34" width="230" height="52" rx="8"/><circle class="vn-dot" cx="312" cy="60" r="3.4"/><text class="vn-t" x="326" y="55" font-size="13.5">Router de tarea</text><text class="vn-s" x="326" y="71">contrato · checklist · riesgos</text></g>
 
-          <!-- Zona 2 · Gobernanza (policy gate) -->
-          <g class="viz-node viz-gate viz-node--highlighted"><title>Constitución del agente actuando como policy gate: finalidad, ámbito, límites, fuentes autorizadas y advertencias que toda solicitud debe atravesar antes de ejecutarse.</title><rect x="216" y="128" width="748" height="46" rx="8"/><circle class="vn-dot viz-pulse" cx="238" cy="151" r="4" fill="#e0b04a"/><text class="vn-t" x="254" y="147">Constitución del agente — policy gate</text><text class="vn-s" x="254" y="163">finalidad · ámbito · límites · fuentes autorizadas · advertencias</text></g>
+          <!-- Zona 2 · Gobernanza (umbral constitucional) -->
+          <g class="viz-node viz-gate viz-node--highlighted"><title>Constitución del agente actuando como umbral constitucional: finalidad, ámbito, límites, fuentes autorizadas y advertencias que toda solicitud debe atravesar antes de ejecutarse.</title><rect x="216" y="128" width="748" height="46" rx="8"/><circle class="vn-dot viz-pulse" cx="238" cy="151" r="4" fill="#e0b04a"/><text class="vn-t" x="254" y="147">Umbral constitucional</text><text class="vn-s" x="254" y="163">finalidad · ámbito · límites · fuentes autorizadas · advertencias</text></g>
 
           <!-- Zona 3 · Conocimiento -->
           <g class="viz-node"><title>Fuentes autorizadas: normativa, documentos, criterios docentes y fuentes cargadas (ficticias o públicas).</title><rect x="16" y="218" width="280" height="52" rx="8"/><circle class="vn-dot" cx="32" cy="244" r="3.4"/><text class="vn-t" x="46" y="239" font-size="13.5">Fuentes autorizadas</text><text class="vn-s" x="46" y="255">normativa · criterios docentes</text></g>
@@ -1159,7 +1170,7 @@
           <span><i style="background:var(--muted)"></i>logs</span>
         </div>
       </div>
-      <p class="viz-cap"><b>No es un chatbot libre.</b> Toda solicitud atraviesa la Constitución del agente como <i>policy gate</i> antes de ejecutarse; se resuelve con fuentes autorizadas, se verifica, escala a revisión humana cuando hay riesgo, y una bitácora cierra el ciclo de mejora hacia la propia Constitución.</p>
+      <p class="viz-cap"><b>No es un chatbot libre.</b> Toda consulta atraviesa un <i>umbral constitucional</i>: finalidad, competencia, límites, fuentes autorizadas, advertencias y escalamiento humano. Se resuelve con fuentes autorizadas, se verifica, escala a revisión humana cuando hay riesgo, y una bitácora cierra el ciclo de mejora hacia la propia Constitución.</p>
 
       <div class="demo">
         <div class="demo-bar" id="demoChips"></div>
