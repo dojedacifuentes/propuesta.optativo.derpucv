@@ -13,11 +13,17 @@ import { FX } from './core.js';
 import { fxProgreso } from './fx-progreso.js';
 import { fxTrazo } from './fx-trazo.js';
 import { fxTipografia } from './fx-tipografia.js';
+import { fxCampo } from './fx-campo.js';
+import { fxCapas } from './fx-capas.js';
+import { fxAudio } from './fx-audio.js';
 
 function arrancar() {
   FX.registrar(fxProgreso);
   FX.registrar(fxTrazo);
   FX.registrar(fxTipografia);
+  FX.registrar(fxCampo);   // Fase B: fondo "campo normativo" (shader OGL, 9 bandas)
+  FX.registrar(fxCapas);   // Fase B: anatomía explotada + eventos para el audio
+  FX.registrar(fxAudio);   // Fase B: acorde constitucional + 2 sonidos de UI
 }
 
 // Los scripts de GSAP van con defer: al llegar aquí (module = defer implícito,

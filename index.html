@@ -31,9 +31,8 @@
     h1,h2,h3,h4,p{ margin-top:0; }
     a{ color:var(--cyan); }
 
-    #neuralCanvas,.scanlines,.hud-vignette,.cursor-glow{ position:fixed; inset:0; pointer-events:none; }
-    #neuralCanvas{ z-index:0; }
-    .cursor-glow{ z-index:1; transition:background .25s ease; }
+    .scanlines,.hud-vignette{ position:fixed; inset:0; pointer-events:none; }
+    /* El fondo (canvas #fx-campo, z-index 0) lo crea fx/fx-campo.js */
     .scanlines{ z-index:2; opacity:0.16; background:linear-gradient(rgba(246,240,223,0.04) 1px,transparent 1px); background-size:100% 4px; mix-blend-mode:screen; }
     .hud-vignette{ z-index:3; background:
       radial-gradient(circle at 76% 10%, rgba(75,231,255,0.08), transparent 34%),
@@ -657,7 +656,7 @@
     @media print{
       @page{ margin:15mm; }
       html,body{ background:#fff !important; }
-      .topbar,.shell,.fab,.present,#neuralCanvas,.scanlines,.hud-vignette,.cursor-glow,footer.credit{ display:none !important; }
+      .topbar,.shell,.fab,.present,#fx-campo,.scanlines,.hud-vignette,footer.credit{ display:none !important; }
       #dossier{ display:block !important; padding:0; }
     }
 
@@ -665,8 +664,6 @@
   </style>
 </head>
 <body>
-  <canvas id="neuralCanvas" aria-hidden="true"></canvas>
-  <div class="cursor-glow" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
   <div class="hud-vignette" aria-hidden="true"></div>
 
@@ -2044,123 +2041,17 @@
       else if(e.key === "ArrowLeft") presMove(-1);
     });
 
-    /* ===================== SONIDO (WebAudio, opt-in) ===================== */
-    let audioCtx = null, soundOn = false;
-    function blip(freq){
-      if(!soundOn || !audioCtx) return;
-      const t = audioCtx.currentTime;
-      const filt = audioCtx.createBiquadFilter();
-      filt.type = "lowpass";
-      filt.frequency.setValueAtTime(2800, t);
-      filt.frequency.exponentialRampToValueAtTime(640, t + 0.18);
-      filt.Q.value = 6;
-      const g = audioCtx.createGain();
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(0.06, t + 0.006);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
-      const o1 = audioCtx.createOscillator();
-      o1.type = "square"; o1.frequency.setValueAtTime(freq, t);
-      o1.frequency.exponentialRampToValueAtTime(freq * 0.5, t + 0.2);
-      const o2 = audioCtx.createOscillator();
-      o2.type = "sawtooth"; o2.frequency.setValueAtTime(freq * 1.5, t);
-      o2.detune.setValueAtTime(14, t);
-      o2.frequency.exponentialRampToValueAtTime(freq * 0.74, t + 0.2);
-      o1.connect(filt); o2.connect(filt); filt.connect(g); g.connect(audioCtx.destination);
-      o1.start(t); o2.start(t); o1.stop(t + 0.24); o2.stop(t + 0.24);
-    }
-    $("soundToggle").addEventListener("click", () => {
-      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if(audioCtx.state === "suspended") audioCtx.resume();
-      soundOn = !soundOn;
-      const btn = $("soundToggle");
-      btn.classList.toggle("on", soundOn);
-      btn.innerHTML = soundOn ? '<i data-lucide="volume-2"></i>' : '<i data-lucide="volume-x"></i>';
-      btn.title = soundOn ? "Silenciar" : "Activar sonido ambiente";
-      refresh(); if(soundOn) blip(660);
-    });
-    document.addEventListener("mouseover",(e)=>{ if(e.target.closest("a.link-card,.exp-step,.mod-head")) blip(720); }, { passive:true });
-
-    /* ===================== FONDO NEURAL REACTIVO AL MOUSE ===================== */
-    const pointer = { x:0.7, y:0.4, tx:0.7, ty:0.4 };
-    window.addEventListener("pointermove",(e)=>{ pointer.tx = e.clientX/window.innerWidth; pointer.ty = e.clientY/window.innerHeight; }, { passive:true });
-    const glow = document.querySelector(".cursor-glow");
-
-    function initCanvas(){
-      const canvas = $("neuralCanvas"); const ctx = canvas.getContext("2d");
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const particles = Array.from({length:54},(_,i)=>({ seed:i*97, x:Math.random(), y:Math.random(),
-        speed:0.00016+Math.random()*0.00032, size:0.6+Math.random()*1.2 }));
-      function resize(){
-        const ratio = Math.min(window.devicePixelRatio||1,2);
-        canvas.width = Math.floor(window.innerWidth*ratio); canvas.height = Math.floor(window.innerHeight*ratio);
-        canvas.style.width = window.innerWidth+"px"; canvas.style.height = window.innerHeight+"px";
-        ctx.setTransform(ratio,0,0,ratio,0,0);
-      }
-      function hexPath(x,y,r){ ctx.beginPath();
-        for(let i=0;i<6;i++){ const a=Math.PI/3*i+Math.PI/6; const px=x+Math.cos(a)*r, py=y+Math.sin(a)*r; i?ctx.lineTo(px,py):ctx.moveTo(px,py);} ctx.closePath(); }
-      function draw(time){
-        const w = window.innerWidth, h = window.innerHeight;
-        pointer.x += (pointer.tx - pointer.x)*0.06; pointer.y += (pointer.ty - pointer.y)*0.06;
-        const px = pointer.x*w, py = pointer.y*h;
-        if(glow){ glow.style.background = `radial-gradient(380px circle at ${px}px ${py}px, rgba(75,231,255,0.10), transparent 70%)`; }
-        ctx.clearRect(0,0,w,h); ctx.fillStyle="#020306"; ctx.fillRect(0,0,w,h);
-
-        // grilla técnica (parallax suave hacia el mouse)
-        const ox = (pointer.x-0.5)*40, oy = (pointer.y-0.5)*40;
-        ctx.globalAlpha=0.34; ctx.strokeStyle="rgba(75,231,255,0.045)"; ctx.lineWidth=1;
-        for(let x=Math.floor(w*0.05);x<w;x+=64){ ctx.beginPath(); ctx.moveTo(x+ox,0); ctx.lineTo(x+ox,h); ctx.stroke(); }
-        for(let y=0;y<h;y+=64){ ctx.beginPath(); ctx.moveTo(0,y+oy); ctx.lineTo(w,y+oy); ctx.stroke(); }
-
-        // panal hexagonal, late con el tiempo y se acerca al cursor
-        ctx.globalAlpha=0.82;
-        for(let x=w*0.12;x<w+80;x+=120){
-          for(let y=-20;y<h+40;y+=104){
-            const cx = x + ((Math.round(y/104))%2)*60 + ox*0.6;
-            const cy = y + oy*0.6;
-            const dist = Math.hypot(cx-px, cy-py);
-            const near = Math.max(0, 1 - dist/260);
-            const pulse = Math.sin(time*0.001 + x*0.01 + y*0.008)*0.25 + 0.65;
-            ctx.strokeStyle = `rgba(246,240,223,${(0.05 + near*0.12)*pulse})`;
-            ctx.lineWidth = 1 + near*0.8; hexPath(cx,cy,42); ctx.stroke();
-            if(near>0.15){ ctx.strokeStyle=`rgba(75,231,255,${0.12*near})`; hexPath(cx,cy,24); ctx.stroke(); }
-          }
-        }
-
-        // núcleo que sigue al cursor
-        ctx.globalAlpha=0.55;
-        for(let i=0;i<7;i++){
-          const radius = Math.min(w,h)*(0.10+i*0.03) + Math.sin(time*0.001+i)*2;
-          ctx.strokeStyle = i%2 ? "rgba(128,8,20,0.10)" : "rgba(75,231,255,0.075)";
-          ctx.lineWidth = i===0?1.5:1; ctx.beginPath();
-          ctx.arc(px,py,radius,Math.PI*0.05,Math.PI*1.68); ctx.stroke();
-        }
-
-        // partículas (ascienden, leve atracción al cursor)
-        ctx.globalAlpha=0.9;
-        particles.forEach(p=>{
-          p.y = (p.y + p.speed*16)%1;
-          const x = p.x*w + Math.sin(time*0.0007+p.seed)*10 + (px-p.x*w)*0.01;
-          const y = p.y*h;
-          ctx.fillStyle = p.seed%3===0 ? "rgba(128,8,20,0.22)" : "rgba(75,231,255,0.20)";
-          ctx.fillRect(x,y,p.size,p.size);
-        });
-
-        // barrido
-        const scanY = (time*0.03)%h; ctx.globalAlpha=0.22; ctx.fillStyle="rgba(75,231,255,0.03)";
-        ctx.fillRect(0,scanY,w,54); ctx.globalAlpha=1;
-
-        if(!reduce) requestAnimationFrame(draw);
-      }
-      window.addEventListener("resize", resize); resize();
-      if(reduce){ draw(0); } else { requestAnimationFrame(draw); }
-    }
+    /* Sonido y fondo viven ahora en el sistema fx (fx-audio.js, fx-campo.js).
+       blip() queda como stub para no tocar los call sites; el presupuesto real
+       de sonido (2 UI + acorde constitucional) lo administra fx-audio. */
+    function blip(){ /* delegado a fx-audio */ }
 
     function refresh(){ if(window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } }); }
 
     renderExperience(); renderModules(); renderTools(); renderSello(); renderArch(); renderInst(); renderCycle(); renderGana(); renderLogistica(); renderCMF(); renderDemo(); renderAsks(); renderDossier(); mountDownloads(); runLAM();
     $("pdfBtn").addEventListener("click", () => { blip(300); dlScope("all"); });
     $("decisionPdfBtn").addEventListener("click", () => { blip(300); dlScope("all"); });
-    refresh(); initCanvas();
+    refresh();
   </script>
 
   <!-- Sistema fx (Fase A): GSAP con defer; si el CDN falla, los módulos degradan a estático sin romper la página -->
