@@ -1,83 +1,71 @@
-# CLAUDE.md — Cómo seguir desarrollando esta plataforma
-
-Orienta a Claude Code para **seguir desarrollando** la propuesta del curso de IA y Derecho de **Diego Hernán Ojeda Cifuentes** (Lic. Ciencias Jurídicas) para la Escuela de Derecho PUCV. Lee también `CONTEXTO.md` (tesis, decisiones, hechos, guardarraíles) antes de cambios de fondo.
-
-> **Importante:** este es un proyecto **independiente, fuera del programa DIAT**. No introducir marca, logos ni nomenclatura "DIAT" en el contenido visible. El autor pertenece a DIAT, pero estos cursos están fuera de esa esfera.
-
-> Skill: `.claude/skills/diat-curso/SKILL.md`. Comandos: `.claude/commands/`.
-
----
+# CLAUDE.md — propuesta.optativo.derpucv
 
 ## Qué es este proyecto
 
-Una **única plataforma**: `index.html`, SPA de un solo archivo, autocontenida (HTML/CSS/JS), sin build ni backend. Se abre directo en el navegador y se despliega como sitio estático (Vercel). Vende la **experiencia** del curso optativo a la dirección de la Escuela (audiencia: director, poco tiempo → abre con resumen ejecutivo).
+Landing/plataforma de la propuesta de curso optativo de pregrado **"Derecho + Inteligencia Artificial: Construir, Verificar y Gobernar" (DER-IA·OPT-2026)** para la Escuela de Derecho PUCV, dirigida por Diego Ojeda Cifuentes (Subdirector de Talleres, programa DIAT). Audiencia primaria: la Dirección de la Escuela (Eduardo Aldunate). Audiencias secundarias: estudiantes y académicos.
 
-**Principio rector:** el curso enseña a *construir, verificar y gobernar*, no solo a usar. El módulo de desarrollo de aplicaciones es la **columna vertebral** (empieza ahí) y el curso cierra con un **prototipo funcional sobre Supabase**. Metodología **ABP**: cada sesión es teórico-práctica. No diluir esa tesis (ver `CONTEXTO.md` §2).
+Deploy: Vercel, sitio estático. Stack: HTML + CSS + JS vanilla, sin frameworks, sin build step. Fondo institucional oscuro (#020306), registro serio tipo MIT/Anthropic — nunca decorativo, nunca "AI-generated look".
 
----
+## Principios innegociables (guardarraíl de honestidad)
 
-## Reglas de oro (no romper)
+1. **Cero fabricación**: nada de testimonios inventados, cifras de matrícula ficticias, urgencia artificial ni contadores falsos. La escasez solo puede ser estructural y real (cupos del piloto, calendario académico).
+2. **Datos verificados o fuera**: ninguna cifra se muestra en formato KPI si no está verificada con fuente. Los datos "a reconfirmar" NO van como estadística destacada; van en la nota metodológica única al pie o se eliminan.
+3. **Disclaimers consolidados**: existe UNA sola "Nota metodológica" al final del documento. No se dispersan asteriscos "a reconfirmar" por las secciones.
+4. **La demo se declara como lo que es**: si ContratoClaro es maqueta o simulación client-side, se rotula "simulación con respuestas precalculadas". Si consume API real, se rotula como demo en vivo.
+5. **Afirmaciones sobre nosotros, no sobre otros**: no hay comparaciones contra "el enfoque típico" ni terceros implícitos. El posicionamiento se expresa como "vacíos que este curso cubre".
 
-1. **Sin frameworks, sin build, sin backend.** Vanilla HTML/CSS/JS, todo en `index.html`. Estado **en memoria** (no `localStorage` salvo que se pida).
-2. **Bug de escapes Unicode en HTML.** En HTML/CSS/SVG usa **caracteres UTF-8 reales o entidades** (`—`, `→`, `°`, `·`, `&mdash;`). **Nunca** `\uXXXX` (en HTML se renderiza literal). Dentro de `<script>`, en cadenas JS, `\uXXXX` sí vale.
-3. **Sin marca DIAT** en el contenido visible. Atribución: Diego Hernán Ojeda Cifuentes · Escuela de Derecho PUCV.
-4. **Guardarraíles de honestidad** (`CONTEXTO.md` §4): nada de testimonios/cifras de matrícula/urgencia inventados; normativa "a reconfirmar"; doctrina "a curar por la cátedra"; cifras de mercado como tendencia de industria.
-5. **Verificar el render** tras editar (abrir en navegador). Respetar `prefers-reduced-motion`.
+## Narrativa maestra
 
----
+La lógica persuasiva del sitio es: **problema → tesis → prueba → operación → decisión**. Ningún contenido conceptual puede aparecer después del paquete de decisión. La demo (la prueba) va ANTES de pedir la decisión, nunca después.
 
-## Estándar visual (tokens exactos)
+El Método Constitucional se explica en profundidad **una sola vez** (sección canónica). Cualquier otra mención es referencia breve con ancla a esa sección. Máximo **dos** "frases clave/visuales" en toda la página.
 
-Estética cyber-jurídica legible (registro "war room": fondo neural reactivo al mouse, scanlines, HUD), formal y académica. Tokens en `:root` de `index.html`:
+## Arquitectura de secciones (orden canónico — 9 macro-secciones)
 
-```css
---bg:#020306; --panel:rgba(5,10,14,0.86);
---cyan:#4be7ff; --cyan-soft:#8df6ff;
---gold:#e0b04a; --mint:#54d6a0; --red-bright:#e44949;
---white:#f6f0df; --muted:#9ba7ad;
-```
-- **Tipografías:** Cinzel (títulos display), JetBrains Mono (etiquetas/datos/código), Inter (cuerpo).
-- **Semántica de color:** cian = acento/foco; oro = dato/marca/tesis; verde menta = práctica/"constructor"; coral/rojo = riesgo/límite. Con moderación.
-- **Efectos (sin sobrecargar):** canvas neural reactivo al cursor + glow que lo sigue, scanlines, vignette HUD, sonido opt-in (WebAudio), tarjetas con hover-lift. Nada más sin pedirlo.
+1. `#hero` — Hero + lectura de 60 segundos. Incluye selector de ruta por rol (Dirección / Estudiante / Académico).
+2. `#problema` — El problema y la oportunidad (fusión de las antiguas secciones "problema" y "oportunidad").
+3. `#metodo` — El Método Constitucional, sección canónica única. Absorbe: sello de la casa, Constitución del agente, anatomía de nueve capas (interactiva, se conserva), el agente como institución mínima.
+4. `#prueba` — La prueba: ContratoClaro + flujograma por zonas. Sube desde el final del documento a esta posición.
+5. `#curso` — Cómo se vive: anatomía de sesión, arco del semestre, programa de 16 semanas, stack tecnológico.
+6. `#beneficios` — Qué gana la Escuela / qué se llevan los estudiantes / perfil de egreso (fusión de los tres bloques dispersos).
+7. `#direccion` — Para la Dirección: requisitos, rúbrica, calendario, riesgos y mitigación, estructura del piloto, FAQ.
+8. `#decision` — Decisión sugerida. UN CTA primario ("Agendar conversación sobre el piloto") + UN secundario ("Descargar dossier PDF"). Nada más.
+9. `#nota` — Nota metodológica (disclaimers consolidados) + link discreto a educación continua: "Esta lógica también escala a egresados →".
 
----
+**Educación continua** vive en página propia (`/educacion-continua.html`), fuera de la columna vertebral del optativo. Revisar el naming de los programas: evitar etiquetas tipo "Arquitecto Jurídico-Algorítmico" que suenen a LinkedIn; preferir nombres sobrios e institucionales.
 
-## Mapa de contenidos en `index.html` (dónde editar qué)
+## Navegación
 
-`index.html` = `<style>` (todo el CSS) · `<main>` con seis `<section class="section-view">` (`resumen`, `experiencia`, `ruta`, `herramientas`, `sello`, `egresados`) · un `<script>` final con los datos y la lógica. **Casi todo el contenido editable vive como arrays JS al inicio del `<script>`:**
+- Nav sticky con las 9 anclas reales (el nav no puede mentir sobre la escala del documento).
+- Indicador de progreso de scroll.
+- Resaltado de sección activa vía IntersectionObserver.
+- Modo presentación (pitch 5 minutos) se conserva y se integra a la ruta "Dirección".
 
-- **Arco de la experiencia** → `EXPERIENCE` (array): `{ n, t, d, pills:[[clase,label]] }`. Sección Experiencia.
-- **Módulos del curso** → `MODULES` (array): `{ mx, kind, t, sub, teoria:[], practica:[], entregable:[] }`. `kind` = `"spine"` (M0, columna vertebral) / `"final"` (defensa) / `""`. Sección Ruta (acordeón).
-- **Herramientas** → `TOOLS_CORE` y `TOOLS_AGENTS` (arrays): `{ k(glifo), name, tag, url, color, body, steps:[] }`. Tarjetas clicables. Sección Stack.
-- **Diferenciadores** → `DIFFS` · **Competencias** → `COMPS` (`{t,d,ic}`, `ic` = icono lucide). Sección Sello.
-- **Trayecto egresados** → `EC` (array N1/N2/N3). Sección Egresados.
-- **Ticker** → `TICKER` (array de strings).
-- **Resumen ejecutivo** (hero, specs, stats) → HTML estático dentro de `#s-resumen`.
+## Copy
 
-> Coherencia: si cambias un módulo o cifra, refléjalo también en `CONTEXTO.md`.
+- Chileno, sobrio, institucional. Sin anglicismos innecesarios, sin tono marketero.
+- Párrafos-argumento largos se reducen a síntesis de 2-3 líneas + expandible (`<details>` estilizado o acordeón propio) para quien quiera profundidad.
+- El clímax retórico se reserva: dos frases destacadas en todo el documento, ubicadas en `#metodo` y `#decision`.
 
----
+## Roadmap de sprints
 
-## Playbooks de edición
+- **Sprint 1 — Reestructura (P0)**: reorden de secciones, cierre con CTA único, saneamiento de datos, consolidación del método y de disclaimers, educación continua a página propia. (Issues en `docs/issues-sprint-1.md`.)
+- **Sprint 2 — Navegación y respiración (P1)**: nav real con progreso, rutas por rol, poda de copy, reencuadre del posicionamiento.
+- **Sprint 3 — Interactividad (P2)**: ContratoClaro interactivo (versión A: simulación client-side con 3-4 escenarios precalculados, incluido uno rechazado por el policy gate; versión B: API real solo si se decide asumir la dependencia), generador de Constitución de 9 capas con descarga, formulario de interés con Supabase.
+- **Sprint 4 — Plataforma**: `/aula` semana a semana y dashboard del piloto. **No se construye antes de que el piloto sea aprobado** — coherencia con el principio de no lanzar antes de validar.
 
-**Añadir/cambiar un módulo:** edita `MODULES`. Cada módulo necesita `teoria`, `practica` y `entregable` (ABP: siempre las tres). El primero (`kind:"spine"`) y el último (`kind:"final"`) marcan la columna vertebral y la defensa.
+## Convenciones técnicas
 
-**Añadir una herramienta:** agrega un objeto a `TOOLS_CORE` (flujo troncal: construir/versionar/publicar/datos) o `TOOLS_AGENTS` (agentes/conocimiento). Da `url` oficial, `color` de marca y `steps` (mini-tutorial: cuenta + workflow).
+- Un solo archivo CSS global; variables CSS para color y espaciado; nada de estilos inline nuevos.
+- JS vanilla, módulos por funcionalidad (`nav.js`, `anatomia.js`, `demo.js`), sin dependencias npm salvo necesidad justificada.
+- Accesibilidad mínima: contraste AA sobre fondo oscuro, `prefers-reduced-motion` respetado en toda animación, navegación por teclado en la anatomía interactiva y acordeones.
+- Performance: sin librerías de animación pesadas; el nivel "cyber" se logra con tipografía, grid, línea y micro-interacción, no con efectos.
+- Commits en español, imperativo, con prefijo de sprint: `[S1] Reordena secciones según arquitectura canónica`.
 
-**Actualizar normativa o datos de mercado:** busca `21.719`, `16.821-19`, `24%`, `dic. 2026` en `index.html` y `CONTEXTO.md`; actualiza y conserva "a reconfirmar".
+## Qué NO hacer
 
-**Reskin/ajuste visual:** cambia solo los tokens en `:root`. No hardcodees colores. Verifica contraste y `prefers-reduced-motion`.
-
-**Versión gemela de egresados:** expandir la sección `egresados` / `EC` a su propia experiencia con los tres niveles y sus requisitos distintos (educación continua, mayor carga, casos reales). Código `DER-IA · EC-2026`.
-
----
-
-## Previsualizar y desplegar
-
-- **Previsualizar:** abrir `index.html` en el navegador. Solo fuentes (Google Fonts) e iconos (lucide) cargan por CDN; el resto es autocontenido.
-- **Desplegar (Vercel):** sitio estático. Conectar el repo a Vercel → auto-deploy en cada push a `main`. `vercel.json` activa `cleanUrls`.
-
-## Verificación rápida tras un cambio
-- ¿Quedó algún `\uXXXX` en el HTML? (no debe).
-- ¿Render correcto en escritorio y móvil? ¿Consola sin errores?
-- ¿Sin marca DIAT en lo visible? ¿Se respetan los guardarraíles de honestidad?
+- No agregar secciones nuevas a la columna vertebral sin eliminar o fusionar otra (presupuesto fijo: 9 macro-secciones).
+- No reintroducir explicaciones paralelas del método.
+- No mostrar cifras sin fuente verificada.
+- No agregar CTAs al cierre.
+- No usar comparaciones contra terceros, nombrados o implícitos.
