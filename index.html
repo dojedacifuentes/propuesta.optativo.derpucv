@@ -78,34 +78,20 @@
     .icon-only{ width:38px; min-width:38px; padding:0; }
     .icon-only.on{ border-color:var(--cyan); color:var(--cyan); }
 
-    .shell{ width:min(1180px,calc(100% - 40px)); margin:28px auto 120px; display:flex; flex-direction:column; }
+    .shell{ width:min(1180px,calc(100% - 40px)); margin:28px auto 120px; }
     .section-view{ display:block; }
-    .macro-anchor{ scroll-margin-top:92px; height:0; }
-    /* Orden visual de las 6 zonas: Inicio(10) · Método(20-35) · Agente(40-55) · Programa(60-100) · Evaluación(110-115) · Cierre(130-135) */
-    #inicio{ order:5; }
-    #s-resumen{ order:10; }
-    #metodo{ order:20; }
-    #s-metodo-intro{ order:22; }
-    #s-sello{ order:30; }
-    #agente{ order:40; }
-    #s-agente-intro{ order:42; }
-    #s-ciclo-vida{ order:46; }
-    #s-demo{ order:50; }
-    #programa{ order:60; }
-    #s-experiencia{ order:70; }
-    #s-ruta{ order:80; }
-    #s-herramientas{ order:90; }
-    #s-egresados{ order:100; }
-    #evaluacion{ order:110; }
-    #s-logistica{ order:115; }
-    #cierre{ order:130; }
-    #s-decision{ order:135; }
-    .macro{ scroll-margin-top:92px; padding:56px 0; border-top:1px solid var(--line-soft); }
+    /* Las 9 macro-secciones canónicas: bloques completos y respirados, orden físico en el HTML */
+    .macro{ scroll-margin-top:92px; padding:64px 0; border-top:1px solid var(--line-soft); }
     .macro:first-of-type{ border-top:0; padding-top:8px; }
-    /* Separación de las 6 macro-zonas (bloques completos, no bajada continua) */
-    #s-metodo-intro,#s-agente-intro,#s-experiencia,#s-logistica,#s-decision{
-      padding-top:60px; margin-top:38px; border-top:1px solid var(--line-soft); scroll-margin-top:92px; }
-    @media (max-width:760px){ #s-metodo-intro,#s-agente-intro,#s-experiencia,#s-logistica,#s-decision{ padding-top:40px; margin-top:26px; } }
+    @media (max-width:760px){ .macro{ padding:42px 0; } }
+    /* Expandibles sobrios (versión larga de argumentos) */
+    details.exp{ border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--panel); max-width:820px; }
+    details.exp summary{ list-style:none; cursor:pointer; padding:13px 16px; color:var(--cyan-soft); font-size:0.92rem;
+      display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    details.exp summary::-webkit-details-marker{ display:none; }
+    details.exp summary::after{ content:"+"; color:var(--cyan); font-family:"JetBrains Mono",monospace; font-size:1.15rem; }
+    details.exp[open] summary::after{ content:"–"; }
+    details.exp > *:not(summary){ padding:0 16px 14px; margin:0; color:var(--muted); font-size:0.93rem; line-height:1.6; }
     .macro-head{ margin-bottom:34px; }
     .macro-head .eyebrow{ font-size:0.86rem; }
     .macro-head h2{ font-family:"Space Grotesk",system-ui,sans-serif; font-size:2.3rem; margin:8px 0 12px; }
@@ -685,7 +671,7 @@
   <div class="hud-vignette" aria-hidden="true"></div>
 
   <header class="topbar">
-    <button class="brand-lock" type="button" data-anchor="inicio" aria-label="Ir al inicio">
+    <button class="brand-lock" type="button" data-go="hero" aria-label="Ir al inicio">
       <span class="brand-mark">OJ</span>
       <span>
         <strong>Diego Ojeda Cifuentes</strong>
@@ -694,12 +680,17 @@
     </button>
 
     <nav class="mode-switch" aria-label="Secciones">
-      <a href="#inicio" class="mode-btn active" data-anchor="inicio"><i data-lucide="gauge"></i><span>Inicio</span></a>
+      <a href="#hero" class="mode-btn active" data-anchor="hero"><i data-lucide="gauge"></i><span>Inicio</span></a>
+      <a href="#problema" class="mode-btn" data-anchor="problema"><i data-lucide="alert-circle"></i><span>Problema</span></a>
       <a href="#metodo" class="mode-btn" data-anchor="metodo"><i data-lucide="scroll-text"></i><span>Método</span></a>
-      <a href="#agente" class="mode-btn" data-anchor="agente"><i data-lucide="bot"></i><span>Agente</span></a>
-      <a href="#programa" class="mode-btn" data-anchor="programa"><i data-lucide="layers"></i><span>Programa</span></a>
-      <a href="#evaluacion" class="mode-btn" data-anchor="evaluacion"><i data-lucide="clipboard-check"></i><span>Evaluación</span></a>
-      <a href="#cierre" class="mode-btn" data-anchor="cierre"><i data-lucide="flag"></i><span>Cierre</span></a>
+      <a href="#prueba" class="mode-btn" data-anchor="prueba"><i data-lucide="flask-conical"></i><span>Prueba</span></a>
+      <a href="#curso" class="mode-btn" data-anchor="curso"><i data-lucide="layers"></i><span>Curso</span></a>
+      <a href="#beneficios" class="mode-btn" data-anchor="beneficios"><i data-lucide="award"></i><span>Beneficios</span></a>
+      <a href="#direccion" class="mode-btn" data-anchor="direccion"><i data-lucide="clipboard-check"></i><span>Dirección</span></a>
+      <a href="#decision" class="mode-btn" data-anchor="decision"><i data-lucide="flag"></i><span>Decisión</span></a>
+      <a href="#nota" class="mode-btn" data-anchor="nota"><i data-lucide="info"></i><span>Nota</span></a>
+      <span id="fx-articulo" aria-live="polite"></span>
+      <span id="fx-linea" aria-hidden="true"></span>
     </nav>
 
     <div class="system-readout">
@@ -712,15 +703,7 @@
   </header>
 
   <main class="shell">
-    <div id="inicio" class="macro-anchor" aria-hidden="true"></div>
-    <div id="metodo" class="macro-anchor" aria-hidden="true"></div>
-    <div id="agente" class="macro-anchor" aria-hidden="true"></div>
-    <div id="programa" class="macro-anchor" aria-hidden="true"></div>
-    <div id="evaluacion" class="macro-anchor" aria-hidden="true"></div>
-    <div id="cierre" class="macro-anchor" aria-hidden="true"></div>
-
-    <!-- ============ RESUMEN (para Aldunate) ============ -->
-    <section class="section-view active" id="s-resumen">
+    <section class="section-view macro" id="hero" data-fx-articulo="Inicio">
       <div class="hero">
         <div class="hero-copy">
           <span class="eyebrow">Propuesta piloto 2026 · Escuela de Derecho PUCV</span>
@@ -742,116 +725,20 @@
           <div class="spec-row"><i data-lucide="users"></i><div><b>Cupo acotado por laboratorio: 20–30</b><span>Escasez real y estructural, no urgencia de marketing.</span></div></div>
         </aside>
       </div>
+    </section>
 
-      <div class="marquee-thesis">
-        <span class="tag">Idea central</span>
-        <p>No diseñamos agentes para que respondan más. Diseñamos agentes para que respondan dentro de reglas.</p>
-      </div>
-
-      <div class="section-head"><span class="eyebrow">El problema</span><h2>La IA ya entró al Derecho, pero sin formación jurídica suficiente</h2></div>
+    <section class="section-view macro" id="problema" data-fx-articulo="El problema y la oportunidad">
+      <div class="section-head"><span class="eyebrow">El problema · y la oportunidad</span><h2>La IA ya entró al Derecho; la formación todavía no</h2>
+        <p>Los estudiantes ya usan IA —muchas veces sin criterios de verificación, trazabilidad ni responsabilidad— y la práctica legal avanza hacia flujos, agentes y automatización documental, no hacia prompts sueltos. Las escuelas pueden reaccionar prohibiendo, o responder formando.</p></div>
       <div class="grid-3">
         <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--coral)"><i data-lucide="alert-circle"></i></span><div class="lc-title"><b>Uso sin criterio</b></div></div><p class="lc-body" style="margin-top:8px">Los estudiantes ya usan herramientas de IA, muchas veces sin criterios de verificación, trazabilidad ni responsabilidad.</p></div>
         <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--coral)"><i data-lucide="scale"></i></span><div class="lc-title"><b>Respuesta formativa, no reactiva</b></div></div><p class="lc-body" style="margin-top:8px">Las escuelas de Derecho necesitan responder formando, no solo reaccionando o prohibiendo.</p></div>
         <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--coral)"><i data-lucide="workflow"></i></span><div class="lc-title"><b>El mercado va hacia sistemas</b></div></div><p class="lc-body" style="margin-top:8px">La práctica legal avanza hacia flujos, agentes y automatización documental, no solo hacia prompts aislados.</p></div>
       </div>
-
-      <div class="section-head"><span class="eyebrow">La oportunidad</span><h2>Transformar tradición jurídica en ventaja tecnológica</h2>
-        <p>La ventaja no está en abandonar la formación jurídica clásica, sino en usarla para gobernar tecnologías que otros solo aprenden a operar.</p></div>
-      <div class="grid-2">
-        <div class="card"><ul class="lc-steps" style="margin-top:2px">
-          <li>Derecho PUCV puede posicionarse tempranamente en formación jurídica aplicada a IA.</li>
-          <li>La tradición dogmática, constitucional, filosófica y argumentativa de la Escuela es una ventaja para diseñar sistemas responsables.</li>
-        </ul></div>
-        <div class="card"><ul class="lc-steps" style="margin-top:2px">
-          <li>La IA jurídica no es una moda tecnológica: es un nuevo campo de práctica, responsabilidad y diseño institucional.</li>
-          <li>La Escuela puede diferenciarse formando abogados que no solo usan herramientas, sino que saben evaluarlas, limitarlas y gobernarlas.</li>
-        </ul></div>
-      </div>
-
-      <div class="section-head"><span class="eyebrow">Qué gana Derecho PUCV</span><h2>Beneficios estratégicos para la Escuela</h2></div>
-      <div class="grid-3" id="ganaWrap"></div>
-
-      <div class="section-head"><span class="eyebrow">Qué se llevan los estudiantes</span><h2>De espectadores de la IA a constructores responsables</h2></div>
-      <div class="grid-3">
-        <div class="card stat-card"><span class="num">1 → 4</span><span class="lab">Escalera de competencia</span><small>Alfabetización → Usuario crítico → Constructor → Gobernador</small></div>
-        <div class="card stat-card"><span class="num">4</span><span class="lab">Capas que dominan</span><small>Prompt → Flujo → Herramienta → Agente</small></div>
-        <div class="card stat-card"><span class="num">100%</span><span class="lab">De las clases con práctica</span><small>No hay sesión sólo-teoría; tampoco práctica sin marco</small></div>
-        <div class="card stat-card"><span class="num">1</span><span class="lab">Prototipo defendible</span><small>Funcional, sobre datos reales (Supabase), evaluado al cierre</small></div>
-        <div class="card stat-card"><span class="num">Baja</span><span class="lab">Adopción de IA en la práctica legal chilena</span><small>Dato de mercado en validación · tendencia de industria regional</small></div>
-        <div class="card stat-card"><span class="num">3</span><span class="lab">Vacíos del benchmark que cubre</span><small>Construir · verificación troncal · ciberseguridad/anonimización</small></div>
-      </div>
-
-      <div class="section-head"><span class="eyebrow">El diferenciador en una frase</span><h2>Un perfil poco común, formado en casa</h2></div>
-      <div class="grid-2">
-        <a class="link-card" data-go="sello" role="button" tabindex="0" style="--accent:var(--mint)">
-          <div class="lc-head"><span class="lc-logo"><i data-lucide="scale"></i></span><div class="lc-title"><b>Derecho + filosofía + prototipado</b><span>la mezcla escasa</span></div></div>
-          <p class="lc-body">Construir herramientas útiles mientras se piensa críticamente su gobernanza y sus efectos. Eso es mucho más raro —y más valioso— que saber escribir un prompt.</p>
-          <div class="lc-foot"><span class="lc-url">Ver sello y competencias</span><span class="go">abrir <i data-lucide="arrow-right"></i></span></div>
-        </a>
-        <a class="link-card" data-go="herramientas" role="button" tabindex="0" style="--accent:var(--cyan)">
-          <div class="lc-head"><span class="lc-logo"><i data-lucide="git-branch-plus"></i></span><div class="lc-title"><b>Flujo docente reutilizable</b><span>Claude Code → GitHub → Vercel</span></div></div>
-          <p class="lc-body">El mercado premia a quien construye soluciones completas con IA, no sólo a quien prompea. El curso documenta un flujo real de desarrollo asistido por agentes y lo convierte en material de clase.</p>
-          <div class="lc-foot"><span class="lc-url">Ver el stack y los tutoriales</span><span class="go">abrir <i data-lucide="arrow-right"></i></span></div>
-        </a>
-      </div>
+      <p style="max-width:820px;color:var(--muted);font-size:1rem;line-height:1.6;margin:26px 0 0">Ahí está la oportunidad de la Escuela: su tradición dogmática, constitucional, filosófica y argumentativa es exactamente lo que se necesita para <b style="color:var(--white)">diseñar y gobernar</b> sistemas responsables — no solo para operarlos. Ese punto de partida tiene nombre propio: el <a href="#metodo">Método Constitucional</a>.</p>
     </section>
 
-    <!-- ============ EXPERIENCIA ============ -->
-    <section class="section-view" id="s-experiencia">
-      <div class="section-head"><span class="eyebrow">Cómo se vive el optativo</span><h2>Un semestre que empieza construyendo y termina defendiendo</h2>
-        <p>No se enseña IA "sobre la pizarra". Desde la primera sesión el estudiante levanta algo que funciona; cada semana lo hace más capaz, más verificado y más gobernado. La metodología es Aprendizaje Basado en Proyectos (ABP): siempre teórico-práctico.</p></div>
-
-      <div class="section-head"><span class="eyebrow">Anatomía de una sesión · 90 minutos</span><h2>La misma estructura, cada semana</h2></div>
-      <div class="session-bar">
-        <div class="session-seg theory"><span class="min">0 → 25 min</span><b>Marco jurídico-teórico</b><span>El concepto de la casa: normatividad, debido proceso, datos, responsabilidad. La teoría que hace de brújula.</span></div>
-        <div class="session-seg lab"><span class="min">25 → 75 min</span><b>Laboratorio: construir</b><span>Manos en el teclado. Se levanta o mejora el prototipo con el agente y el stack del día. Producir, no mirar.</span></div>
-        <div class="session-seg gov"><span class="min">75 → 90 min</span><b>Verificación + gobernanza</b><span>¿Funciona? ¿Es correcto? ¿Cumple la ley? Se audita lo construido y se anota la decisión en la "Constitución".</span></div>
-      </div>
-
-      <div class="section-head"><span class="eyebrow">El arco del semestre</span><h2>Cinco momentos de la experiencia</h2></div>
-      <div class="grid-2" id="expSteps"></div>
-
-      <div class="note"><i data-lucide="shield-check"></i><div>El prototipo final se evalúa por funcionamiento real (corre sobre Supabase), por corrección jurídica y por la calidad de su gobernanza —su "Constitución"—, no por la estética de una presentación.</div></div>
-    </section>
-
-    <!-- ============ RUTA / MÓDULOS ============ -->
-    <section class="section-view" id="s-ruta">
-      <div class="section-head"><span class="eyebrow">Programa · 16 semanas · de usar con criterio a gobernar sistemas</span><h2>La ruta: usar bien, construir, verificar y gobernar</h2>
-        <p>Arranca dominando las herramientas base, la investigación asistida y la economía de contexto; muy pronto el estudiante construye y despliega un prototipo (Claude Code → GitHub → Vercel) que se vuelve la columna vertebral. Sobre él se cuelgan la Constitución del agente, los datos, la verificación, la regulación y la gobernanza, semana a semana. Clic en cada módulo para ver teoría · práctica · entregable.</p></div>
-
-      <div class="card" style="margin-bottom:20px">
-        <div class="lc-head"><span class="lc-logo" style="--accent:var(--gold)"><i data-lucide="scroll-text"></i></span>
-          <div class="lc-title"><b>El Método Constitucional atraviesa todo el programa</b><span>no es una sección ornamental</span></div></div>
-        <p class="lc-body" style="margin:12px 0 10px">Cada módulo aplica el método sobre el prototipo del estudiante, en este orden recurrente:</p>
-        <ol class="lc-steps" style="counter-reset:mc; margin:0; padding-left:0; list-style:none">
-          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">1</span>Identificación de problemas</li>
-          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">2</span>Diseño de agentes</li>
-          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">3</span>Redacción de la Constitución del agente</li>
-          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">4</span>Definición de fuentes</li>
-          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">5</span>Construcción de funciones</li>
-          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">6</span>Verificación de respuestas</li>
-          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">7</span>Evaluación de riesgos</li>
-          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">8</span>Defensa final del diseño</li>
-        </ol>
-      </div>
-
-      <div id="modWrap"></div>
-      <div class="note"><i data-lucide="book-marked"></i><div>Bibliografía doctrinal específica <b>a curar por la cátedra</b>. <b>Estado regulatorio actualizado al 1 de julio de 2026:</b> Ley 21.719 publicada (crea la Agencia de Protección de Datos Personales), con entrada en vigencia diferida al 1 de diciembre de 2026; proyecto de ley que regula sistemas de IA en <b>segundo trámite constitucional</b> (Boletín 16.821-19, refundido con el 15.869-19).</div></div>
-    </section>
-
-    <!-- ============ HERRAMIENTAS / STACK ============ -->
-    <section class="section-view" id="s-herramientas">
-      <div class="section-head"><span class="eyebrow">El stack del abogado constructor</span><h2>Herramientas, cuenta paso a paso y flujo de trabajo ideal</h2>
-        <p>Cada tarjeta es un acceso directo: haz clic en cualquier parte del recuadro para abrir el sitio oficial. No se enseña a depender de un solo ecosistema: se compara y se elige con criterio. El flujo troncal del curso es <b style="color:var(--cyan)">Claude Code → GitHub → Vercel</b>, con datos en Supabase.</p></div>
-      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Flujo troncal</span><h2 style="font-size:1.4rem">Construir · versionar · publicar · persistir</h2></div>
-      <div class="grid-4" id="toolsCore"></div>
-      <div class="section-head"><span class="eyebrow">Agentes y conocimiento</span><h2 style="font-size:1.4rem">Comparar modelos, no casarse con uno</h2></div>
-      <div class="grid-4" id="toolsAgents"></div>
-      <div class="note"><i data-lucide="alert-triangle"></i><div>Características y planes de cada producto <b>a verificar a la fecha</b> (cambian seguido). El curso enseña el criterio para evaluarlos, no a memorizar menús.</div></div>
-    </section>
-
-    <!-- ============ SELLO / COMPETENCIAS ============ -->
-    <section class="section-view macro-lead" id="s-metodo-intro">
+    <section class="section-view macro" id="metodo" data-fx-articulo="El Método Constitucional">
       <div class="section-head"><span class="eyebrow">El sello de la casa</span><h2 style="font-size:2.1rem">Método Constitucional</h2>
         <p class="macro-lede">La arquitectura de la casa para crear agentes gobernados.</p>
         <p>El Método Constitucional permite crear agentes que no operan como chatbots libres, sino como sistemas gobernados por mandato, reglas, principios, fuentes autorizadas, verificación y mantenimiento. Cada agente construido bajo este método tiene una <b style="color:var(--white)">Constitución propia</b>: un documento que define su finalidad, competencia, límites, fuentes, funciones, advertencias, criterios de revisión y condiciones de escalamiento humano.</p>
@@ -859,12 +746,31 @@
       </div>
       <div class="marquee-thesis" style="margin-bottom:30px">
         <span class="tag">Frase visual</span>
-        <p>Cada agente responde desde una Constitución, no desde la improvisación.</p>
+        <p class="fx-frase">Cada agente responde desde una Constitución, no desde la improvisación.</p>
       </div>
       <div class="arch" id="archWrap"></div>
-    </section>
+    
 
-    <section class="section-view" id="s-sello">
+
+      <div class="section-head"><span class="eyebrow">Qué es un agente bajo el método</span><h2>El agente como institución mínima</h2></div>
+
+      <div class="escalation">
+        <div class="esc-line"><span class="esc-n">01</span><p>Un chatbot responde.</p></div>
+        <div class="esc-line"><span class="esc-n">02</span><p>Un agente ejecuta.</p></div>
+        <div class="esc-line final"><span class="esc-n">03</span><p>Un agente constitucionalmente diseñado actúa dentro de reglas.</p></div>
+      </div>
+
+      <p class="lc-body" style="max-width:760px;font-size:0.98rem;margin-bottom:18px">Bajo el Método Constitucional, un agente se entiende como una <b style="color:var(--white)">institución mínima</b>. Tiene mandato, competencia, fuentes, procedimiento, control y responsabilidad. No actúa fuera de su finalidad, no afirma sin fuente, no oculta incertidumbre y no reemplaza la revisión humana cuando su Constitución exige escalar.</p>
+      <details class="exp" style="margin-bottom:24px"><summary>La versión larga: por qué una institución y no una herramienta</summary>
+        <p>Un agente no es un chatbot libre: es una institución mínima. Tiene mandato, competencia, fuentes, procedimiento, control y responsabilidad. Igual que un órgano público no puede actuar fuera de su competencia, un agente constitucionalmente diseñado no actúa fuera de su finalidad, no afirma sin fuente, no oculta incertidumbre y no reemplaza la revisión humana cuando su Constitución exige escalar. La pregunta por la finalidad, el ámbito y los límites de un poder que actúa no es nueva para el Derecho: es su pregunta constitucional central, aplicada a un nuevo tipo de actor.</p>
+      </details>
+
+      <div class="grid-4" id="instWrap"></div>
+
+      
+    
+
+
       <div class="section-head"><span class="eyebrow">Pieza operativa del método</span><h2>La Constitución del agente</h2>
         <p>Redactar la "constitución" de un agente —sus reglas duras, sus preferencias y el porqué de cada una— es teoría de la normatividad aplicada a un sistema que actúa. Es un sello anclado en la tradición teórica de la Escuela, difícil de copiar e imposible de improvisar.</p></div>
 
@@ -881,7 +787,9 @@
         <div class="note" style="margin-top:14px"><i data-lucide="landmark"></i><div>Preguntar por la <b>finalidad</b>, el <b>ámbito</b> y los <b>límites</b> de un poder que actúa no es una pregunta nueva para el Derecho: es su pregunta constitucional central. Aplicarla al diseño de un agente de IA no es importar una lógica ajena a la Escuela — es extender su tradición de control del poder a un nuevo tipo de actor.</div></div>
       </div>
 
-      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Anatomía de una Constitución</span><h2 style="font-size:1.5rem">Nueve capas normativas, no una lista plana</h2>
+      
+
+<div class="section-head" style="margin-top:8px"><span class="eyebrow">Anatomía de una Constitución</span><h2 style="font-size:1.5rem">Nueve capas normativas, no una lista plana</h2>
         <p>Así se redacta una Constitución dentro del Método Constitucional. Una intención entra, atraviesa capas normativas y sale como acción permitida, respuesta limitada o derivación humana. Selecciona una capa para ver qué controla.</p></div>
       <div class="cmf">
         <div class="cmf-stack">
@@ -893,157 +801,25 @@
       </div>
       <div class="cmf-print" id="cmfPrint"></div>
 
-      <div class="section-head" style="margin-top:6px"><span class="eyebrow">Escalera de competencia</span><h2 style="font-size:1.4rem">El optativo lleva del 1 al 3</h2></div>
-      <div class="ladder">
-        <div class="rung"><span class="lvl">Nivel 1</span><b>Alfabetización</b><span>Entender qué es y qué no es la IA.</span></div>
-        <div class="rung"><span class="lvl">Nivel 2</span><b>Usuario crítico</b><span>Verificar, dudar, anonimizar.</span></div>
-        <div class="rung cap"><span class="lvl">Nivel 3</span><b>Constructor</b><span>Levantar herramientas que funcionan.</span></div>
-        <div class="rung"><span class="lvl">Nivel 4</span><b>Arquitecto / Gobernador</b><span>Reservado al trayecto de egresados.</span></div>
-      </div>
+      
 
-      <div class="section-head"><span class="eyebrow">Diferenciadores · el terreno libre</span><h2 style="font-size:1.4rem">Cinco cosas que el benchmark casi no enseña</h2></div>
-      <div class="grid-3" id="diffWrap"></div>
-
-      <div class="section-head"><span class="eyebrow">Mapa competitivo</span><h2 style="font-size:1.4rem">Dónde queda el hueco frente al curso típico de IA + Derecho</h2>
-        <p>No comparamos contra una escuela nombrada: comparamos contra el <b style="color:var(--white)">enfoque típico</b> de un curso de IA aplicada al Derecho, tal como circula hoy en el mercado (talleres de prompting, uso de ChatGPT, alfabetización general).</p></div>
-      <div class="card" style="overflow-x:auto">
-        <table class="rtable" id="compTable"></table>
-      </div>
-      <div class="note"><i data-lucide="info"></i><div>Comparación construida sobre el enfoque genérico observado en la oferta de mercado 2025–26, <b>a reconfirmar con fuentes públicas</b> antes de citarla frente a la Dirección. No se nombra a ninguna escuela ni proveedor específico.</div></div>
-
-      <div class="section-head"><span class="eyebrow">La teoría jurídica convertida en diseño</span><h2 style="font-size:1.4rem">El Método Constitucional no inventa teoría: la aplica</h2>
+<div class="section-head"><span class="eyebrow">La teoría jurídica convertida en diseño</span><h2 style="font-size:1.4rem">El Método Constitucional no inventa teoría: la aplica</h2>
         <p>Un bloque breve, no una clase eterna de filosofía del derecho: cada tradición aporta una intuición concreta al diseño de un agente gobernado.</p></div>
       <div class="card" style="overflow-x:auto">
         <table class="rtable" id="doctrineTable"></table>
       </div>
       <div class="note"><i data-lucide="sparkles"></i><div>Anthropic aparece solo como <b>referencia conceptual secundaria</b>, no como centro del curso. El Método Constitucional toma la intuición de la alineación por principios y la convierte en una metodología de diseño y mantenimiento de agentes — el eje sigue siendo la tradición jurídica de la Escuela.</div></div>
 
-      <div class="section-head"><span class="eyebrow">Competencias que se llevan al mercado</span><h2 style="font-size:1.4rem">Empleabilidad concreta, no promesas</h2></div>
-      <div class="grid-3" id="compWrap"></div>
+      
 
-      <div class="section-head"><span class="eyebrow">Perfil de egreso del curso</span><h2 style="font-size:1.4rem">Un abogado que diseña, dirige y evalúa sistemas</h2>
-        <p>No se forma un programador: se forma un abogado capaz de gobernar tecnología. Al terminar el curso, el estudiante puede:</p></div>
-      <div class="grid-2">
-        <div class="card"><ul class="lc-steps">
-          <li>Identificar problemas jurídicos susceptibles de apoyo tecnológico.</li>
-          <li>Diseñar un flujo jurídico asistido por IA.</li>
-          <li>Construir un prototipo funcional básico.</li>
-          <li>Evaluar riesgos de error, sesgo, opacidad y mal uso.</li>
-          <li>Verificar resultados con fuentes y criterios jurídicos.</li>
-        </ul></div>
-        <div class="card"><ul class="lc-steps">
-          <li>Documentar límites, instrucciones y reglas de operación.</li>
-          <li>Defender técnica y jurídicamente las decisiones de diseño.</li>
-          <li>Distinguir entre automatizar, asistir, recomendar y decidir.</li>
-          <li>Comprender la responsabilidad profesional en el uso de IA.</li>
-        </ul></div>
-      </div>
 
-      <div class="note"><i data-lucide="info"></i><div>Comparaciones con otras escuelas basadas en fuentes públicas 2025–26, <b>a reconfirmar</b>. La única escasez que afirmamos es la real: cupo acotado por capacidad de laboratorio (20–30).</div></div>
-    </section>
-
-    <!-- ============ EGRESADOS ============ -->
-    <section class="section-view" id="s-egresados">
-      <div class="section-head"><span class="eyebrow">Educación continua · la misma lógica, otra audiencia</span><h2>Tres propuestas. Tres contenidos. Una transformación.</h2>
-        <p><b style="color:var(--white)">Propuesta independiente del optativo de pregrado</b>, pensada para educación continua. No hay un solo curso: hay <b style="color:var(--white)">tres programas distintos y secuenciables</b>, cada uno con su propio contenido, formato y entregable. Se contratan por separado o se recorren como ruta. Las cargas horarias son estimadas y se ajustan al formato definitivo de educación continua.</p></div>
-
-      <div class="track-intro">
-        <div class="track-step"><span class="st">Programa 1 · usa</span><b>Abogado Aumentado</b><span>Le pierde el miedo a la IA y delega con criterio.</span><i class="ar" data-lucide="chevron-right"></i></div>
-        <div class="track-step"><span class="st">Programa 2 · construye</span><b>Ingeniero Jurídico</b><span>Deja de usar herramientas ajenas: construye las suyas.</span><i class="ar" data-lucide="chevron-right"></i></div>
-        <div class="track-step"><span class="st">Programa 3 · gobierna</span><b>Arquitecto Jurídico-Algorítmico</b><span>Diseña y gobierna sistemas, no solo herramientas.</span></div>
-      </div>
-
-      <div class="programs" id="programsWrap"></div>
-
-      <div class="note"><i data-lucide="route"></i><div>Secuencia recomendada: <b>pilotear el Programa 1 primero</b> (bajo costo, valida demanda y certifica cumplimiento de la Ley 21.719); recién después abrir el 2 y el 3. No lanzar el trayecto completo antes de validar demanda.</div></div>
-
-      <div class="grid-2" style="margin-top:14px">
-        <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--cyan)"><i data-lucide="git-compare"></i></span><div class="lc-title"><b>Qué cambia respecto del optativo</b><span>otra audiencia, otros requisitos</span></div></div>
-          <ul class="lc-steps" style="margin-top:10px">
-            <li>Profesionales con experiencia: trabajan sobre casos reales de su práctica.</li>
-            <li>Carga horaria mayor y comprimida (formato educación continua).</li>
-            <li>Más peso en cumplimiento, ciberseguridad y responsabilidad profesional.</li>
-            <li>Entregable: una herramienta o sistema desplegable para su propio ejercicio.</li>
-          </ul>
-        </div>
-        <div class="card"><div class="lc-head"><span class="lc-logo" style="--accent:var(--gold)"><i data-lucide="target"></i></span><div class="lc-title"><b>Por qué importa para la Escuela</b><span>posicionamiento e ingreso recurrente</span></div></div>
-          <ul class="lc-steps" style="margin-top:10px">
-            <li>Línea de investigación: responsabilidad del abogado asistido por agentes.</li>
-            <li>Auditoría de decisiones automatizadas y gobernanza de sistemas jurídicos.</li>
-            <li>Contraste con el Reglamento de IA de la UE y su impacto en Latinoamérica.</li>
-            <li>Ingreso recurrente vía educación continua, con sello propio PUCV.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ LOGÍSTICA / PILOTO ============ -->
-    <section class="section-view" id="s-logistica">
-      <div class="section-head"><span class="eyebrow">Para la Dirección · lo operativo</span><h2>Requisitos, evaluación, calendario y riesgos</h2>
-        <p>El paquete que la Escuela necesita para decidir: qué hace falta, cómo se evalúa, cómo se distribuyen las 16 semanas y cómo se mitigan los riesgos. Se propone un piloto acotado, medible y de bajo riesgo institucional.</p></div>
-
-      <div class="section-head" style="margin-top:6px"><span class="eyebrow">Requisitos</span><h2 style="font-size:1.4rem">Bajo costo, sin barreras técnicas</h2></div>
-      <div class="grid-4" id="reqWrap"></div>
-
-      <div class="section-head"><span class="eyebrow">Evaluación</span><h2 style="font-size:1.4rem">Rúbrica del proyecto final</h2>
-        <p>Cada grupo no entrega una app: entrega un <b style="color:var(--white)">agente gobernado</b>, evaluado como tal.</p></div>
-      <div class="card" id="rubricWrap"></div>
-      <div class="marquee-thesis"><span class="tag">Frase clave</span><p>El estudiante no entrega solo una herramienta. Entrega una herramienta gobernada.</p></div>
-
-      <div class="section-head"><span class="eyebrow">Calendario · 16 semanas</span><h2 style="font-size:1.4rem">Ruta semana a semana</h2></div>
-      <div id="calWrap"></div>
-
-      <div class="section-head"><span class="eyebrow">Tranquilidad institucional</span><h2 style="font-size:1.4rem">Riesgos previsibles y mitigaciones</h2></div>
-      <div class="card" id="riskWrap"></div>
-
-      <div class="section-head"><span class="eyebrow">Piloto 2026</span><h2 style="font-size:1.4rem">Acotado, medible, escalable</h2></div>
-      <div class="card" id="pilotoWrap"></div>
-
-      <div class="section-head"><span class="eyebrow">Preguntas que conviene responder antes de implementar</span><h2 style="font-size:1.4rem">Objeciones frecuentes</h2></div>
-      <div class="faq">
-        <details><summary>¿Y si los estudiantes no saben programar?</summary><p>El curso está diseñado para estudiantes sin base técnica: plantillas, componentes guiados, repositorios base y acompañamiento paso a paso. Se evalúa el razonamiento jurídico, no la complejidad informática.</p></details>
-        <details><summary>¿Esto reemplaza la formación jurídica tradicional?</summary><p>No. La presupone y la potencia: usa la tradición dogmática, constitucional y argumentativa de la Escuela para diseñar y gobernar sistemas, no para sustituirla.</p></details>
-        <details><summary>¿Qué pasa con errores o alucinaciones?</summary><p>La verificación es competencia troncal: revisión humana obligatoria, contraste con fuentes y bitácora de pruebas en cada entrega.</p></details>
-        <details><summary>¿Qué datos se usarán?</summary><p>Casos ficticios, públicos o anonimizados, con criterios de minimización y tratamiento responsable de datos desde el diseño.</p></details>
-        <details><summary>¿Depende de una sola herramienta?</summary><p>No. Se comparan modelos y se enseñan principios transferibles, para no generar dependencia de un proveedor.</p></details>
-        <details><summary>¿Cómo se evalúa?</summary><p>Por proyecto, con rúbrica explícita: prototipo, corrección jurídica, verificación, Constitución del agente, matriz de riesgos y defensa final.</p></details>
-        <details><summary>¿Qué costo institucional tiene?</summary><p>Bajo: la mayor parte del stack tiene plan gratuito suficiente. Basta una sala con internet y proyector; idealmente un laboratorio de computación.</p></details>
-        <details><summary>¿Cómo puede escalar después del piloto?</summary><p>Optativo permanente, educación continua para egresados, talleres para estudios jurídicos, línea de investigación aplicada y vinculación con el medio.</p></details>
-      </div>
-
-      <div class="note"><i data-lucide="info"></i><div>Evaluación formativa continua + sumativa final. Calendario y pesos referenciales, ajustables al calendario académico y a los reglamentos de la PUCV.</div></div>
-    </section>
-
-    <!-- ============ EL AGENTE COMO INSTITUCIÓN MÍNIMA ============ -->
-    <section class="section-view" id="s-agente-intro">
-      <div class="section-head"><span class="eyebrow">Qué es un agente bajo el método</span><h2>El agente como institución mínima</h2></div>
-
-      <div class="escalation">
-        <div class="esc-line"><span class="esc-n">01</span><p>Un chatbot responde.</p></div>
-        <div class="esc-line"><span class="esc-n">02</span><p>Un agente ejecuta.</p></div>
-        <div class="esc-line final"><span class="esc-n">03</span><p>Un agente constitucionalmente diseñado actúa dentro de reglas.</p></div>
-      </div>
-
-      <p class="lc-body" style="max-width:760px;font-size:0.98rem;margin-bottom:24px">Bajo el Método Constitucional, un agente se entiende como una <b style="color:var(--white)">institución mínima</b>. Tiene mandato, competencia, fuentes, procedimiento, control y responsabilidad. No actúa fuera de su finalidad, no afirma sin fuente, no oculta incertidumbre y no reemplaza la revisión humana cuando su Constitución exige escalar.</p>
-
-      <div class="grid-4" id="instWrap"></div>
-
-      <div class="marquee-thesis" style="margin-top:26px">
-        <span class="tag">Frase clave</span>
-        <p>Un agente no es un chatbot libre. Es una institución mínima: tiene mandato, competencia, fuentes, procedimiento, control y responsabilidad.</p>
-      </div>
-    </section>
-
-    <!-- ============ CICLO DE VIDA DEL AGENTE ============ -->
-    <section class="section-view" id="s-ciclo-vida">
       <div class="section-head"><span class="eyebrow">El método en la práctica, no solo en la teoría</span><h2>Ciclo de vida del agente</h2>
         <p>El Método Constitucional no termina cuando el agente se despliega: sigue tres momentos operativos, cada uno con su propio flujo.</p></div>
       <div class="cycle-bar" id="cycleWrap"></div>
-      <div class="marquee-thesis"><span class="tag">Frase clave</span><p>Un agente no se termina: se mantiene.</p></div>
+      <p style="color:var(--muted);font-size:0.95rem;margin:6px 0 0"><i>Un agente no se termina: se mantiene.</i></p>
     </section>
 
-    <!-- ============ DEMO INTERACTIVA ============ -->
-    <section class="section-view" id="s-demo">
+    <section class="section-view macro" id="prueba" data-fx-articulo="La prueba">
       <div class="section-head"><span class="eyebrow">Ese mismo agente, en código</span><h2>Cómo se vería un agente terminado por estudiantes</h2>
         <p>Maqueta de una interfaz funcional —pedagógica, no comercial—. Así podría verse un prototipo de revisión contractual al final del curso: asiste, advierte, verifica y deriva; nunca decide ni promete asesoría jurídica.</p></div>
 
@@ -1183,8 +959,148 @@
       <div class="note"><i data-lucide="shield-alert"></i><div>Demostración con datos ficticios. Refuerza el punto central: el estudiante no solo usa IA — diseña un sistema que explica qué hace, con qué fuentes opera y cuándo debe detenerse.</div></div>
     </section>
 
-    <!-- ============ CIERRE: DECISIÓN SOLICITADA ============ -->
-    <section class="section-view" id="s-decision">
+    <section class="section-view macro" id="curso" data-fx-articulo="Cómo se vive el curso">
+      <div class="section-head"><span class="eyebrow">Cómo se vive el optativo</span><h2>Un semestre que empieza construyendo y termina defendiendo</h2>
+        <p>No se enseña IA "sobre la pizarra". Desde la primera sesión el estudiante levanta algo que funciona; cada semana lo hace más capaz, más verificado y más gobernado. La metodología es Aprendizaje Basado en Proyectos (ABP): siempre teórico-práctico.</p></div>
+
+      <div class="section-head"><span class="eyebrow">Anatomía de una sesión · 90 minutos</span><h2>La misma estructura, cada semana</h2></div>
+      <div class="session-bar">
+        <div class="session-seg theory"><span class="min">0 → 25 min</span><b>Marco jurídico-teórico</b><span>El concepto de la casa: normatividad, debido proceso, datos, responsabilidad. La teoría que hace de brújula.</span></div>
+        <div class="session-seg lab"><span class="min">25 → 75 min</span><b>Laboratorio: construir</b><span>Manos en el teclado. Se levanta o mejora el prototipo con el agente y el stack del día. Producir, no mirar.</span></div>
+        <div class="session-seg gov"><span class="min">75 → 90 min</span><b>Verificación + gobernanza</b><span>¿Funciona? ¿Es correcto? ¿Cumple la ley? Se audita lo construido y se anota la decisión en la "Constitución".</span></div>
+      </div>
+
+      <div class="section-head"><span class="eyebrow">El arco del semestre</span><h2>Cinco momentos de la experiencia</h2></div>
+      <div class="grid-2" id="expSteps"></div>
+
+      <div class="note"><i data-lucide="shield-check"></i><div>El prototipo final se evalúa por funcionamiento real (corre sobre Supabase), por corrección jurídica y por la calidad de su gobernanza —su "Constitución"—, no por la estética de una presentación.</div></div>
+    
+
+
+      <div class="section-head"><span class="eyebrow">Programa · 16 semanas · de usar con criterio a gobernar sistemas</span><h2>La ruta: usar bien, construir, verificar y gobernar</h2>
+        <p>Arranca dominando las herramientas base, la investigación asistida y la economía de contexto; muy pronto el estudiante construye y despliega un prototipo (Claude Code → GitHub → Vercel) que se vuelve la columna vertebral. Sobre él se cuelgan la Constitución del agente, los datos, la verificación, la regulación y la gobernanza, semana a semana. Clic en cada módulo para ver teoría · práctica · entregable.</p></div>
+
+      <div class="card" style="margin-bottom:20px">
+        <div class="lc-head"><span class="lc-logo" style="--accent:var(--gold)"><i data-lucide="scroll-text"></i></span>
+          <div class="lc-title"><b>El Método Constitucional atraviesa todo el programa</b><span>no es una sección ornamental</span></div></div>
+        <p class="lc-body" style="margin:12px 0 10px">Cada módulo aplica el método sobre el prototipo del estudiante, en este orden recurrente:</p>
+        <ol class="lc-steps" style="counter-reset:mc; margin:0; padding-left:0; list-style:none">
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">1</span>Identificación de problemas</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">2</span>Diseño de agentes</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">3</span>Redacción de la Constitución del agente</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">4</span>Definición de fuentes</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">5</span>Construcción de funciones</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">6</span>Verificación de respuestas</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">7</span>Evaluación de riesgos</li>
+          <li style="display:flex;gap:8px"><span style="color:var(--gold);font-family:'JetBrains Mono',monospace;flex:0 0 18px">8</span>Defensa final del diseño</li>
+        </ol>
+      </div>
+
+      <div id="modWrap"></div>
+    
+
+
+      <div class="section-head"><span class="eyebrow">El stack del abogado constructor</span><h2>Herramientas, cuenta paso a paso y flujo de trabajo ideal</h2>
+        <p>Cada tarjeta es un acceso directo: haz clic en cualquier parte del recuadro para abrir el sitio oficial. No se enseña a depender de un solo ecosistema: se compara y se elige con criterio. El flujo troncal del curso es <b style="color:var(--cyan)">Claude Code → GitHub → Vercel</b>, con datos en Supabase.</p></div>
+      <div class="section-head" style="margin-top:8px"><span class="eyebrow">Flujo troncal</span><h2 style="font-size:1.4rem">Construir · versionar · publicar · persistir</h2></div>
+      <div class="grid-4" id="toolsCore"></div>
+      <div class="section-head"><span class="eyebrow">Agentes y conocimiento</span><h2 style="font-size:1.4rem">Comparar modelos, no casarse con uno</h2></div>
+      <div class="grid-4" id="toolsAgents"></div>
+    </section>
+
+    <section class="section-view macro" id="beneficios" data-fx-articulo="Beneficios y perfil de egreso">
+      <div class="section-head"><span class="eyebrow">Qué gana Derecho PUCV</span><h2>Beneficios estratégicos para la Escuela</h2></div>
+      <div class="grid-3" id="ganaWrap"></div>
+
+      
+<div class="section-head"><span class="eyebrow">Qué se llevan los estudiantes</span><h2>De espectadores de la IA a constructores responsables</h2></div>
+      <div class="grid-3">
+        <div class="card stat-card"><span class="num">1 → 4</span><span class="lab">Escalera de competencia</span><small>Alfabetización → Usuario crítico → Constructor → Gobernador</small></div>
+        <div class="card stat-card"><span class="num">4</span><span class="lab">Capas que dominan</span><small>Prompt → Flujo → Herramienta → Agente</small></div>
+        <div class="card stat-card"><span class="num">100%</span><span class="lab">De las clases con práctica</span><small>No hay sesión sólo-teoría; tampoco práctica sin marco</small></div>
+        <div class="card stat-card"><span class="num">1</span><span class="lab">Prototipo defendible</span><small>Funcional, sobre datos reales (Supabase), evaluado al cierre</small></div>
+      </div>
+
+      
+<div class="section-head" style="margin-top:6px"><span class="eyebrow">Escalera de competencia</span><h2 style="font-size:1.4rem">El optativo lleva del 1 al 3</h2></div>
+      <div class="ladder">
+        <div class="rung"><span class="lvl">Nivel 1</span><b>Alfabetización</b><span>Entender qué es y qué no es la IA.</span></div>
+        <div class="rung"><span class="lvl">Nivel 2</span><b>Usuario crítico</b><span>Verificar, dudar, anonimizar.</span></div>
+        <div class="rung cap"><span class="lvl">Nivel 3</span><b>Constructor</b><span>Levantar herramientas que funcionan.</span></div>
+        <div class="rung"><span class="lvl">Nivel 4</span><b>Arquitecto / Gobernador</b><span>Reservado al trayecto de egresados.</span></div>
+      </div>
+
+      
+<div class="section-head"><span class="eyebrow">Diferenciadores · el terreno libre</span><h2 style="font-size:1.4rem">Cinco cosas que el benchmark casi no enseña</h2></div>
+      <div class="grid-3" id="diffWrap"></div>
+
+      
+      <div class="section-head"><span class="eyebrow">Vacíos que este curso cubre</span><h2 style="font-size:1.4rem">Lo que casi nadie enseña — y aquí es troncal</h2>
+        <p>Posicionamiento en positivo: estas son las competencias que la oferta formativa habitual deja fuera y que en este optativo son columna vertebral, evaluadas en la rúbrica.</p></div>
+      <div class="card" style="overflow-x:auto">
+        <table class="rtable" id="compTable"></table>
+      </div>
+
+<div class="section-head"><span class="eyebrow">Competencias que se llevan al mercado</span><h2 style="font-size:1.4rem">Empleabilidad concreta, no promesas</h2></div>
+      <div class="grid-3" id="compWrap"></div>
+
+      
+<div class="section-head"><span class="eyebrow">Perfil de egreso del curso</span><h2 style="font-size:1.4rem">Un abogado que diseña, dirige y evalúa sistemas</h2>
+        <p>No se forma un programador: se forma un abogado capaz de gobernar tecnología. Al terminar el curso, el estudiante puede:</p></div>
+      <div class="grid-2">
+        <div class="card"><ul class="lc-steps">
+          <li>Identificar problemas jurídicos susceptibles de apoyo tecnológico.</li>
+          <li>Diseñar un flujo jurídico asistido por IA.</li>
+          <li>Construir un prototipo funcional básico.</li>
+          <li>Evaluar riesgos de error, sesgo, opacidad y mal uso.</li>
+          <li>Verificar resultados con fuentes y criterios jurídicos.</li>
+        </ul></div>
+        <div class="card"><ul class="lc-steps">
+          <li>Documentar límites, instrucciones y reglas de operación.</li>
+          <li>Defender técnica y jurídicamente las decisiones de diseño.</li>
+          <li>Distinguir entre automatizar, asistir, recomendar y decidir.</li>
+          <li>Comprender la responsabilidad profesional en el uso de IA.</li>
+        </ul></div>
+      </div>
+    </section>
+
+    <section class="section-view macro" id="direccion" data-fx-articulo="Para la Dirección">
+      <div class="section-head"><span class="eyebrow">Para la Dirección · lo operativo</span><h2>Requisitos, evaluación, calendario y riesgos</h2>
+        <p>El paquete que la Escuela necesita para decidir: qué hace falta, cómo se evalúa, cómo se distribuyen las 16 semanas y cómo se mitigan los riesgos. Se propone un piloto acotado, medible y de bajo riesgo institucional.</p></div>
+
+      <div class="section-head" style="margin-top:6px"><span class="eyebrow">Requisitos</span><h2 style="font-size:1.4rem">Bajo costo, sin barreras técnicas</h2></div>
+      <div class="grid-4" id="reqWrap"></div>
+
+      <div class="section-head"><span class="eyebrow">Evaluación</span><h2 style="font-size:1.4rem">Rúbrica del proyecto final</h2>
+        <p>Cada grupo no entrega una app: entrega un <b style="color:var(--white)">agente gobernado</b>, evaluado como tal.</p></div>
+      <div class="card" id="rubricWrap"></div>
+      
+
+      <div class="section-head"><span class="eyebrow">Calendario · 16 semanas</span><h2 style="font-size:1.4rem">Ruta semana a semana</h2></div>
+      <div id="calWrap"></div>
+
+      <div class="section-head"><span class="eyebrow">Tranquilidad institucional</span><h2 style="font-size:1.4rem">Riesgos previsibles y mitigaciones</h2></div>
+      <div class="card" id="riskWrap"></div>
+
+      <div class="section-head"><span class="eyebrow">Piloto 2026</span><h2 style="font-size:1.4rem">Acotado, medible, escalable</h2></div>
+      <div class="card" id="pilotoWrap"></div>
+
+      <div class="section-head"><span class="eyebrow">Preguntas que conviene responder antes de implementar</span><h2 style="font-size:1.4rem">Objeciones frecuentes</h2></div>
+      <div class="faq">
+        <details><summary>¿Y si los estudiantes no saben programar?</summary><p>El curso está diseñado para estudiantes sin base técnica: plantillas, componentes guiados, repositorios base y acompañamiento paso a paso. Se evalúa el razonamiento jurídico, no la complejidad informática.</p></details>
+        <details><summary>¿Esto reemplaza la formación jurídica tradicional?</summary><p>No. La presupone y la potencia: usa la tradición dogmática, constitucional y argumentativa de la Escuela para diseñar y gobernar sistemas, no para sustituirla.</p></details>
+        <details><summary>¿Qué pasa con errores o alucinaciones?</summary><p>La verificación es competencia troncal: revisión humana obligatoria, contraste con fuentes y bitácora de pruebas en cada entrega.</p></details>
+        <details><summary>¿Qué datos se usarán?</summary><p>Casos ficticios, públicos o anonimizados, con criterios de minimización y tratamiento responsable de datos desde el diseño.</p></details>
+        <details><summary>¿Depende de una sola herramienta?</summary><p>No. Se comparan modelos y se enseñan principios transferibles, para no generar dependencia de un proveedor.</p></details>
+        <details><summary>¿Cómo se evalúa?</summary><p>Por proyecto, con rúbrica explícita: prototipo, corrección jurídica, verificación, Constitución del agente, matriz de riesgos y defensa final.</p></details>
+        <details><summary>¿Qué costo institucional tiene?</summary><p>Bajo: la mayor parte del stack tiene plan gratuito suficiente. Basta una sala con internet y proyector; idealmente un laboratorio de computación.</p></details>
+        <details><summary>¿Cómo puede escalar después del piloto?</summary><p>Optativo permanente, educación continua para egresados, talleres para estudios jurídicos, línea de investigación aplicada y vinculación con el medio.</p></details>
+      </div>
+
+      <div class="note"><i data-lucide="info"></i><div>Evaluación formativa continua + sumativa final. Calendario y pesos referenciales, ajustables al calendario académico y a los reglamentos de la PUCV.</div></div>
+    </section>
+
+    <section class="section-view macro" id="decision" data-fx-articulo="Decisión sugerida">
       <div class="section-head"><span class="eyebrow">Cierre</span><h2>Decisión sugerida</h2>
         <p>Esta propuesta no pide adoptar un programa completo de inmediato: pide autorizar un piloto acotado, medible y de bajo riesgo institucional, y decidir sus condiciones.</p></div>
 
@@ -1198,14 +1114,33 @@
 
       <div class="ask-grid" id="askWrap"></div>
 
-      <div class="hero-cta" style="margin-top:18px">
-        <a class="primary-command" href="resumen-ejecutivo.html" target="_blank" rel="noopener"><i data-lucide="file-text"></i><span>Descargar resumen ejecutivo</span></a>
-        <button type="button" class="thin-command" data-go="logistica"><i data-lucide="table"></i><span>Ver rúbrica y calendario</span></button>
-        <button type="button" class="thin-command" data-go="ruta"><i data-lucide="layers"></i><span>Ver estructura del piloto</span></button>
-        <button type="button" class="thin-command" id="decisionPdfBtn"><i data-lucide="file-down"></i><span>Descargar dossier completo</span></button>
+      <div class="marquee-thesis" style="margin:22px 0 18px">
+        <span class="tag">La tesis</span>
+        <p class="fx-frase">No diseñamos agentes para que respondan más. Diseñamos agentes para que respondan dentro de reglas.</p>
+      </div>
+
+      <div class="hero-cta">
+        <a class="primary-command" href="mailto:dojedacifuentes@gmail.com?subject=Conversaci%C3%B3n%20sobre%20el%20piloto%20Derecho%20%2B%20IA%202026"><i data-lucide="calendar-plus"></i><span>Agendar conversación sobre el piloto</span></a>
+        <button type="button" class="thin-command" id="decisionPdfBtn"><i data-lucide="file-down"></i><span>Descargar dossier PDF</span></button>
       </div>
     </section>
 
+    <section class="section-view macro" id="nota" data-fx-articulo="Nota metodológica">
+      <div class="section-head"><span class="eyebrow">Art. final</span><h2 style="font-size:1.5rem">Nota metodológica</h2>
+        <p>Todo lo que este documento afirma con reserva, en un solo lugar — para que el resto pueda afirmarse sin asteriscos.</p></div>
+      <div class="card">
+        <ul class="lc-steps">
+          <li><b style="color:var(--white)">Estado regulatorio, actualizado al 1 de julio de 2026:</b> Ley 21.719 publicada (crea la Agencia de Protección de Datos Personales), con entrada en vigencia diferida al 1 de diciembre de 2026; proyecto de ley que regula sistemas de IA en segundo trámite constitucional (Boletín 16.821-19, refundido con el 15.869-19).</li>
+          <li><b style="color:var(--white)">Bibliografía doctrinal:</b> la selección específica por módulo queda a curatoría de la cátedra al momento de la dictación.</li>
+          <li><b style="color:var(--white)">Datos de mercado:</b> las referencias a la adopción de IA en la práctica legal chilena provienen de estudios de industria en validación; ninguna se presenta como cifra institucional.</li>
+          <li><b style="color:var(--white)">Demostraciones:</b> ContratoClaro y la demo interactiva son simulaciones pedagógicas con respuestas precalculadas, sin IA en vivo; están rotuladas como tales en el propio componente.</li>
+          <li><b style="color:var(--white)">Posicionamiento:</b> este documento afirma lo que el curso cubre; no compara contra programas de terceros, nombrados ni implícitos.</li>
+          <li><b style="color:var(--white)">Cargas horarias y equivalencia SCT:</b> estimadas; se ajustan al reglamento y calendario académico PUCV.</li>
+          <li><b style="color:var(--white)">Herramientas:</b> las características y planes de los productos del stack cambian con frecuencia; el curso enseña el criterio para evaluarlos, no menús de software.</li>
+        </ul>
+      </div>
+      <p style="margin:18px 0 0"><a class="thin-command" href="educacion-continua.html" style="display:inline-flex"><i data-lucide="arrow-right"></i><span>Esta lógica también escala a egresados</span></a></p>
+    </section>
   </main>
 
   <button type="button" class="fab" id="pdfBtn" title="Descargar dossier de contenidos en PDF" aria-label="Descargar PDF">
@@ -1234,7 +1169,7 @@
 
   <footer class="credit">
     <p style="margin:0 0 6px"><b>Propuesta académica independiente</b> de Diego Ojeda, desarrollada para ser evaluada por la Dirección de la Escuela de Derecho PUCV.</p>
-    DER-IA · OPT 2026 · documento de trabajo · datos de mercado y estado regulatorio a reconfirmar a la fecha.
+    DER-IA · OPT 2026 · documento de trabajo — ver <a href="#nota">nota metodológica</a>.
   </footer>
 
   <script>
@@ -1614,8 +1549,8 @@
     function renderSello(){
       $("diffWrap").innerHTML = DIFFS.map(d=>`<div class="diff-card"><span class="n">${esc(d.n)}</span><b>${esc(d.t)}</b><p>${esc(d.d)}</p></div>`).join("");
       $("compWrap").innerHTML = COMPS.map(c=>`<div class="diff-card"><span class="lc-logo" style="--accent:var(--cyan);width:40px;height:40px;flex:0 0 40px"><i data-lucide="${esc(c.ic)}"></i></span><b>${esc(c.t)}</b><p>${esc(c.d)}</p></div>`).join("");
-      $("compTable").innerHTML = `<thead><tr><th>Competencia</th><th class="mid">Curso típico de mercado</th><th class="mid hl-col">Der-IA · Escuela de Derecho PUCV</th></tr></thead>
-        <tbody>${COMPARE.map(r=>`<tr class="hl"><td>${esc(r[0])}</td><td class="mid ${r[1]?"yes":"no"}">${r[1]?ICON_YES:ICON_NO}</td><td class="mid ${r[2]?"yes":"no"}">${r[2]?ICON_YES:ICON_NO}</td></tr>`).join("")}</tbody>`;
+      $("compTable").innerHTML = `<thead><tr><th>Vacío formativo</th><th class="mid hl-col">En este curso</th></tr></thead>
+        <tbody>${COMPARE.filter(r=>!r[1]).map(r=>`<tr class="hl"><td>${esc(r[0])}</td><td class="mid yes">${ICON_YES}<span style="font-family:'JetBrains Mono',monospace;font-size:.7rem;margin-left:8px;color:var(--mint)">troncal · evaluado</span></td></tr>`).join("")}</tbody>`;
       $("doctrineTable").innerHTML = `<thead><tr><th>Autor</th><th>Concepto</th><th>Aplicación en el método</th></tr></thead>
         <tbody>${DOCTRINE.map(r=>`<tr><td style="color:var(--white);font-weight:600">${esc(r[0])}</td><td>${esc(r[1])}</td><td style="color:var(--muted)">${esc(r[2])}</td></tr>`).join("")}</tbody>`;
       refresh();
@@ -1763,16 +1698,12 @@
       `;
     }
 
-    /* ===================== DESCARGAS POR SECCIÓN ===================== */
-    const DZ_MAP = { resumen:[0,1,2], experiencia:[3], ruta:[4], herramientas:[5], sello:[6], egresados:[7], logistica:[8] };
+    /* ===================== DESCARGAS POR SECCIÓN (claves = anclas canónicas) ===================== */
     const DL_INFO = {
-      resumen:["Resumen ejecutivo","Tesis, objetivos y distribución de horas en una hoja."],
-      experiencia:["Metodología","Enfoque ABP y anatomía de la sesión de 90 min."],
-      ruta:["Ruta de 16 semanas","Módulos con teoría, práctica y entregable."],
-      herramientas:["Stack de herramientas","Herramientas, creación de cuenta y flujo de trabajo."],
-      sello:["Método Constitucional","Constitución del agente, mapa competitivo, doctrina y perfil de egreso."],
-      egresados:["Propuestas para egresados","Los tres programas de educación continua."],
-      logistica:["Logística y evaluación","Requisitos, rúbrica, calendario, riesgos y piloto."]
+      hero:["Resumen ejecutivo","Tesis, objetivos y distribución de horas en una hoja."],
+      metodo:["Método Constitucional","Constitución del agente, anatomía de nueve capas y doctrina."],
+      curso:["Programa del curso","Metodología ABP, ruta de 16 semanas y stack de herramientas."],
+      direccion:["Logística y evaluación","Requisitos, rúbrica, calendario, riesgos y piloto."]
     };
     const PDF = { A:"#2563eb", INK:"#0f1b2d", MUT:"#64748b", LINE:"#e2e8f0", FILL:"#eef4fb", EM:"#0e9f6e", WARM:"#b45309", VIO:"#6d4aff" };
     function pdfStrip(s){ return String(s).replace(/<[^>]+>/g, ""); }
@@ -1874,13 +1805,11 @@
       const closing=()=>[ { canvas:[{type:"line",x1:0,y1:0,x2:515,y2:0,lineWidth:0.6,lineColor:LINE}], margin:[0,12,0,4] },
         { text:"Documento de trabajo para revisión institucional. Datos de mercado y estado regulatorio a reconfirmar a la fecha de uso; bibliografía doctrinal a curar por la cátedra.", fontSize:7.5, color:MUT } ];
       const map={
-        resumen:[cover,resumen,modelo,objetivos,horas,closing],
-        experiencia:[cover,metodologia,closing],
-        ruta:[cover,ruta,closing],
-        herramientas:[cover,stack,closing],
-        sello:[cover,sello,metodo,competencias,closing],
+        hero:[cover,resumen,modelo,objetivos,horas,closing],
+        metodo:[cover,sello,metodo,competencias,closing],
+        curso:[cover,metodologia,ruta,stack,closing],
+        direccion:[cover,logistica,decision,closing],
         egresados:[cover,egresados,closing],
-        logistica:[cover,logistica,decision,closing],
         all:[cover,resumen,modelo,objetivos,horas,metodologia,ruta,stack,sello,metodo,competencias,egresados,logistica,decision,closing]
       };
       const builders=map[key]||map.all;
@@ -1927,7 +1856,7 @@
     }
     function mountDownloads(){
       Object.keys(DL_INFO).forEach(key=>{
-        const sec = document.getElementById("s-"+key); if(!sec) return;
+        const sec = document.getElementById(key); if(!sec) return;
         const [t,d] = DL_INFO[key];
         const b = document.createElement("button");
         b.type = "button"; b.className = "dl"; b.dataset.dl = key;
@@ -1940,7 +1869,7 @@
     function go(section){
       const target = document.getElementById(section) || document.getElementById("s-"+section);
       if(target) target.scrollIntoView({ behavior:"smooth", block:"start" });
-      if(section === "demo" || section === "agente") runLAM();
+      if(section === "prueba") runLAM();
       blip(520);
     }
     document.addEventListener("click", (e) => {
@@ -1954,7 +1883,7 @@
       if(mt){ mt.closest("[data-mod]").classList.toggle("open"); blip(400); refresh(); }
     });
     (function initScrollSpy(){
-      const anchors = ["inicio","metodo","agente","programa","evaluacion","cierre"];
+      const anchors = ["hero","problema","metodo","prueba","curso","beneficios","direccion","decision","nota"];
       const navMap = new Map(anchors.map(a => [a, document.querySelector(`.mode-btn[data-anchor="${a}"]`)]));
       const targets = anchors.map(a => ({ id:a, el:document.getElementById(a) })).filter(t => t.el);
       if(!targets.length) return;
@@ -2014,7 +1943,7 @@
     }
     document.addEventListener("click",(e)=>{ const t=e.target.closest("[data-lamtab]"); if(t){ switchLamTab(t.dataset.lamtab); blip(420); } });
     function runLAM(){
-      const root = document.getElementById("s-demo"); if(!root || !$("lamType")) return;
+      const root = document.getElementById("prueba"); if(!root || !$("lamType")) return;
       if(!$("lamTabs").children.length) renderLamChrome();
       switchLamTab("resumen");
       document.querySelectorAll(".lam-schip").forEach(c=>c.classList.remove("on"));
@@ -2220,7 +2149,7 @@
 
     function refresh(){ if(window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } }); }
 
-    renderExperience(); renderModules(); renderTools(); renderSello(); renderArch(); renderInst(); renderCycle(); renderPrograms(); renderGana(); renderLogistica(); renderCMF(); renderDemo(); renderAsks(); renderDossier(); mountDownloads(); runLAM();
+    renderExperience(); renderModules(); renderTools(); renderSello(); renderArch(); renderInst(); renderCycle(); renderGana(); renderLogistica(); renderCMF(); renderDemo(); renderAsks(); renderDossier(); mountDownloads(); runLAM();
     $("pdfBtn").addEventListener("click", () => { blip(300); dlScope("all"); });
     $("decisionPdfBtn").addEventListener("click", () => { blip(300); dlScope("all"); });
     refresh(); initCanvas();
