@@ -117,8 +117,11 @@ export const fxCampo = {
     const mouse = { x: 0.5, y: 0.4, tx: 0.5, ty: 0.4 };
 
     function resize() {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      program.uniforms.uRes.value = [window.innerWidth, window.innerHeight];
+      /* clientWidth excluye la barra de scroll: innerWidth la incluye y desborda el canvas */
+      const w = document.documentElement.clientWidth;
+      const h = document.documentElement.clientHeight;
+      renderer.setSize(w, h);
+      program.uniforms.uRes.value = [w, h];
     }
     onResize = resize;
     window.addEventListener('resize', onResize);
@@ -139,8 +142,8 @@ export const fxCampo = {
     }
 
     onMove = (e) => {
-      mouse.tx = e.clientX / window.innerWidth;
-      mouse.ty = e.clientY / window.innerHeight;
+      mouse.tx = e.clientX / document.documentElement.clientWidth;
+      mouse.ty = e.clientY / document.documentElement.clientHeight;
     };
     window.addEventListener('pointermove', onMove, { passive: true });
 

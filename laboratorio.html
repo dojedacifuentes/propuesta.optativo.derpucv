@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#020306">
+  <meta name="description" content="Laboratorio del Método Constitucional: Sala de Verificación (motor de reglas local, sin IA en vivo) y Generador de Constitución del agente. Escuela de Derecho PUCV.">
+  <title>Laboratorio · Método Constitucional — Derecho + IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..800&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root{
+      --bg:#020306; --bg-2:#06090d;
+      --panel:rgba(5,10,14,0.86); --panel-strong:rgba(8,13,18,0.94);
+      --line:rgba(75,231,255,0.22); --line-soft:rgba(246,240,223,0.12);
+      --cyan:#4be7ff; --cyan-soft:#8df6ff;
+      --red:#800814; --red-bright:#e44949;
+      --gold:#e0b04a; --mint:#54d6a0; --coral:#ec7e72;
+      --white:#f6f0df; --muted:#9ba7ad;
+      --radius:8px; --shadow:0 18px 80px rgba(0,0,0,0.55);
+    }
+    *{ box-sizing:border-box; }
+    html{ min-height:100%; background:var(--bg); color:var(--white); font-family:Inter,system-ui,sans-serif; scroll-behavior:smooth; }
+    body{ min-height:100vh; margin:0; overflow-x:hidden; background:var(--bg); }
+    button,input,textarea{ font:inherit; } button,a{ -webkit-tap-highlight-color:transparent; }
+    h1,h2,h3,h4,p{ margin-top:0; } a{ color:var(--cyan); }
+    .topbar{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:11px 20px;
+      border-bottom:1px solid rgba(75,231,255,0.16); background:#04070c; position:sticky; top:0; z-index:50; }
+    .brand{ display:flex; align-items:center; gap:12px; color:var(--white); text-decoration:none; }
+    .brand-mark{ display:grid; width:44px; height:44px; place-items:center; border:1px solid var(--cyan); border-radius:6px;
+      background:#020306; color:var(--cyan); font-family:"JetBrains Mono",monospace; font-weight:800; }
+    .brand small{ display:block; color:var(--muted); font-family:"JetBrains Mono",monospace; font-size:0.72rem; }
+    .top-right{ display:flex; align-items:center; gap:8px; }
+    .icon-only{ display:inline-flex; align-items:center; justify-content:center; width:38px; min-height:38px; padding:0;
+      border:1px solid var(--line-soft); border-radius:6px; background:rgba(6,9,13,0.78); color:var(--white); cursor:pointer; }
+    .icon-only.on{ border-color:var(--cyan); color:var(--cyan); }
+    .volver{ display:inline-flex; align-items:center; gap:8px; min-height:38px; padding:8px 13px; border:1px solid var(--line-soft);
+      border-radius:7px; background:rgba(8,13,20,0.6); color:var(--white); text-decoration:none; font-size:0.82rem; }
+    .volver:hover,.icon-only:hover{ border-color:var(--cyan); color:var(--cyan); }
+    .volver svg{ width:16px; height:16px; }
+    .shell{ position:relative; z-index:4; width:min(1180px,calc(100% - 40px)); margin:38px auto 120px; }
+    .eyebrow{ font-family:"JetBrains Mono",monospace; font-size:0.76rem; color:var(--cyan); text-transform:uppercase; letter-spacing:.04em; }
+    .eyebrow::before{ content:"— "; color:var(--gold); }
+    .section-head{ margin:46px 0 18px; }
+    .section-head h2{ margin:6px 0 6px; font-family:"Space Grotesk",system-ui,sans-serif; font-size:2.05rem; }
+    .section-head p{ color:var(--muted); max-width:780px; line-height:1.55; }
+    .rotulo{ display:inline-flex; align-items:center; gap:8px; font-family:"JetBrains Mono",monospace; font-size:0.72rem;
+      color:var(--gold); border:1px solid rgba(224,176,74,.4); border-radius:20px; padding:5px 11px; }
+    .rotulo svg{ width:14px; height:14px; }
+    .card{ min-width:0; padding:18px; border:1px solid var(--line-soft); border-radius:var(--radius); background:var(--panel); }
+    .note{ display:grid; grid-template-columns:20px 1fr; gap:10px; padding:12px 14px; border-left:2px solid var(--gold);
+      background:rgba(224,176,74,0.05); border-radius:6px; color:var(--muted); font-size:0.84rem; margin-top:14px; }
+    .note svg{ width:18px; height:18px; color:var(--gold); margin-top:2px; }
+
+    /* ===== Sala de Verificación ===== */
+    .sala{ display:grid; grid-template-columns:minmax(0,0.95fr) minmax(0,1.05fr); gap:18px; align-items:start; }
+    .cmf-gate-list{ display:grid; gap:6px; }
+    .cmf-gate{ position:relative; display:grid; grid-template-columns:26px 1fr 22px; gap:10px; align-items:center; text-align:left;
+      padding:10px 14px; border:1px solid var(--line-soft); border-radius:3px; width:100%;
+      background:rgba(6,11,16,.72); color:var(--white); cursor:default; font-family:inherit;
+      transition:border-color .2s ease, background .2s ease; }
+    .cmf-gate .gn{ font-family:"JetBrains Mono",monospace; color:var(--muted); font-size:.78rem; }
+    .cmf-gate .gt{ font-size:.88rem; min-width:0; }
+    .cmf-gate .gv{ width:18px; height:18px; display:grid; place-items:center; }
+    .cmf-gate .gv svg{ width:15px; height:15px; }
+    .cmf-gate.v-ok{ border-color:rgba(84,214,160,.55); } .cmf-gate.v-ok .gv{ color:var(--mint); }
+    .cmf-gate.v-warn{ border-color:rgba(224,176,74,.55); } .cmf-gate.v-warn .gv{ color:var(--gold); }
+    .cmf-gate.v-block{ border-color:rgba(236,126,114,.7); background:rgba(236,126,114,.08); } .cmf-gate.v-block .gv{ color:var(--coral); }
+    .cmf-gate.v-omite{ opacity:.38; }
+    .sala-consultas{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:10px; }
+    .chip{ padding:8px 12px; border:1px solid var(--line-soft); border-radius:20px; background:rgba(2,3,6,.6);
+      color:var(--white); cursor:pointer; font-size:.8rem; text-align:left; }
+    .chip:hover{ border-color:var(--cyan); color:var(--cyan); }
+    .sala-input{ display:flex; gap:8px; margin-bottom:12px; }
+    .sala-input input{ flex:1; min-width:0; min-height:44px; padding:8px 12px; border:1px solid var(--line-soft);
+      border-radius:6px; background:#020306; color:var(--white); }
+    .sala-input input:focus{ outline:none; border-color:var(--cyan); }
+    .primary-command{ display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 16px;
+      border:1px solid rgba(75,231,255,0.48); border-radius:6px; background:rgba(75,231,255,0.12); color:var(--white);
+      cursor:pointer; font-weight:800; text-decoration:none; }
+    .primary-command:hover{ border-color:var(--cyan); color:var(--cyan); }
+    .primary-command svg{ width:17px; height:17px; }
+    .thin-command{ display:inline-flex; align-items:center; gap:8px; min-height:40px; padding:8px 13px; border:1px solid var(--line-soft);
+      border-radius:6px; background:rgba(6,9,13,0.78); color:var(--white); cursor:pointer; text-decoration:none; font-size:.88rem; }
+    .thin-command:hover{ border-color:var(--cyan); color:var(--cyan); }
+    .thin-command svg{ width:16px; height:16px; }
+    .veredictos{ display:grid; gap:6px; max-height:340px; overflow:auto; padding-right:4px; }
+    .vrow{ display:grid; grid-template-columns:66px 1fr; gap:10px; padding:8px 10px; border-left:2px solid var(--line-soft);
+      background:rgba(2,3,6,.5); border-radius:0 6px 6px 0; font-size:.82rem; }
+    .vrow b{ font-family:"JetBrains Mono",monospace; font-size:.7rem; text-transform:uppercase; }
+    .vrow.v-ok{ border-left-color:var(--mint); } .vrow.v-ok b{ color:var(--mint); }
+    .vrow.v-warn{ border-left-color:var(--gold); } .vrow.v-warn b{ color:var(--gold); }
+    .vrow.v-block{ border-left-color:var(--coral); } .vrow.v-block b{ color:var(--coral); }
+    .vrow.v-omite{ opacity:.5; }
+    .vrow span{ color:var(--muted); }
+    .resultado{ margin-top:12px; padding:14px 16px; border-radius:6px; border:1px solid var(--line-soft); font-size:.95rem; display:none; }
+    .resultado.show{ display:block; }
+    .resultado.r-ok{ border-color:rgba(84,214,160,.5); background:rgba(84,214,160,.07); }
+    .resultado.r-block{ border-color:rgba(236,126,114,.55); background:rgba(236,126,114,.07); }
+    .resultado.r-deriva{ border-color:rgba(157,139,255,.5); background:rgba(157,139,255,.07); }
+    .resultado b{ display:block; margin-bottom:4px; font-family:"Space Grotesk",system-ui,sans-serif; }
+    .resultado span{ color:var(--muted); font-size:.88rem; }
+
+    /* ===== Generador ===== */
+    .wizard{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; align-items:start; }
+    .wz-paso{ font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--gold); text-transform:uppercase; margin-bottom:8px; }
+    .wz-nombre{ font-family:"Space Grotesk",system-ui,sans-serif; font-size:1.25rem; margin:0 0 6px; }
+    .wz-guia{ color:var(--muted); font-size:.9rem; margin:0 0 12px; line-height:1.5; }
+    .wizard textarea{ width:100%; min-height:130px; padding:12px; border:1px solid var(--line-soft); border-radius:6px;
+      background:#020306; color:var(--white); resize:vertical; line-height:1.5; }
+    .wizard textarea:focus{ outline:none; border-color:var(--gold); }
+    .wz-nav{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; align-items:center; }
+    .wz-dots{ display:flex; gap:5px; margin-left:auto; }
+    .wz-dots i{ width:8px; height:8px; border-radius:50%; background:var(--line-soft); cursor:pointer; }
+    .wz-dots i.done{ background:var(--mint); }
+    .wz-dots i.actual{ background:var(--gold); box-shadow:0 0 8px var(--gold); }
+    .wz-nombreagente{ display:flex; gap:8px; align-items:center; margin-bottom:14px; }
+    .wz-nombreagente input{ flex:1; min-height:40px; padding:8px 12px; border:1px solid var(--line-soft); border-radius:6px; background:#020306; color:var(--white); }
+    .md-out{ font-family:"JetBrains Mono",monospace; font-size:.76rem; color:var(--muted); background:#020306;
+      border:1px solid var(--line-soft); border-radius:6px; padding:14px; max-height:420px; overflow:auto; white-space:pre-wrap; line-height:1.55; }
+    .md-out b{ color:var(--white); }
+    .gen-actions{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+
+    /* ===== Bitácora GitHub ===== */
+    .git-log{ list-style:none; margin:0; padding:0; display:grid; gap:7px; }
+    .git-log li{ display:grid; grid-template-columns:78px 1fr auto; gap:10px; align-items:baseline; padding:9px 12px;
+      border:1px solid var(--line-soft); border-radius:6px; background:rgba(2,3,6,.5); font-size:.82rem; }
+    .git-log code{ font-family:"JetBrains Mono",monospace; color:var(--cyan-soft); font-size:.74rem; }
+    .git-log time{ color:var(--muted); font-family:"JetBrains Mono",monospace; font-size:.7rem; white-space:nowrap; }
+
+    /* ===== Registro de auditoría ===== */
+    .audit-toggle{ position:fixed; right:20px; bottom:24px; z-index:60; display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px; border-radius:24px; border:1px solid var(--line); background:rgba(2,3,6,.92); color:var(--cyan-soft);
+      cursor:pointer; font-family:"JetBrains Mono",monospace; font-size:.74rem; box-shadow:0 10px 30px rgba(0,0,0,.55); }
+    .audit-toggle svg{ width:15px; height:15px; }
+    .audit{ position:fixed; right:20px; bottom:72px; z-index:60; width:min(430px,calc(100vw - 40px)); max-height:46vh;
+      display:none; flex-direction:column; border:1px solid var(--line); border-radius:10px; overflow:hidden;
+      background:rgba(3,6,10,.97); box-shadow:0 24px 60px rgba(0,0,0,.6); }
+    .audit.open{ display:flex; }
+    .audit-head{ padding:10px 14px; border-bottom:1px solid var(--line-soft); font-family:"JetBrains Mono",monospace;
+      font-size:.72rem; color:var(--gold); text-transform:uppercase; }
+    .audit-body{ padding:10px 14px; overflow:auto; font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--muted);
+      display:grid; gap:5px; line-height:1.5; }
+    .audit-body .al b{ color:var(--cyan-soft); font-weight:600; }
+    .audit-foot{ padding:8px 14px; border-top:1px solid var(--line-soft); font-size:.68rem; color:var(--muted);
+      font-family:"JetBrains Mono",monospace; }
+
+    footer.credit{ position:relative; z-index:4; width:min(1180px,calc(100% - 40px)); margin:0 auto 60px; color:var(--muted);
+      font-family:"JetBrains Mono",monospace; font-size:0.76rem; border-top:1px solid var(--line-soft); padding-top:16px; }
+    @media (max-width:880px){ .sala,.wizard{ grid-template-columns:1fr; } .audit{ max-height:38vh; } }
+    @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">OJ</span>
+      <span><strong>Laboratorio · Método Constitucional</strong><small>Escuela de Derecho PUCV — DER-IA · OPT 2026</small></span>
+    </a>
+    <div class="top-right">
+      <button type="button" class="icon-only" id="soundToggle" title="Activar sonido" aria-label="Activar sonido" aria-pressed="false"></button>
+      <a class="volver" href="index.html"><i data-lucide="arrow-left"></i><span>Volver a la propuesta</span></a>
+    </div>
+  </header>
+
+  <main class="shell">
+    <div class="section-head" style="margin-top:8px">
+      <span class="eyebrow">El método demostrado, no descrito</span>
+      <h2>Laboratorio</h2>
+      <p>Dos instrumentos operativos del Método Constitucional: una <b style="color:var(--white)">Sala de Verificación</b> donde una consulta atraviesa el umbral constitucional capa por capa, y un <b style="color:var(--white)">Generador de Constitución</b> para redactar la de tu propio agente y llevártela.</p>
+      <p class="rotulo"><i data-lucide="cpu"></i>Simulación con motor de reglas local — sin IA en vivo · nada sale de tu navegador</p>
+    </div>
+
+    <!-- ============ SALA DE VERIFICACIÓN ============ -->
+    <section id="sala">
+      <div class="section-head"><span class="eyebrow">Instrumento 1</span><h2 style="font-size:1.5rem">Sala de Verificación</h2>
+        <p>Elige una consulta —o escribe la tuya— y mira cómo desciende por las nueve capas: cada capa la autoriza, la condiciona o la bloquea <b style="color:var(--white)">citando su cláusula</b>. Con el sonido activado, cada capa que aprueba suena su nota; un bloqueo suena disonante.</p></div>
+
+      <div class="sala-consultas" id="salaChips"></div>
+      <div class="sala-input">
+        <input id="salaInput" type="text" autocomplete="off" placeholder="…o escribe una consulta y observa el umbral" aria-label="Consulta a evaluar">
+        <button type="button" class="primary-command" id="salaEval"><i data-lucide="scale"></i><span>Evaluar</span></button>
+      </div>
+
+      <div class="sala">
+        <div class="card">
+          <p class="eyebrow" style="margin:0 0 10px">Umbral constitucional · 9 capas</p>
+          <div class="cmf-gate-list" id="cmfGates"></div>
+        </div>
+        <div class="card">
+          <p class="eyebrow" style="margin:0 0 10px">Evaluación</p>
+          <div class="veredictos" id="salaLog"><p style="color:var(--muted);margin:0;font-size:.88rem">La evaluación aparecerá aquí, capa por capa.</p></div>
+          <div class="resultado" id="salaResultado"></div>
+        </div>
+      </div>
+      <div class="note"><i data-lucide="info"></i><div>Motor de reglas determinista escrito a mano (ver <code>docs/esquema-motor-reglas.json</code>). No hay modelo de lenguaje: eso es exactamente lo que la Sala demuestra — el umbral no depende de la IA, la gobierna.</div></div>
+    </section>
+
+    <!-- ============ GENERADOR DE CONSTITUCIÓN ============ -->
+    <section id="generador">
+      <div class="section-head"><span class="eyebrow">Instrumento 2</span><h2 style="font-size:1.5rem">Generador de Constitución</h2>
+        <p>Nueve pasos —uno por capa— y te llevas la Constitución de tu agente en Markdown o PDF. El borrador se guarda en tu navegador; nada se envía a ningún servidor.</p></div>
+
+      <div class="wizard">
+        <div class="card">
+          <div class="wz-nombreagente">
+            <span class="eyebrow" style="white-space:nowrap">Agente</span>
+            <input id="wzNombre" type="text" placeholder="Nombre del agente (p. ej., ContratoClaro)" aria-label="Nombre del agente">
+          </div>
+          <p class="wz-paso" id="wzPaso"></p>
+          <h3 class="wz-nombre" id="wzCapa"></h3>
+          <p class="wz-guia" id="wzGuia"></p>
+          <textarea id="wzTexto" aria-label="Contenido de la capa"></textarea>
+          <div class="wz-nav">
+            <button type="button" class="thin-command" id="wzPrev"><i data-lucide="chevron-left"></i><span>Anterior</span></button>
+            <button type="button" class="thin-command" id="wzNext"><span>Siguiente</span><i data-lucide="chevron-right"></i></button>
+            <button type="button" class="primary-command" id="wzGen" style="display:none"><i data-lucide="scroll-text"></i><span>Generar Constitución</span></button>
+            <div class="wz-dots" id="wzDots"></div>
+          </div>
+        </div>
+        <div class="card">
+          <p class="eyebrow" style="margin:0 0 10px">Documento</p>
+          <div class="md-out" id="mdOut">La Constitución aparecerá aquí al generar.</div>
+          <div class="gen-actions">
+            <button type="button" class="thin-command" id="dlMd"><i data-lucide="file-down"></i><span>Descargar .md</span></button>
+            <button type="button" class="thin-command" id="dlPdf"><i data-lucide="file-down"></i><span>Descargar PDF</span></button>
+            <button type="button" class="thin-command" id="wzLimpiar"><i data-lucide="eraser"></i><span>Limpiar borrador</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BITÁCORA DE CONSTRUCCIÓN ============ -->
+    <section id="bitacora">
+      <div class="section-head"><span class="eyebrow">Transparencia radical</span><h2 style="font-size:1.5rem">Bitácora de construcción</h2>
+        <p>Los últimos cambios reales de este sitio, leídos en vivo del repositorio público. El sitio muestra cómo se construye a sí mismo.</p></div>
+      <div id="bitacoraGit"><p style="color:var(--muted)">Cargando compromisos del repositorio…</p></div>
+    </section>
+  </main>
+
+  <button type="button" class="audit-toggle" id="auditToggle"><i data-lucide="notebook-text"></i><span>Registro de auditoría</span></button>
+  <aside class="audit" id="audit" aria-label="Registro de auditoría local">
+    <div class="audit-head">Registro de auditoría — local</div>
+    <div class="audit-body" id="auditBody"></div>
+    <div class="audit-foot">Solo en tu navegador. Nada se envía a ningún servidor.</div>
+  </aside>
+
+  <footer class="credit">
+    Laboratorio del <a href="index.html#metodo">Método Constitucional</a> · propuesta académica independiente de Diego Ojeda · documento de trabajo.
+  </footer>
+
+  <script>
+    /* =================== MOTOR DE REGLAS (espejo de docs/esquema-motor-reglas.json) =================== */
+    const CAPAS = [
+      { id:1, nombre:"Finalidad del agente",   clausula:"Art. 1°. El agente existe para orientar, con fines pedagógicos, la revisión preliminar de contratos y documentos ficticios o anonimizados. Lo que no cae en esa finalidad, no se responde: se deriva." },
+      { id:2, nombre:"Ámbito de actuación",    clausula:"Art. 2°. El agente revisa, explica y propone preguntas de revisión. No litiga, no representa, no redacta piezas procesales para casos reales." },
+      { id:3, nombre:"Fuentes autorizadas",    clausula:"Art. 3°. El agente solo afirma desde las fuentes cargadas por la cátedra. No cita jurisprudencia ni normas fuera de su base: antes de inventar, se detiene." },
+      { id:4, nombre:"Límites y prohibiciones",clausula:"Art. 4°. El agente no procesa datos personales reales (nombres, RUT, contactos). Si los detecta, bloquea la consulta y pide anonimizar." },
+      { id:5, nombre:"Deberes de advertencia", clausula:"Art. 5°. Toda respuesta declara su carácter preliminar y pedagógico: no constituye asesoría jurídica." },
+      { id:6, nombre:"Reglas de verificación", clausula:"Art. 6°. Toda respuesta separa observación textual, inferencia y recomendación, y enlaza cada afirmación a su base." },
+      { id:7, nombre:"Escalamiento humano",    clausula:"Art. 7°. Si la consulta involucra riesgo alto, datos sensibles o una decisión relevante, el agente deriva a revisión humana antes de responder." },
+      { id:8, nombre:"Trazabilidad",           clausula:"Art. 8°. Cada consulta, veredicto y cláusula aplicada queda registrada en la bitácora local." },
+      { id:9, nombre:"Iteración constitucional",clausula:"Art. 9°. Los bloqueos y errores detectados alimentan la próxima revisión de esta Constitución." }
+    ];
+    const RE = {
+      finalidad: /contrato|cl[aá]usula|arrend|confidencialidad|competencia|checklist|datos personales|lenguaje claro|revisi[oó]n|resume|trabajador|laboral|despido|despedir/i,
+      ambito:    /demanda|juicio|litigio|tribunal|represent|mi cliente|mi caso/i,
+      fuentes:   /jurisprudencia|fallo|sentencia|rol\s*n|corte suprema|cita textual/i,
+      limites:   /(\d{1,2}\.\d{3}\.\d{3}[-.][\dkK])|\brut\b|c[eé]dula|@[a-z0-9]|tel[eé]fono/i,
+      riesgo:    /despido|despedir|penal|denunci|renunciar|firmar (hoy|ahora)|plazo venc/i
+    };
+    const CONSULTAS = [
+      "Revisa una cláusula de no competencia de un contrato ficticio de arriendo",
+      "Genera un checklist de protección de datos para una oficina jurídica",
+      "Explica en lenguaje claro una cláusula de confidencialidad del contrato de la cátedra",
+      "Resume las diferencias entre este contrato ficticio y el modelo de la cátedra",
+      "Redacta la demanda para el juicio de mi cliente contra su arrendador",
+      "Revisa el contrato del arrendatario Juan Pérez, RUT 12.345.678-9",
+      "Cítame el fallo exacto de la Corte Suprema sobre cláusulas de no competencia",
+      "¿Puedo despedir a un trabajador mañana sin indemnización?"
+    ];
+
+    function evaluarTexto(txt){
+      const pasos = []; let detenida = 0; let derivada = false;
+      for (let i = 1; i <= 9; i++) {
+        if (detenida && i < 8) { pasos.push({ capa:i, veredicto:"omite", razon:"No se evalúa: una capa anterior detuvo el flujo." }); continue; }
+        if (detenida && i === 8) { pasos.push({ capa:8, veredicto:"registra", razon:"El caso completo queda en la bitácora local." }); continue; }
+        if (detenida && i === 9) { pasos.push({ capa:9, veredicto:"registra", razon: derivada ? "La derivación alimenta la próxima revisión constitucional." : "El bloqueo alimenta la próxima revisión constitucional." }); continue; }
+        switch (i) {
+          case 1:
+            if (RE.finalidad.test(txt)) pasos.push({ capa:1, veredicto:"autoriza", razon:"La consulta cae dentro de la finalidad pedagógica declarada." });
+            else { pasos.push({ capa:1, veredicto:"deriva", razon:"No logro clasificar la consulta dentro de mi finalidad: la derivo a revisión humana." }); detenida = 1; derivada = true; }
+            break;
+          case 2:
+            if (RE.ambito.test(txt)) { pasos.push({ capa:2, veredicto:"bloquea", razon:"Pide actuación en un caso real (litigio o representación), fuera del ámbito." }); detenida = 2; }
+            else pasos.push({ capa:2, veredicto:"autoriza", razon:"Tarea dentro del ámbito: revisar, explicar, preguntar." });
+            break;
+          case 3:
+            if (RE.fuentes.test(txt)) { pasos.push({ capa:3, veredicto:"bloquea", razon:"Pide citar fuentes que no están cargadas en la base. Antes de inventar, el agente se detiene." }); detenida = 3; }
+            else pasos.push({ capa:3, veredicto:"autoriza", razon:"Responderá solo desde las fuentes cargadas." });
+            break;
+          case 4:
+            if (RE.limites.test(txt)) { pasos.push({ capa:4, veredicto:"bloquea", razon:"La consulta contiene lo que parecen datos personales reales: anonimizar primero." }); detenida = 4; }
+            else pasos.push({ capa:4, veredicto:"autoriza", razon:"Sin datos personales detectados." });
+            break;
+          case 5: pasos.push({ capa:5, veredicto:"aplica", razon:"Se añade la advertencia: análisis preliminar y pedagógico, no asesoría." }); break;
+          case 6: pasos.push({ capa:6, veredicto:"aplica", razon:"La respuesta separará observación, inferencia y recomendación." }); break;
+          case 7:
+            if (RE.riesgo.test(txt)) { pasos.push({ capa:7, veredicto:"deriva", razon:"Decisión relevante o riesgo alto: corresponde revisión humana." }); detenida = 7; derivada = true; }
+            else pasos.push({ capa:7, veredicto:"autoriza", razon:"Riesgo dentro del umbral: no requiere escalamiento." });
+            break;
+          case 8: pasos.push({ capa:8, veredicto:"registra", razon:"Consulta y veredictos quedan en la bitácora local." }); break;
+          case 9: pasos.push({ capa:9, veredicto:"aplica", razon:"Sin errores que incorporar en esta pasada." }); break;
+        }
+      }
+      const resultado = detenida ? (derivada ? "derivada" : "bloqueada") : "autorizada";
+      return { pasos, resultado, capaDetencion: detenida };
+    }
+
+    /* =================== UI · Sala =================== */
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+    const V_ICON = {
+      ok:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+      warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 8v5M12 16.5v.5"/><circle cx="12" cy="12" r="9.5"/></svg>',
+      block:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'
+    };
+    const claseV = (v) => v==="bloquea" ? "v-block" : (v==="deriva"||v==="condiciona") ? "v-warn" : v==="omite" ? "v-omite" : "v-ok";
+    const iconoV = (v) => v==="bloquea" ? V_ICON.block : (v==="deriva"||v==="condiciona") ? V_ICON.warn : v==="omite" ? "" : V_ICON.ok;
+
+    function pintarGates(){
+      $("cmfGates").innerHTML = CAPAS.map((c,i)=>`<div class="cmf-gate" data-capa="${c.id}" tabindex="0" role="listitem" aria-label="${esc(c.nombre)}"><span class="gn">${String(c.id).padStart(2,"0")}</span><span class="gt">${esc(c.nombre)}</span><span class="gv"></span></div>`).join("");
+    }
+    function resetGates(){
+      document.querySelectorAll("#cmfGates .cmf-gate").forEach(g=>{ g.classList.remove("v-ok","v-warn","v-block","v-omite"); g.querySelector(".gv").innerHTML=""; });
+      $("salaLog").innerHTML = ""; const r = $("salaResultado"); r.className = "resultado"; r.innerHTML = "";
+    }
+    let evaluando = false;
+    function evaluar(texto){
+      if (evaluando || !texto.trim()) return;
+      evaluando = true;
+      resetGates();
+      const { pasos, resultado, capaDetencion } = evaluarTexto(texto);
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const paso = (i) => {
+        const p = pasos[i]; const capa = CAPAS[p.capa-1];
+        const gate = document.querySelector(`#cmfGates .cmf-gate[data-capa="${p.capa}"]`);
+        const cls = claseV(p.veredicto);
+        gate.classList.add(cls); gate.querySelector(".gv").innerHTML = iconoV(p.veredicto);
+        const fila = document.createElement("div");
+        fila.className = "vrow " + cls;
+        fila.innerHTML = `<b>${esc(p.veredicto)}</b><span><b style="color:var(--white);font-family:inherit;text-transform:none">${esc(capa.nombre)}.</b> ${esc(p.razon)}${(p.veredicto==="bloquea"||p.veredicto==="deriva") ? `<br><i style="color:var(--gold)">${esc(capa.clausula)}</i>` : ""}</span>`;
+        $("salaLog").appendChild(fila); fila.scrollIntoView({ block:"nearest" });
+        if (window.FX && p.veredicto !== "omite") window.FX.emit("verificacion:capa", { indice: p.capa-1, veredicto: p.veredicto });
+        if (i + 1 < pasos.length) { setTimeout(() => paso(i+1), reduce ? 0 : 380); }
+        else {
+          const r = $("salaResultado");
+          const map = {
+            autorizada: ["r-ok", "Consulta autorizada", "Atraviesa el umbral: la respuesta saldría con advertencias (Art. 5°) y verificación (Art. 6°)."],
+            bloqueada:  ["r-block", "Consulta bloqueada", `La capa ${capaDetencion} la detuvo citando su cláusula. El agente no improvisa: se detiene.`],
+            derivada:   ["r-deriva", "Derivada a revisión humana", "El agente no responde esto por diseño: lo remite a una persona (Art. 7°)."]
+          };
+          const [cls2, titulo, det] = map[resultado];
+          r.className = "resultado show " + cls2;
+          r.innerHTML = `<b>${titulo}</b><span>${det}</span>`;
+          if (window.FX) window.FX.emit("verificacion:resultado", { resultado });
+          auditar("verificación", `"${texto.slice(0,60)}${texto.length>60?"…":""}" → ${resultado}${capaDetencion?` (capa ${capaDetencion})`:""}`);
+          evaluando = false;
+        }
+      };
+      auditar("consulta", `evaluando: "${texto.slice(0,60)}${texto.length>60?"…":""}"`);
+      paso(0);
+    }
+    function pintarChips(){
+      $("salaChips").innerHTML = CONSULTAS.map((c,i)=>`<button type="button" class="chip" data-consulta="${i}">${esc(c)}</button>`).join("");
+    }
+    document.addEventListener("click",(e)=>{
+      const ch = e.target.closest("[data-consulta]");
+      if (ch) { const t = CONSULTAS[Number(ch.dataset.consulta)]; $("salaInput").value = t; evaluar(t); }
+    });
+    $("salaEval").addEventListener("click", ()=> evaluar($("salaInput").value));
+    $("salaInput").addEventListener("keydown",(e)=>{ if(e.key==="Enter") evaluar($("salaInput").value); });
+
+    /* =================== UI · Generador =================== */
+    const GUIAS = [
+      ["Finalidad","¿Para qué existe tu agente? ¿Qué problema jurídico acotado aborda y para quién?","Orientar la revisión preliminar de contratos de arriendo ficticios para estudiantes de la clínica."],
+      ["Ámbito de actuación","¿Qué tareas puede realizar y cuáles quedan explícitamente fuera?","Puede revisar, explicar y proponer preguntas. No redacta piezas procesales ni actúa en casos reales."],
+      ["Fuentes autorizadas","¿Desde qué materiales puede responder? Sé taxativo.","Solo los documentos cargados por la cátedra, la normativa indicada y los criterios docentes."],
+      ["Límites y prohibiciones","¿Qué no puede afirmar, hacer ni procesar?","No procesa datos personales reales; no da por cierto lo no verificado; no promete resultados."],
+      ["Deberes de advertencia","¿Qué debe declarar en cada respuesta?","Toda respuesta declara: análisis preliminar con fines pedagógicos; no constituye asesoría jurídica."],
+      ["Reglas de verificación","¿Cómo controla su propia salida?","Separa observación textual, inferencia y recomendación; enlaza cada afirmación a su fuente."],
+      ["Escalamiento humano","¿Cuándo debe detenerse y derivar a una persona?","Ante riesgo alto, datos sensibles o decisiones relevantes, deriva a revisión del profesor responsable."],
+      ["Trazabilidad","¿Qué registra de cada consulta y dónde?","Cada consulta, regla aplicada, fuente usada y advertencia emitida queda en la bitácora del curso."],
+      ["Iteración constitucional","¿Cómo se corrige y versiona esta Constitución? ¿Quién la revisa y cuándo?","Los errores detectados en pruebas se traducen en nuevas reglas; la cátedra revisa la versión cada tres semanas."]
+    ];
+    const LS_WZ = "lab-constitucion-v1";
+    let wz = { nombre:"", pasos:Array(9).fill(""), actual:0 };
+    try { const g = JSON.parse(localStorage.getItem(LS_WZ) || "null"); if (g && Array.isArray(g.pasos)) wz = { ...wz, ...g }; } catch {}
+    function guardarWz(){ localStorage.setItem(LS_WZ, JSON.stringify(wz)); }
+    function pintarWz(){
+      const i = wz.actual; const [nombre, guia, ejemplo] = GUIAS[i];
+      $("wzPaso").textContent = `Capa ${i+1} de 9 — ${CAPAS[i].clausula.split(".")[0]}.`;
+      $("wzCapa").textContent = nombre;
+      $("wzGuia").textContent = guia;
+      $("wzTexto").value = wz.pasos[i] || "";
+      $("wzTexto").placeholder = "Ej.: " + ejemplo;
+      $("wzNombre").value = wz.nombre || "";
+      $("wzPrev").style.visibility = i === 0 ? "hidden" : "visible";
+      $("wzNext").style.display = i === 8 ? "none" : "inline-flex";
+      $("wzGen").style.display = i === 8 ? "inline-flex" : "none";
+      $("wzDots").innerHTML = GUIAS.map((_,d)=>`<i class="${wz.pasos[d].trim()?"done":""} ${d===i?"actual":""}" data-dot="${d}" title="Capa ${d+1}"></i>`).join("");
+    }
+    function capturaWz(){ wz.pasos[wz.actual] = $("wzTexto").value; wz.nombre = $("wzNombre").value; guardarWz(); }
+    $("wzNext").addEventListener("click", ()=>{ capturaWz(); wz.actual = Math.min(8, wz.actual+1); guardarWz(); pintarWz(); });
+    $("wzPrev").addEventListener("click", ()=>{ capturaWz(); wz.actual = Math.max(0, wz.actual-1); guardarWz(); pintarWz(); });
+    document.addEventListener("click",(e)=>{ const d = e.target.closest("[data-dot]"); if(d){ capturaWz(); wz.actual = Number(d.dataset.dot); guardarWz(); pintarWz(); } });
+    $("wzTexto").addEventListener("input", ()=>{ wz.pasos[wz.actual] = $("wzTexto").value; guardarWz(); });
+    $("wzNombre").addEventListener("input", ()=>{ wz.nombre = $("wzNombre").value; guardarWz(); });
+    $("wzLimpiar").addEventListener("click", ()=>{ localStorage.removeItem(LS_WZ); wz = { nombre:"", pasos:Array(9).fill(""), actual:0 }; $("mdOut").textContent = "La Constitución aparecerá aquí al generar."; pintarWz(); auditar("generador","borrador limpiado"); });
+
+    let mdActual = "";
+    function generarMD(){
+      capturaWz();
+      const nombre = (wz.nombre || "Agente sin nombre").trim();
+      const fecha = new Date().toISOString().slice(0,10);
+      const lineas = [
+        `# Constitución del agente — ${nombre}`, "",
+        `> Documento de trabajo generado en el Laboratorio del Método Constitucional`,
+        `> (propuesta DER-IA·OPT-2026, Escuela de Derecho PUCV). Borrador pedagógico: requiere revisión humana.`, "",
+        `Fecha: ${fecha}`, ""
+      ];
+      GUIAS.forEach((g, i) => {
+        lineas.push(`## Art. ${i+1}° — ${g[0]}`, "");
+        lineas.push(wz.pasos[i].trim() || "_(capa pendiente de redacción)_", "");
+      });
+      lineas.push("---", "", "Un agente no se termina: se mantiene. Esta Constitución se versiona (Art. 9°).");
+      mdActual = lineas.join("\n");
+      $("mdOut").textContent = mdActual;
+      auditar("generador", `Constitución generada para "${nombre}" (${wz.pasos.filter(p=>p.trim()).length}/9 capas redactadas)`);
+    }
+    $("wzGen").addEventListener("click", generarMD);
+    $("dlMd").addEventListener("click", ()=>{
+      if (!mdActual) generarMD();
+      const blob = new Blob([mdActual], { type:"text/markdown;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `Constitucion-${(wz.nombre||"agente").replace(/\s+/g,"-")}.md`;
+      a.click(); URL.revokeObjectURL(a.href);
+      auditar("descarga", "Constitución .md descargada");
+    });
+    let pdfListo = null;
+    function cargarPdfmake(){
+      if (pdfListo) return pdfListo;
+      pdfListo = new Promise((res)=>{
+        const urls = [
+          "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js",
+          "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.js",
+          "pdf-fonts.js"
+        ];
+        let n = 0;
+        const next = ()=>{
+          if (n >= urls.length) return res();
+          const s = document.createElement("script"); s.src = urls[n++];
+          s.onload = next; s.onerror = next; document.head.appendChild(s);
+        };
+        next();
+      });
+      return pdfListo;
+    }
+    $("dlPdf").addEventListener("click", async ()=>{
+      if (!mdActual) generarMD();
+      await cargarPdfmake();
+      if (typeof pdfMake === "undefined") { auditar("descarga","PDF no disponible (CDN)"); return; }
+      const nombre = (wz.nombre || "Agente sin nombre").trim();
+      const cuerpo = [];
+      GUIAS.forEach((g,i)=>{
+        cuerpo.push({ text:`Art. ${i+1}° — ${g[0]}`, style:"h2" });
+        cuerpo.push({ text: wz.pasos[i].trim() || "(capa pendiente de redacción)", style:"p" });
+      });
+      const usaPlex = pdfMake.fonts && pdfMake.fonts.IBMPlexSans;
+      pdfMake.createPdf({
+        pageSize:"A4", pageMargins:[46,50,46,46],
+        defaultStyle: usaPlex ? { font:"IBMPlexSans", fontSize:10, color:"#334155", lineHeight:1.3 } : { fontSize:10, color:"#334155", lineHeight:1.3 },
+        styles:{
+          kor:{ fontSize:7.5, color:"#2563eb", bold:true },
+          h1: usaPlex ? { font:"IBMPlexSerif", fontSize:20, bold:true, color:"#0f1b2d", margin:[0,4,0,2] } : { fontSize:20, bold:true, color:"#0f1b2d", margin:[0,4,0,2] },
+          h2: usaPlex ? { font:"IBMPlexSerif", fontSize:12, bold:true, color:"#1e3a5f", margin:[0,12,0,3] } : { fontSize:12, bold:true, color:"#1e3a5f", margin:[0,12,0,3] },
+          p:{ margin:[0,0,0,4] }
+        },
+        content:[
+          { canvas:[{type:"rect",x:0,y:0,w:503,h:5,color:"#2563eb"},{type:"rect",x:0,y:0,w:110,h:5,color:"#b45309"}], margin:[0,0,0,14] },
+          { text:"CONSTITUCIÓN DEL AGENTE · LABORATORIO DEL MÉTODO CONSTITUCIONAL · DER-IA·OPT-2026", style:"kor" },
+          { text: nombre, style:"h1" },
+          { text:"Borrador pedagógico generado en el Laboratorio. Requiere revisión humana. Un agente no se termina: se mantiene (Art. 9°).", fontSize:8.5, color:"#64748b", margin:[0,2,0,10] },
+          ...cuerpo
+        ],
+        footer:(c,t)=>({ columns:[{text:"Método Constitucional · Escuela de Derecho PUCV",fontSize:7,color:"#64748b",margin:[46,0,0,0]},{text:c+" / "+t,fontSize:7,color:"#64748b",alignment:"right",margin:[0,0,46,0]}] })
+      }).download(`Constitucion-${nombre.replace(/\s+/g,"-")}.pdf`);
+      auditar("descarga", "Constitución PDF descargada");
+    });
+
+    /* =================== Registro de auditoría (solo local) =================== */
+    let auditAbierto = false, auditInicial = false;
+    function auditar(tipo, txt){
+      const b = $("auditBody");
+      const hora = new Date().toLocaleTimeString("es-CL", { hour12:false });
+      const div = document.createElement("div");
+      div.className = "al";
+      div.innerHTML = `[${hora}] <b>${esc(tipo)}</b> — ${esc(txt)}`;
+      b.prepend(div);
+      while (b.children.length > 60) b.lastChild.remove();
+    }
+    $("auditToggle").addEventListener("click", ()=>{
+      auditAbierto = !auditAbierto;
+      $("audit").classList.toggle("open", auditAbierto);
+      if (auditAbierto && !auditInicial) {
+        auditInicial = true;
+        auditar("registro", "Todo agente gobernado deja registro. Esta página también.");
+      }
+    });
+    document.addEventListener("fx:capas:activa", (e)=>{
+      const i = e.detail.indice;
+      if (document.activeElement && document.activeElement.closest("#cmfGates"))
+        auditar("capa", `explorada: ${CAPAS[i] ? CAPAS[i].nombre : i+1}`);
+    });
+
+    /* =================== Bitácora GitHub (API pública, caché 10 min) =================== */
+    (async function bitacora(){
+      const CACHE = "lab-git-cache", DIEZ_MIN = 600000;
+      const cont = $("bitacoraGit");
+      try {
+        let data = null;
+        try { const c = JSON.parse(sessionStorage.getItem(CACHE) || "null"); if (c && Date.now() - c.t < DIEZ_MIN) data = c.data; } catch {}
+        if (!data) {
+          const r = await fetch("https://api.github.com/repos/dojedacifuentes/propuesta.optativo.derpucv/commits?per_page=5");
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          data = (await r.json()).map(c => ({ sha: c.sha.slice(0,7), msg: (c.commit.message || "").split("\n")[0], fecha: c.commit.author && c.commit.author.date }));
+          sessionStorage.setItem(CACHE, JSON.stringify({ t: Date.now(), data }));
+        }
+        cont.innerHTML = `<ul class="git-log">` + data.map(c =>
+          `<li><code>${esc(c.sha)}</code><span>${esc(c.msg)}</span><time>${c.fecha ? new Date(c.fecha).toLocaleDateString("es-CL") : ""}</time></li>`).join("") + `</ul>`;
+      } catch (err) {
+        console.info("[bitácora] GitHub API no disponible:", err.message);
+        cont.innerHTML = `<p style="color:var(--muted)">La bitácora no está disponible en este momento (API de GitHub inalcanzable). El repositorio es público: <a href="https://github.com/dojedacifuentes/propuesta.optativo.derpucv" rel="noopener" target="_blank">ver commits en GitHub</a>.</p>`;
+      }
+    })();
+
+    /* =================== Init =================== */
+    pintarGates(); pintarChips(); pintarWz();
+    if (window.lucide) window.lucide.createIcons({ attrs:{ "stroke-width":1.7 } });
+  </script>
+
+  <!-- Sistema fx: fondo campo normativo + capas + audio (acorde y disonancia de bloqueo) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
+  <script type="module" src="fx/bootstrap.js"></script>
+</body>
+</html>

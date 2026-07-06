@@ -110,6 +110,14 @@ function timbre() {
   voz(138.59, ctx.currentTime, 0.16, 0.6, 900); /* C#3 grave, seco */
 }
 
+/** Bloqueo constitucional: dos voces a un semitono — breve, disonante, sobrio. */
+function disonancia() {
+  if (!puedeSonar()) return;
+  const t0 = ctx.currentTime;
+  voz(146.83, t0, 0.3, 0.4, 1100); /* D3  */
+  voz(155.56, t0, 0.3, 0.4, 1100); /* D#3 */
+}
+
 function pintarToggle() {
   if (!toggle) return;
   toggle.innerHTML = activo ? ICONO_ON : ICONO_OFF;
@@ -143,6 +151,12 @@ export const fxAudio = {
     desuscribir.push(FX.on('progreso:seccion', () => { asegurarSiActivo(); tick(); }));
     desuscribir.push(FX.on('capas:activa', (e) => { asegurarSiActivo(); nota(e.detail.indice); }));
     desuscribir.push(FX.on('capas:completa', () => { asegurarSiActivo(); acorde(); }));
+    /* Sala de Verificación (Laboratorio): cada capa que aprueba suena su nota; un bloqueo, disonancia */
+    desuscribir.push(FX.on('verificacion:capa', (e) => {
+      asegurarSiActivo();
+      if (e.detail.veredicto === 'bloquea') disonancia();
+      else if (e.detail.veredicto !== 'omite') nota(e.detail.indice);
+    }));
 
     ctaEl = root.querySelector('#decision .primary-command');
     if (ctaEl) {

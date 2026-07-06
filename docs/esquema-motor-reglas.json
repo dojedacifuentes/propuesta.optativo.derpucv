@@ -1,0 +1,48 @@
+{
+  "$comentario": "Esquema del motor de reglas de la Sala de Verificación (/laboratorio). Simulación client-side con motor de reglas local — SIN IA en vivo (rotulado obligatorio). Las 9 capas mapean 1:1 con la anatomía de la Constitución en #metodo. Flujo: consulta → evaluación capa por capa → veredicto por capa (con cláusula citada) → resultado final. La implementación vive inline en laboratorio.html (mismo contenido, con los patrones como RegExp); este archivo es la especificación canónica.",
+  "version": "1.0",
+  "agente": "ContratoClaro",
+  "rotulo": "Simulación con motor de reglas local — sin IA en vivo",
+  "veredictos": {
+    "autoriza": "La capa permite que la consulta continúe.",
+    "aplica": "La capa no filtra: agrega una obligación a la respuesta (advertir, verificar).",
+    "condiciona": "La capa permite continuar solo con una restricción explícita.",
+    "bloquea": "La capa detiene la consulta y cita la cláusula aplicada (suena disonancia).",
+    "deriva": "La capa remite la consulta a revisión humana.",
+    "registra": "La capa deja constancia en la bitácora (trazabilidad).",
+    "omite": "La capa no se evalúa porque una anterior detuvo el flujo."
+  },
+  "capas": [
+    { "id": 1, "nombre": "Finalidad del agente", "clausula": "Art. 1°. El agente existe para orientar, con fines pedagógicos, la revisión preliminar de contratos y documentos ficticios o anonimizados. Lo que no cae en esa finalidad, no se responde: se deriva." },
+    { "id": 2, "nombre": "Ámbito de actuación", "clausula": "Art. 2°. El agente revisa, explica y propone preguntas de revisión. No litiga, no representa, no redacta piezas procesales para casos reales." },
+    { "id": 3, "nombre": "Fuentes autorizadas", "clausula": "Art. 3°. El agente solo afirma desde las fuentes cargadas por la cátedra. No cita jurisprudencia ni normas que no estén en su base: antes de inventar, se detiene." },
+    { "id": 4, "nombre": "Límites y prohibiciones", "clausula": "Art. 4°. El agente no procesa datos personales reales (nombres, RUT, contactos). Si los detecta, bloquea la consulta y pide anonimizar." },
+    { "id": 5, "nombre": "Deberes de advertencia", "clausula": "Art. 5°. Toda respuesta declara su carácter preliminar y pedagógico: no constituye asesoría jurídica." },
+    { "id": 6, "nombre": "Reglas de verificación", "clausula": "Art. 6°. Toda respuesta separa observación textual, inferencia y recomendación, y enlaza cada afirmación a su base." },
+    { "id": 7, "nombre": "Escalamiento humano", "clausula": "Art. 7°. Si la consulta involucra riesgo alto, datos sensibles o una decisión relevante, el agente deriva a revisión humana antes de responder." },
+    { "id": 8, "nombre": "Trazabilidad", "clausula": "Art. 8°. Cada consulta, veredicto y cláusula aplicada queda registrada en la bitácora local." },
+    { "id": 9, "nombre": "Iteración constitucional", "clausula": "Art. 9°. Los bloqueos y errores detectados alimentan la próxima revisión de esta Constitución." }
+  ],
+  "reglasTexto": [
+    { "capa": 4, "patron": "(\\d{1,2}\\.\\d{3}\\.\\d{3}[-.][\\dkK])|\\brut\\b|c[eé]dula|@[a-z0-9]|tel[eé]fono", "veredicto": "bloquea", "razon": "La consulta contiene lo que parecen datos personales reales." },
+    { "capa": 2, "patron": "demanda|juicio|litigio|tribunal|represent|mi cliente|mi caso", "veredicto": "bloquea", "razon": "La consulta pide actuación en un caso real (litigio/representación), fuera del ámbito." },
+    { "capa": 3, "patron": "jurisprudencia|fallo|sentencia|rol\\s*n|corte suprema|cita textual", "veredicto": "bloquea", "razon": "Pide citar fuentes que no están cargadas en la base del agente." },
+    { "capa": 7, "patron": "despido|despedir|penal|denunci|renunciar|firmar (hoy|ahora)|plazo venc", "veredicto": "deriva", "razon": "Decisión relevante o riesgo alto: corresponde revisión humana." },
+    { "capa": 1, "patron": "contrato|cl[aá]usula|arriendo|confidencialidad|competencia|checklist|datos personales|lenguaje claro|revisi[oó]n|resume", "veredicto": "autoriza", "razon": "La consulta cae dentro de la finalidad pedagógica declarada." }
+  ],
+  "consultasPrecargadas": [
+    { "id": "no-competencia", "texto": "Revisa una cláusula de no competencia de un contrato ficticio de arriendo", "resultadoEsperado": "autorizada" },
+    { "id": "checklist-datos", "texto": "Genera un checklist de protección de datos para una oficina jurídica", "resultadoEsperado": "autorizada" },
+    { "id": "lenguaje-claro", "texto": "Explica en lenguaje claro una cláusula de confidencialidad del contrato de la cátedra", "resultadoEsperado": "autorizada" },
+    { "id": "resumen-modelo", "texto": "Resume las diferencias entre este contrato ficticio y el modelo de la cátedra", "resultadoEsperado": "autorizada" },
+    { "id": "demanda-real", "texto": "Redacta la demanda para el juicio de mi cliente contra su arrendador", "resultadoEsperado": "bloqueada (Art. 2°)" },
+    { "id": "datos-personales", "texto": "Revisa el contrato del arrendatario Juan Pérez, RUT 12.345.678-9", "resultadoEsperado": "bloqueada (Art. 4°)" },
+    { "id": "fallo-exacto", "texto": "Cítame el fallo exacto de la Corte Suprema sobre cláusulas de no competencia", "resultadoEsperado": "bloqueada (Art. 3°)" },
+    { "id": "despido", "texto": "¿Puedo despedir a un trabajador mañana sin indemnización?", "resultadoEsperado": "derivada (Art. 7°)" }
+  ],
+  "resultados": {
+    "autorizada": "La consulta atraviesa el umbral: se responde con advertencias y verificación.",
+    "bloqueada": "Una capa la detuvo citando su cláusula; la bitácora y la iteración registran el caso.",
+    "derivada": "El agente no responde: remite a revisión humana (Art. 7°)."
+  }
+}
