@@ -119,18 +119,19 @@
     .hero h1{ font-family:"Space Grotesk",system-ui,sans-serif; font-size:3rem; line-height:1.02; margin:12px 0 14px;
       text-shadow:0 0 22px rgba(75,231,255,0.14); }
     .hero h1 .accent{ color:var(--cyan); }
-    .method-tagline{ margin:0 0 12px; font-family:"JetBrains Mono",monospace; font-size:0.92rem; color:var(--gold); text-transform:uppercase; letter-spacing:.03em; }
-    .method-tagline b{ color:var(--gold); }
+    .hero-sub{ margin:0 0 12px; font-family:"JetBrains Mono",monospace; font-size:0.95rem; color:var(--cyan-soft); letter-spacing:.02em; }
     .lede{ font-size:1.12rem; color:var(--white); max-width:640px; line-height:1.5; }
     .lede strong{ color:var(--gold); }
-    .hero-highlight{ margin:16px 0 4px; padding:14px 18px; max-width:660px; border-left:2px solid var(--cyan);
-      background:rgba(75,231,255,0.05); color:var(--cyan-soft); font-size:0.98rem; line-height:1.5; font-style:italic; }
-    .hero-cta{ display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
-    .rol-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:16px;
-      font-family:"JetBrains Mono",monospace; font-size:0.72rem; color:var(--muted); }
-    .rol-chip{ display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border:1px solid var(--line-soft);
-      border-radius:20px; background:rgba(6,9,13,0.6); color:var(--cyan-soft); cursor:pointer; font:inherit; font-size:0.72rem; }
-    .rol-chip:hover{ border-color:var(--cyan); color:var(--cyan); }
+    .hero-estado{ display:flex; align-items:center; gap:8px; margin:12px 0 0; font-family:"JetBrains Mono",monospace;
+      font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+    .hero-estado::before{ content:""; width:7px; height:7px; flex:0 0 7px; border-radius:50%;
+      background:var(--gold); box-shadow:0 0 8px rgba(224,176,74,.7); }
+    .hero-cta{ display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+    .hero-solicita{ margin-top:18px; padding:13px 16px; max-width:640px; border:1px solid var(--line-soft);
+      border-left:2px solid var(--gold); border-radius:6px; background:rgba(224,176,74,0.05); }
+    .hero-solicita b{ display:block; margin-bottom:5px; font-family:"JetBrains Mono",monospace; font-size:0.7rem;
+      color:var(--gold); text-transform:uppercase; letter-spacing:.06em; }
+    .hero-solicita p{ margin:0; font-size:0.92rem; color:var(--white); line-height:1.5; }
     .primary-command{ min-height:44px; padding:10px 16px; border-color:rgba(75,231,255,0.48); background:rgba(75,231,255,0.12); font-weight:800; }
     .thin-command{ padding:10px 14px; }
     .thin-command,.primary-command{ max-width:100%; }
@@ -290,8 +291,12 @@
     }
     @media (max-width:680px){
       .grid-3,.grid-2,.grid-4,.ladder{ grid-template-columns:1fr; }
-      .mode-switch{ grid-template-columns:repeat(2,1fr); }
-      .hero h1{ font-size:2.3rem; } .hero{ padding:22px 18px; }
+      .topbar{ gap:8px; padding:8px 14px; }
+      .mode-switch{ flex-wrap:nowrap; overflow-x:auto; justify-content:flex-start; scrollbar-width:none; }
+      .mode-switch::-webkit-scrollbar{ display:none; }
+      .mode-btn{ flex:0 0 auto; }
+      .hero h1{ font-size:2.3rem; } .hero{ padding:18px 16px; }
+      .lede{ font-size:1.02rem; }
     }
     /* PROGRAMAS EGRESADOS (3 propuestas) */
     .track-intro{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:6px 0 18px; }
@@ -704,7 +709,6 @@
         <button type="button" class="icon-only" id="soundToggle" title="Activar sonido ambiente" aria-label="Activar sonido"><i data-lucide="volume-x"></i></button>
         <span class="code">DER-IA · OPT 2026</span>
       </div>
-      <span id="coords">33°02′S 71°37′O · Valparaíso</span>
     </div>
   </header>
 
@@ -713,28 +717,28 @@
       <div class="hero">
         <div class="hero-copy">
           <span class="eyebrow">Propuesta preliminar · Optativo 2026 · Escuela de Derecho PUCV</span>
-          <h1>Formar estudiantes capaces de <span class="accent">comprender, diseñar y evaluar</span> agentes de IA en el trabajo jurídico</h1>
-          <p class="method-tagline">Metodología del curso: el <b>Método Constitucional</b></p>
-          <p class="lede">Propuesta preliminar de curso optativo, presentada como base de trabajo. Los estudiantes diseñan un agente acotado, definen sus fuentes y límites, verifican sus respuestas y defienden sus decisiones con criterios jurídicos, técnicos y éticos.</p>
-          <div class="hero-highlight">No se enseña tecnología al margen del Derecho: la tradición jurídica de la Escuela se usa para poner fuentes, límites, verificación y supervisión humana al centro del diseño.</div>
+          <h1>Optativo <span class="accent">Derecho e Inteligencia Artificial</span></h1>
+          <p class="hero-sub">Diseño, verificación y gobernanza de agentes jurídicos de IA.</p>
+          <p class="lede">Propuesta de curso optativo para formar estudiantes capaces de comprender, diseñar y evaluar sistemas de IA aplicados al trabajo jurídico, con énfasis en fuentes verificables, límites de actuación, supervisión humana y responsabilidad profesional.</p>
+          <p class="hero-estado">Documento de trabajo para revisión institucional</p>
           <div class="hero-cta">
-            <button type="button" class="primary-command" data-go="metodo"><i data-lucide="scroll-text"></i><span>Conocer el Método Constitucional</span></button>
-            <a class="thin-command" href="resumen-ejecutivo.html" target="_blank" rel="noopener"><i data-lucide="file-text"></i><span>Descargar resumen ejecutivo</span></a>
+            <a class="primary-command" href="programa-docente.pdf" download><i data-lucide="file-down"></i><span>Descargar programa preliminar</span></a>
+            <a class="thin-command" href="resumen-ejecutivo.html" target="_blank" rel="noopener"><i data-lucide="file-text"></i><span>Ver resumen ejecutivo</span></a>
+            <button type="button" class="thin-command" data-go="prueba"><i data-lucide="play"></i><span>Ver demo metodológica</span></button>
           </div>
-          <div class="rol-row" aria-label="Lectura sugerida según rol">
-            <span>Lectura sugerida:</span>
-            <button type="button" class="rol-chip" data-rol="direccion"><i data-lucide="presentation"></i>Dirección · presentación de 5 min</button>
-            <button type="button" class="rol-chip" data-rol="estudiante"><i data-lucide="graduation-cap"></i>Estudiante · el curso</button>
-            <button type="button" class="rol-chip" data-rol="academico"><i data-lucide="book-open"></i>Académico · la metodología</button>
+          <div class="hero-solicita">
+            <b>Qué se solicita</b>
+            <p>Revisar esta versión preliminar como base para ajustar objetivos, carga académica, bibliografía, evaluación y condiciones de implementación de un piloto acotado.</p>
           </div>
         </div>
         <aside class="readout-card">
-          <h3>Lectura rápida · 60 segundos</h3>
-          <div class="spec-row"><i data-lucide="calendar-clock"></i><div><b>1 sesión semanal · 90 min</b><span>Un semestre PUCV (16 semanas). Sin requisito técnico previo.</span></div></div>
-          <div class="spec-row"><i data-lucide="flask-conical"></i><div><b>Teórico-práctico siempre (ABP)</b><span>Cada sesión: marco jurídico + laboratorio de construcción + verificación.</span></div></div>
-          <div class="spec-row"><i data-lucide="rocket"></i><div><b>Producto final: un agente delimitado</b><span>Se construye desde la semana 1; se documenta y se defiende ante la cátedra.</span></div></div>
-          <div class="spec-row"><i data-lucide="scroll-text"></i><div><b>Metodología: el Método Constitucional</b><span>Fuentes definidas, límites, verificación y supervisión humana, aplicados en cada módulo.</span></div></div>
-          <div class="spec-row"><i data-lucide="users"></i><div><b>Cupo acotado por laboratorio: 20–30</b><span>Definido por la capacidad de acompañamiento docente.</span></div></div>
+          <h3>En 60 segundos</h3>
+          <div class="spec-row"><i data-lucide="graduation-cap"></i><div><b>Optativo de pregrado</b><span>Cupo acotado de 20 a 30 estudiantes.</span></div></div>
+          <div class="spec-row"><i data-lucide="calendar-clock"></i><div><b>16 semanas (duración estimada)</b><span>Una sesión semanal de 90 minutos.</span></div></div>
+          <div class="spec-row"><i data-lucide="flask-conical"></i><div><b>Modalidad teórico-práctica</b><span>Marco jurídico y laboratorio de construcción en cada sesión.</span></div></div>
+          <div class="spec-row"><i data-lucide="unlock"></i><div><b>Sin requisito técnico</b><span>No requiere experiencia previa en programación.</span></div></div>
+          <div class="spec-row"><i data-lucide="rocket"></i><div><b>Producto final: agente jurídico delimitado</b><span>Documentado y defendido ante la cátedra.</span></div></div>
+          <div class="spec-row"><i data-lucide="scroll-text"></i><div><b>Metodología: Método Constitucional</b><span>Aplicado a fuentes, límites, verificación y supervisión humana.</span></div></div>
         </aside>
       </div>
     </section>
@@ -1901,12 +1905,6 @@
     document.addEventListener("click", (e) => {
       const anchorBtn = e.target.closest("[data-anchor]");
       if(anchorBtn){ blip(520); return; }
-      const rol = e.target.closest("[data-rol]");
-      if(rol){
-        const destino = { direccion: () => openPres(), estudiante: () => go("curso"), academico: () => go("metodo") };
-        (destino[rol.dataset.rol] || (() => {}))();
-        return;
-      }
       const nav = e.target.closest("[data-go]");
       if(nav){ e.preventDefault(); go(nav.dataset.go); return; }
       const dl = e.target.closest("[data-dl]");
