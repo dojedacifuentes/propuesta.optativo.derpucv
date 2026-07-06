@@ -133,6 +133,7 @@
     .rol-chip:hover{ border-color:var(--cyan); color:var(--cyan); }
     .primary-command{ min-height:44px; padding:10px 16px; border-color:rgba(75,231,255,0.48); background:rgba(75,231,255,0.12); font-weight:800; }
     .thin-command{ padding:10px 14px; }
+    .thin-command,.primary-command{ max-width:100%; }
 
     .readout-card{ align-self:start; display:grid; gap:10px; padding:16px; border:1px solid rgba(75,231,255,0.22);
       border-radius:7px; background:linear-gradient(135deg, rgba(2,3,6,0.88), rgba(6,12,15,0.6)),
@@ -632,6 +633,7 @@
     .dl::before{ left:6px; top:6px; border-right:0; border-bottom:0; }
     .dl::after{ right:6px; bottom:6px; border-left:0; border-top:0; }
     .dl:hover{ border-color:var(--cyan); transform:translateY(-2px); box-shadow:0 12px 30px -16px rgba(75,231,255,.5); }
+    a.dl{ text-decoration:none; }
     .dl-ic{ display:grid; place-items:center; width:40px; height:40px; flex:0 0 40px; border-radius:8px;
       border:1px solid color-mix(in srgb,var(--cyan),transparent 55%); color:var(--cyan); background:rgba(2,3,6,.6); }
     .dl-ic svg{ width:20px; height:20px; }
@@ -973,7 +975,7 @@
         <div class="demo-out" id="demoOut"></div>
       </div>
       <div class="note"><i data-lucide="shield-alert"></i><div>Demostración con datos ficticios. Refuerza el punto central: el estudiante no solo usa IA — diseña un sistema que explica qué hace, con qué fuentes opera y cuándo debe detenerse.</div></div>
-      <p style="margin:18px 0 0"><a class="thin-command" href="laboratorio.html" style="display:inline-flex"><i data-lucide="flask-conical"></i><span>Abrir el Laboratorio: Sala de Verificación y Generador de Constitución (simulación local)</span></a></p>
+      <p style="margin:18px 0 0"><a class="thin-command" href="laboratorio.html" style="display:inline-flex"><i data-lucide="flask-conical"></i><span>Abrir el Laboratorio (simulación local)</span></a></p>
     </section>
 
     <section class="section-view macro" id="curso" data-fx-articulo="Cómo se vive el curso">
@@ -1880,6 +1882,13 @@
         b.innerHTML = `<span class="dl-ic"><i data-lucide="file-down"></i></span><span class="dl-tx"><b>Descargar · ${t}</b><span>${d}</span></span><span class="dl-go">PDF</span>`;
         sec.appendChild(b);
       });
+      const dir = document.getElementById("direccion");
+      if(dir){
+        const a = document.createElement("a");
+        a.className = "dl"; a.href = "programa-docente.pdf"; a.download = "";
+        a.innerHTML = `<span class="dl-ic"><i data-lucide="file-text"></i></span><span class="dl-tx"><b>Descargar · Programa docente (3 páginas)</b><span>Identificación, fundamentos científico-pedagógicos, resultados de aprendizaje, metodología y evaluación.</span></span><span class="dl-go">PDF</span>`;
+        dir.insertBefore(a, dir.querySelector('[data-dl="direccion"]'));
+      }
     }
 
     /* ===================== NAVEGACIÓN (scroll continuo + anclas) ===================== */
