@@ -21,6 +21,8 @@
       --white:#f6f0df; --muted:#9ba7ad;
       --radius:8px; --shadow:0 18px 80px rgba(0,0,0,0.55);
     }
+    /* Transición suave entre páginas del sitio (mejora progresiva) */
+    @view-transition{ navigation:auto; }
     *{ box-sizing:border-box; }
     html{ min-height:100%; background:var(--bg); color:var(--white); font-family:Inter,system-ui,sans-serif; scroll-behavior:smooth; }
     body{ min-height:100vh; margin:0; overflow-x:hidden; background:var(--bg); }
@@ -169,18 +171,18 @@
     <div class="section-head" style="margin-top:8px">
       <span class="eyebrow">El método demostrado, no descrito</span>
       <h2>Laboratorio</h2>
-      <p>Dos instrumentos operativos del Método Constitucional: una <b style="color:var(--white)">Sala de Verificación</b> donde una consulta atraviesa el umbral constitucional capa por capa, y un <b style="color:var(--white)">Generador de Constitución</b> para redactar la de tu propio agente y llevártela.</p>
-      <p class="rotulo"><i data-lucide="cpu"></i>Simulación con motor de reglas local — sin IA en vivo · nada sale de tu navegador</p>
+      <p>Dos instrumentos operativos del Método Constitucional: una <b style="color:var(--white)">Sala de Verificación</b> donde una consulta atraviesa el umbral constitucional capa por capa, y un <b style="color:var(--white)">Generador de Constitución</b> para redactar la de un agente propio y descargarla.</p>
+      <p class="rotulo"><i data-lucide="cpu"></i>Simulación con motor de reglas local — sin IA en vivo · nada sale del navegador</p>
     </div>
 
     <!-- ============ SALA DE VERIFICACIÓN ============ -->
     <section id="sala">
       <div class="section-head"><span class="eyebrow">Instrumento 1</span><h2 style="font-size:1.5rem">Sala de Verificación</h2>
-        <p>Elige una consulta —o escribe la tuya— y mira cómo desciende por las nueve capas: cada capa la autoriza, la condiciona o la bloquea <b style="color:var(--white)">citando su cláusula</b>. Con el sonido activado, cada capa que aprueba suena su nota; un bloqueo suena disonante.</p></div>
+        <p>Seleccione una consulta —o escriba una propia— y observe cómo desciende por las nueve capas: cada capa la autoriza, la condiciona o la bloquea <b style="color:var(--white)">citando su cláusula</b>. Con el sonido activado, cada capa que aprueba suena su nota; un bloqueo suena disonante.</p></div>
 
       <div class="sala-consultas" id="salaChips"></div>
       <div class="sala-input">
-        <input id="salaInput" type="text" autocomplete="off" placeholder="…o escribe una consulta y observa el umbral" aria-label="Consulta a evaluar">
+        <input id="salaInput" type="text" autocomplete="off" placeholder="…o escriba una consulta para observar el umbral" aria-label="Consulta a evaluar">
         <button type="button" class="primary-command" id="salaEval"><i data-lucide="scale"></i><span>Evaluar</span></button>
       </div>
 
@@ -201,7 +203,7 @@
     <!-- ============ GENERADOR DE CONSTITUCIÓN ============ -->
     <section id="generador">
       <div class="section-head"><span class="eyebrow">Instrumento 2</span><h2 style="font-size:1.5rem">Generador de Constitución</h2>
-        <p>Nueve pasos —uno por capa— y te llevas la Constitución de tu agente en Markdown o PDF. El borrador se guarda en tu navegador; nada se envía a ningún servidor.</p></div>
+        <p>Nueve pasos —uno por capa— para obtener la Constitución de un agente en Markdown o PDF. El borrador se guarda en el navegador local; nada se envía a ningún servidor.</p></div>
 
       <div class="wizard">
         <div class="card">
@@ -234,7 +236,7 @@
 
     <!-- ============ BITÁCORA DE CONSTRUCCIÓN ============ -->
     <section id="bitacora">
-      <div class="section-head"><span class="eyebrow">Transparencia radical</span><h2 style="font-size:1.5rem">Bitácora de construcción</h2>
+      <div class="section-head"><span class="eyebrow">Transparencia</span><h2 style="font-size:1.5rem">Bitácora de construcción</h2>
         <p>Los últimos cambios reales de este sitio, leídos en vivo del repositorio público. El sitio muestra cómo se construye a sí mismo.</p></div>
       <div id="bitacoraGit"><p style="color:var(--muted)">Cargando compromisos del repositorio…</p></div>
     </section>
@@ -244,7 +246,7 @@
   <aside class="audit" id="audit" aria-label="Registro de auditoría local">
     <div class="audit-head">Registro de auditoría — local</div>
     <div class="audit-body" id="auditBody"></div>
-    <div class="audit-foot">Solo en tu navegador. Nada se envía a ningún servidor.</div>
+    <div class="audit-foot">Solo en este navegador. Nada se envía a ningún servidor.</div>
   </aside>
 
   <footer class="credit">
@@ -385,9 +387,9 @@
 
     /* =================== UI · Generador =================== */
     const GUIAS = [
-      ["Finalidad","¿Para qué existe tu agente? ¿Qué problema jurídico acotado aborda y para quién?","Orientar la revisión preliminar de contratos de arriendo ficticios para estudiantes de la clínica."],
+      ["Finalidad","¿Para qué existe el agente? ¿Qué problema jurídico acotado aborda y para quién?","Orientar la revisión preliminar de contratos de arriendo ficticios para estudiantes de la clínica."],
       ["Ámbito de actuación","¿Qué tareas puede realizar y cuáles quedan explícitamente fuera?","Puede revisar, explicar y proponer preguntas. No redacta piezas procesales ni actúa en casos reales."],
-      ["Fuentes autorizadas","¿Desde qué materiales puede responder? Sé taxativo.","Solo los documentos cargados por la cátedra, la normativa indicada y los criterios docentes."],
+      ["Fuentes autorizadas","¿Desde qué materiales puede responder? La enumeración debe ser taxativa.","Solo los documentos cargados por la cátedra, la normativa indicada y los criterios docentes."],
       ["Límites y prohibiciones","¿Qué no puede afirmar, hacer ni procesar?","No procesa datos personales reales; no da por cierto lo no verificado; no promete resultados."],
       ["Deberes de advertencia","¿Qué debe declarar en cada respuesta?","Toda respuesta declara: análisis preliminar con fines pedagógicos; no constituye asesoría jurídica."],
       ["Reglas de verificación","¿Cómo controla su propia salida?","Separa observación textual, inferencia y recomendación; enlaza cada afirmación a su fuente."],

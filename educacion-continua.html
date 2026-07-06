@@ -21,6 +21,8 @@
       --white:#f6f0df; --muted:#9ba7ad;
       --radius:8px; --shadow:0 18px 80px rgba(0,0,0,0.55);
     }
+    /* Transición suave entre páginas del sitio (mejora progresiva) */
+    @view-transition{ navigation:auto; }
     *{ box-sizing:border-box; }
     html{ min-height:100%; background:var(--bg); color:var(--white); font-family:Inter,system-ui,sans-serif; scroll-behavior:smooth; }
     body{ min-height:100vh; margin:0; overflow-x:hidden; background:var(--bg); }
@@ -196,46 +198,46 @@
     const $ = (id) => document.getElementById(id);
     const PROGRAMS = [
       { color:"var(--cyan)", en:"The Augmented Lawyer", name:"Abogado Aumentado",
-        tagline:"Deja de competir con la IA. Hazla trabajar para ti.",
-        who:"Para abogados y egresados <b>sin experiencia técnica</b> que sienten que la IA los está dejando atrás.",
-        from:"Usuario ansioso que copia y pega en un chatbot",
+        tagline:"Delegar en la IA con criterio profesional.",
+        who:"Para abogados y egresados <b>sin experiencia técnica</b> que quieren incorporar la IA a su práctica con método.",
+        from:"Uso intuitivo y sin método de un chatbot",
         to:"Profesional que delega con criterio y verifica lo que firma",
         format:["≈ 20 h","Modular","Sin requisito técnico"],
         modules:[
-          { mn:"01", t:"Alfabetización crítica", o:"Distingues qué puede y qué no puede hacer la IA; dejas de creerle a ciegas." },
-          { mn:"02", t:"Del prompt al flujo", o:"Conviertes tareas repetitivas en flujos reproducibles y confiables." },
-          { mn:"03", t:"Verificación y datos", o:"Verificas salidas y proteges datos personales según la Ley 21.719." },
-          { mn:"04", t:"Tu primer asistente", o:"Documentas un asistente para una tarea real de tu práctica." }
+          { mn:"01", t:"Alfabetización crítica", o:"Distinguir qué puede y qué no puede hacer la IA; evaluar sus salidas sin credulidad." },
+          { mn:"02", t:"Del prompt al flujo", o:"Convertir tareas repetitivas en flujos reproducibles y confiables." },
+          { mn:"03", t:"Verificación y datos", o:"Verificar salidas y proteger datos personales según la Ley 21.719." },
+          { mn:"04", t:"Primer asistente propio", o:"Documentar un asistente para una tarea real de la práctica." }
         ],
-        deliver:"Un flujo de trabajo asistido, verificado y conforme a la ley, listo para usar mañana.",
+        deliver:"Un flujo de trabajo asistido, verificado y conforme a la ley, listo para incorporarse al trabajo diario.",
         art:`<svg viewBox="0 0 440 158" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="440" height="158" fill="#03060a"/><g stroke="#4be7ff" stroke-opacity=".07"><path d="M0 40H440M0 80H440M0 120H440"/><path d="M80 0V158M160 0V158M240 0V158M320 0V158M400 0V158"/></g><g transform="translate(220 86)"><circle r="48" fill="none" stroke="#4be7ff" stroke-opacity=".16"/><circle r="31" fill="none" stroke="#4be7ff" stroke-opacity=".34"/><polygon points="0,-20 17,-10 17,10 0,20 -17,10 -17,-10" fill="none" stroke="#4be7ff" stroke-width="1.6"/><circle r="5" fill="#4be7ff"/></g><g fill="#8df6ff"><circle cx="118" cy="120" r="2"/><circle cx="150" cy="96" r="2"/><circle cx="300" cy="112" r="2"/><circle cx="332" cy="82" r="2"/></g><g stroke="#4be7ff" stroke-width="2" fill="none" stroke-opacity=".7" stroke-linecap="round"><path d="M360 52l10-10 10 10"/><path d="M360 74l10-10 10 10"/></g><text x="20" y="32" fill="#4be7ff" font-family="monospace" font-size="11" opacity=".8">USAR · DELEGAR</text></svg>` },
 
       { color:"var(--mint)", en:"The Legal Engineer", name:"Ingeniero Jurídico",
-        tagline:"Tus problemas legales, resueltos con herramientas que tú construyes.",
+        tagline:"Construir herramientas propias para problemas jurídicos propios.",
         who:"Para quienes <b>ya usan IA a diario</b> y quieren dejar de depender de productos ajenos.",
         from:"Usuario avanzado de herramientas de otros",
         to:"Profesional que construye y despliega sus propias herramientas",
         format:["≈ 40 h","Proyecto real","Construcción asistida por agentes"],
         modules:[
-          { mn:"01", t:"De la idea a la app", o:"Construyes una herramienta funcional con el flujo Claude Code → GitHub → Vercel." },
-          { mn:"02", t:"La Constitución del agente", o:"Redactas las reglas de tu sistema: el sello teórico difícil de copiar." },
-          { mn:"03", t:"Datos reales con Supabase", o:"Conectas tu herramienta a una base de datos y la haces persistente." },
-          { mn:"04", t:"Verificación y seguridad", o:"Auditas, anonimizas y endureces antes de usarla con clientes." }
+          { mn:"01", t:"De la idea a la app", o:"Construir una herramienta funcional con el flujo Claude Code → GitHub → Vercel." },
+          { mn:"02", t:"La Constitución del agente", o:"Redactar las reglas del sistema según el Método Constitucional." },
+          { mn:"03", t:"Datos reales con Supabase", o:"Conectar la herramienta a una base de datos y hacerla persistente." },
+          { mn:"04", t:"Verificación y seguridad", o:"Auditar, anonimizar y endurecer antes de usarla con clientes." }
         ],
-        deliver:"Una herramienta jurídica funcional, desplegada en línea, hecha para tu propio ejercicio.",
+        deliver:"Una herramienta jurídica funcional, desplegada en línea, para el ejercicio profesional propio.",
         art:`<svg viewBox="0 0 440 158" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="440" height="158" fill="#03060a"/><g stroke="#54d6a0" stroke-opacity=".07"><path d="M0 40H440M0 80H440M0 120H440"/><path d="M80 0V158M160 0V158M240 0V158M320 0V158M400 0V158"/></g><g stroke="#54d6a0" stroke-opacity=".5" fill="none"><path d="M120 96L220 62M220 62L320 96"/></g><g fill="none" stroke="#54d6a0" stroke-width="1.6"><rect x="96" y="80" width="48" height="40" rx="4"/><rect x="196" y="42" width="48" height="40" rx="4"/><rect x="296" y="80" width="48" height="40" rx="4"/></g><g fill="#54d6a0"><circle cx="120" cy="100" r="3"/><circle cx="220" cy="62" r="3"/><circle cx="320" cy="100" r="3"/></g><g stroke="#9bffd0" stroke-width="2" stroke-linecap="round"><path d="M214 62h12M220 56v12"/></g><text x="20" y="32" fill="#54d6a0" font-family="monospace" font-size="11" opacity=".85">CONSTRUIR · DESPLEGAR</text></svg>` },
 
       { color:"var(--gold)", en:"The Legal-Algorithmic Architect", name:"Arquitecto Jurídico-Algorítmico",
-        tagline:"No uses sistemas de IA legal. Diséñalos y gobiérnalos.",
+        tagline:"Diseñar y gobernar sistemas de IA legal, no solo usarlos.",
         who:"Para <b>socios, líderes de equipos legales</b> y quienes quieren escalar de la herramienta al sistema.",
         from:"Constructor de herramientas sueltas",
         to:"Arquitecto que gobierna sistemas jurídico-algorítmicos completos",
         format:["≈ 60 h","Sistema + gobernanza","Nivel avanzado"],
         modules:[
-          { mn:"01", t:"Arquitectura de sistemas", o:"Diseñas sistemas que integran varios agentes y fuentes de datos." },
-          { mn:"02", t:"Gobernanza y responsabilidad", o:"Defines supervisión humana significativa y respondes por el comportamiento del sistema." },
-          { mn:"03", t:"Agentes y automatización supervisada", o:"Orquestas agentes con límites, bitácora y mejora continua." },
-          { mn:"04", t:"Auditoría y cumplimiento avanzado", o:"Auditas decisiones automatizadas y las contrastas con la regulación vigente." }
+          { mn:"01", t:"Arquitectura de sistemas", o:"Diseñar sistemas que integran varios agentes y fuentes de datos." },
+          { mn:"02", t:"Gobernanza y responsabilidad", o:"Definir supervisión humana significativa y responder por el comportamiento del sistema." },
+          { mn:"03", t:"Agentes y automatización supervisada", o:"Orquestar agentes con límites, bitácora y mejora continua." },
+          { mn:"04", t:"Auditoría y cumplimiento avanzado", o:"Auditar decisiones automatizadas y contrastarlas con la regulación vigente." }
         ],
         deliver:"Un sistema gobernado y su política de gobernanza, listo para operar en un equipo o estudio.",
         art:`<svg viewBox="0 0 440 158" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="440" height="158" fill="#03060a"/><g stroke="#e0b04a" stroke-opacity=".07"><path d="M0 40H440M0 80H440M0 120H440"/><path d="M80 0V158M160 0V158M240 0V158M320 0V158M400 0V158"/></g><g fill="none" stroke="#e0b04a" stroke-opacity=".5"><path d="M120 122a100 100 0 0 1 200 0"/><path d="M150 122a70 70 0 0 1 140 0"/><path d="M180 122a40 40 0 0 1 80 0"/></g><g stroke="#e0b04a" stroke-opacity=".45" fill="none"><path d="M140 122L220 70L300 122M220 70V122"/></g><g fill="#e0b04a"><circle cx="220" cy="70" r="4"/><circle cx="140" cy="122" r="3"/><circle cx="220" cy="122" r="3"/><circle cx="300" cy="122" r="3"/></g><text x="20" y="32" fill="#e0b04a" font-family="monospace" font-size="11" opacity=".85">DISEÑAR · GOBERNAR</text></svg>` }
@@ -264,7 +266,7 @@
             <div class="prog-mods">
               <h4>Qué construyes, módulo a módulo</h4>
               ${p.modules.map(m=>`<div class="prog-mod"><span class="mn">${esc(m.mn)}</span><div><b>${esc(m.t)}</b><span>${esc(m.o)}</span></div></div>`).join("")}
-              <div class="prog-deliver"><i data-lucide="package-check"></i><div><b>Te llevas:</b> <span>${esc(p.deliver)}</span></div></div>
+              <div class="prog-deliver"><i data-lucide="package-check"></i><div><b>Entregable:</b> <span>${esc(p.deliver)}</span></div></div>
             </div>
           </div>
         </article>`).join("");
