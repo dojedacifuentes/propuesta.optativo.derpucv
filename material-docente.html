@@ -1,0 +1,1307 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Material docente · Derecho e Inteligencia Artificial · Optativo PUCV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..800&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#020306; --bg-2:#06090d; --bg-3:#0a1016;
+  --panel:rgba(7,12,17,0.92); --panel-2:rgba(10,16,22,0.96);
+  --line:rgba(75,231,255,0.22); --line-soft:rgba(246,240,223,0.12);
+  --cyan:#4be7ff; --cyan-soft:#8df6ff; --cyan-deep:#1c6b7a;
+  --red:#e44949; --red-deep:#800814;
+  --gold:#e0b04a; --mint:#54d6a0; --coral:#ec7e72; --violet:#9b8cff;
+  --white:#f6f0df; --muted:#9ba7ad; --dim:#6b7780;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --display:"Space Grotesk",system-ui,sans-serif;
+  --body:Inter,system-ui,sans-serif;
+}
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background:var(--bg); color:var(--white); font-family:var(--body);
+  font-size:10.3pt; line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{ font-family:var(--display); font-weight:600; margin:0; line-height:1.08; }
+p{ margin:0 0 7px; } strong{ color:var(--cyan-soft); font-weight:600; }
+a{ color:var(--cyan); }
+small{ font-size:0.82em; }
+.mono{ font-family:var(--mono); }
+
+/* ============ PÁGINA / IMPRESIÓN ============ */
+@page{ size:A4; margin:13mm 12mm 15mm; }
+.doc{ max-width:186mm; margin:0 auto; padding:10mm 0; }
+.page{ position:relative; }
+.pb{ break-before:page; }
+.avoid{ break-inside:avoid; }
+@media print{
+  body{ background:var(--bg); -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .doc{ padding:0; max-width:none; }
+  .no-print{ display:none !important; }
+  .page{ background:var(--bg); }
+}
+html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+/* screen page frame — WYSIWYG-ish sheets */
+@media screen{
+  body{ background:#000; padding:18px 0; }
+  .doc{ background:linear-gradient(180deg,var(--bg),var(--bg-2)); box-shadow:0 30px 90px rgba(0,0,0,.7);
+    padding:14mm 13mm; border:1px solid var(--line-soft); }
+}
+
+/* ============ TOOLBAR (solo pantalla) ============ */
+.bar{ position:sticky; top:0; z-index:99; display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+  padding:10px 16px; background:#04070c; border-bottom:1px solid var(--line); }
+.bar b{ font-family:var(--mono); font-size:12px; color:var(--cyan); letter-spacing:.06em; }
+.bar span{ font-family:var(--mono); font-size:11px; color:var(--muted); }
+.bar button{ margin-left:auto; font-family:var(--mono); font-size:12px; cursor:pointer;
+  color:#031015; background:var(--cyan); border:0; border-radius:6px; padding:9px 16px; font-weight:700; }
+.bar button:hover{ background:var(--cyan-soft); }
+
+/* ============ HELPERS DE MARCA ============ */
+.eyebrow{ font-family:var(--mono); font-size:8pt; color:var(--cyan); text-transform:uppercase; letter-spacing:.14em; }
+.rule{ height:1px; background:linear-gradient(90deg,var(--cyan),transparent 75%); margin:6px 0 0; border:0; }
+.rule.full{ background:linear-gradient(90deg,transparent,var(--line),transparent); }
+.hud{ position:relative; }
+.hud::before,.hud::after{ content:""; position:absolute; width:11px; height:11px; border:1.5px solid var(--cyan); opacity:.65; }
+.hud::before{ left:-1px; top:-1px; border-right:0; border-bottom:0; }
+.hud::after{ right:-1px; bottom:-1px; border-left:0; border-top:0; }
+
+.chip{ display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border:1px solid var(--line-soft);
+  border-radius:20px; font-family:var(--mono); font-size:7.6pt; color:var(--cyan-soft); background:rgba(75,231,255,.05);
+  text-transform:uppercase; letter-spacing:.06em; }
+.chip.g{ color:var(--gold); border-color:rgba(224,176,74,.35); background:rgba(224,176,74,.06); }
+.chip.m{ color:var(--mint); border-color:rgba(84,214,160,.35); background:rgba(84,214,160,.06); }
+.chip.r{ color:var(--red); border-color:rgba(228,73,73,.35); background:rgba(228,73,73,.07); }
+.chip.v{ color:var(--violet); border-color:rgba(155,140,255,.35); background:rgba(155,140,255,.06); }
+
+.card{ border:1px solid var(--line-soft); border-radius:9px; padding:12px 14px; background:var(--panel); }
+.grid{ display:grid; gap:9px; }
+.g2{ grid-template-columns:1fr 1fr; } .g3{ grid-template-columns:1fr 1fr 1fr; } .g4{ grid-template-columns:repeat(4,1fr); }
+
+/* cajas semánticas */
+.box{ border-radius:8px; padding:10px 13px 10px 15px; margin:9px 0; border:1px solid var(--line-soft); position:relative; background:var(--panel); }
+.box::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; border-radius:8px 0 0 8px; }
+.box h4{ font-family:var(--mono); font-size:8pt; letter-spacing:.08em; text-transform:uppercase; margin:0 0 4px; }
+.box.analogia::before{ background:var(--cyan); } .box.analogia h4{ color:var(--cyan); }
+.box.warn::before{ background:var(--gold); } .box.warn h4{ color:var(--gold); }
+.box.ok::before{ background:var(--mint); } .box.ok h4{ color:var(--mint); }
+.box.risk::before{ background:var(--red); } .box.risk h4{ color:var(--red); }
+.box.note::before{ background:var(--violet); } .box.note h4{ color:var(--violet); }
+
+/* código / prompts */
+.code{ font-family:var(--mono); font-size:8.2pt; line-height:1.5; color:var(--cyan-soft);
+  background:#020608; border:1px solid var(--line-soft); border-left:2px solid var(--cyan-deep);
+  border-radius:6px; padding:9px 11px; white-space:pre-wrap; margin:6px 0; }
+.code .k{ color:var(--gold); } .code .c{ color:var(--dim); }
+
+/* tablas */
+table{ width:100%; border-collapse:collapse; font-size:8.6pt; margin:6px 0; }
+th{ font-family:var(--mono); font-size:7.4pt; text-transform:uppercase; letter-spacing:.05em; color:var(--muted);
+  text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); }
+td{ padding:6px 8px; border-bottom:1px solid var(--line-soft); vertical-align:top; }
+tr:last-child td{ border-bottom:0; }
+td .w{ color:var(--mint); font-family:var(--mono); font-weight:700; }
+
+/* listas */
+ul.tick,ul.plain{ margin:5px 0; padding-left:0; list-style:none; }
+ul.tick li,ul.plain li{ position:relative; padding-left:18px; margin:3px 0; }
+ul.tick li::before{ content:"✓"; position:absolute; left:0; color:var(--mint); font-weight:700; }
+ul.plain li::before{ content:"·"; position:absolute; left:5px; color:var(--cyan); font-weight:700; }
+ul.check li{ position:relative; padding-left:22px; margin:4px 0; list-style:none; }
+ul.check{ padding-left:0; margin:5px 0; }
+ul.check li::before{ content:""; position:absolute; left:0; top:1px; width:12px; height:12px; border:1.5px solid var(--cyan-deep); border-radius:3px; }
+
+/* separador de módulo (portada de módulo) */
+.modcover{ break-before:page; min-height:250mm; display:flex; flex-direction:column; justify-content:center;
+  border:1px solid var(--line); border-radius:12px; padding:26mm 20mm; position:relative; overflow:hidden;
+  background:radial-gradient(120% 80% at 15% 0%, rgba(75,231,255,.08), transparent 60%), var(--panel-2); }
+.modcover .big{ font-family:var(--mono); font-size:80pt; font-weight:800; color:transparent; -webkit-text-stroke:1.4px var(--cyan-deep); line-height:.9; opacity:.55; }
+.modcover h2{ font-size:30pt; margin:8px 0 10px; }
+.modcover p{ font-size:12pt; color:var(--muted); max-width:120mm; }
+
+/* cabecera de clase */
+.clase-head{ break-before:page; padding-top:4mm; }
+.clase-band{ display:flex; align-items:flex-start; gap:14px; border:1px solid var(--line); border-radius:10px;
+  padding:14px 16px; background:linear-gradient(100deg, rgba(75,231,255,.08), transparent 55%), var(--panel-2); position:relative; overflow:hidden; }
+.clase-num{ font-family:var(--mono); font-size:34pt; font-weight:800; color:transparent; -webkit-text-stroke:1.2px var(--cyan); line-height:.8; flex:0 0 auto; }
+.clase-band h2{ font-size:17pt; margin:2px 0 5px; }
+.clase-band .meta{ font-family:var(--mono); font-size:7.6pt; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+.q{ font-family:var(--display); font-size:12pt; color:var(--gold); font-style:italic; margin:9px 0 4px; }
+
+/* franja de 3 capas (timeline sesión) */
+.capas{ display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin:8px 0; }
+.capa{ border:1px solid var(--line-soft); border-radius:7px; padding:8px 10px; background:var(--panel); position:relative; }
+.capa .t{ font-family:var(--mono); font-size:7pt; letter-spacing:.05em; }
+.capa.c1{ border-top:2px solid var(--cyan); } .capa.c1 .t{ color:var(--cyan); }
+.capa.c2{ border-top:2px solid var(--gold); } .capa.c2 .t{ color:var(--gold); }
+.capa.c3{ border-top:2px solid var(--mint); } .capa.c3 .t{ color:var(--mint); }
+.capa b{ display:block; font-size:9pt; margin:2px 0; }
+.capa span{ font-size:8pt; color:var(--muted); }
+
+/* guion minuto a minuto */
+.guion{ margin:4px 0; }
+.guion .row{ display:grid; grid-template-columns:56px 1fr; gap:10px; padding:5px 0; border-bottom:1px solid var(--line-soft); }
+.guion .row:last-child{ border-bottom:0; }
+.guion .tm{ font-family:var(--mono); font-size:8pt; color:var(--cyan); }
+.guion .ac{ font-size:9pt; }
+
+/* pasos numerados de laboratorio */
+.steps{ counter-reset:st; margin:5px 0; }
+.steps .s{ position:relative; padding:6px 0 6px 30px; border-bottom:1px solid var(--line-soft); }
+.steps .s:last-child{ border-bottom:0; }
+.steps .s::before{ counter-increment:st; content:counter(st); position:absolute; left:0; top:5px;
+  width:20px; height:20px; border-radius:50%; border:1.5px solid var(--cyan); color:var(--cyan);
+  font-family:var(--mono); font-size:8.5pt; display:grid; place-items:center; }
+
+/* chips de herramientas */
+.tools{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0; }
+.tool{ display:inline-flex; align-items:center; gap:7px; padding:5px 10px 5px 6px; border:1px solid var(--line-soft);
+  border-radius:8px; background:var(--panel); font-size:8.4pt; }
+.tool .mk{ width:20px; height:20px; border-radius:5px; display:grid; place-items:center; font-family:var(--mono);
+  font-weight:800; font-size:8.5pt; color:#02080a; flex:0 0 auto; }
+.tool small{ display:block; color:var(--dim); font-family:var(--mono); font-size:6.8pt; text-transform:uppercase; letter-spacing:.04em; }
+
+/* sección estructural (portadas de concepto) */
+.h-sec{ break-before:page; padding-top:3mm; }
+.h-sec .eyebrow{ display:block; margin-bottom:3px; }
+.h-sec h2{ font-size:20pt; margin:3px 0 8px; }
+.lede{ font-family:var(--display); font-size:12.5pt; color:var(--white); max-width:150mm; line-height:1.35; margin:6px 0 12px; }
+
+/* portada */
+.cover{ min-height:270mm; display:flex; flex-direction:column; justify-content:space-between;
+  padding:16mm 4mm 6mm; position:relative; overflow:hidden; }
+.cover .top .eyebrow{ font-size:9pt; }
+.cover h1{ font-size:37pt; line-height:1.0; margin:14px 0 10px; letter-spacing:-.5px; }
+.cover h1 .ac{ color:var(--cyan); }
+.cover .sub{ font-family:var(--mono); font-size:11pt; color:var(--cyan-soft); letter-spacing:.02em; }
+.cover .desc{ font-size:11pt; color:var(--muted); max-width:150mm; margin:14px 0 0; }
+.cover .facts{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:16px 0; }
+.cover .fact{ border:1px solid var(--line-soft); border-radius:8px; padding:9px 11px; background:var(--panel); }
+.cover .fact b{ display:block; font-family:var(--mono); font-size:13pt; color:var(--cyan); }
+.cover .fact span{ font-size:8pt; color:var(--muted); }
+.cover .foot{ display:flex; justify-content:space-between; align-items:flex-end; font-family:var(--mono); font-size:8pt; color:var(--dim); }
+.watermark{ position:absolute; right:-8mm; top:40mm; font-family:var(--mono); font-weight:800; font-size:150pt;
+  color:transparent; -webkit-text-stroke:1px rgba(75,231,255,.06); pointer-events:none; }
+
+/* índice */
+.toc{ columns:2; column-gap:16mm; font-size:9pt; }
+.toc .row{ display:flex; justify-content:space-between; gap:8px; padding:3.5px 0; border-bottom:1px dotted var(--line-soft); break-inside:avoid; }
+.toc .row b{ font-weight:400; } .toc .n{ font-family:var(--mono); color:var(--cyan); }
+.toc h4{ font-family:var(--mono); font-size:8pt; color:var(--gold); text-transform:uppercase; letter-spacing:.08em; margin:10px 0 3px; break-after:avoid; }
+
+/* diagrama utilitario */
+.dwrap{ border:1px solid var(--line-soft); border-radius:9px; padding:12px; background:var(--panel); margin:8px 0; }
+.dwrap .cap{ font-family:var(--mono); font-size:7.4pt; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-top:6px; }
+svg{ max-width:100%; height:auto; display:block; }
+.lamina{ font-family:var(--mono); font-size:7.8pt; color:var(--gold); }
+.mermaid-src{ font-family:var(--mono); font-size:7.6pt; color:var(--dim); background:#020608; border:1px dashed var(--line-soft);
+  border-radius:6px; padding:8px 10px; white-space:pre-wrap; margin:6px 0; }
+.kicker{ font-family:var(--mono); font-size:7.6pt; color:var(--cyan); text-transform:uppercase; letter-spacing:.08em; margin:12px 0 4px; }
+.two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.foot-note{ font-family:var(--mono); font-size:7pt; color:var(--dim); border-top:1px solid var(--line-soft); padding-top:5px; margin-top:10px; }
+.sig{ display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 7px var(--gold); vertical-align:middle; margin-right:6px; }
+</style>
+</head>
+<body>
+
+<div class="bar no-print">
+  <b>MATERIAL DOCENTE</b>
+  <span>Derecho e IA · Optativo PUCV · A4 vertical · imprimible</span>
+  <button onclick="window.print()">Exportar a PDF ↧</button>
+</div>
+
+<div class="doc">
+
+<!-- ================= PORTADA ================= -->
+<section class="cover page">
+  <div class="watermark">DER·IA</div>
+  <div class="top">
+    <span class="eyebrow">Material docente · Optativo de pregrado · Escuela de Derecho PUCV</span>
+    <hr class="rule">
+    <h1>Derecho e <span class="ac">Inteligencia Artificial</span><br>construir · verificar · gobernar</h1>
+    <div class="sub">Sistemas jurídicos asistidos por IA, sometidos a criterio jurídico</div>
+    <p class="desc">Guía de cátedra, manual del estudiante y cuaderno de laboratorio para las dieciséis sesiones del curso. El eje es el <strong>Método Constitucional</strong>: cada agente se diseña como una institución mínima —con finalidad, competencia, fuentes, límites, procedimiento, control, verificación, bitácora, responsabilidad y escalamiento humano—. El estudiante no se forma como programador, sino como jurista capaz de diseñar, justificar, verificar y gobernar un sistema acotado.</p>
+  </div>
+  <div>
+    <div class="facts">
+      <div class="fact hud"><b>16</b><span>semanas · 1 sesión de 90 min</span></div>
+      <div class="fact hud"><b>ABP</b><span>teórico-práctico, por proyecto</span></div>
+      <div class="fact hud"><b>0</b><span>prerrequisito de programación</span></div>
+      <div class="fact hud"><b>1</b><span>agente jurídico delimitado y defendido</span></div>
+    </div>
+    <div class="cover foot">
+      <span>DER-IA · OPT 2026 · Documento de trabajo docente</span>
+      <span>v1 · Julio 2026 · propuesta-optativo-derpucv.vercel.app</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ÍNDICE ================= -->
+<section class="page pb">
+  <span class="eyebrow">Contenido</span><hr class="rule"><h2 style="font-size:19pt;margin:6px 0 12px">Índice</h2>
+  <div class="toc">
+    <h4>Parte A · Marco del curso</h4>
+    <div class="row"><b>Presentación del curso</b><span class="n">01</span></div>
+    <div class="row"><b>Mapa del semestre</b><span class="n">02</span></div>
+    <div class="row"><b>Línea de progreso y escalera de competencias</b><span class="n">03</span></div>
+    <h4>Parte B · El Método Constitucional</h4>
+    <div class="row"><b>El agente como institución mínima</b><span class="n">04</span></div>
+    <div class="row"><b>Anatomía de un agente jurídico delimitado</b><span class="n">05</span></div>
+    <div class="row"><b>Chatbot · herramienta · flujo · agente</b><span class="n">06</span></div>
+    <div class="row"><b>Anatomía de la Constitución del agente</b><span class="n">07</span></div>
+    <h4>Parte C · Laboratorio</h4>
+    <div class="row"><b>Stack del abogado constructor</b><span class="n">08</span></div>
+    <div class="row"><b>Reglas de trabajo en laboratorio</b><span class="n">09</span></div>
+    <div class="row"><b>Protocolo de anonimización y datos</b><span class="n">10</span></div>
+    <div class="row"><b>Guía de verificación jurídica</b><span class="n">11</span></div>
+    <div class="row"><b>Matriz de riesgos y árbol de escalamiento</b><span class="n">12</span></div>
+    <div class="row"><b>Bitácora de decisiones</b><span class="n">13</span></div>
+    <div class="row"><b>Rúbrica de evaluación</b><span class="n">14</span></div>
+    <h4>Parte D · Las 16 clases</h4>
+    <div class="row"><b>Módulo 1 · Usar con criterio (C1–C4)</b><span class="n">15</span></div>
+    <div class="row"><b>Módulo 2 · Diseño constitucional (C5–C7)</b><span class="n">16</span></div>
+    <div class="row"><b>Módulo 3 · Construir (C8–C10)</b><span class="n">17</span></div>
+    <div class="row"><b>Módulo 4 · Verificar y gobernar (C11–C13)</b><span class="n">18</span></div>
+    <div class="row"><b>Módulo 5 · Evaluar y defender (C14–C16)</b><span class="n">19</span></div>
+    <h4>Parte E · Anexos</h4>
+    <div class="row"><b>18 plantillas de trabajo</b><span class="n">20</span></div>
+    <div class="row"><b>Tarjetas de prompts</b><span class="n">21</span></div>
+    <div class="row"><b>Comandos base (Claude Code · Git · Vercel)</b><span class="n">22</span></div>
+    <div class="row"><b>Glosario de conceptos</b><span class="n">23</span></div>
+    <div class="row"><b>Checklist de implementación docente</b><span class="n">24</span></div>
+    <div class="row"><b>Instrucciones de exportación a PDF</b><span class="n">25</span></div>
+  </div>
+  <div class="foot-note"><span class="sig"></span>Documento preliminar de trabajo. Toda referencia normativa debe reconfirmarse a la fecha de dictación del curso. Casos siempre ficticios o anonimizados.</div>
+</section>
+
+<!-- ================= PRESENTACIÓN ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte A · 01</span><h2>Presentación del curso</h2>
+  <p class="lede">La inteligencia artificial ya entró al trabajo jurídico. La pregunta del curso no es si usarla, sino cómo someterla a criterio jurídico: con fuentes, límites, verificación y responsabilidad.</p>
+  <div class="two">
+    <div>
+      <p class="kicker">Qué es</p>
+      <p>Un optativo teórico-práctico donde cada estudiante construye, a lo largo del semestre, un <strong>agente jurídico delimitado</strong>: un sistema que ejecuta una tarea jurídica acotada dentro de un marco de fuentes, reglas y límites fijado de antemano. No es un chat de uso libre ni asesoría legal automatizada.</p>
+      <p class="kicker">Qué no es</p>
+      <p>No forma programadores ni promete agentes autónomos complejos. El estudiante llega al nivel de <strong>usuario crítico y constructor responsable</strong>; la arquitectura de sistemas complejos queda para educación continua.</p>
+      <div class="box analogia"><h4>Analogía rectora</h4>Un agente jurídico es un <strong>órgano con competencia</strong>: puede actuar solo dentro de lo que su norma habilitante le permite. Todo el curso desarrolla esa idea.</div>
+    </div>
+    <div>
+      <p class="kicker">Estructura de cada sesión · 90 minutos</p>
+      <div class="capas">
+        <div class="capa c1"><span class="t">0–25 MIN</span><b>Marco jurídico</b><span>El concepto y su analogía; la teoría que gobierna la práctica del día.</span></div>
+        <div class="capa c2"><span class="t">25–75 MIN</span><b>Laboratorio</b><span>Construcción guiada; se produce el entregable de la sesión.</span></div>
+        <div class="capa c3"><span class="t">75–90 MIN</span><b>Verificación</b><span>Control, riesgos y registro en bitácora.</span></div>
+      </div>
+      <p class="kicker">Producto final</p>
+      <ul class="tick">
+        <li>Prototipo funcional publicado (URL).</li>
+        <li>Constitución del agente, versionada.</li>
+        <li>Matriz de riesgos y escalamiento.</li>
+        <li>Bitácora de decisiones y de pruebas.</li>
+        <li>Defensa jurídico-técnica ante la cátedra.</li>
+      </ul>
+      <div class="box ok"><h4>Principio de evaluación</h4>Se evalúa al estudiante como <strong>jurista que gobierna un sistema</strong>, no como desarrollador. Corre el código, pero se califica el criterio.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MAPA DEL SEMESTRE ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte A · 02</span><h2>Mapa del semestre</h2>
+  <p class="lede">Cinco módulos, cuatro verbos, un proyecto que crece cada semana: <strong>usar → construir → verificar → gobernar</strong>.</p>
+  <div class="dwrap avoid">
+    <svg viewBox="0 0 900 120" role="img" aria-label="Línea de progreso del curso">
+      <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#4be7ff"/></marker></defs>
+      <line x1="70" y1="60" x2="830" y2="60" stroke="#1c6b7a" stroke-width="2" marker-end="url(#ar)"/>
+      <g font-family="JetBrains Mono" font-size="14" font-weight="700">
+        <g><circle cx="120" cy="60" r="9" fill="#020306" stroke="#4be7ff" stroke-width="2.5"/><text x="120" y="40" fill="#4be7ff" text-anchor="middle">USAR</text><text x="120" y="90" fill="#9ba7ad" font-size="10" text-anchor="middle">C1–C4</text></g>
+        <g><circle cx="350" cy="60" r="9" fill="#020306" stroke="#e0b04a" stroke-width="2.5"/><text x="350" y="40" fill="#e0b04a" text-anchor="middle">CONSTRUIR</text><text x="350" y="90" fill="#9ba7ad" font-size="10" text-anchor="middle">C5–C10</text></g>
+        <g><circle cx="600" cy="60" r="9" fill="#020306" stroke="#54d6a0" stroke-width="2.5"/><text x="600" y="40" fill="#54d6a0" text-anchor="middle">VERIFICAR</text><text x="600" y="90" fill="#9ba7ad" font-size="10" text-anchor="middle">C11–C13</text></g>
+        <g><circle cx="800" cy="60" r="9" fill="#020306" stroke="#9b8cff" stroke-width="2.5"/><text x="800" y="40" fill="#9b8cff" text-anchor="middle">GOBERNAR</text><text x="800" y="90" fill="#9ba7ad" font-size="10" text-anchor="middle">C14–C16</text></g>
+      </g>
+    </svg>
+    <div class="cap">Lámina 1 · La misma pieza (el agente) atraviesa las cuatro etapas; nunca se construye sin haber aprendido a usar con criterio, ni se despliega sin haber verificado.</div>
+  </div>
+  <table class="avoid">
+    <tr><th>Módulo</th><th>Semanas</th><th>Foco</th><th>Hito</th></tr>
+    <tr><td class="mono" style="color:var(--cyan)">M1</td><td class="mono">1–4</td><td>Usar con criterio: alfabetización, tipologías, prompting, fuentes.</td><td>Biblioteca de prompts + protocolo de fuentes.</td></tr>
+    <tr><td class="mono" style="color:var(--gold)">M2</td><td class="mono">5–7</td><td>Diseño constitucional: finalidad, Constitución del agente, arquitectura.</td><td>Constitución v1 + flujograma.</td></tr>
+    <tr><td class="mono" style="color:var(--gold)">M3</td><td class="mono">8–10</td><td>Construir: Claude Code · GitHub · Vercel · Supabase, interfaz, datos.</td><td>Prototipo publicado + interfaz + datos.</td></tr>
+    <tr><td class="mono" style="color:var(--mint)">M4</td><td class="mono">11–13</td><td>Verificar y gobernar: verificación, riesgos, regulación.</td><td>Checklist + matriz + informe de cumplimiento.</td></tr>
+    <tr><td class="mono" style="color:var(--violet)">M5</td><td class="mono">14–16</td><td>Evaluar y defender: pruebas, defensa, entrega final.</td><td>Bitácora de pruebas + defensa + entrega.</td></tr>
+  </table>
+</section>
+
+<!-- ================= ESCALERA DE COMPETENCIAS ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte A · 03</span><h2>Escalera de competencias</h2>
+  <p class="lede">El curso lleva al estudiante desde la alfabetización hasta el constructor responsable. El peldaño de gobernador de sistemas complejos se nombra, pero pertenece a educación continua.</p>
+  <div class="dwrap avoid">
+    <svg viewBox="0 0 900 300" role="img" aria-label="Escalera de competencias">
+      <g font-family="JetBrains Mono">
+        <g><rect x="40" y="230" width="200" height="46" rx="6" fill="rgba(75,231,255,.08)" stroke="#4be7ff"/><text x="140" y="252" fill="#4be7ff" font-size="13" font-weight="700" text-anchor="middle">ALFABETIZACIÓN</text><text x="140" y="268" fill="#9ba7ad" font-size="9" text-anchor="middle">reconoce usos y riesgos</text></g>
+        <g><rect x="240" y="176" width="200" height="46" rx="6" fill="rgba(75,231,255,.08)" stroke="#4be7ff"/><text x="340" y="198" fill="#4be7ff" font-size="13" font-weight="700" text-anchor="middle">USUARIO CRÍTICO</text><text x="340" y="214" fill="#9ba7ad" font-size="9" text-anchor="middle">prompting y control de fuentes</text></g>
+        <g><rect x="440" y="122" width="200" height="46" rx="6" fill="rgba(224,176,74,.1)" stroke="#e0b04a"/><text x="540" y="144" fill="#e0b04a" font-size="13" font-weight="700" text-anchor="middle">CONSTRUCTOR</text><text x="540" y="160" fill="#9ba7ad" font-size="9" text-anchor="middle">diseña, construye y verifica</text></g>
+        <g><rect x="640" y="68" width="220" height="46" rx="6" fill="rgba(84,214,160,.1)" stroke="#54d6a0"/><text x="750" y="90" fill="#54d6a0" font-size="13" font-weight="700" text-anchor="middle">CONSTRUCTOR + GOBIERNO</text><text x="750" y="106" fill="#9ba7ad" font-size="9" text-anchor="middle">gobierna su agente acotado ← meta del curso</text></g>
+        <g opacity=".5"><rect x="640" y="14" width="220" height="40" rx="6" fill="none" stroke="#6b7780" stroke-dasharray="4 3"/><text x="750" y="39" fill="#9ba7ad" font-size="11" text-anchor="middle">ARQUITECTO DE SISTEMAS ↗ ed. continua</text></g>
+        <path d="M40 276 L860 60" stroke="#1c6b7a" stroke-width="1" opacity=".4" fill="none"/>
+      </g>
+    </svg>
+    <div class="cap">Lámina 2 · Cada peldaño supone el anterior. La meta del optativo es "constructor con gobierno" sobre un agente delimitado.</div>
+  </div>
+</section>
+
+<!-- ================= MÉTODO CONSTITUCIONAL ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte B · 04</span><h2>El Método Constitucional</h2>
+  <p class="lede">Un agente no se "programa": se <strong>constituye</strong>. Como toda institución, recibe una norma que a la vez lo habilita y lo limita. Diseñar esa norma es la tarea jurídica central del curso.</p>
+  <div class="two">
+    <div class="dwrap avoid">
+      <svg viewBox="0 0 360 340" role="img" aria-label="Método Constitucional">
+        <circle cx="180" cy="170" r="52" fill="rgba(75,231,255,.1)" stroke="#4be7ff" stroke-width="2"/>
+        <text x="180" y="165" fill="#4be7ff" font-family="Space Grotesk" font-size="14" font-weight="700" text-anchor="middle">CONSTITUCIÓN</text>
+        <text x="180" y="182" fill="#8df6ff" font-family="JetBrains Mono" font-size="9" text-anchor="middle">del agente</text>
+        <g font-family="JetBrains Mono" font-size="9.5" font-weight="700">
+          <g><line x1="180" y1="118" x2="180" y2="50" stroke="#1c6b7a"/><rect x="120" y="26" width="120" height="26" rx="5" fill="#06090d" stroke="#e0b04a"/><text x="180" y="43" fill="#e0b04a" text-anchor="middle">FINALIDAD</text></g>
+          <g><line x1="232" y1="170" x2="300" y2="170" stroke="#1c6b7a"/><rect x="278" y="122" width="78" height="26" rx="5" fill="#06090d" stroke="#4be7ff"/><text x="317" y="139" fill="#4be7ff" text-anchor="middle">COMPETENCIA</text><rect x="288" y="157" width="68" height="26" rx="5" fill="#06090d" stroke="#4be7ff"/><text x="322" y="174" fill="#4be7ff" text-anchor="middle">FUENTES</text><rect x="288" y="192" width="68" height="26" rx="5" fill="#06090d" stroke="#4be7ff"/><text x="322" y="209" fill="#4be7ff" text-anchor="middle">LÍMITES</text></g>
+          <g><line x1="180" y1="222" x2="180" y2="290" stroke="#1c6b7a"/><rect x="110" y="290" width="60" height="26" rx="5" fill="#06090d" stroke="#54d6a0"/><text x="140" y="307" fill="#54d6a0" text-anchor="middle">CONTROL</text><rect x="176" y="290" width="74" height="26" rx="5" fill="#06090d" stroke="#54d6a0"/><text x="213" y="307" fill="#54d6a0" text-anchor="middle">BITÁCORA</text></g>
+          <g><line x1="128" y1="170" x2="60" y2="170" stroke="#1c6b7a"/><rect x="4" y="145" width="60" height="26" rx="5" fill="#06090d" stroke="#9b8cff"/><text x="34" y="162" fill="#9b8cff" text-anchor="middle">PROCED.</text><rect x="2" y="178" width="64" height="26" rx="5" fill="#06090d" stroke="#e44949"/><text x="34" y="195" fill="#e44949" text-anchor="middle">ESCALAM.</text></g>
+        </g>
+      </svg>
+      <div class="cap">Lámina 3 · La Constitución al centro; cada pieza es un capítulo del articulado del agente.</div>
+    </div>
+    <div>
+      <p class="kicker">Los diez elementos de la institución mínima</p>
+      <table>
+        <tr><th>Elemento</th><th>Traducción jurídica</th></tr>
+        <tr><td><strong>Finalidad</strong></td><td>Objeto y fin lícito del órgano.</td></tr>
+        <tr><td><strong>Competencia</strong></td><td>Qué puede y qué no puede hacer.</td></tr>
+        <tr><td><strong>Fuentes</strong></td><td>Bloque de juridicidad: sobre qué se apoya.</td></tr>
+        <tr><td><strong>Límites</strong></td><td>Prohibiciones y materias vedadas.</td></tr>
+        <tr><td><strong>Procedimiento</strong></td><td>El iter reglado de cada actuación.</td></tr>
+        <tr><td><strong>Control</strong></td><td>Verificación interna antes de responder.</td></tr>
+        <tr><td><strong>Verificación</strong></td><td>Control de legalidad de la salida.</td></tr>
+        <tr><td><strong>Bitácora</strong></td><td>Expediente: todo acto deja registro.</td></tr>
+        <tr><td><strong>Responsabilidad</strong></td><td>Quién responde por el acto del sistema.</td></tr>
+        <tr><td><strong>Escalamiento</strong></td><td>Revisión superior: cuándo deriva al humano.</td></tr>
+      </table>
+      <div class="box warn"><h4>Regla de oro</h4>Ninguna capacidad del agente existe sin una cláusula que la habilite. Lo no atribuido, está prohibido.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ANATOMÍA DEL AGENTE ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte B · 05</span><h2>Anatomía de un agente jurídico delimitado</h2>
+  <p class="lede">Nueve capas descienden desde la finalidad hasta el registro. Una consulta las atraviesa en orden; si una capa la detiene, se cita la cláusula que lo ordena.</p>
+  <div class="grid g3">
+    <div class="card avoid"><span class="chip">Art. 1°</span><h4 style="margin:6px 0 3px;font-size:11pt">Finalidad</h4><p style="margin:0;color:var(--muted);font-size:8.4pt">Para qué existe el agente y qué queda fuera de su objeto.</p></div>
+    <div class="card avoid"><span class="chip">Art. 2°</span><h4 style="margin:6px 0 3px;font-size:11pt">Competencia</h4><p style="margin:0;color:var(--muted);font-size:8.4pt">El ámbito material y territorial de sus actuaciones.</p></div>
+    <div class="card avoid"><span class="chip">Art. 3°</span><h4 style="margin:6px 0 3px;font-size:11pt">Fuentes autorizadas</h4><p style="margin:0;color:var(--muted);font-size:8.4pt">Qué textos puede invocar; todo lo demás no es fuente.</p></div>
+    <div class="card avoid"><span class="chip">Art. 4°</span><h4 style="margin:6px 0 3px;font-size:11pt">Reglas duras</h4><p style="margin:0;color:var(--muted);font-size:8.4pt">Mandatos y prohibiciones inderogables.</p></div>
+    <div class="card avoid"><span class="chip">Art. 5°</span><h4 style="margin:6px 0 3px;font-size:11pt">Preferencias</h4><p style="margin:0;color:var(--muted);font-size:8.4pt">Criterios de elección cuando hay varias vías válidas.</p></div>
+    <div class="card avoid"><span class="chip">Art. 6°</span><h4 style="margin:6px 0 3px;font-size:11pt">Procedimiento</h4><p style="margin:0;color:var(--muted);font-size:8.4pt">El orden reglado: entrada → análisis → salida.</p></div>
+    <div class="card avoid"><span class="chip m">Art. 7°</span><h4 style="margin:6px 0 3px;font-size:11pt">Verificación</h4><p style="margin:0;color:var(--muted);font-size:8.4pt">Control de hechos, fuentes e incertidumbre.</p></div>
+    <div class="card avoid"><span class="chip r">Art. 8°</span><h4 style="margin:6px 0 3px;font-size:11pt">Escalamiento</h4><p style="margin:0;color:var(--muted);font-size:8.4pt">Umbral en que el asunto deriva a revisión humana.</p></div>
+    <div class="card avoid"><span class="chip g">Art. 9°</span><h4 style="margin:6px 0 3px;font-size:11pt">Bitácora</h4><p style="margin:0;color:var(--muted);font-size:8.4pt">Registro de cada actuación y su fundamento.</p></div>
+  </div>
+  <div class="box analogia"><h4>El umbral constitucional</h4>Entre la respuesta y el usuario hay una compuerta: si la consulta excede la competencia (Art. 2°), carece de fuente (Art. 3°) o supera el riesgo tolerado (Art. 8°), el agente <strong>declina o deriva</strong>, y lo registra. Un sistema que sabe cuándo callar es más confiable que uno que todo lo responde.</div>
+</section>
+
+<!-- ================= CHATBOT/HERRAMIENTA/FLUJO/AGENTE ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte B · 06</span><h2>Chatbot · herramienta · flujo · agente</h2>
+  <p class="lede">Cuatro niveles de complejidad y de gobierno. El curso se detiene, deliberadamente, en el agente <em>delimitado</em>: no en el autónomo.</p>
+  <div class="dwrap avoid">
+    <svg viewBox="0 0 900 210" role="img" aria-label="Cuatro niveles">
+      <g font-family="JetBrains Mono">
+        <g><rect x="20" y="120" width="190" height="70" rx="7" fill="rgba(155,140,255,.06)" stroke="#3a4250"/><text x="115" y="150" fill="#9ba7ad" font-size="13" font-weight="700" text-anchor="middle">CHATBOT</text><text x="115" y="170" fill="#6b7780" font-size="9" text-anchor="middle">conversa, no controla</text></g>
+        <g><rect x="240" y="95" width="190" height="95" rx="7" fill="rgba(75,231,255,.06)" stroke="#1c6b7a"/><text x="335" y="125" fill="#8df6ff" font-size="13" font-weight="700" text-anchor="middle">HERRAMIENTA</text><text x="335" y="145" fill="#6b7780" font-size="9" text-anchor="middle">una función acotada</text></g>
+        <g><rect x="460" y="65" width="190" height="125" rx="7" fill="rgba(224,176,74,.06)" stroke="#e0b04a"/><text x="555" y="95" fill="#e0b04a" font-size="13" font-weight="700" text-anchor="middle">FLUJO</text><text x="555" y="115" fill="#6b7780" font-size="9" text-anchor="middle">pasos encadenados</text></g>
+        <g><rect x="680" y="30" width="200" height="160" rx="7" fill="rgba(84,214,160,.08)" stroke="#54d6a0" stroke-width="2"/><text x="780" y="60" fill="#54d6a0" font-size="13" font-weight="700" text-anchor="middle">AGENTE DELIMITADO</text><text x="780" y="80" fill="#6b7780" font-size="9" text-anchor="middle">flujo + Constitución</text><text x="780" y="94" fill="#6b7780" font-size="9" text-anchor="middle">+ verificación + bitácora</text><text x="780" y="120" fill="#54d6a0" font-size="9" text-anchor="middle">← meta del curso</text></g>
+        <text x="20" y="205" fill="#6b7780" font-size="9" font-family="JetBrains Mono">— gobierno / responsabilidad / estructura →</text>
+      </g>
+    </svg>
+    <div class="cap">Lámina 4 · A más capacidad, más gobierno exigible. El salto cualitativo del "agente" es que incorpora su propia norma y su registro.</div>
+  </div>
+  <table class="avoid">
+    <tr><th>Nivel</th><th>Qué hace</th><th>Qué lo gobierna</th><th>Analogía</th></tr>
+    <tr><td><strong>Chatbot</strong></td><td>Responde en lenguaje natural.</td><td>Nada estable; depende del prompt.</td><td>Conversación de pasillo.</td></tr>
+    <tr><td><strong>Herramienta</strong></td><td>Una tarea repetible (p. ej. resumir).</td><td>Instrucciones fijas.</td><td>Formulario tipo.</td></tr>
+    <tr><td><strong>Flujo</strong></td><td>Encadena pasos con lógica.</td><td>Un procedimiento.</td><td>Tramitación reglada.</td></tr>
+    <tr><td><strong>Agente delimitado</strong></td><td>Ejecuta un flujo bajo reglas, se verifica y registra.</td><td>Su Constitución.</td><td>Órgano con competencia.</td></tr>
+  </table>
+</section>
+
+<!-- ================= STACK ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte C · 08</span><h2>Stack del abogado constructor</h2>
+  <p class="lede">Herramientas por función, no por moda. Cada una entra cuando el proyecto la necesita; todas tienen plan gratuito suficiente para el curso.</p>
+  <div class="dwrap avoid">
+    <svg viewBox="0 0 900 90" role="img" aria-label="Pipeline del stack">
+      <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#1c6b7a"/></marker></defs>
+      <g font-family="JetBrains Mono" font-size="11" font-weight="700" text-anchor="middle">
+        <g><rect x="20" y="30" width="150" height="34" rx="6" fill="#06090d" stroke="#e0b04a"/><text x="95" y="52" fill="#e0b04a">Claude Code</text></g>
+        <line x1="172" y1="47" x2="205" y2="47" stroke="#1c6b7a" stroke-width="1.5" marker-end="url(#ar2)"/>
+        <g><rect x="208" y="30" width="120" height="34" rx="6" fill="#06090d" stroke="#4be7ff"/><text x="268" y="52" fill="#4be7ff">GitHub</text></g>
+        <line x1="330" y1="47" x2="363" y2="47" stroke="#1c6b7a" stroke-width="1.5" marker-end="url(#ar2)"/>
+        <g><rect x="366" y="30" width="120" height="34" rx="6" fill="#06090d" stroke="#4be7ff"/><text x="426" y="52" fill="#4be7ff">Vercel</text></g>
+        <line x1="488" y1="47" x2="521" y2="47" stroke="#1c6b7a" stroke-width="1.5" marker-end="url(#ar2)"/>
+        <g><rect x="524" y="30" width="130" height="34" rx="6" fill="#06090d" stroke="#54d6a0"/><text x="589" y="52" fill="#54d6a0">Supabase</text></g>
+        <text x="337" y="20" fill="#6b7780" font-size="9" text-anchor="middle">desarrollo asistido → versión → publicación → datos</text>
+      </g>
+    </svg>
+    <div class="cap">Lámina 5 · La cadena de construcción. El razonamiento (Claude/ChatGPT/Gemini) alimenta todo el pipeline pero no aparece en él: es la deliberación previa a cada acto.</div>
+  </div>
+  <div id="stack-tools"></div>
+</section>
+
+<!-- ================= REGLAS DE LABORATORIO ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte C · 09</span><h2>Reglas de trabajo en laboratorio</h2>
+  <p class="lede">El laboratorio jurídico tiene disciplina propia. Estas reglas se leen en la Clase 1 y rigen las dieciséis semanas.</p>
+  <div class="grid g2">
+    <div class="box ok"><h4>Se debe</h4>
+      <ul class="tick" style="margin:0">
+        <li>Trabajar siempre sobre casos ficticios o anonimizados.</li>
+        <li>Citar la fuente de cada afirmación jurídica.</li>
+        <li>Registrar cada decisión de diseño en la bitácora.</li>
+        <li>Versionar todo cambio (commit con mensaje claro).</li>
+        <li>Verificar antes de confiar; marcar la incertidumbre.</li>
+        <li>Distinguir hecho, inferencia y recomendación.</li>
+      </ul>
+    </div>
+    <div class="box risk"><h4>No se debe</h4>
+      <ul class="plain" style="margin:0">
+        <li>Cargar datos personales reales de terceros.</li>
+        <li>Presentar salida de IA como asesoría legal.</li>
+        <li>Copiar respuestas sin verificar la fuente.</li>
+        <li>Publicar credenciales o claves en el repositorio.</li>
+        <li>Atribuir al agente competencias que su Constitución no le da.</li>
+        <li>Confundir "suena bien" con "es correcto".</li>
+      </ul>
+    </div>
+  </div>
+  <div class="box warn"><h4>Contrato de laboratorio</h4>Cada estudiante firma, en la Clase 1, un compromiso de uso responsable: casos ficticios, cita de fuentes, registro en bitácora y escalamiento ante la duda. Es la norma habilitante del propio estudiante dentro del curso.</div>
+  <p class="kicker">Higiene del repositorio</p>
+  <ul class="plain"><li>Sin secretos en el código: usar variables de entorno.</li><li>README con qué hace el agente, sus límites y cómo se verifica.</li><li>Un commit por decisión significativa, no un volcado al final.</li></ul>
+</section>
+
+<!-- ================= ANONIMIZACIÓN ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte C · 10</span><h2>Protocolo de anonimización y uso responsable de datos</h2>
+  <p class="lede">La minimización no es un trámite: es la primera línea de defensa. El curso trabaja con el menor dato posible y nunca con datos reales sensibles.</p>
+  <div class="two">
+    <div>
+      <p class="kicker">Jerarquía de datos (usar el más alto posible)</p>
+      <table>
+        <tr><th>Nivel</th><th>Dato</th><th>Uso</th></tr>
+        <tr><td class="mono" style="color:var(--mint)">1</td><td>Ficticio</td><td>Preferente siempre.</td></tr>
+        <tr><td class="mono" style="color:var(--mint)">2</td><td>Público</td><td>Jurisprudencia, normativa.</td></tr>
+        <tr><td class="mono" style="color:var(--gold)">3</td><td>Anonimizado</td><td>Solo si es imprescindible.</td></tr>
+        <tr><td class="mono" style="color:var(--red)">4</td><td>Personal real</td><td>Prohibido en el curso.</td></tr>
+      </table>
+      <div class="box warn"><h4>Verificación normativa</h4>Placeholder: <span class="mono">verificar Ley 21.719 y proyecto de ley de IA a la fecha de dictación</span>. No citar articulado sin reconfirmar vigencia.</div>
+    </div>
+    <div>
+      <p class="kicker">Checklist de anonimización</p>
+      <ul class="check">
+        <li>¿Se eliminaron nombres, RUT, direcciones y contactos?</li>
+        <li>¿Se reemplazaron por seudónimos consistentes?</li>
+        <li>¿Se evitó la reidentificación por combinación de datos?</li>
+        <li>¿Se generalizaron fechas y montos cuando bastaba?</li>
+        <li>¿El caso conserva su valor jurídico tras anonimizar?</li>
+        <li>¿Se documentó qué se anonimizó y por qué?</li>
+      </ul>
+      <div class="box analogia"><h4>Analogía</h4>Anonimizar es como despersonalizar un fallo para publicarlo: el criterio jurídico se conserva, la identidad desaparece.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VERIFICACIÓN ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte C · 11</span><h2>Guía de verificación jurídica</h2>
+  <p class="lede">Verificar es el <strong>control de legalidad</strong> de la salida del agente. Ninguna respuesta se confía sin pasar por él.</p>
+  <div class="dwrap avoid">
+    <svg viewBox="0 0 900 150" role="img" aria-label="Protocolo de verificación">
+      <defs><marker id="ar3" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#54d6a0"/></marker></defs>
+      <g font-family="JetBrains Mono" font-size="10" font-weight="700" text-anchor="middle">
+        <g><rect x="20" y="55" width="140" height="40" rx="6" fill="#06090d" stroke="#4be7ff"/><text x="90" y="72" fill="#4be7ff">1 · SEPARAR</text><text x="90" y="86" fill="#6b7780" font-size="8">hecho / inferencia / reco.</text></g>
+        <line x1="162" y1="75" x2="192" y2="75" stroke="#54d6a0" marker-end="url(#ar3)"/>
+        <g><rect x="195" y="55" width="140" height="40" rx="6" fill="#06090d" stroke="#4be7ff"/><text x="265" y="72" fill="#4be7ff">2 · COTEJAR</text><text x="265" y="86" fill="#6b7780" font-size="8">contra fuente autorizada</text></g>
+        <line x1="337" y1="75" x2="367" y2="75" stroke="#54d6a0" marker-end="url(#ar3)"/>
+        <g><rect x="370" y="55" width="140" height="40" rx="6" fill="#06090d" stroke="#e0b04a"/><text x="440" y="72" fill="#e0b04a">3 · MARCAR</text><text x="440" y="86" fill="#6b7780" font-size="8">incertidumbre y vacíos</text></g>
+        <line x1="512" y1="75" x2="542" y2="75" stroke="#54d6a0" marker-end="url(#ar3)"/>
+        <g><rect x="545" y="55" width="150" height="40" rx="6" fill="#06090d" stroke="#54d6a0"/><text x="620" y="72" fill="#54d6a0">4 · DECIDIR</text><text x="620" y="86" fill="#6b7780" font-size="8">confía / advierte / deriva</text></g>
+        <line x1="697" y1="75" x2="727" y2="75" stroke="#54d6a0" marker-end="url(#ar3)"/>
+        <g><rect x="730" y="55" width="150" height="40" rx="6" fill="#06090d" stroke="#e0b04a"/><text x="805" y="72" fill="#e0b04a">5 · REGISTRAR</text><text x="805" y="86" fill="#6b7780" font-size="8">en la bitácora</text></g>
+      </g>
+    </svg>
+    <div class="cap">Lámina 6 · Los cinco pasos del control. La alucinación se combate separando lo que el modelo afirma de lo que la fuente sostiene.</div>
+  </div>
+  <div class="box risk"><h4>Señales de alucinación jurídica</h4>Cita de norma o fallo que no existe; número de artículo demasiado "redondo"; afirmación categórica sin fuente; confianza uniforme sobre temas dispares. Ante cualquiera: cotejar o derivar.</div>
+</section>
+
+<!-- ================= MATRIZ DE RIESGOS + ÁRBOL ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte C · 12</span><h2>Matriz de riesgos y escalamiento humano</h2>
+  <p class="lede">La matriz de riesgos es un <strong>test de proporcionalidad operativo</strong>: a mayor impacto jurídico, mayor control humano exigible.</p>
+  <div class="two">
+    <div>
+      <table class="avoid">
+        <tr><th>Riesgo</th><th>Ejemplo</th><th>Respuesta</th></tr>
+        <tr><td><span class="chip m">BAJO</span></td><td>Resumir un texto público.</td><td>Responde y registra.</td></tr>
+        <tr><td><span class="chip g">MEDIO</span></td><td>Sugerir una vía procesal.</td><td>Responde con advertencia y fuentes.</td></tr>
+        <tr><td><span class="chip r">ALTO</span></td><td>Plazos, prescripción, materia penal.</td><td>Deriva a revisión humana.</td></tr>
+      </table>
+      <div class="box warn"><h4>Regla de calibración</h4>Ante duda sobre el nivel, se asume el superior. El costo de derivar de más es tiempo; el de derivar de menos es un daño jurídico.</div>
+    </div>
+    <div class="dwrap avoid">
+      <svg viewBox="0 0 340 300" role="img" aria-label="Árbol de escalamiento">
+        <g font-family="JetBrains Mono" font-size="9" font-weight="700" text-anchor="middle">
+          <rect x="110" y="10" width="120" height="34" rx="6" fill="#06090d" stroke="#4be7ff"/><text x="170" y="31" fill="#4be7ff">¿En competencia?</text>
+          <line x1="170" y1="44" x2="170" y2="70" stroke="#1c6b7a"/><text x="150" y="60" fill="#e44949" font-size="8">no →</text>
+          <rect x="235" y="52" width="100" height="30" rx="6" fill="#06090d" stroke="#e44949"/><text x="285" y="71" fill="#e44949" font-size="8">DECLINA</text>
+          <line x1="170" y1="70" x2="285" y2="70" stroke="#800814" stroke-dasharray="3 2"/>
+          <rect x="110" y="80" width="120" height="34" rx="6" fill="#06090d" stroke="#4be7ff"/><text x="170" y="101" fill="#4be7ff">¿Con fuente?</text>
+          <line x1="170" y1="114" x2="170" y2="140" stroke="#1c6b7a"/>
+          <rect x="235" y="122" width="100" height="30" rx="6" fill="#06090d" stroke="#e0b04a"/><text x="285" y="141" fill="#e0b04a" font-size="8">DERIVA</text>
+          <line x1="170" y1="140" x2="285" y2="137" stroke="#1c6b7a" stroke-dasharray="3 2"/>
+          <rect x="105" y="150" width="130" height="34" rx="6" fill="#06090d" stroke="#e0b04a"/><text x="170" y="171" fill="#e0b04a">¿Riesgo alto?</text>
+          <line x1="170" y1="184" x2="170" y2="210" stroke="#1c6b7a"/>
+          <rect x="235" y="192" width="100" height="30" rx="6" fill="#06090d" stroke="#e44949"/><text x="285" y="211" fill="#e44949" font-size="8">REVISIÓN</text>
+          <line x1="170" y1="210" x2="285" y2="207" stroke="#1c6b7a" stroke-dasharray="3 2"/>
+          <rect x="95" y="220" width="150" height="34" rx="6" fill="#06090d" stroke="#54d6a0" stroke-width="2"/><text x="170" y="238" fill="#54d6a0">RESPONDE</text><text x="170" y="249" fill="#6b7780" font-size="7">con advertencia + registro</text>
+        </g>
+      </svg>
+      <div class="cap">Lámina 7 · Árbol de decisión para el escalamiento. Cada "no" es una compuerta que detiene o deriva.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BITÁCORA ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte C · 13</span><h2>Bitácora de decisiones</h2>
+  <p class="lede">La bitácora es el <strong>expediente administrativo</strong> del agente: prueba qué se decidió, cuándo y por qué. Sin registro, no hay gobierno.</p>
+  <table class="avoid">
+    <tr><th>Fecha</th><th>Decisión</th><th>Alternativas</th><th>Fundamento</th><th>Fuente</th></tr>
+    <tr><td class="mono">dd-mm</td><td>Se limita el agente a materia X.</td><td>Ampliar a Y (descartado).</td><td>Fuera de competencia declarada.</td><td>Art. 2° Constitución.</td></tr>
+    <tr><td class="mono">dd-mm</td><td>Se exige cita en cada salida.</td><td>Salida libre (descartado).</td><td>Trazabilidad.</td><td>Guía de verificación.</td></tr>
+    <tr><td class="mono" style="color:var(--dim)">…</td><td colspan="4" style="color:var(--dim)">Una fila por decisión significativa de diseño.</td></tr>
+  </table>
+  <div class="box analogia"><h4>Por qué importa</h4>En la defensa final no se pregunta "¿funciona?", sino "¿por qué decidió así?". La bitácora es la respuesta escrita: convierte decisiones en actos fundados y revisables.</div>
+</section>
+
+<!-- ================= RÚBRICA ================= -->
+<section class="h-sec page">
+  <span class="eyebrow">Parte C · 14</span><h2>Rúbrica de evaluación</h2>
+  <p class="lede">Siete criterios, cien por ciento. Se evalúa el criterio jurídico, no la destreza de programación.</p>
+  <table class="avoid">
+    <tr><th>Criterio</th><th>Qué se verifica</th><th style="text-align:right">Peso</th></tr>
+    <tr><td><strong>Problema jurídico y delimitación</strong></td><td>Recorte claro, lícito y abordable.</td><td class="w" style="text-align:right">10%</td></tr>
+    <tr><td><strong>Constitución del agente</strong></td><td>Reglas claras, fundadas y versionadas.</td><td class="w" style="text-align:right">20%</td></tr>
+    <tr><td><strong>Fuentes y trazabilidad</strong></td><td>Fuentes autorizadas y registro de cada respuesta.</td><td class="w" style="text-align:right">15%</td></tr>
+    <tr><td><strong>Prototipo funcional</strong></td><td>Corre y hace lo que promete, dentro de sus límites.</td><td class="w" style="text-align:right">20%</td></tr>
+    <tr><td><strong>Verificación y pruebas</strong></td><td>Protocolo aplicado y documentado.</td><td class="w" style="text-align:right">15%</td></tr>
+    <tr><td><strong>Matriz de riesgos y escalamiento</strong></td><td>Riesgos identificados, mitigados y derivados.</td><td class="w" style="text-align:right">10%</td></tr>
+    <tr><td><strong>Defensa oral y documentación</strong></td><td>Justifica decisiones, fuentes, límites y riesgos.</td><td class="w" style="text-align:right">10%</td></tr>
+  </table>
+  <div class="box ok"><h4>Criterio transversal</h4>El estudiante no será evaluado como programador, sino como <strong>abogado capaz de diseñar, justificar, verificar y gobernar</strong> un sistema jurídico asistido por IA. Un prototipo modesto bien gobernado supera a uno vistoso sin control.</div>
+  <div class="foot-note"><span class="sig"></span>Revisión intermedia formativa en la semana 8 (Constitución v1). Rúbrica pública desde la Clase 1.</div>
+</section>
+
+<!-- ================= LAS 16 CLASES (data-driven) ================= -->
+<div id="clases"></div>
+
+<!-- ================= ANEXOS ================= -->
+<div id="anexos"></div>
+
+</div><!-- /doc -->
+
+<script>
+/* ====== CHIPS DE HERRAMIENTAS (marca honesta: monograma + etiqueta) ====== */
+const TOOLS = [
+  ["Claude","razonamiento","C","#e0b04a"], ["ChatGPT","comparación","O","#54d6a0"],
+  ["Gemini","comparación","G","#4be7ff"], ["Claude Code","desarrollo","⌘","#e0b04a"],
+  ["GitHub","versión","GH","#f6f0df"], ["Vercel","publicación","▲","#8df6ff"],
+  ["Supabase","datos","⚡","#54d6a0"], ["Perplexity","búsqueda","P","#4be7ff"],
+  ["NotebookLM","fuentes","NL","#9b8cff"], ["Google Drive","archivos","▶","#e0b04a"],
+  ["Markdown","documentos","M↓","#9ba7ad"], ["Mermaid","diagramas","~","#54d6a0"],
+  ["Excalidraw","bocetos","✎","#ec7e72"], ["Figma","interfaz","F","#9b8cff"]
+];
+document.getElementById("stack-tools").innerHTML =
+  '<p class="kicker">Herramientas por función · íconos genéricos etiquetados (sin logos oficiales)</p><div class="tools">' +
+  TOOLS.map(t=>`<span class="tool"><span class="mk" style="background:${t[3]}">${t[2]}</span><span>${t[0]}<small>${t[1]}</small></span></span>`).join("") +
+  '</div>' +
+  '<table style="margin-top:8px"><tr><th>Función</th><th>Herramienta principal</th><th>Rol jurídico</th></tr>'+
+  '<tr><td>Razonar y comparar</td><td>Claude · ChatGPT · Gemini</td><td>Deliberación previa; nunca fuente por sí misma.</td></tr>'+
+  '<tr><td>Investigar</td><td>Perplexity · NotebookLM · bases públicas</td><td>Búsqueda con fuente citable.</td></tr>'+
+  '<tr><td>Construir</td><td>Claude Code</td><td>Desarrollo asistido del prototipo.</td></tr>'+
+  '<tr><td>Versionar</td><td>GitHub</td><td>Historia de decisiones del código.</td></tr>'+
+  '<tr><td>Publicar</td><td>Vercel</td><td>Entrada en vigencia controlada.</td></tr>'+
+  '<tr><td>Datos</td><td>Supabase</td><td>Persistencia mínima y lícita.</td></tr>'+
+  '<tr><td>Diagramar</td><td>Mermaid · Excalidraw · Figma</td><td>Flujos, interfaz, arquitectura.</td></tr></table>';
+
+/* ================= DATOS DE LAS 16 CLASES ================= */
+const MODULES = {
+ 1:{big:"01",t:"Usar con criterio",r:"C1–C4",d:"Antes de construir nada: reconocer qué hace la IA, distinguir niveles, instruirla con responsabilidad y controlar sus fuentes. El estudiante pasa de usuario espontáneo a usuario crítico."},
+ 2:{big:"02",t:"Diseño constitucional",r:"C5–C7",d:"El corazón jurídico del curso: recortar un problema, redactar la Constitución del agente y trazar su arquitectura. Se piensa el sistema como institución antes de escribir una línea de código."},
+ 3:{big:"03",t:"Construir",r:"C8–C10",d:"De la norma al prototipo: levantar un sistema funcional sin ser programador, diseñar su interfaz responsable y darle datos mínimos y lícitos."},
+ 4:{big:"04",t:"Verificar y gobernar",r:"C11–C13",d:"Control de legalidad de la salida: separar hechos de inferencias, construir la matriz de riesgos, auditar el cumplimiento. Aquí el prototipo se vuelve gobernable."},
+ 5:{big:"05",t:"Evaluar y defender",r:"C14–C16",d:"Probar, corregir y defender. El estudiante justifica cada decisión ante la cátedra: fuentes, límites, interfaz y riesgos. Cierre institucional del proyecto."}
+};
+
+const CLASES = [
+{
+ n:1, mod:1, titulo:"La IA ya entró al Derecho: del uso espontáneo al uso gobernado",
+ pregunta:"¿Cómo se usa hoy la IA en el trabajo jurídico, y qué separa el uso espontáneo del uso gobernado?",
+ objG:"Reconocer los usos actuales de IA en el Derecho y distinguir consultar, delegar y automatizar según su riesgo.",
+ objE:["Identificar usos propios de IA y sus riesgos.","Distinguir consulta, delegación y automatización.","Formular el compromiso de uso responsable del curso."],
+ comp:["Alfabetización en IA jurídica","Autoconciencia de riesgos","Juicio ético profesional"],
+ conceptos:["Uso espontáneo vs. gobernado","Consultar / delegar / automatizar","Alucinación","Responsabilidad profesional"],
+ analogia:{t:"El uso sin gobierno es ejercicio sin habilitación",d:"Usar IA sin criterio de verificación es como actuar en un expediente sin tener la competencia: puede que salga bien, pero el acto es reprochable por su origen, no por su resultado."},
+ guion:[["0–10","Sondeo en vivo: ¿quién usó IA esta semana y para qué? Se listan usos en pizarra.","c1"],["10–25","Microclase: los tres verbos —consultar, delegar, automatizar— y su curva de riesgo.","c1"],["25–75","Laboratorio: cada estudiante mapea sus propios usos en la matriz oportunidad/riesgo.","c2"],["75–88","Puesta en común y redacción del compromiso de laboratorio.","c3"],["88–90","Cierre y tarea.","c3"]],
+ actividad:"Ronda rápida: cada estudiante nombra un uso real de IA que haya hecho y si lo verificó.",
+ microclase:"La IA no llega al Derecho como herramienta neutra: llega como práctica ya instalada y sin reglas. El curso no la prohíbe ni la celebra; la somete a criterio. Consultar es preguntar y verificar; delegar es encargar una tarea manteniendo el control; automatizar es dejar que el sistema actúe solo. El riesgo crece con cada paso, y con él la exigencia de gobierno.",
+ lab:["Abrir la plantilla 'Mapa personal de riesgos y oportunidades'.","Listar 5 usos reales o plausibles de IA en la práctica jurídica propia.","Clasificar cada uno como consultar / delegar / automatizar.","Ubicarlos en la matriz oportunidad (eje X) × riesgo (eje Y).","Marcar en rojo los que hoy se hacen sin verificación.","Escribir una frase por cada uso rojo: cómo se gobernaría."],
+ tools:["Claude","ChatGPT","Markdown"],
+ promptBase:"Actúa como analista jurídico. Enumera cinco tareas del ejercicio profesional del abogado donde hoy se usa IA, y para cada una indica un riesgo concreto de usarla sin verificación. No inventes datos; si algo es incierto, dilo.",
+ promptAv:"Para la tarea [X], distingue explícitamente qué parte puede consultarse a una IA, qué parte puede delegarse con control humano y qué parte no debería automatizarse nunca. Justifica cada frontera con un criterio jurídico.",
+ checklist:["¿Cada uso tiene un riesgo identificado?","¿Distinguí consultar/delegar/automatizar?","¿Marqué los usos sin verificación?","¿Firmé el compromiso de laboratorio?"],
+ riesgos:["Naturalizar el uso sin verificación","Confundir utilidad con licitud"],
+ errores:["Creer que 'ya lo uso, luego lo domino'.","No distinguir entre pedir ayuda y ceder la decisión."],
+ producto:"Mapa personal de riesgos y oportunidades + compromiso de laboratorio firmado.",
+ tarea:"Traer un problema jurídico pequeño y real (anonimizado) que podría abordar un agente delimitado.",
+ evidencia:"Foto/PDF del mapa personal y del compromiso, en la carpeta del proyecto.",
+ cierre:"No se trata de usar más IA, sino de responder por lo que la IA hace en nuestro nombre.",
+ lamina:"Matriz oportunidad×riesgo con los usos del estudiante ubicados como puntos.",
+ mermaid:"flowchart LR\n  A[Tarea jurídica] --> B{¿Verifico?}\n  B -- sí --> C[Consultar]\n  B -- con control --> D[Delegar]\n  B -- no --> E[/Riesgo/]"
+},
+{
+ n:2, mod:1, titulo:"Chatbot, herramienta, flujo y agente",
+ pregunta:"¿Qué distingue a un chatbot de una herramienta, un flujo y un agente, y por qué importa jurídicamente?",
+ objG:"Distinguir los cuatro niveles de complejidad y asociar a cada uno su exigencia de gobierno.",
+ objE:["Comparar una misma tarea en tres modelos.","Detectar límites y errores de cada respuesta.","Situar la meta del curso en el nivel 'agente delimitado'."],
+ comp:["Pensamiento comparado","Detección de límites de modelos","Criterio de complejidad"],
+ conceptos:["Chatbot / herramienta / flujo / agente","Determinismo vs. probabilidad","Límite de contexto","Reproducibilidad"],
+ analogia:{t:"Del consejo de pasillo al órgano con competencia",d:"Un chatbot es un consejo de pasillo: útil, informal, sin responsabilidad. Un agente delimitado es un órgano: actúa dentro de una competencia y responde por ello."},
+ guion:[["0–20","Marco: los cuatro niveles y qué gobierno exige cada uno.","c1"],["20–25","Se define la tarea jurídica de prueba (común a todo el curso).","c1"],["25–75","Laboratorio: misma consulta en Claude, ChatGPT y Gemini; se registran respuestas, límites y errores.","c2"],["75–90","Verificación cruzada: ¿coinciden? ¿alguno alucinó? Registro en bitácora.","c3"]],
+ actividad:"Se acuerda entre todos una consulta jurídica breve y verificable para comparar modelos.",
+ microclase:"No todos los sistemas de IA son iguales ni exigen el mismo gobierno. El chatbot conversa; la herramienta ejecuta una función fija; el flujo encadena pasos; el agente delimitado suma a un flujo su Constitución, su verificación y su registro. Cuanto más actúa un sistema por sí solo, más norma necesita encima. El curso se detiene en el agente delimitado: no en el autónomo, que pertenece a otro nivel de formación.",
+ lab:["Abrir la 'Tabla comparativa de modelos'.","Ingresar la misma consulta en Claude, ChatGPT y Gemini.","Registrar la respuesta de cada uno, textual.","Anotar límites explícitos (qué dijo no poder hacer).","Detectar errores o afirmaciones sin fuente.","Concluir cuál sirve mejor para qué, y por qué."],
+ tools:["Claude","ChatGPT","Gemini","Markdown"],
+ promptBase:"Consulta jurídica de prueba: [pregunta acordada]. Responde citando la fuente de cada afirmación. Si no tienes fuente confiable, indícalo expresamente en lugar de inventar.",
+ promptAv:"Responde la consulta y luego autoevalúa tu respuesta: ¿qué parte es hecho verificable, qué parte es inferencia y qué parte no deberías afirmar sin una fuente que no tienes?",
+ checklist:["¿Registré las tres respuestas textuales?","¿Anoté límites y errores de cada una?","¿Identifiqué alucinaciones?","¿Concluí uso por modelo con fundamento?"],
+ riesgos:["Tomar el modelo más elocuente por el más correcto","Ignorar el límite de contexto"],
+ errores:["Comparar por 'cuál suena mejor' y no por exactitud.","No registrar la respuesta original y perder la evidencia."],
+ producto:"Tabla comparativa de respuestas, límites y errores de tres modelos.",
+ tarea:"Repetir la comparación con una segunda consulta del propio ámbito de interés.",
+ evidencia:"Tabla comparativa guardada en la carpeta del proyecto.",
+ cierre:"Elegir el modelo correcto es ya una decisión jurídica: define de qué fuente responde el sistema.",
+ lamina:"Cuatro cajas escalonadas chatbot→herramienta→flujo→agente con eje 'gobierno exigible'.",
+ mermaid:"flowchart LR\n  Q[Consulta] --> C[Claude]\n  Q --> G[ChatGPT]\n  Q --> M[Gemini]\n  C & G & M --> V{Verificación cruzada}\n  V --> T[Tabla comparativa]"
+},
+{
+ n:3, mod:1, titulo:"Prompting jurídico responsable y economía de contexto",
+ pregunta:"¿Cómo se instruye a un sistema de IA para que trabaje como un jurista riguroso y no como un opinólogo veloz?",
+ objG:"Redactar prompts jurídicos con rol, contexto, fuentes, restricciones y verificación, administrando el contexto disponible.",
+ objE:["Estructurar un prompt en sus componentes.","Fijar restricciones y exigencia de fuente.","Iniciar una biblioteca de prompts jurídicos."],
+ comp:["Instrucción precisa","Economía de contexto","Diseño de restricciones"],
+ conceptos:["Rol / contexto / tarea / restricciones / ejemplos","Economía de contexto (tokens)","Grounding","Cadena de verificación"],
+ analogia:{t:"El prompt como acto de instrucción",d:"Un prompt bien hecho es una instrucción precisa a un subordinado competente: define el rol, entrega los antecedentes, fija los límites y exige rendición de cuentas. Un prompt vago produce un acto viciado por indeterminación."},
+ guion:[["0–25","Marco: anatomía de un prompt jurídico y por qué el contexto es finito.","c1"],["25–70","Laboratorio: redactar y refinar tres prompts para un análisis preliminar.","c2"],["70–90","Verificación: probar los prompts y depurar los que alucinan; guardar los buenos.","c3"]],
+ actividad:"Se muestra un prompt malo y uno bueno para la misma tarea; la clase identifica las diferencias.",
+ microclase:"Instruir a una IA es un acto de habla reglado. Cinco componentes lo ordenan: rol (quién debe ser), contexto (qué antecedentes tiene), tarea (qué debe hacer), restricciones (qué no puede hacer y con qué fuentes) y ejemplos (qué forma debe tener la salida). La economía de contexto importa porque la ventana es finita: cargar todo satura y degrada; cargar lo justo enfoca. Un buen prompt siempre exige que el sistema distinga lo que sabe de lo que supone.",
+ lab:["Abrir el 'Prompt canvas jurídico'.","Definir rol, contexto, tarea, restricciones y formato de salida.","Escribir el prompt base para un análisis preliminar.","Ejecutarlo y observar la salida.","Refinar: añadir exigencia de fuente y de marca de incertidumbre.","Guardar la versión final en la biblioteca de prompts."],
+ tools:["Claude","ChatGPT","Markdown"],
+ promptBase:"Rol: abogado analista en [materia]. Contexto: [hechos anonimizados]. Tarea: identificar las cuestiones jurídicas relevantes. Restricciones: citar fuente de cada afirmación; marcar toda incertidumbre; no concluir sobre materias fuera de [materia].",
+ promptAv:"Además de lo anterior, estructura la salida en tres bloques —hechos asumidos, cuestiones jurídicas, vacíos de información— y termina con una lista de preguntas que necesitarías responder antes de emitir cualquier recomendación.",
+ checklist:["¿El prompt define rol y restricciones?","¿Exige fuente y marca de incertidumbre?","¿Probé y refiné al menos una vez?","¿Lo guardé en la biblioteca?"],
+ riesgos:["Prompt indeterminado → salida ambigua","Sobrecargar el contexto y degradar la respuesta"],
+ errores:["Pedir 'todo sobre X' en vez de una tarea acotada.","No fijar el formato de salida y recibir texto inmanejable."],
+ producto:"Biblioteca inicial de prompts jurídicos (mínimo tres, versionados).",
+ tarea:"Añadir dos prompts más a la biblioteca, uno de redacción y uno de revisión.",
+ evidencia:"Archivo de la biblioteca de prompts en el repositorio.",
+ cierre:"Quien instruye mal, delega mal. La precisión del prompt es la primera garantía de la salida.",
+ lamina:"Canvas de prompt con sus cinco casillas rotuladas y una salida de ejemplo al lado.",
+ mermaid:"flowchart TD\n  R[Rol] --> P[Prompt]\n  C[Contexto] --> P\n  T[Tarea] --> P\n  L[Restricciones + fuentes] --> P\n  P --> S[Salida]\n  S --> V{¿Cita y marca dudas?}\n  V -- no --> P"
+},
+{
+ n:4, mod:1, titulo:"Investigación jurídica asistida y control de fuentes",
+ pregunta:"¿Cómo se investiga con IA sin perder la trazabilidad de las fuentes que dan validez al trabajo jurídico?",
+ objG:"Establecer un protocolo de fuentes autorizadas y distinguir búsqueda, resumen e inferencia.",
+ objE:["Diferenciar buscar, resumir e inferir.","Construir el protocolo de fuentes del proyecto.","Evaluar la trazabilidad de una cita generada por IA."],
+ comp:["Control de fuentes","Trazabilidad","Lectura crítica de resultados"],
+ conceptos:["Fuente autorizada","Búsqueda vs. resumen vs. inferencia","Trazabilidad","Grounding documental"],
+ analogia:{t:"La fuente autorizada como bloque de juridicidad",d:"Las fuentes que el agente puede invocar forman su bloque de juridicidad: aquello dentro de lo cual sus actos son válidos. Una respuesta sin fuente autorizada es un acto sin fundamento normativo."},
+ guion:[["0–25","Marco: qué es fuente autorizada y por qué la IA confunde buscar con inferir.","c1"],["25–75","Laboratorio: investigar una cuestión con Perplexity y NotebookLM sobre documentos cargados.","c2"],["75–90","Verificación: cotejar cada cita con su fuente real; redactar el protocolo de fuentes.","c3"]],
+ actividad:"Se pide a un modelo una cita legal y se verifica en vivo si la fuente existe.",
+ microclase:"Buscar es localizar una fuente; resumir es condensar una fuente existente; inferir es producir una afirmación nueva que puede o no tener respaldo. La IA mezcla las tres y presenta las tres con el mismo tono de certeza. El jurista debe separarlas: exigir que toda afirmación cuelgue de una fuente citable, y tratar la inferencia sin fuente como hipótesis, no como resultado. NotebookLM y herramientas de fuentes ancladas ayudan porque responden solo desde documentos que uno cargó.",
+ lab:["Definir la cuestión jurídica a investigar.","Cargar en NotebookLM 2–3 documentos autorizados (normativa, doctrina pública).","Formular la pregunta y observar la respuesta anclada a fuentes.","Contrastar con una búsqueda abierta en Perplexity.","Cotejar cada cita con la fuente original.","Redactar el protocolo de fuentes del proyecto: qué se admite, qué no."],
+ tools:["Perplexity","NotebookLM","Google Drive"],
+ promptBase:"Responde la cuestión [X] usando únicamente los documentos cargados. Cita el fragmento exacto que respalda cada afirmación. Si los documentos no bastan, dilo en lugar de completar con conocimiento general.",
+ promptAv:"Clasifica cada oración de tu respuesta como 'respaldada por documento', 'inferencia razonable' o 'no verificable con lo cargado', y señala qué documento adicional necesitarías para cerrar los vacíos.",
+ checklist:["¿Cada afirmación tiene fuente citable?","¿Separé búsqueda, resumen e inferencia?","¿Coteje las citas con el original?","¿Redacté el protocolo de fuentes?"],
+ riesgos:["Cita inventada presentada como real","Tomar una inferencia por hallazgo documentado"],
+ errores:["Copiar la cita sin abrir la fuente.","Confiar en un resumen de un texto que no se leyó."],
+ producto:"Protocolo de fuentes autorizadas del proyecto.",
+ tarea:"Ampliar el protocolo con una lista de fuentes vedadas y el motivo.",
+ evidencia:"Protocolo de fuentes en el repositorio, con ejemplos de cita correcta.",
+ cierre:"Sin fuente no hay Derecho: la trazabilidad es la diferencia entre investigar y opinar.",
+ lamina:"Matriz fuente → tipo de operación (buscar/resumir/inferir) → nivel de confianza.",
+ mermaid:"flowchart LR\n  D[(Documentos cargados)] --> N[NotebookLM]\n  N --> A[Afirmación]\n  A --> V{¿Fragmento que la respalda?}\n  V -- sí --> OK[Fuente trazable]\n  V -- no --> H[Hipótesis / vacío]"
+},
+{
+ n:5, mod:2, titulo:"Método Constitucional I: el agente como institución mínima",
+ pregunta:"¿Qué problema jurídico acotado merece un agente, y cuál es su finalidad y competencia?",
+ objG:"Recortar un problema jurídico abordable y definir la finalidad, competencia y responsabilidad del agente.",
+ objE:["Delimitar un problema jurídico lícito y acotado.","Definir finalidad y competencia del agente.","Nombrar al responsable del sistema."],
+ comp:["Delimitación de problemas","Diseño de competencia","Asignación de responsabilidad"],
+ conceptos:["Finalidad","Competencia","Mandato","Responsabilidad","Delimitación"],
+ analogia:{t:"Crear el órgano antes de darle funciones",d:"Definir finalidad y competencia es el acto de creación del órgano: sin él, cualquier función que se agregue después carece de título. Primero se decide para qué existe; recién entonces qué puede hacer."},
+ guion:[["0–25","Marco: la institución mínima; por qué finalidad y competencia van primero.","c1"],["25–75","Laboratorio: elegir el problema del prototipo y redactar la ficha de finalidad.","c2"],["75–90","Verificación: ¿es lícito, acotado y abordable en 16 semanas? Ajuste.","c3"]],
+ actividad:"Cada estudiante enuncia su problema en una frase; la clase detecta si es demasiado amplio.",
+ microclase:"Un agente jurídico nace de una decisión de creación: para qué existe (finalidad) y qué puede hacer (competencia). La tentación es abarcar mucho; el buen diseño hace lo contrario. Un problema acotado —'orientar sobre plazos de un procedimiento determinado con datos ficticios'— es gobernable; uno amplio —'asesorar en derecho civil'— es ingobernable e ilícito como promesa. La finalidad fija el norte; la competencia dibuja el perímetro; la responsabilidad nombra a quien responde por el acto del sistema.",
+ lab:["Abrir la 'Ficha de problema jurídico'.","Enunciar el problema en una sola frase.","Definir la finalidad del agente (para qué existe).","Delimitar su competencia: qué puede y qué no puede hacer.","Verificar licitud: ¿promete algo que no debe? Ajustar.","Nombrar al responsable y al destinatario (ficha de usuario)."],
+ tools:["Claude","Markdown","Excalidraw"],
+ promptBase:"Ayúdame a delimitar un problema jurídico para un agente acotado en [materia]. Propón tres recortes posibles, de más amplio a más estrecho, y advierte cuál sería ilícito o inabordable prometer.",
+ promptAv:"Para el recorte elegido, redacta un borrador de finalidad y de competencia (qué puede / qué no puede), y señala tres materias vecinas que el agente debería declinar expresamente para no exceder su ámbito.",
+ checklist:["¿El problema cabe en una frase?","¿La finalidad es lícita y clara?","¿La competencia tiene fronteras explícitas?","¿Hay un responsable nombrado?"],
+ riesgos:["Prometer asesoría legal general","Finalidad tan amplia que nada queda fuera"],
+ errores:["Elegir un problema que exige datos reales sensibles.","Confundir 'tema' con 'problema acotado'."],
+ producto:"Ficha de problema y finalidad del agente + ficha de usuario destinatario.",
+ tarea:"Escribir tres materias que el agente declinará y por qué.",
+ evidencia:"Fichas de problema y de usuario en el repositorio.",
+ cierre:"Un agente que quiere hacerlo todo no puede responder por nada. La competencia es su primera virtud.",
+ lamina:"Ficha de problema con perímetro de competencia dibujado como círculo y exclusiones fuera.",
+ mermaid:"mindmap\n  root((Agente))\n    Finalidad\n    Competencia\n      Puede\n      No puede\n    Responsable\n    Destinatario"
+},
+{
+ n:6, mod:2, titulo:"Método Constitucional II: redactar la Constitución del agente",
+ pregunta:"¿Cómo se escribe la norma que habilita y limita al agente: sus reglas duras, preferencias y escalamiento?",
+ objG:"Redactar la primera versión de la Constitución del agente con reglas duras, preferencias, prohibiciones y escalamiento.",
+ objE:["Distinguir regla dura de preferencia.","Redactar prohibiciones y advertencias.","Definir el umbral de escalamiento humano."],
+ comp:["Redacción normativa","Jerarquía de reglas","Diseño de control"],
+ conceptos:["Regla dura","Preferencia","Prohibición","Advertencia","Escalamiento"],
+ analogia:{t:"La Constitución como norma habilitante y limitante",d:"El articulado del agente lo habilita (le da poderes) y lo limita (se los recorta) en el mismo texto. Como toda buena norma, vale tanto por lo que permite como por lo que prohíbe."},
+ guion:[["0–25","Marco: reglas duras vs. preferencias; el escalamiento como válvula.","c1"],["25–75","Laboratorio: redactar la Constitución v1 sobre la plantilla.","c2"],["75–90","Verificación entre pares: buscar poderes sin cláusula y prohibiciones que faltan.","c3"]],
+ actividad:"Se lee una cláusula ambigua y la clase la reescribe como regla dura verificable.",
+ microclase:"La Constitución del agente traduce el diseño a articulado. Las reglas duras son inderogables ('nunca afirmar sin fuente', 'nunca actuar fuera de la materia'); las preferencias orientan la elección entre vías válidas ('preferir la interpretación más protectora'); las prohibiciones cierran materias; las advertencias acompañan salidas de riesgo medio; el escalamiento define el umbral en que el asunto sale del agente y va al humano. La prueba de una buena cláusula es que se pueda verificar si se cumplió.",
+ lab:["Abrir la 'Plantilla de Constitución del agente'.","Redactar la finalidad y la competencia (de la Clase 5).","Escribir 4–6 reglas duras verificables.","Añadir preferencias y prohibiciones expresas.","Definir el umbral de escalamiento humano.","Intercambiar con un par y anotar poderes sin cláusula."],
+ tools:["Claude","Markdown"],
+ promptBase:"Ayúdame a redactar reglas duras para un agente jurídico cuya finalidad es [X] y su competencia [Y]. Cada regla debe ser verificable: que se pueda comprobar objetivamente si se cumplió. Propón también tres prohibiciones expresas.",
+ promptAv:"Revisa este borrador de Constitución [pegar] y detecta: (1) capacidades usadas sin una cláusula que las habilite; (2) reglas no verificables; (3) materias de riesgo que deberían tener escalamiento y no lo tienen.",
+ checklist:["¿Cada regla dura es verificable?","¿Distinguí regla de preferencia?","¿Hay prohibiciones expresas?","¿Definí el umbral de escalamiento?"],
+ riesgos:["Reglas decorativas imposibles de comprobar","Escalamiento ausente en materias sensibles"],
+ errores:["Escribir principios vagos en vez de reglas.","Olvidar la cláusula de cierre: 'lo no atribuido está prohibido'."],
+ producto:"Constitución del agente v1 (revisión intermedia formativa).",
+ tarea:"Añadir la cláusula de cierre y una regla de trazabilidad obligatoria.",
+ evidencia:"Constitución v1 versionada en el repositorio (commit).",
+ cierre:"Redactar la Constitución es la tarea más jurídica del curso: aquí el estudiante legisla para su sistema.",
+ lamina:"Documento constitucional con artículos numerados y color por tipo (dura/preferencia/prohibición).",
+ mermaid:"flowchart TD\n  F[Finalidad] --> RD[Reglas duras]\n  RD --> PR[Preferencias]\n  PR --> PH[Prohibiciones]\n  PH --> ES{Umbral de escalamiento}\n  ES -- supera --> H[Revisión humana]\n  ES -- no --> OK[Actúa y registra]"
+},
+{
+ n:7, mod:2, titulo:"De la idea al flujo: arquitectura mínima de una herramienta jurídica",
+ pregunta:"¿Cómo se traduce la Constitución en un flujo operativo con entrada, proceso, fuentes, salida, control y bitácora?",
+ objG:"Diseñar el flujograma operativo del prototipo a partir de su Constitución.",
+ objE:["Descomponer el agente en etapas.","Ubicar el control y la bitácora en el flujo.","Representar el flujo en un diagrama."],
+ comp:["Pensamiento de procesos","Modelado de flujos","Traducción norma→operación"],
+ conceptos:["Entrada / procesamiento / salida","Punto de control","Bitácora","Diagrama de flujo"],
+ analogia:{t:"El flujo como procedimiento administrativo",d:"El flujo del agente es su procedimiento: cada actuación sigue un iter reglado, con trámites (pasos), un control de legalidad (verificación) y constancia en el expediente (bitácora). Saltarse un paso vicia el acto."},
+ guion:[["0–25","Marco: anatomía de un flujo; dónde va el control y por qué.","c1"],["25–75","Laboratorio: diagramar el flujo del prototipo en Excalidraw o Mermaid.","c2"],["75–90","Verificación: recorrer el flujo con un caso y detectar pasos sin control.","c3"]],
+ actividad:"Se dibuja en pizarra el flujo de un trámite conocido y se marca dónde falla si se omite un paso.",
+ microclase:"Un flujo convierte la norma en operación. Toda actuación del agente tiene la forma entrada → procesamiento (con consulta a fuentes) → salida, y sobre esa línea se injertan dos elementos jurídicos: el punto de control, donde se verifica antes de responder, y la bitácora, donde queda constancia. Diseñar el flujo es decidir el orden reglado de los pasos y garantizar que ninguno de riesgo quede sin control. El diagrama no es adorno: es la especificación que después se construye.",
+ lab:["Listar las etapas del agente, de la entrada a la salida.","Ubicar dónde consulta fuentes autorizadas.","Insertar el punto de control (verificación) antes de la salida.","Insertar el registro en bitácora.","Marcar la rama de escalamiento.","Dibujar el flujograma (Excalidraw o Mermaid)."],
+ tools:["Excalidraw","Mermaid","Markdown"],
+ promptBase:"Ayúdame a describir el flujo operativo de un agente cuya finalidad es [X]: entrada del usuario, procesamiento, consulta de fuentes, control de verificación, salida y registro. Marca en qué paso debe poder detenerse y derivar a un humano.",
+ promptAv:"Convierte esa descripción en código Mermaid de un flowchart, con un nodo de decisión para el escalamiento y un nodo explícito de bitácora tras cada actuación relevante.",
+ checklist:["¿El flujo tiene entrada, proceso y salida?","¿Hay un punto de control antes de responder?","¿Está la bitácora en el flujo?","¿Existe rama de escalamiento?"],
+ riesgos:["Flujo sin punto de control","Salida directa sin verificación ni registro"],
+ errores:["Diagramar la interfaz en vez del proceso.","Olvidar la rama de error/escalamiento."],
+ producto:"Flujograma operativo del prototipo.",
+ tarea:"Recorrer el flujo con un segundo caso y ajustar los pasos que fallen.",
+ evidencia:"Flujograma (imagen o código Mermaid) en el repositorio.",
+ cierre:"El flujo es la Constitución puesta en movimiento: donde el articulado se vuelve procedimiento.",
+ lamina:"Flujograma horizontal entrada→proceso→salida con control y bitácora injertados.",
+ mermaid:"flowchart LR\n  E[Entrada] --> P[Procesa]\n  P --> Fu[(Fuentes)]\n  Fu --> Ctl{Control}\n  Ctl -- ok --> S[Salida]\n  Ctl -- riesgo --> H[Escala a humano]\n  S --> B[(Bitácora)]\n  H --> B"
+},
+{
+ n:8, mod:3, titulo:"Claude Code, GitHub y Vercel: levantar un prototipo sin ser programador",
+ pregunta:"¿Cómo se construye y publica un prototipo funcional con desarrollo asistido, sin escribir código a mano?",
+ objG:"Crear un repositorio, construir una primera maqueta con Claude Code y publicarla en Vercel.",
+ objE:["Usar Claude Code para generar la maqueta.","Versionar en GitHub con commits claros.","Publicar en Vercel y obtener una URL."],
+ comp:["Desarrollo asistido","Versionamiento","Publicación controlada"],
+ conceptos:["Repositorio","Commit","Despliegue","Control de versiones","URL de producción"],
+ analogia:{t:"El despliegue como entrada en vigencia controlada",d:"Publicar el prototipo es ponerlo en vigencia: pasa de borrador interno a norma aplicable. Cada versión (commit) es una modificación fechada y trazable, como el historial de reformas de un cuerpo legal."},
+ guion:[["0–20","Marco: qué es un repositorio, un commit y un despliegue, en lenguaje jurídico.","c1"],["20–75","Laboratorio: Claude Code genera la maqueta; se sube a GitHub; se publica en Vercel.","c2"],["75–90","Verificación: abrir la URL, comprobar que refleja la Constitución; registrar en bitácora.","c3"]],
+ actividad:"Se muestra el historial de commits de un proyecto como si fuera el historial de reformas de una ley.",
+ microclase:"Construir hoy no exige escribir código: exige instruir bien y controlar el resultado. Claude Code traduce instrucciones en archivos; GitHub guarda cada versión con su fecha y su motivo (el mensaje de commit); Vercel publica el resultado en una URL. El estudiante no memoriza sintaxis: aprende el ciclo instruir → versionar → publicar → verificar, que es el mismo con cualquier herramienta. La disciplina jurídica está en el mensaje de commit: cada cambio se justifica, como cada actuación se funda.",
+ lab:["Crear una cuenta y un repositorio base en GitHub.","Con Claude Code, generar la maqueta mínima del agente (entrada y salida).","Hacer el primer commit con un mensaje claro.","Conectar el repositorio a Vercel y desplegar.","Abrir la URL de producción y comprobar que carga.","Registrar la URL y la decisión en la bitácora."],
+ tools:["Claude Code","GitHub","Vercel"],
+ promptBase:"Con Claude Code: crea una página web estática simple con un campo de entrada para la consulta del usuario y un área de salida, con un aviso visible de que es un prototipo académico que no constituye asesoría legal. Sin dependencias innecesarias.",
+ promptAv:"Añade a la maqueta un pie con los límites del agente (materia, que usa datos ficticios, que deriva casos de riesgo) tomados de su Constitución, y estructura el repositorio con un README que explique qué hace y qué no hace el sistema.",
+ checklist:["¿El repositorio tiene commits con mensaje?","¿La URL de Vercel abre?","¿La maqueta muestra el aviso de prototipo?","¿Registré la URL en la bitácora?"],
+ riesgos:["Publicar credenciales en el repositorio","Desplegar sin aviso de que no es asesoría"],
+ errores:["Subir la carpeta del proyecto anidada y romper el build.","Un solo commit gigante al final en vez de commits por decisión."],
+ producto:"URL funcional del prototipo (maqueta v1) + repositorio versionado.",
+ tarea:"Escribir el README con el qué hace / qué no hace del agente.",
+ evidencia:"URL de producción y enlace al repositorio en la bitácora.",
+ cierre:"Publicar es un acto de responsabilidad: lo que sale a la URL ya puede ser usado por alguien.",
+ lamina:"Cadena Claude Code → GitHub (commits) → Vercel (URL) con fechas como reformas.",
+ mermaid:"flowchart LR\n  I[Instrucción] --> CC[Claude Code]\n  CC --> R[(Repositorio GitHub)]\n  R --> D[Vercel]\n  D --> U[URL producción]\n  U --> V{¿Refleja la Constitución?}\n  V -- no --> I"
+},
+{
+ n:9, mod:3, titulo:"Interfaz jurídica: claridad, advertencias y experiencia responsable",
+ pregunta:"¿Cómo debe verse y comunicar un agente jurídico para no inducir a error ni exceder lo que promete?",
+ objG:"Diseñar la pantalla de entrada y salida del agente con advertencias y estados de incertidumbre.",
+ objE:["Diseñar entradas que acoten la consulta.","Mostrar advertencias y límites en la salida.","Comunicar incertidumbre de forma honesta."],
+ comp:["Diseño de interfaz responsable","Comunicación de riesgo","Honestidad epistémica"],
+ conceptos:["Disclaimer","Estado de incertidumbre","Diseño para no inducir a error","Deber de advertencia"],
+ analogia:{t:"El deber de advertencia hecho interfaz",d:"La pantalla es donde el deber de advertencia se materializa: como el profesional que precisa los límites de su opinión, la interfaz debe declarar qué es, qué no es y cuándo derivar. Ocultar el límite es un vicio del diseño."},
+ guion:[["0–25","Marco: la interfaz como acto comunicativo con deberes; qué induce a error.","c1"],["25–75","Laboratorio: diseñar entrada y salida con advertencias y estados de duda.","c2"],["75–90","Verificación: test con un usuario que no conoce el proyecto; ¿entiende los límites?","c3"]],
+ actividad:"Se comparan dos salidas: una que afirma con seguridad y otra que marca su incertidumbre; ¿cuál es más profesional?",
+ microclase:"La interfaz no es estética: es comunicación con consecuencias jurídicas. Una entrada bien diseñada acota la consulta y evita que el usuario pida lo que el agente no puede dar. Una salida responsable declara su naturaleza (prototipo, no asesoría), cita sus fuentes, marca lo que es incierto y ofrece la derivación cuando corresponde. El peor diseño es el que suena a certeza sobre lo dudoso: induce a confiar donde no se debe. La honestidad epistémica se diseña.",
+ lab:["Bocetar en Figma o Excalidraw la pantalla de entrada.","Acotar la consulta con ejemplos y con lo que el agente no responde.","Diseñar la salida: respuesta + fuentes + advertencias.","Añadir un estado visible de incertidumbre ('esto requiere verificación humana').","Incluir el disclaimer permanente.","Probar con un compañero ajeno al proyecto."],
+ tools:["Figma","Excalidraw","Claude Code"],
+ promptBase:"Diseña el texto de una pantalla de salida para un agente jurídico que: muestra la respuesta, lista las fuentes, marca con un color de advertencia lo que es incierto y ofrece derivar a revisión humana cuando el tema es de riesgo alto. Redacta también el disclaimer permanente.",
+ promptAv:"Propón tres estados visuales de la salida —confiable, requiere advertencia, deriva a humano— y describe qué señales (color, texto, icono) distinguen cada uno sin exagerar ni minimizar el riesgo.",
+ checklist:["¿La entrada acota la consulta?","¿La salida cita fuentes?","¿Hay un estado visible de incertidumbre?","¿El disclaimer es permanente y claro?"],
+ riesgos:["Diseño que aparenta certeza absoluta","Disclaimer escondido o ilegible"],
+ errores:["Priorizar lo bonito sobre lo claro.","Omitir el estado de 'derivar a humano'."],
+ producto:"Interfaz v1 (entrada + salida con advertencias).",
+ tarea:"Redactar el texto final del disclaimer y de los tres estados de salida.",
+ evidencia:"Boceto de interfaz y textos en el repositorio.",
+ cierre:"Una interfaz honesta advierte antes de que se le pregunte. El diseño también responde por el sistema.",
+ lamina:"Pantalla de salida con tres estados (confía / advierte / deriva) codificados por color.",
+ mermaid:"stateDiagram-v2\n  [*] --> Confiable\n  Confiable --> Advertencia: incertidumbre\n  Advertencia --> DerivaHumano: riesgo alto\n  DerivaHumano --> [*]"
+},
+{
+ n:10, mod:3, titulo:"Datos, anonimización y Supabase",
+ pregunta:"¿Qué datos necesita realmente el agente, y cómo se guardan de forma mínima, lícita y segura?",
+ objG:"Definir un esquema de datos mínimo y una política de datos, y conectar o simular persistencia con Supabase.",
+ objE:["Aplicar minimización al esquema de datos.","Modelar tablas básicas.","Redactar la política mínima de datos del proyecto."],
+ comp:["Minimización de datos","Modelado de datos","Cumplimiento aplicado"],
+ conceptos:["Minimización","Dato ficticio/anonimizado","Persistencia","Esquema de datos","Licitud del tratamiento"],
+ analogia:{t:"Guardar solo lo que el expediente exige",d:"Como en un expediente bien llevado, solo se conserva el dato que la actuación requiere. Todo dato de más es un riesgo custodiado sin causa: minimizar es higiene jurídica, no limitación técnica."},
+ guion:[["0–25","Marco: minimización y licitud; por qué menos datos es mejor diseño.","c1"],["25–75","Laboratorio: definir el esquema mínimo y conectar/simular Supabase.","c2"],["75–90","Verificación: revisar que no haya datos innecesarios ni reales; política de datos.","c3"]],
+ actividad:"Se lista lo que el agente 'podría' guardar y se tacha, uno a uno, lo que no necesita.",
+ microclase:"La primera pregunta sobre datos no es cómo guardarlos, sino cuáles no guardar. La minimización exige conservar únicamente lo que la finalidad requiere; todo lo demás es exposición sin causa. En el curso se trabaja con datos ficticios o anonimizados, y Supabase permite modelar tablas simples y persistirlos. El estudiante diseña el esquema (qué campos, con qué justificación) y redacta una política mínima: qué se guarda, para qué, por cuánto tiempo y con qué resguardo. La licitud del tratamiento se decide en el diseño, no después.",
+ lab:["Listar todos los datos que el agente podría manejar.","Tachar los que no son imprescindibles para la finalidad.","Modelar el esquema mínimo (tablas y campos) en Supabase.","Cargar datos ficticios de prueba.","Verificar que no haya ningún dato real ni sensible.","Redactar la política mínima de datos."],
+ tools:["Supabase","Claude Code","Markdown"],
+ promptBase:"Ayúdame a definir el esquema de datos mínimo para un agente cuya finalidad es [X]. Para cada campo, exige una justificación de por qué es imprescindible; si no la hay, propónlo para eliminar. Todos los datos de ejemplo deben ser ficticios.",
+ promptAv:"Redacta una política mínima de datos que declare: qué se guarda, con qué finalidad, por cuánto tiempo, quién accede y cómo se anonimiza. Marca con un placeholder toda referencia normativa a verificar a la fecha de dictación.",
+ checklist:["¿Cada campo tiene justificación?","¿Los datos de prueba son ficticios?","¿Existe política mínima de datos?","¿Se evitó todo dato real o sensible?"],
+ riesgos:["Guardar datos 'por si acaso'","Datos reales en un entorno de prueba"],
+ errores:["Modelar tablas antes de decidir qué guardar.","Confundir anonimizado con seudonimizado reversible."],
+ producto:"Esquema de datos + política mínima de datos.",
+ tarea:"Añadir a la política el plazo de conservación y el criterio de borrado.",
+ evidencia:"Esquema y política de datos en el repositorio.",
+ cierre:"El dato que no se guarda no se filtra. Minimizar es la forma más barata de cumplir.",
+ lamina:"Esquema de tablas con una columna 'justificación' obligatoria por campo.",
+ mermaid:"erDiagram\n  CONSULTA ||--o{ REGISTRO : genera\n  CONSULTA { string id string materia_ficticia }\n  REGISTRO { string id string veredicto string fuente }"
+},
+{
+ n:11, mod:4, titulo:"Verificación jurídica I: separar hechos, inferencias y recomendaciones",
+ pregunta:"¿Cómo se controla la salida del agente para no confiar en lo que solo parece verdadero?",
+ objG:"Construir un checklist de verificación que separe hechos, inferencias y recomendaciones y marque la incertidumbre.",
+ objE:["Separar hecho, inferencia y recomendación.","Detectar alucinaciones y vicios.","Redactar el checklist de verificación v1."],
+ comp:["Control de legalidad de la salida","Detección de alucinación","Trazabilidad"],
+ conceptos:["Hecho / inferencia / recomendación","Alucinación","Incertidumbre","Trazabilidad"],
+ analogia:{t:"La verificación como control de legalidad",d:"Verificar la salida es el control de legalidad del acto del agente: se examina si lo afirmado tiene fundamento (fuente), si respeta su competencia y si sigue el procedimiento. Lo que no lo supera es un acto no confiable."},
+ guion:[["0–25","Marco: los tres niveles de una salida y cómo la IA los confunde.","c1"],["25–75","Laboratorio: someter salidas del prototipo al análisis y construir el checklist.","c2"],["75–90","Verificación: aplicar el checklist a un caso nuevo; registrar hallazgos.","c3"]],
+ actividad:"Se toma una respuesta del prototipo y la clase subraya en tres colores hecho, inferencia y recomendación.",
+ microclase:"Toda salida mezcla tres cosas: hechos (verificables contra una fuente), inferencias (razonamientos que pueden fallar) y recomendaciones (juicios de acción). La IA las presenta con la misma seguridad, y ahí anida el riesgo. Verificar es desarmar la salida en esos tres niveles, cotejar los hechos con la fuente, tratar las inferencias como revisables y reservar las recomendaciones al criterio humano. La alucinación se caza en el primer nivel: un 'hecho' sin fuente es una hipótesis disfrazada.",
+ lab:["Generar tres salidas del prototipo sobre casos ficticios.","Subrayar en cada una hecho, inferencia y recomendación.","Cotejar cada hecho con su fuente; marcar los que no la tienen.","Anotar toda afirmación categórica sin respaldo.","Redactar el checklist de verificación con esos criterios.","Aplicar el checklist a una salida nueva."],
+ tools:["Claude","NotebookLM","Markdown"],
+ promptBase:"Analiza esta respuesta [pegar] y clasifica cada oración como hecho verificable, inferencia o recomendación. Para cada hecho, indica qué fuente lo respaldaría; si no hay fuente, márcalo como no verificable.",
+ promptAv:"Actúa como revisor crítico: identifica en la respuesta toda posible alucinación (norma o fallo que podría no existir, cifra sospechosa, afirmación sin fuente) y propón cómo verificarla o, si no se puede, cómo debería reformularse la salida.",
+ checklist:["¿Separé hecho, inferencia y recomendación?","¿Cada hecho tiene fuente?","¿Marqué las afirmaciones sin respaldo?","¿El checklist es aplicable a cualquier salida?"],
+ riesgos:["Confiar en la inferencia como si fuera hecho","Pasar por alto una cita inventada"],
+ errores:["Verificar solo el tono y no la fuente.","No dejar registro de lo verificado."],
+ producto:"Checklist de verificación v1.",
+ tarea:"Aplicar el checklist a dos salidas más y anotar los errores encontrados.",
+ evidencia:"Checklist y casos verificados en el repositorio.",
+ cierre:"Lo que suena a Derecho no siempre lo es. Verificar es exigir la fuente antes de la confianza.",
+ lamina:"Salida desarmada en tres franjas de color con la fuente exigida a cada hecho.",
+ mermaid:"flowchart TD\n  S[Salida] --> H[Hecho]\n  S --> I[Inferencia]\n  S --> R[Recomendación]\n  H --> F{¿Fuente?}\n  F -- no --> X[No confiable]\n  F -- sí --> OK[Verificado]"
+},
+{
+ n:12, mod:4, titulo:"Verificación jurídica II: matriz de riesgos y escalamiento humano",
+ pregunta:"¿Cuándo debe el agente detenerse, advertir o derivar, y cómo se decide de forma reglada?",
+ objG:"Construir la matriz de riesgos del prototipo y definir los umbrales de escalamiento humano.",
+ objE:["Clasificar respuestas por nivel de riesgo.","Definir la acción para cada nivel.","Trazar el árbol de escalamiento."],
+ comp:["Evaluación de riesgo","Proporcionalidad operativa","Diseño de control humano"],
+ conceptos:["Riesgo bajo/medio/alto","Escalamiento","Proporcionalidad","Umbral de derivación"],
+ analogia:{t:"La matriz como test de proporcionalidad",d:"Graduar la respuesta según el riesgo es aplicar proporcionalidad: a mayor afectación jurídica posible, mayor control humano exigible. La matriz operacionaliza ese test en reglas que el sistema puede seguir."},
+ guion:[["0–25","Marco: niveles de riesgo y el principio de calibración prudente.","c1"],["25–75","Laboratorio: construir la matriz de riesgos del prototipo y el árbol de escalamiento.","c2"],["75–90","Verificación: probar casos límite; ¿deriva cuando debe?","c3"]],
+ actividad:"Se leen tres consultas y la clase vota su nivel de riesgo; se discuten los desacuerdos.",
+ microclase:"No toda respuesta tiene el mismo peso: resumir un texto público es riesgo bajo; opinar sobre un plazo de prescripción es riesgo alto. La matriz asigna a cada tipo de salida un nivel y una acción: responder y registrar (bajo), responder con advertencia y fuentes (medio), derivar a revisión humana (alto). El árbol de escalamiento encadena las preguntas —¿en competencia? ¿con fuente? ¿riesgo alto?— y cada 'no' es una compuerta. La regla de calibración es prudencial: ante duda de nivel, se asume el superior.",
+ lab:["Listar los tipos de salida que produce el prototipo.","Asignar a cada uno un nivel de riesgo con justificación.","Definir la acción para cada nivel.","Construir el árbol de escalamiento (preguntas encadenadas).","Probar con casos límite diseñados para forzar la derivación.","Ajustar los umbrales según los resultados."],
+ tools:["Claude","Excalidraw","Markdown"],
+ promptBase:"Ayúdame a construir una matriz de riesgos para un agente cuya finalidad es [X]. Propón tres niveles (bajo, medio, alto) con ejemplos de salida en cada uno y la acción correspondiente (responder / advertir / derivar).",
+ promptAv:"Diseña casos límite que deberían forzar el escalamiento a un humano y explica, para cada uno, qué pregunta del árbol de decisión lo detiene y por qué.",
+ checklist:["¿Cada nivel tiene ejemplos y acción?","¿El árbol encadena las preguntas clave?","¿Probé casos límite?","¿La calibración es prudente ante la duda?"],
+ riesgos:["Subestimar el riesgo de una salida","Escalamiento que nunca se activa en la práctica"],
+ errores:["Definir niveles sin ejemplos concretos.","No probar el árbol con casos diseñados para romperlo."],
+ producto:"Matriz de riesgos v1 + árbol de escalamiento.",
+ tarea:"Añadir dos casos límite nuevos y verificar que derivan.",
+ evidencia:"Matriz y árbol en el repositorio, con casos de prueba.",
+ cierre:"Un sistema maduro no es el que más responde, sino el que sabe cuándo no debe hacerlo solo.",
+ lamina:"Matriz 3×2 riesgo/acción junto al árbol de decisión de escalamiento.",
+ mermaid:"flowchart TD\n  Q1{¿En competencia?} -- no --> D1[Declina]\n  Q1 -- sí --> Q2{¿Con fuente?}\n  Q2 -- no --> D2[Deriva]\n  Q2 -- sí --> Q3{¿Riesgo alto?}\n  Q3 -- sí --> D3[Revisión humana]\n  Q3 -- no --> OK[Responde y registra]"
+},
+{
+ n:13, mod:4, titulo:"Regulación, ética y responsabilidad profesional",
+ pregunta:"¿Qué marco regula al agente y qué deberes profesionales asume quien lo diseña y lo usa?",
+ objG:"Auditar el prototipo frente al marco regulatorio y los deberes profesionales, y emitir un informe breve.",
+ objE:["Identificar el marco aplicable (con placeholders a verificar).","Revisar deberes de advertencia, transparencia y responsabilidad.","Emitir un informe de cumplimiento y riesgos."],
+ comp:["Cumplimiento normativo","Ética profesional aplicada","Análisis de responsabilidad"],
+ conceptos:["Protección de datos","Deber de advertencia","Transparencia","Responsabilidad","Límites del estudiante"],
+ analogia:{t:"El error de IA como acto inválido",d:"Según su origen, un error del sistema es anulable (vicio de procedimiento), inexistente (fuera de competencia) o simplemente no confiable (sin fuente). Calificarlo así permite tratarlo con categorías jurídicas conocidas, no como mera 'falla técnica'."},
+ guion:[["0–25","Marco: protección de datos, deberes profesionales y límites del estudiante.","c1"],["25–75","Laboratorio: auditoría regulatoria básica del prototipo con checklist.","c2"],["75–90","Verificación: redactar el informe breve de cumplimiento y riesgos.","c3"]],
+ actividad:"Se discute un caso: si el agente da un consejo errado, ¿quién responde y por qué?",
+ microclase:"El agente no opera en un vacío normativo. Lo alcanzan, al menos, la protección de datos (minimización, licitud del tratamiento), los deberes profesionales de advertencia y transparencia, y la responsabilidad por lo que el sistema produce en nombre de quien lo emplea. El estudiante, además, tiene un límite: no ejerce, y su prototipo es académico. Auditar el cumplimiento es revisar, con checklist, si el diseño respeta ese marco. Toda referencia normativa concreta se marca con placeholder para verificar a la fecha de dictación: no se cita articulado sin reconfirmar.",
+ lab:["Abrir el 'Informe de cumplimiento básico'.","Revisar el tratamiento de datos frente a la minimización.","Verificar los deberes de advertencia y transparencia en la interfaz.","Identificar quién respondería por un error y por qué.","Marcar toda referencia normativa como 'a verificar'.","Redactar el informe breve con hallazgos y riesgos."],
+ tools:["Claude","NotebookLM","Markdown"],
+ promptBase:"Ayúdame a auditar un prototipo jurídico académico frente a: minimización de datos, deber de advertencia, transparencia y responsabilidad profesional. Para cada punto, formula la pregunta de control y marca como '[verificar a la fecha]' toda referencia a normativa específica.",
+ promptAv:"Redacta un informe breve de cumplimiento que distinga: (1) lo que el diseño ya cumple; (2) los riesgos abiertos; (3) las decisiones que exceden al estudiante y requerirían un profesional habilitado. No cites normativa concreta sin marcarla como pendiente de verificación.",
+ checklist:["¿Revisé datos, advertencia y transparencia?","¿Identifiqué al responsable de un error?","¿Marqué la normativa como 'a verificar'?","¿El informe distingue cumplido / riesgo / fuera de mi alcance?"],
+ riesgos:["Citar normativa desactualizada como vigente","Asumir competencias profesionales que el estudiante no tiene"],
+ errores:["Afirmar cumplimiento sin revisar el diseño real.","Inventar artículos para 'rellenar' el informe."],
+ producto:"Informe breve de cumplimiento y riesgos.",
+ tarea:"Añadir al informe una recomendación de mejora por cada riesgo abierto.",
+ evidencia:"Informe de cumplimiento en el repositorio.",
+ cierre:"La IA se gobierna jurídicamente o no se gobierna. La tecnología se somete al Derecho, nunca al revés.",
+ lamina:"Checklist regulatorio con semáforo cumple/riesgo/pendiente por cada deber.",
+ mermaid:"flowchart LR\n  P[Prototipo] --> A{Auditoría}\n  A --> D[Datos]\n  A --> Ad[Advertencia]\n  A --> T[Transparencia]\n  A --> Re[Responsabilidad]\n  D & Ad & T & Re --> I[Informe de cumplimiento]"
+},
+{
+ n:14, mod:5, titulo:"Evaluación del agente: pruebas, errores y mejora continua",
+ pregunta:"¿Cómo se prueba el agente para descubrir sus fallas antes de defenderlo?",
+ objG:"Diseñar y aplicar casos de prueba, registrar errores y documentar las correcciones.",
+ objE:["Diseñar casos de prueba, incluidos casos límite.","Ejecutar pruebas cruzadas entre grupos.","Registrar errores y correcciones en bitácora."],
+ comp:["Diseño de pruebas","Iteración","Documentación de mejoras"],
+ conceptos:["Caso de prueba","Prueba cruzada","Iteración","Métrica simple","Regresión"],
+ analogia:{t:"La bitácora de pruebas como expediente de control",d:"Probar y registrar es instruir un expediente de control interno: cada caso, su resultado y la corrección quedan documentados, de modo que la mejora es demostrable y no un dicho."},
+ guion:[["0–20","Marco: qué es un buen caso de prueba y por qué el autor no debe probarse solo.","c1"],["20–75","Laboratorio: pruebas cruzadas entre grupos; cada grupo intenta romper el agente ajeno.","c2"],["75–90","Verificación: registrar errores hallados y priorizar correcciones.","c3"]],
+ actividad:"Cada grupo recibe el agente de otro y tiene 10 minutos para hacerlo fallar.",
+ microclase:"Un sistema no se conoce hasta que se lo intenta romper. Los casos de prueba son consultas diseñadas para poner a prueba los límites: dentro y fuera de competencia, con y sin fuente, de riesgo bajo y alto. La prueba cruzada —que otro grupo pruebe tu agente— evita la ceguera del autor. Cada error se registra con su caso y su corrección; algunas correcciones abren errores nuevos (regresión), por eso se vuelve a probar. Las métricas pueden ser simples: cuántos casos deriva bien, cuántas alucinaciones se cuelan. Lo importante es que la mejora quede documentada.",
+ lab:["Diseñar 6–8 casos de prueba, incluidos casos límite.","Intercambiar el prototipo con otro grupo.","Ejecutar los casos y registrar cada resultado.","Anotar los errores encontrados con su caso.","Corregir y volver a probar (control de regresión).","Documentar en la bitácora de pruebas."],
+ tools:["Claude","GitHub","Markdown"],
+ promptBase:"Ayúdame a diseñar casos de prueba para un agente jurídico cuya finalidad es [X]: incluye casos dentro de competencia, fuera de competencia, sin fuente y de riesgo alto. Para cada caso indica el resultado esperado (responde / advierte / deriva).",
+ promptAv:"A partir de estos errores encontrados [pegar], propón correcciones a la Constitución o al flujo y advierte, para cada corrección, qué comportamiento previamente correcto podría romperse (riesgo de regresión).",
+ checklist:["¿Diseñé casos límite, no solo fáciles?","¿Otro grupo probó mi agente?","¿Registré cada error con su caso?","¿Volví a probar tras corregir?"],
+ riesgos:["Probar solo casos favorables","Corregir un error e introducir otro sin notarlo"],
+ errores:["Probarse a uno mismo y no ver los puntos ciegos.","No documentar la corrección y perder la trazabilidad."],
+ producto:"Bitácora de pruebas y correcciones.",
+ tarea:"Cerrar los errores de riesgo alto pendientes y registrar el cierre.",
+ evidencia:"Bitácora de pruebas versionada en el repositorio.",
+ cierre:"Un agente que nadie intentó romper no está probado, solo estrenado.",
+ lamina:"Tabla de casos con columnas esperado/obtenido/corrección y estado por color.",
+ mermaid:"flowchart LR\n  C[Casos de prueba] --> E[Ejecuta]\n  E --> R{¿Esperado = obtenido?}\n  R -- no --> F[Corrige]\n  F --> E\n  R -- sí --> OK[Registra]"
+},
+{
+ n:15, mod:5, titulo:"Defensa técnica y jurídica del diseño",
+ pregunta:"¿Cómo se justifica ante la cátedra cada decisión de diseño: fuentes, límites, interfaz y riesgos?",
+ objG:"Preparar y ensayar la defensa del agente, justificando decisiones con su documentación.",
+ objE:["Estructurar el guion de defensa.","Justificar cada decisión con la bitácora y la Constitución.","Anticipar preguntas críticas."],
+ comp:["Argumentación jurídico-técnica","Justificación de decisiones","Comunicación bajo escrutinio"],
+ conceptos:["Defensa","Justificación","Trazabilidad de decisiones","Anticipación de objeciones"],
+ analogia:{t:"La defensa como alegato",d:"Defender el agente es alegar: no basta con que funcione, hay que fundar por qué se decidió así, con qué fuente y dentro de qué límites. La bitácora es el expediente que sostiene el alegato."},
+ guion:[["0–20","Marco: qué evalúa una defensa; del 'funciona' al 'por qué decidió así'.","c1"],["20–75","Laboratorio: armar el guion de defensa y ensayar ante otro grupo.","c2"],["75–90","Verificación: ronda de preguntas críticas; ajustar los puntos débiles.","c3"]],
+ actividad:"Se plantea una pregunta difícil ('¿por qué tu agente no cubre X?') y se practica la respuesta fundada.",
+ microclase:"La defensa no premia el prototipo más vistoso, sino el mejor gobernado. Se estructura como un alegato: finalidad y competencia (por qué este recorte), Constitución (qué reglas y por qué), fuentes (sobre qué se apoya), interfaz (cómo advierte), verificación y riesgos (cómo se controla) y límites (qué deja fuera y por qué). Cada afirmación se respalda en la documentación: la bitácora prueba las decisiones, la matriz prueba el control. Anticipar las preguntas críticas —'¿por qué no cubre esto?', '¿qué pasa si alucina?'— es parte de la preparación.",
+ lab:["Abrir el 'Guion de defensa final'.","Estructurar la defensa según los criterios de la rúbrica.","Respaldar cada punto con la bitácora, la Constitución o la matriz.","Preparar respuestas a tres preguntas críticas previsibles.","Ensayar la defensa ante otro grupo, cronometrada.","Ajustar los puntos donde la justificación fue débil."],
+ tools:["Markdown","Figma","Claude"],
+ promptBase:"Ayúdame a estructurar la defensa de un agente jurídico según estos criterios [rúbrica]. Para cada criterio, indica qué evidencia de mi documentación debería citar para respaldarlo.",
+ promptAv:"Actúa como evaluador exigente y formula las cinco preguntas más difíciles que le harías a este diseño [resumen], enfocándote en límites, fuentes y qué pasa cuando el sistema se equivoca. Para cada una, esboza una respuesta fundada.",
+ checklist:["¿Cada decisión se respalda en la documentación?","¿Preparé respuestas a preguntas críticas?","¿Ensayé ante un tercero?","¿La defensa cubre todos los criterios de la rúbrica?"],
+ riesgos:["Defender el resultado sin fundar las decisiones","No anticipar la objeción obvia"],
+ errores:["Mostrar la demo y olvidar justificar el diseño.","Improvisar ante la pregunta por los límites."],
+ producto:"Presentación de defensa (guion + soporte).",
+ tarea:"Pulir la presentación e incorporar las respuestas a las preguntas ensayadas.",
+ evidencia:"Guion de defensa y soporte en el repositorio.",
+ cierre:"En la defensa no se pregunta si el sistema funciona, sino por qué decidiste que funcionara así.",
+ lamina:"Guion de defensa mapeado uno a uno contra los criterios de la rúbrica.",
+ mermaid:"flowchart TD\n  D[Defensa] --> F[Finalidad y competencia]\n  D --> C[Constitución]\n  D --> Fu[Fuentes]\n  D --> V[Verificación y riesgos]\n  F & C & Fu & V --> B[(Bitácora como respaldo)]"
+},
+{
+ n:16, mod:5, titulo:"Presentación final: agente jurídico delimitado y gobernado",
+ pregunta:"¿Está el agente completo, documentado, verificado y defendido como una institución mínima?",
+ objG:"Presentar y defender el agente final con toda su documentación, y cerrar el proyecto.",
+ objE:["Integrar prototipo, Constitución, matriz y bitácora.","Defender el diseño ante la cátedra.","Recibir y registrar la retroalimentación."],
+ comp:["Integración del proyecto","Defensa final","Cierre reflexivo"],
+ conceptos:["Entrega auténtica","Gobierno del sistema","Institución mínima","Cierre"],
+ analogia:{t:"El agente como institución mínima en funcionamiento",d:"El entregable final es una institución mínima que opera: tiene finalidad, competencia, fuentes, límites, procedimiento, control, verificación, bitácora, responsabilidad y escalamiento. Se evalúa si esa institución se gobierna a sí misma."},
+ guion:[["0–15","Apertura: encuadre de la evaluación final y criterios.","c1"],["15–75","Presentaciones y defensas ante la cátedra, con demostración en vivo.","c2"],["75–90","Retroalimentación, registro y cierre institucional del curso.","c3"]],
+ actividad:"Cada grupo demuestra su agente en funcionamiento y responde a la cátedra.",
+ microclase:"El cierre integra todo el semestre: el prototipo corre, la Constitución lo gobierna, la matriz lo controla, la bitácora lo prueba y la defensa lo funda. La evaluación es auténtica porque replica lo que el ejercicio profesional exigirá: no reproducir contenidos, sino diseñar, justificar, verificar y gobernar un sistema real sobre un problema acotado. La retroalimentación no es solo nota: es el insumo para la mejora continua y, eventualmente, para el peldaño siguiente —la arquitectura de sistemas más complejos— que ya pertenece a otro nivel de formación.",
+ lab:["Integrar todos los entregables en el repositorio final.","Verificar que la URL del prototipo funciona.","Presentar y demostrar el agente ante la cátedra.","Defender las decisiones con la documentación.","Registrar la retroalimentación recibida.","Cerrar la bitácora con una reflexión final."],
+ tools:["Vercel","GitHub","Markdown"],
+ promptBase:"Ayúdame a preparar el cierre de la documentación del proyecto: un índice del repositorio que muestre, para cada criterio de la rúbrica, dónde está la evidencia (Constitución, matriz, bitácora, informe).",
+ promptAv:"Redacta una reflexión final de cierre que responda: qué gobierna bien mi agente, qué quedó como riesgo abierto y qué haría distinto si tuviera que escalar a un sistema más complejo.",
+ checklist:["¿Todos los entregables están integrados?","¿La URL del prototipo funciona?","¿Defendí cada criterio de la rúbrica?","¿Registré la retroalimentación y cerré la bitácora?"],
+ riesgos:["Llegar con entregables sueltos sin integrar","URL caída el día de la defensa"],
+ errores:["Dejar la integración para el último minuto.","No cerrar la bitácora ni registrar la retroalimentación."],
+ producto:"Entrega final: prototipo, Constitución final, matriz de riesgos, bitácora y defensa.",
+ tarea:"—",
+ evidencia:"Repositorio final completo con índice de evidencia por criterio.",
+ cierre:"Formar juristas que no le teman a la IA ni la veneren: que la gobiernen. Ese es el objeto del curso.",
+ lamina:"Diagrama del 'agente como institución mínima' con sus diez elementos activos.",
+ mermaid:"flowchart LR\n  PR[Prototipo] --> EN{Entrega final}\n  CO[Constitución] --> EN\n  MA[Matriz de riesgos] --> EN\n  BI[Bitácora] --> EN\n  DE[Defensa] --> EN\n  EN --> G((Agente gobernado))"
+}
+];
+
+/* ================= RENDER DE CLASES ================= */
+function el(t){ return `<span class="chip">${t}</span>`; }
+function renderClases(){
+  let html = "";
+  let lastMod = 0;
+  CLASES.forEach(c=>{
+    if(c.mod !== lastMod){
+      const m = MODULES[c.mod];
+      html += `<section class="modcover page"><span class="eyebrow">Parte D · Las 16 clases</span>
+        <div class="big">${m.big}</div>
+        <h2>Módulo ${m.big} · ${m.t}</h2>
+        <p><span class="chip">${m.r}</span></p>
+        <p>${m.d}</p></section>`;
+      lastMod = c.mod;
+    }
+    const guion = c.guion.map(g=>`<div class="row"><div class="tm">${g[0]}</div><div class="ac">${g[1]}</div></div>`).join("");
+    const lab = c.lab.map(s=>`<div class="s">${s}</div>`).join("");
+    const tools = c.tools.map(t=>{const f=TOOLS.find(x=>x[0]===t)||[t,"",t[0],"#9ba7ad"];return `<span class="tool"><span class="mk" style="background:${f[3]}">${f[2]}</span><span>${f[0]}<small>${f[1]}</small></span></span>`;}).join("");
+    const chk = c.checklist.map(x=>`<li>${x}</li>`).join("");
+    const objE = c.objE.map(x=>`<li>${x}</li>`).join("");
+    const comp = c.comp.map(x=>el(x)).join(" ");
+    const con = c.conceptos.map(x=>el(x)).join(" ");
+    const rie = c.riesgos.map(x=>`<li>${x}</li>`).join("");
+    const err = c.errores.map(x=>`<li>${x}</li>`).join("");
+
+    html += `<section class="clase-head page">
+      <div class="clase-band hud">
+        <div class="clase-num">${String(c.n).padStart(2,"0")}</div>
+        <div>
+          <div class="meta">Módulo ${MODULES[c.mod].big} · ${MODULES[c.mod].t} · Sesión de 90 min</div>
+          <h2>${c.titulo}</h2>
+          <div class="q">“${c.pregunta}”</div>
+        </div>
+      </div>
+
+      <div class="capas">
+        <div class="capa c1"><span class="t">0–25 · MARCO</span><b>Jurídico-teórico</b><span>Concepto y analogía del día.</span></div>
+        <div class="capa c2"><span class="t">25–75 · LABORATORIO</span><b>Construcción</b><span>Se produce el entregable.</span></div>
+        <div class="capa c3"><span class="t">75–90 · VERIFICACIÓN</span><b>Gobernanza</b><span>Control y bitácora.</span></div>
+      </div>
+
+      <div class="two">
+        <div>
+          <p class="kicker">Objetivo general</p><p>${c.objG}</p>
+          <p class="kicker">Objetivos específicos</p><ul class="plain">${objE}</ul>
+          <p class="kicker">Competencias</p><p>${comp}</p>
+          <p class="kicker">Conceptos clave</p><p>${con}</p>
+        </div>
+        <div>
+          <p class="kicker">Resumen ejecutivo de la sesión</p>
+          <p>${c.microclase}</p>
+          <div class="box analogia"><h4>Analogía jurídica · ${c.analogia.t}</h4>${c.analogia.d}</div>
+        </div>
+      </div>
+
+      <p class="kicker">Guion docente · minuto a minuto</p>
+      <div class="guion card avoid">${guion}</div>
+
+      <div class="two">
+        <div>
+          <p class="kicker">Actividad inicial</p><p>${c.actividad}</p>
+          <p class="kicker">Laboratorio paso a paso</p><div class="steps">${lab}</div>
+          <p class="kicker">Herramientas de la sesión</p><div class="tools">${tools}</div>
+        </div>
+        <div>
+          <p class="kicker">Prompt base</p><div class="code">${c.promptBase}</div>
+          <p class="kicker">Prompt avanzado</p><div class="code">${c.promptAv}</div>
+          <p class="kicker">Checklist de verificación</p><ul class="check avoid">${chk}</ul>
+        </div>
+      </div>
+
+      <div class="grid g2">
+        <div class="box warn avoid"><h4>Riesgos típicos</h4><ul class="plain" style="margin:0">${rie}</ul></div>
+        <div class="box risk avoid"><h4>Errores frecuentes de estudiantes</h4><ul class="plain" style="margin:0">${err}</ul></div>
+      </div>
+
+      <div class="grid g3">
+        <div class="box ok avoid"><h4>Producto de la sesión</h4>${c.producto}</div>
+        <div class="card avoid"><h4 style="font-family:var(--mono);font-size:8pt;color:var(--cyan);text-transform:uppercase;margin:0 0 4px">Mini tarea</h4>${c.tarea}</div>
+        <div class="card avoid"><h4 style="font-family:var(--mono);font-size:8pt;color:var(--gold);text-transform:uppercase;margin:0 0 4px">Evidencia · bitácora</h4>${c.evidencia}</div>
+      </div>
+
+      <div class="two" style="margin-top:9px">
+        <div class="dwrap avoid"><div class="cap" style="margin:0 0 5px">Diagrama sugerido (Mermaid · reutilizable)</div><div class="mermaid-src">${c.mermaid}</div></div>
+        <div>
+          <p class="kicker">Lámina visual sugerida</p><p class="lamina">▸ ${c.lamina}</p>
+          <div class="box note" style="margin-top:8px"><h4>Cierre memorable</h4><em>${c.cierre}</em></div>
+        </div>
+      </div>
+      <div class="foot-note"><span class="sig"></span>Clase ${String(c.n).padStart(2,"0")} de 16 · Derecho e IA · Optativo PUCV · cada sesión alimenta el proyecto final.</div>
+    </section>`;
+  });
+  document.getElementById("clases").innerHTML = html;
+}
+renderClases();
+
+/* ================= ANEXOS ================= */
+const PLANTILLAS = [
+ ["A1","Constitución del agente","La norma habilitante y limitante. Se completa desde la Clase 6.",
+   ["Art. 1° Finalidad — para qué existe / qué queda fuera","Art. 2° Competencia — puede / no puede","Art. 3° Fuentes autorizadas — lista cerrada","Art. 4° Reglas duras — inderogables y verificables","Art. 5° Preferencias — criterios de elección","Art. 6° Procedimiento — iter de cada actuación","Art. 7° Verificación — control antes de responder","Art. 8° Escalamiento — umbral de derivación","Art. 9° Bitácora — qué se registra","Art. 10° Cláusula de cierre — lo no atribuido está prohibido"]],
+ ["A2","Ficha de problema jurídico","Delimita el problema del prototipo. Clase 5.",
+   ["Problema en una frase","Materia y sub-materia","Por qué es lícito prometerlo","Por qué es abordable en 16 semanas","Tres materias vecinas que se declinan"]],
+ ["A3","Ficha de usuario destinatario","Para quién se diseña el agente. Clase 5.",
+   ["Perfil del destinatario","Qué necesita resolver","Qué nivel de riesgo tolera","Qué NO debe esperar del agente"]],
+ ["A4","Protocolo de fuentes autorizadas","El bloque de juridicidad. Clase 4.",
+   ["Fuentes admitidas (lista cerrada)","Fuentes vedadas y motivo","Regla de cita obligatoria","Qué se hace ante ausencia de fuente"]],
+ ["A5","Prompt canvas jurídico","Estructura un prompt en sus cinco casillas. Clase 3.",
+   ["Rol","Contexto (anonimizado)","Tarea","Restricciones + exigencia de fuente","Formato de salida"]],
+ ["A6","Checklist de anonimización","Antes de usar cualquier caso. Clase 10.",
+   ["Nombres, RUT, contacto eliminados","Seudónimos consistentes","Sin reidentificación por combinación","Fechas y montos generalizados","Valor jurídico conservado","Qué se anonimizó, documentado"]],
+ ["A7","Matriz de riesgos","Test de proporcionalidad operativo. Clase 12.",
+   ["Tipos de salida del agente","Nivel bajo/medio/alto por tipo","Acción: responde / advierte / deriva","Justificación de cada nivel"]],
+ ["A8","Checklist de verificación","Control de legalidad de la salida. Clase 11.",
+   ["¿Separé hecho / inferencia / recomendación?","¿Cada hecho tiene fuente citable?","¿Marqué la incertidumbre?","¿Detecté posibles alucinaciones?","¿Registré lo verificado?"]],
+ ["A9","Bitácora de decisiones","El expediente del agente. Clase 13.",
+   ["Fecha","Decisión adoptada","Alternativas descartadas","Fundamento","Fuente / cláusula"]],
+ ["A10","Bitácora de pruebas","Registro de control interno. Clase 14.",
+   ["Caso de prueba","Resultado esperado","Resultado obtenido","Error / hallazgo","Corrección y re-prueba"]],
+ ["A11","Informe de cumplimiento básico","Auditoría regulatoria. Clase 13.",
+   ["Lo que el diseño ya cumple","Riesgos abiertos","Decisiones fuera del alcance del estudiante","Normativa a verificar a la fecha (placeholder)"]],
+ ["A12","Guion de defensa final","Alegato del diseño. Clase 15.",
+   ["Finalidad y competencia (por qué este recorte)","Constitución (qué reglas y por qué)","Fuentes","Interfaz y advertencias","Verificación y riesgos","Respuestas a preguntas críticas"]],
+ ["A13","Rúbrica del proyecto","Los siete criterios con pesos.",
+   ["Delimitación 10%","Constitución 20%","Fuentes y trazabilidad 15%","Prototipo 20%","Verificación 15%","Riesgos y escalamiento 10%","Defensa 10%"]],
+ ["A14","Evaluación entre pares","Prueba cruzada entre grupos. Clase 14.",
+   ["Claridad de la finalidad","Solidez de la Constitución","Calidad de las fuentes","¿Deriva cuando debe?","Un elogio y una mejora concreta"]],
+ ["A15","Guía de buenas prácticas de laboratorio","Higiene de trabajo. Clase 1.",
+   ["Casos ficticios o anonimizados siempre","Cita de fuente por afirmación","Un commit por decisión","Sin secretos en el repositorio","Verificar antes de confiar"]],
+ ["A16","Ficha de errores frecuentes y cómo corregirlos","Referencia rápida.",
+   ["Cita inventada → cotejar o derivar","Poder sin cláusula → añadir o quitar la capacidad","Salida sin verificación → insertar control","Datos de más → minimizar","Un commit gigante → versionar por decisión"]],
+ ["A17","Esquema de datos","Modelo mínimo. Clase 10.",
+   ["Tabla y campos","Justificación por campo (obligatoria)","Plazo de conservación","Criterio de borrado"]],
+ ["A18","Mapa de riesgos y oportunidades (personal)","Diagnóstico inicial. Clase 1.",
+   ["Usos propios de IA","Consultar / delegar / automatizar","Ubicación en matriz oportunidad×riesgo","Usos sin verificación (rojo)"]]
+];
+
+const COMANDOS = [
+ ["Claude Code","Iniciar sesión en la carpeta del proyecto","claude"],
+ ["Claude Code","Pedir que genere o modifique archivos","“crea/edita … con estas condiciones …”"],
+ ["Git","Inicializar repositorio","git init"],
+ ["Git","Registrar cambios (staging)","git add ."],
+ ["Git","Guardar una versión con motivo","git commit -m \"describe la decisión\""],
+ ["Git","Conectar con GitHub","git remote add origin <url>"],
+ ["Git","Subir los cambios","git push -u origin main"],
+ ["Git","Ver historial de decisiones","git log --oneline"],
+ ["Vercel","Publicar (o conectar el repo en vercel.com)","importar repo → Deploy"],
+ ["Vercel","Cada push a main redepliega","(automático)"]
+];
+
+const GLOSARIO = [
+ ["Agente jurídico delimitado","Sistema que ejecuta una tarea jurídica acotada dentro de un marco de fuentes, reglas y límites fijado de antemano. No es un chat libre ni asesoría automatizada."],
+ ["Método Constitucional","Metodología del curso: diseñar cada agente como una institución mínima con finalidad, competencia, fuentes, límites, procedimiento, control, verificación, bitácora, responsabilidad y escalamiento."],
+ ["Constitución del agente","Documento que habilita y limita al agente; su articulado interno."],
+ ["Regla dura","Mandato o prohibición inderogable y verificable del agente."],
+ ["Preferencia","Criterio para elegir entre varias vías válidas."],
+ ["Fuente autorizada","Texto que el agente puede invocar; forma su bloque de juridicidad."],
+ ["Umbral constitucional","Compuerta en la que el agente declina o deriva por falta de competencia, de fuente o por exceso de riesgo."],
+ ["Escalamiento humano","Derivación del asunto a revisión de una persona cuando supera el umbral definido."],
+ ["Verificación","Control de legalidad de la salida: separar hechos, cotejar fuentes, marcar incertidumbre."],
+ ["Alucinación","Afirmación presentada como cierta sin respaldo real (p. ej., cita de una norma inexistente)."],
+ ["Bitácora","Registro fechado de las decisiones y actuaciones; el expediente del agente."],
+ ["Minimización","Principio de tratar solo los datos imprescindibles para la finalidad."],
+ ["ABP","Aprendizaje basado en proyectos: el contenido se introduce cuando el proyecto lo exige."],
+ ["Commit","Versión guardada de un cambio, con su fecha y su motivo."],
+ ["Despliegue","Publicación del prototipo en una URL; su entrada en vigencia controlada."]
+];
+
+let ax = `<section class="modcover page"><span class="eyebrow">Parte E · Anexos</span>
+  <div class="big">E</div><h2>Anexos de trabajo</h2>
+  <p><span class="chip">18 plantillas</span> <span class="chip g">Prompts</span> <span class="chip m">Comandos</span> <span class="chip v">Glosario</span></p>
+  <p>Plantillas editables, tarjetas de prompts, comandos base, glosario y checklist de implementación docente. Todo lo necesario para llevar el curso a la sala y sostener el proyecto de cada estudiante.</p></section>`;
+
+/* 18 plantillas */
+ax += `<section class="h-sec page"><span class="eyebrow">Parte E · 20</span><h2>18 plantillas de trabajo</h2>
+  <p class="lede">Cada plantilla es un formato para completar. Se entregan editables; aquí figura su estructura mínima.</p><div class="grid g2">`;
+ax += PLANTILLAS.map(p=>`<div class="card avoid"><span class="chip">${p[0]}</span> <b style="font-family:var(--display);font-size:11pt">${p[1]}</b>
+  <p style="color:var(--muted);font-size:8.4pt;margin:4px 0 5px">${p[2]}</p>
+  <ul class="plain" style="margin:0;font-size:8.3pt">${p[3].map(f=>`<li>${f}</li>`).join("")}</ul></div>`).join("");
+ax += `</div></section>`;
+
+/* Tarjetas de prompts */
+ax += `<section class="h-sec page"><span class="eyebrow">Parte E · 21</span><h2>Tarjetas de prompts</h2>
+  <p class="lede">Prompts reutilizables para las tareas recurrentes del curso. Se adaptan cambiando los corchetes.</p>
+  <div class="grid g2">
+    <div class="card avoid"><span class="chip g">Análisis preliminar</span><div class="code">Rol: abogado analista en [materia]. Contexto: [hechos ficticios]. Tarea: identificar cuestiones jurídicas. Restricciones: citar fuente de cada afirmación; marcar toda incertidumbre; no salir de [materia].</div></div>
+    <div class="card avoid"><span class="chip g">Verificación de salida</span><div class="code">Clasifica cada oración como hecho / inferencia / recomendación. Para cada hecho indica la fuente que lo respalda; si no hay, márcalo como no verificable.</div></div>
+    <div class="card avoid"><span class="chip g">Redacción de reglas duras</span><div class="code">Propón reglas duras VERIFICABLES para un agente cuya finalidad es [X]. Cada regla debe permitir comprobar objetivamente si se cumplió. Añade tres prohibiciones expresas.</div></div>
+    <div class="card avoid"><span class="chip g">Casos de prueba</span><div class="code">Diseña casos de prueba para [finalidad]: dentro de competencia, fuera de competencia, sin fuente y de riesgo alto. Indica el resultado esperado (responde / advierte / deriva).</div></div>
+    <div class="card avoid"><span class="chip g">Auditoría de cumplimiento</span><div class="code">Audita el prototipo frente a minimización, deber de advertencia, transparencia y responsabilidad. Marca como [verificar a la fecha] toda referencia normativa concreta.</div></div>
+    <div class="card avoid"><span class="chip g">Preguntas de defensa</span><div class="code">Actúa como evaluador exigente: formula las cinco preguntas más difíciles sobre límites, fuentes y qué pasa si el sistema se equivoca. Esboza una respuesta fundada para cada una.</div></div>
+  </div></section>`;
+
+/* Comandos */
+ax += `<section class="h-sec page"><span class="eyebrow">Parte E · 22</span><h2>Comandos base</h2>
+  <p class="lede">Lo mínimo para el ciclo instruir → versionar → publicar. No hay que memorizarlo: se consulta.</p>
+  <table><tr><th>Herramienta</th><th>Para</th><th>Comando / acción</th></tr>
+  ${COMANDOS.map(c=>`<tr><td class="mono" style="color:var(--cyan)">${c[0]}</td><td>${c[1]}</td><td class="mono" style="color:var(--cyan-soft)">${c[2]}</td></tr>`).join("")}</table>
+  <div class="box warn"><h4>Regla de commit</h4>Un commit por decisión significativa, con un mensaje que explique el <em>porqué</em>, no solo el <em>qué</em>. El historial es la bitácora del código.</div></section>`;
+
+/* Glosario */
+ax += `<section class="h-sec page"><span class="eyebrow">Parte E · 23</span><h2>Glosario de conceptos</h2>
+  <p class="lede">El vocabulario del curso, definido en registro jurídico.</p>
+  <table>${GLOSARIO.map(g=>`<tr><td style="width:33%"><strong>${g[0]}</strong></td><td>${g[1]}</td></tr>`).join("")}</table></section>`;
+
+/* Checklist de implementación docente */
+ax += `<section class="h-sec page"><span class="eyebrow">Parte E · 24</span><h2>Checklist de implementación docente</h2>
+  <p class="lede">Para el profesor, antes y durante el semestre.</p>
+  <div class="two">
+    <div><p class="kicker">Antes de empezar</p><ul class="check">
+      <li>Cuentas gratuitas verificadas (Claude, GitHub, Vercel, Supabase).</li>
+      <li>Sala con conexión y proyector; idealmente laboratorio.</li>
+      <li>Plantillas A1–A18 disponibles para los estudiantes.</li>
+      <li>Rúbrica pública entregada en la Clase 1.</li>
+      <li>Repositorio base de ejemplo preparado.</li>
+      <li>Referencias normativas reconfirmadas a la fecha de dictación.</li>
+    </ul></div>
+    <div><p class="kicker">Durante el semestre</p><ul class="check">
+      <li>Cada clase produce su entregable parcial.</li>
+      <li>Revisión intermedia formativa en la semana 8 (Constitución v1).</li>
+      <li>Prueba cruzada entre grupos en la semana 14.</li>
+      <li>Casos siempre ficticios o anonimizados.</li>
+      <li>Bitácora al día en cada proyecto.</li>
+      <li>Ensayo de defensa antes de la semana 16.</li>
+    </ul></div>
+  </div>
+  <div class="box ok"><h4>Señal de que el curso funciona</h4>Al final, cada estudiante puede explicar <strong>por qué</strong> su agente decide como decide, citando su Constitución y su bitácora. Ese es el aprendizaje, no el prototipo.</div></section>`;
+
+/* Exportación */
+ax += `<section class="h-sec page"><span class="eyebrow">Parte E · 25</span><h2>Instrucciones de exportación a PDF</h2>
+  <p class="lede">Este documento es HTML paginado A4, pensado para imprimirse o guardarse como PDF sin perder la estética.</p>
+  <div class="steps">
+    <div class="s">Abrir <span class="mono">material-docente.html</span> en Chrome o Edge (o la versión publicada en Vercel).</div>
+    <div class="s">Pulsar el botón <strong>“Exportar a PDF”</strong> o usar Ctrl/Cmd + P.</div>
+    <div class="s">Destino: <strong>Guardar como PDF</strong>. Tamaño: <strong>A4</strong>. Márgenes: <strong>Predeterminados</strong>.</div>
+    <div class="s">Activar <strong>“Gráficos de fondo”</strong> (Background graphics): sin esto se pierde el fondo oscuro y los colores.</div>
+    <div class="s">Guardar. El PDF conserva diagramas y color porque son vectoriales, no capturas.</div>
+  </div>
+  <div class="box note"><h4>Para reutilizar los diagramas Mermaid</h4>Cada clase incluye el código Mermaid de su diagrama. Se puede pegar en mermaid.live, en NotebookLM o en cualquier editor compatible para obtener el gráfico editable.</div>
+  <div class="foot-note"><span class="sig"></span>Material docente v1 · Documento de trabajo preliminar · Derecho e IA · Escuela de Derecho PUCV · Julio 2026. Toda referencia normativa debe reconfirmarse a la fecha de dictación.</div>
+</section>`;
+
+document.getElementById("anexos").innerHTML = ax;
+</script>
+</body>
+</html>
