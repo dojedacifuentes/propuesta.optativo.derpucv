@@ -1897,6 +1897,10 @@
         m.className = "dl"; m.href = "material-docente.html"; m.target = "_blank"; m.rel = "noopener";
         m.innerHTML = `<span class="dl-ic"><i data-lucide="notebook-text"></i></span><span class="dl-tx"><b>Material docente completo · guía de las 16 clases</b><span>Guía de cátedra y cuaderno de laboratorio: Método Constitucional, plantillas, prompts y rúbrica. Imprimible a PDF.</span></span><span class="dl-go">GUÍA</span>`;
         dir.insertBefore(m, ref);
+        const p = document.createElement("a");
+        p.className = "dl"; p.href = "presentacion-catedra.pptx"; p.download = "";
+        p.innerHTML = `<span class="dl-ic"><i data-lucide="presentation"></i></span><span class="dl-tx"><b>Presentación de cátedra (39 diapositivas)</b><span>Deck editable del curso: método, anatomía del agente, las 16 clases por módulo y rúbrica.</span></span><span class="dl-go">PPTX</span>`;
+        dir.insertBefore(p, ref);
       }
     }
 
