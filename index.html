@@ -639,6 +639,20 @@
     .dl::after{ right:6px; bottom:6px; border-left:0; border-top:0; }
     .dl:hover{ border-color:var(--cyan); transform:translateY(-2px); box-shadow:0 12px 30px -16px rgba(75,231,255,.5); }
     a.dl{ text-decoration:none; }
+    .eco-cta{ display:flex; align-items:center; gap:16px; margin:18px 0 6px; padding:16px 18px; text-decoration:none; color:var(--white);
+      border:1px solid rgba(75,231,255,0.4); border-radius:var(--radius); position:relative;
+      background:linear-gradient(100deg, rgba(75,231,255,0.1), transparent 60%), var(--panel-strong);
+      transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease; }
+    .eco-cta:hover{ border-color:var(--cyan); transform:translateY(-2px); box-shadow:0 16px 40px -20px rgba(75,231,255,.55); }
+    .eco-ic{ display:grid; place-items:center; width:46px; height:46px; flex:0 0 46px; border-radius:10px;
+      border:1px solid var(--cyan); background:#020306; color:var(--cyan); box-shadow:inset 0 0 18px rgba(75,231,255,.16); }
+    .eco-ic svg{ width:24px; height:24px; }
+    .eco-tx{ display:grid; gap:3px; min-width:0; } .eco-tx b{ font-family:"Space Grotesk",system-ui,sans-serif; font-size:1.05rem; }
+    .eco-tx span{ color:var(--muted); font-size:0.86rem; }
+    .eco-go{ margin-left:auto; display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+      font-family:"JetBrains Mono",monospace; font-size:0.76rem; color:var(--cyan); text-transform:uppercase; letter-spacing:.06em; }
+    .eco-go svg{ width:15px; height:15px; }
+    @media (max-width:680px){ .eco-cta{ flex-wrap:wrap; } .eco-go{ margin-left:0; } }
     .dl-ic{ display:grid; place-items:center; width:40px; height:40px; flex:0 0 40px; border-radius:8px;
       border:1px solid color-mix(in srgb,var(--cyan),transparent 55%); color:var(--cyan); background:rgba(2,3,6,.6); }
     .dl-ic svg{ width:20px; height:20px; }
@@ -985,6 +999,12 @@
     <section class="section-view macro" id="curso" data-fx-articulo="Cómo se vive el curso">
       <div class="section-head"><span class="eyebrow">Cómo se vive el optativo</span><h2>Un semestre que empieza construyendo y termina defendiendo</h2>
         <p>No se enseña IA "sobre la pizarra". Desde la primera sesión el estudiante levanta algo que funciona; cada semana lo hace más capaz, más verificado y más gobernado. La metodología es Aprendizaje Basado en Proyectos (ABP): siempre teórico-práctico.</p></div>
+
+      <a class="eco-cta hud" href="aprendizaje.html">
+        <span class="eco-ic"><i data-lucide="compass"></i></span>
+        <span class="eco-tx"><b>Ecosistema de Aprendizaje Guiado</b><span>Seis herramientas para recorrer el curso paso a paso: ruta progresiva, PromptLab, cazador de alucinaciones, glosario vivo, caja de plantillas y canvas del proyecto final.</span></span>
+        <span class="eco-go">Abrir <i data-lucide="arrow-right"></i></span>
+      </a>
 
       <div class="section-head"><span class="eyebrow">Anatomía de una sesión · 90 minutos</span><h2>La misma estructura, cada semana</h2></div>
       <div class="session-bar">

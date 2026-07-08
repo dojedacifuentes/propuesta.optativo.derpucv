@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ecosistema de Aprendizaje Guiado · Derecho e IA · PUCV</title>
+<meta name="description" content="Entorno de aprendizaje guiado del optativo Derecho e Inteligencia Artificial: ruta del curso, PromptLab, cazador de alucinaciones, glosario vivo, caja de herramientas y canvas de proyecto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@300..800&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.454.0/dist/umd/lucide.min.js" defer></script>
+<style>
+:root{
+  --bg:#020306; --bg-2:#06090d; --panel:rgba(7,12,17,0.92); --panel-2:rgba(10,16,22,0.96);
+  --line:rgba(75,231,255,0.22); --line-soft:rgba(246,240,223,0.12);
+  --cyan:#4be7ff; --cyan-soft:#8df6ff; --cyan-deep:#1c6b7a;
+  --red:#e44949; --gold:#e0b04a; --mint:#54d6a0; --coral:#ec7e72; --violet:#9b8cff;
+  --white:#f6f0df; --muted:#9ba7ad; --dim:#6b7780;
+  --mono:"JetBrains Mono",ui-monospace,monospace; --disp:"Space Grotesk",system-ui,sans-serif; --body:Inter,system-ui,sans-serif;
+  --radius:9px;
+}
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{ margin:0; background:
+    radial-gradient(120% 90% at 12% -5%, rgba(75,231,255,0.06), transparent 55%),
+    linear-gradient(180deg,var(--bg),var(--bg-2));
+  color:var(--white); font-family:var(--body); font-size:15px; line-height:1.55; min-height:100vh; }
+@view-transition{ navigation:auto; }
+h1,h2,h3,h4{ font-family:var(--disp); margin:0; line-height:1.1; }
+p{ margin:0 0 8px; } a{ color:var(--cyan); }
+.mono{ font-family:var(--mono); }
+.wrap{ max-width:1120px; margin:0 auto; padding:0 20px; }
+.eyebrow{ font-family:var(--mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:.12em; color:var(--cyan); }
+.hud{ position:relative; }
+.hud::before,.hud::after{ content:""; position:absolute; width:10px; height:10px; border:1.5px solid var(--cyan); opacity:.6; }
+.hud::before{ left:6px; top:6px; border-right:0; border-bottom:0; }
+.hud::after{ right:6px; bottom:6px; border-left:0; border-top:0; }
+.chip{ display:inline-flex; align-items:center; gap:6px; padding:3px 10px; border:1px solid var(--line-soft); border-radius:20px;
+  font-family:var(--mono); font-size:0.68rem; text-transform:uppercase; letter-spacing:.06em; color:var(--cyan-soft); background:rgba(75,231,255,.05); }
+.chip.g{ color:var(--gold); border-color:rgba(224,176,74,.4); background:rgba(224,176,74,.06); }
+.chip.m{ color:var(--mint); border-color:rgba(84,214,160,.4); background:rgba(84,214,160,.06); }
+.chip.r{ color:var(--red); border-color:rgba(228,73,73,.4); background:rgba(228,73,73,.07); }
+.chip.v{ color:var(--violet); border-color:rgba(155,140,255,.4); background:rgba(155,140,255,.06); }
+.btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:8px; cursor:pointer;
+  font-family:var(--mono); font-size:0.82rem; border:1px solid var(--line); background:rgba(75,231,255,.08); color:var(--white); text-decoration:none; transition:.16s; }
+.btn:hover{ border-color:var(--cyan); background:rgba(75,231,255,.14); }
+.btn.primary{ background:rgba(75,231,255,.16); border-color:rgba(75,231,255,.5); font-weight:700; }
+.btn.ghost{ background:transparent; }
+.btn svg{ width:16px; height:16px; }
+/* topbar */
+.top{ position:sticky; top:0; z-index:20; display:flex; align-items:center; gap:14px; padding:12px 20px;
+  background:#04070c; border-bottom:1px solid var(--line); }
+.top .brand{ display:flex; align-items:center; gap:10px; }
+.top .mark{ width:38px; height:38px; display:grid; place-items:center; border:1px solid var(--cyan); border-radius:7px;
+  background:#020306; color:var(--cyan); font-family:var(--mono); font-weight:800; box-shadow:inset 0 0 16px rgba(75,231,255,.14); }
+.top b{ font-family:var(--disp); font-size:0.98rem; } .top small{ display:block; color:var(--muted); font-family:var(--mono); font-size:0.68rem; }
+.top .sp{ margin-left:auto; }
+/* hub */
+.hero{ padding:40px 0 12px; }
+.hero h1{ font-size:2.5rem; margin:12px 0 10px; }
+.hero h1 .ac{ color:var(--cyan); }
+.hero .lede{ font-family:var(--disp); font-size:1.15rem; color:var(--muted); max-width:720px; }
+.grid6{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; padding:22px 0 40px; }
+.tool-card{ position:relative; display:flex; flex-direction:column; gap:8px; padding:20px; border:1px solid var(--line-soft);
+  border-radius:12px; background:var(--panel); cursor:pointer; text-align:left; color:inherit; text-decoration:none; transition:.18s; overflow:hidden; min-height:180px; }
+.tool-card:hover{ transform:translateY(-3px); border-color:var(--cyan); box-shadow:0 18px 40px -22px rgba(75,231,255,.5); }
+.tool-card .ic{ width:44px; height:44px; display:grid; place-items:center; border-radius:10px; margin-bottom:4px; }
+.tool-card .ic svg{ width:23px; height:23px; }
+.tool-card h3{ font-size:1.15rem; }
+.tool-card p{ color:var(--muted); font-size:0.9rem; margin:0; flex:1; }
+.tool-card .go{ font-family:var(--mono); font-size:0.72rem; color:var(--cyan); text-transform:uppercase; letter-spacing:.08em; display:flex; align-items:center; gap:6px; }
+.tool-card .n{ position:absolute; right:16px; top:14px; font-family:var(--mono); font-size:0.72rem; color:var(--dim); }
+/* views */
+.view{ display:none; padding:26px 0 60px; } .view.on{ display:block; }
+.view-head{ display:flex; align-items:flex-start; gap:14px; margin-bottom:6px; flex-wrap:wrap; }
+.view-head h2{ font-size:1.75rem; } .view-head .eyebrow{ display:block; margin-bottom:4px; }
+.view-lede{ color:var(--muted); max-width:760px; margin:2px 0 18px; }
+.back{ margin-bottom:16px; }
+.card{ border:1px solid var(--line-soft); border-radius:11px; padding:16px; background:var(--panel); margin:10px 0; }
+.card2{ background:var(--panel-2); }
+.sim-note{ display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:0.7rem; color:var(--gold);
+  border:1px solid rgba(224,176,74,.35); background:rgba(224,176,74,.06); border-radius:6px; padding:5px 10px; }
+.row{ display:flex; gap:16px; flex-wrap:wrap; } .col{ flex:1; min-width:280px; }
+label{ display:block; font-family:var(--mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--cyan); margin:10px 0 5px; }
+textarea,input,select{ width:100%; background:#020608; border:1px solid var(--line-soft); border-radius:7px; color:var(--white);
+  font-family:var(--body); font-size:0.92rem; padding:9px 11px; resize:vertical; }
+textarea:focus,input:focus{ outline:none; border-color:var(--cyan); }
+.code{ font-family:var(--mono); font-size:0.82rem; color:var(--cyan-soft); background:#020608; border:1px solid var(--line-soft);
+  border-left:2px solid var(--cyan-deep); border-radius:6px; padding:11px 13px; white-space:pre-wrap; }
+.meter{ height:8px; border-radius:5px; background:rgba(255,255,255,.06); overflow:hidden; }
+.meter i{ display:block; height:100%; background:linear-gradient(90deg,var(--cyan),var(--mint)); width:0; transition:width .3s; }
+.pill{ font-family:var(--mono); font-size:.7rem; padding:2px 8px; border-radius:12px; }
+table{ width:100%; border-collapse:collapse; font-size:0.86rem; }
+th{ text-align:left; font-family:var(--mono); font-size:0.68rem; text-transform:uppercase; color:var(--muted); padding:7px 8px; border-bottom:1px solid var(--line); }
+td{ padding:7px 8px; border-bottom:1px solid var(--line-soft); vertical-align:top; }
+.foot{ border-top:1px solid var(--line-soft); margin-top:30px; padding:16px 0 40px; color:var(--dim); font-family:var(--mono); font-size:0.72rem; }
+@media (max-width:820px){ .grid6{ grid-template-columns:1fr 1fr; } .hero h1{ font-size:2rem; } }
+@media (max-width:560px){ .grid6{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand"><div class="mark">IA</div><div><b>Ecosistema de Aprendizaje Guiado</b><small>Derecho e IA · Optativo PUCV</small></div></div>
+  <a class="btn ghost sp" href="index.html"><i data-lucide="arrow-left"></i><span>Volver a la propuesta</span></a>
+</header>
+
+<!-- ================= HUB ================= -->
+<section class="view on wrap" id="v-hub">
+  <div class="hero">
+    <span class="eyebrow">Entorno de práctica · determinista · sin IA en vivo</span>
+    <h1>Aprender a <span class="ac">construir, verificar y gobernar</span> agentes jurídicos, paso a paso</h1>
+    <p class="lede">Seis herramientas guiadas que acompañan el curso: recorrer la ruta, practicar el prompting, cazar alucinaciones, consultar el glosario, tomar las plantillas y diseñar el proyecto final. Todo se resuelve en el navegador, con ejemplos ficticios.</p>
+  </div>
+  <div class="grid6" id="hubGrid"></div>
+</section>
+
+<!-- ================= 1 · RUTA ================= -->
+<section class="view wrap" id="v-ruta">
+  <a class="btn ghost back" href="#/"><i data-lucide="layout-grid"></i><span>Ecosistema</span></a>
+  <div class="view-head"><span class="ic"></span><div><span class="eyebrow">Herramienta 1 · Recorrido progresivo</span><h2>Ruta IA-Derecho</h2></div></div>
+  <p class="view-lede">Las 16 sesiones como una secuencia guiada: cada clase tiene su núcleo (para todos) y su extensión (opcional). Marque lo que va completando y observe el proyecto ensamblarse pieza a pieza.</p>
+  <div class="card card2" id="rutaProg"></div>
+  <div id="rutaMods"></div>
+  <div class="card" id="rutaDetalle" style="display:none"></div>
+</section>
+
+<!-- ================= 2 · PROMPTLAB ================= -->
+<section class="view wrap" id="v-promptlab">
+  <a class="btn ghost back" href="#/"><i data-lucide="layout-grid"></i><span>Ecosistema</span></a>
+  <div class="view-head"><div><span class="eyebrow">Herramienta 2 · Simulador de prompts</span><h2>PromptLab Jurídico</h2></div></div>
+  <p class="view-lede">Un prompt jurídico se instruye como un acto: rol, contexto, tarea, restricciones y formato. Arme el suyo, revíselo contra los criterios de un buen prompt y compare respuestas ilustrativas.</p>
+  <span class="sim-note"><i data-lucide="flask-conical"></i>Análisis determinista del prompt · las respuestas de ejemplo son ilustrativas, no de un modelo en vivo</span>
+  <div id="plBody" style="margin-top:14px"></div>
+</section>
+
+<!-- ================= 3 · CAZADOR ================= -->
+<section class="view wrap" id="v-cazador">
+  <a class="btn ghost back" href="#/"><i data-lucide="layout-grid"></i><span>Ecosistema</span></a>
+  <div class="view-head"><div><span class="eyebrow">Herramienta 3 · Detección de errores de IA</span><h2>Cazador de Alucinaciones</h2></div></div>
+  <p class="view-lede">Cada ejercicio muestra una respuesta ficticia de IA con errores plantados: citas inventadas, afirmaciones sin fuente, salidas fuera de competencia. Marque lo que le parezca sospechoso y verifique su criterio.</p>
+  <span class="sim-note"><i data-lucide="flask-conical"></i>Respuestas ficticias con errores plantados · ejercicio de verificación</span>
+  <div id="czBody" style="margin-top:14px"></div>
+</section>
+
+<!-- ================= 4 · GLOSARIO ================= -->
+<section class="view wrap" id="v-glosario">
+  <a class="btn ghost back" href="#/"><i data-lucide="layout-grid"></i><span>Ecosistema</span></a>
+  <div class="view-head"><div><span class="eyebrow">Herramienta 4 · Conceptos con ejemplos</span><h2>Glosario Vivo</h2></div></div>
+  <p class="view-lede">El vocabulario del curso explicado en registro jurídico, con un ejemplo concreto y su analogía. Filtre por nivel o busque un término.</p>
+  <div class="row" style="align-items:center;margin-bottom:12px">
+    <div class="col"><input id="glBuscar" placeholder="Buscar un término…" autocomplete="off"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" data-glnivel="todos">Todos</button>
+      <button class="btn" data-glnivel="básico">Básico</button>
+      <button class="btn" data-glnivel="avanzado">Avanzado</button>
+    </div>
+  </div>
+  <div id="glBody"></div>
+</section>
+
+<!-- ================= 5 · CAJA ================= -->
+<section class="view wrap" id="v-caja">
+  <a class="btn ghost back" href="#/"><i data-lucide="layout-grid"></i><span>Ecosistema</span></a>
+  <div class="view-head"><div><span class="eyebrow">Herramienta 5 · Plantillas, checklists y matrices</span><h2>Caja de Herramientas</h2></div></div>
+  <p class="view-lede">Los dieciocho formatos de trabajo del curso, listos para descargar en Markdown y completar. Cada uno indica en qué clase se usa.</p>
+  <div id="cajaBody"></div>
+</section>
+
+<!-- ================= 6 · CANVAS ================= -->
+<section class="view wrap" id="v-canvas">
+  <a class="btn ghost back" href="#/"><i data-lucide="layout-grid"></i><span>Ecosistema</span></a>
+  <div class="view-head"><div><span class="eyebrow">Herramienta 6 · Diseño del proyecto</span><h2>Canvas de Proyecto Final</h2></div></div>
+  <p class="view-lede">Diez casillas que corresponden a los diez elementos de la institución mínima. Complete cada una con la ayuda de su pregunta guía; el borrador se guarda en este navegador y puede descargarlo.</p>
+  <div class="row" style="align-items:center;margin:0 0 12px">
+    <div class="col"><div class="meter"><i id="cvMeter"></i></div></div>
+    <div style="display:flex;gap:8px"><button class="btn" id="cvExport"><i data-lucide="download"></i><span>Descargar (.md)</span></button><button class="btn ghost" id="cvPrint"><i data-lucide="printer"></i><span>Imprimir</span></button></div>
+  </div>
+  <div class="grid6" id="cvBody" style="grid-template-columns:1fr 1fr;padding:0"></div>
+</section>
+
+<footer class="foot wrap">Ecosistema de Aprendizaje Guiado · Derecho e Inteligencia Artificial · Escuela de Derecho PUCV · material de trabajo preliminar · casos ficticios · toda referencia normativa debe verificarse a la fecha de dictación.</footer>
+
+<script>
+/* ===== datos compartidos ===== */
+const TOOLS = [
+  ["ruta","Ruta IA-Derecho","Recorrido progresivo del curso, clase por clase.","route","cyan","01"],
+  ["promptlab","PromptLab Jurídico","Simulador de prompts y respuestas.","terminal","gold","02"],
+  ["cazador","Cazador de Alucinaciones","Ejercicios para detectar errores de IA.","target","red","03"],
+  ["glosario","Glosario Vivo","Conceptos explicados con ejemplos jurídicos.","book-open","mint","04"],
+  ["caja","Caja de Herramientas","Plantillas, checklists y matrices descargables.","package","violet","05"],
+  ["canvas","Canvas de Proyecto Final","Guía para diseñar una solución jurídica con IA.","layout-dashboard","cyan","06"]
+];
+const CLR = { cyan:"var(--cyan)", gold:"var(--gold)", red:"var(--red)", mint:"var(--mint)", violet:"var(--violet)" };
+const TINT = { cyan:"rgba(75,231,255,.1)", gold:"rgba(224,176,74,.1)", red:"rgba(228,73,73,.1)", mint:"rgba(84,214,160,.1)", violet:"rgba(155,140,255,.1)" };
+
+const MODS = { 1:["01","Usar con criterio","cyan"], 2:["02","Diseño constitucional","gold"], 3:["03","Construir","gold"], 4:["04","Verificar y gobernar","mint"], 5:["05","Evaluar y defender","violet"] };
+const ROUTE = [
+ [1,1,"La IA ya entró al Derecho","Del uso espontáneo al gobernado",["uso gobernado"],["Mapear 5 usos propios de IA","Clasificar: consultar / delegar / automatizar","Marcar los usos sin verificación"],"Mapa personal de riesgos y oportunidades",["Proponer cómo gobernar cada uso sin verificación"]],
+ [2,1,"Chatbot, herramienta, flujo y agente","Niveles de complejidad y de gobierno",["agente delimitado"],["Correr una misma tarea en dos modelos","Registrar límites y errores de cada uno"],"Tabla comparativa de modelos",["Añadir un tercer modelo y una segunda tarea"]],
+ [3,1,"Prompting jurídico responsable","Instruir con rol, fuentes y restricciones",["economía de contexto"],["Llenar el prompt canvas (ver PromptLab)","Exigir fuente y marca de incertidumbre"],"Biblioteca inicial de prompts",["Un prompt de redacción y uno de revisión"]],
+ [4,1,"Investigación asistida y control de fuentes","Buscar, resumir e inferir no es lo mismo",["fuente autorizada"],["Consultar sobre documentos cargados","Cotejar cada cita con su fuente original"],"Protocolo de fuentes del proyecto",["Lista de fuentes vedadas y su motivo"]],
+ [5,2,"Método Constitucional I: institución mínima","Finalidad, competencia y responsabilidad",["competencia"],["Enunciar el problema en una sola frase","Definir finalidad y competencia del agente"],"Ficha de problema y finalidad",["Tres materias que el agente declina"]],
+ [6,2,"Método Constitucional II: la Constitución","Reglas duras, preferencias y escalamiento",["regla dura","escalamiento"],["Redactar finalidad y competencia","Escribir 3 reglas duras verificables","Definir 1 umbral de escalamiento"],"Constitución v1 mínima",["Preferencias, prohibiciones y cláusula de cierre"]],
+ [7,2,"De la idea al flujo","Entrada, proceso, control y bitácora",["punto de control"],["Listar las etapas del agente","Insertar el control y la bitácora en el flujo"],"Flujograma operativo",["Recorrer el flujo con un segundo caso"]],
+ [8,3,"Claude Code, GitHub y Vercel","Construir y publicar sin ser programador",["despliegue"],["Crear el repositorio base","Publicar la primera maqueta"],"URL funcional del prototipo",["README con qué hace y qué no hace"]],
+ [9,3,"Interfaz jurídica responsable","Advertencias y estados de incertidumbre",["deber de advertencia"],["Diseñar la pantalla de entrada y salida","Añadir disclaimer y estado de duda"],"Interfaz v1 con advertencias",["Tres estados de salida diferenciados por color"]],
+ [10,3,"Datos, anonimización y Supabase","Minimización y persistencia lícita",["minimización"],["Definir el esquema de datos mínimo","Anonimizar los datos de prueba"],"Esquema + política mínima de datos",["Plazo de conservación y criterio de borrado"]],
+ [11,4,"Verificación I: hechos e inferencias","Separar y cotejar contra la fuente",["alucinación"],["Desarmar una salida en tres niveles","Cotejar cada hecho con su fuente (ver Cazador)"],"Checklist de verificación v1",["Aplicarlo a dos salidas más"]],
+ [12,4,"Verificación II: matriz de riesgos","Bajo, medio, alto y escalamiento",["proporcionalidad"],["Clasificar las salidas por nivel de riesgo","Construir el árbol de escalamiento"],"Matriz de riesgos v1",["Casos límite que fuercen la derivación"]],
+ [13,4,"Regulación y responsabilidad","Datos, advertencia y responsabilidad",["responsabilidad profesional"],["Auditar el prototipo con el checklist","Marcar la normativa a verificar"],"Informe breve de cumplimiento",["Una mejora por cada riesgo abierto"]],
+ [14,5,"Evaluación: pruebas y mejora","Casos de prueba e iteración",["prueba cruzada"],["Diseñar 6 casos de prueba","Prueba cruzada con otro grupo"],"Bitácora de pruebas y correcciones",["Cerrar los errores de riesgo alto"]],
+ [15,5,"Defensa técnica y jurídica","Justificar cada decisión de diseño",["defensa"],["Armar el guion de defensa","Ensayar ante otro grupo"],"Presentación de defensa",["Responder tres preguntas críticas"]],
+ [16,5,"Presentación final","Agente delimitado y gobernado",["entrega auténtica"],["Integrar todos los entregables","Demostrar y defender ante la cátedra"],"Entrega final completa",["Reflexión de cierre del proyecto"]]
+];
+
+const GLOSARIO = [
+ ["Agente jurídico delimitado","básico",6,"Sistema que ejecuta una tarea jurídica acotada dentro de un marco de fuentes, reglas y límites fijado de antemano; no un chat libre.","Un asistente que solo orienta sobre plazos de un procedimiento determinado, con datos ficticios, y deriva todo lo demás.","Un órgano con competencia: actúa solo dentro de lo que su norma le permite."],
+ ["Método Constitucional","básico",5,"Metodología del curso: diseñar cada agente como una institución mínima con finalidad, competencia, fuentes, límites, procedimiento, control, verificación, bitácora, responsabilidad y escalamiento.","Antes de escribir código, el estudiante redacta la norma que habilita y limita a su agente.","Constituir un órgano antes de darle funciones."],
+ ["Constitución del agente","básico",6,"Documento que habilita y limita al agente; su articulado interno.","El texto donde constan sus reglas duras, sus fuentes y cuándo debe derivar a un humano.","La norma habilitante y limitante del sistema."],
+ ["Regla dura","básico",6,"Mandato o prohibición inderogable y verificable del agente.","«Nunca afirmar sin citar la fuente» — se puede comprobar objetivamente si se cumplió.","Una norma imperativa, no un principio orientador."],
+ ["Preferencia","avanzado",6,"Criterio para elegir entre varias vías igualmente válidas.","«Ante dos interpretaciones válidas, preferir la más protectora del usuario.»","Un principio que orienta la discrecionalidad."],
+ ["Fuente autorizada","básico",4,"Texto que el agente puede invocar; fuera de esa lista, nada es fuente.","Solo la normativa y jurisprudencia cargadas; no «lo que el modelo recuerde».","El bloque de juridicidad: dentro de él los actos son válidos."],
+ ["Umbral constitucional","básico",8,"Compuerta en la que el agente declina o deriva por falta de competencia, de fuente o por exceso de riesgo.","Ante una consulta de materia penal, un agente civil se detiene y deriva.","El control de admisibilidad antes de resolver."],
+ ["Escalamiento humano","básico",6,"Derivación del asunto a una persona cuando supera el umbral definido.","Si la consulta toca un plazo de prescripción, el agente responde: «esto requiere revisión de un abogado».","La revisión superior o el control jurisdiccional."],
+ ["Verificación","básico",11,"Control de legalidad de la salida: separar hechos de inferencias, cotejar fuentes y marcar la incertidumbre.","Antes de confiar en una respuesta, se comprueba que cada afirmación cuelga de una fuente real.","El control de legalidad de un acto."],
+ ["Alucinación","básico",11,"Afirmación presentada como cierta sin respaldo real.","Una respuesta que cita un «artículo 47 bis» que no existe.","Un acto sin fundamento: no confiable por su origen."],
+ ["Bitácora","básico",13,"Registro fechado de las decisiones y actuaciones del agente.","Cada decisión de diseño anotada con su fecha, su motivo y su fuente.","El expediente administrativo del sistema."],
+ ["Minimización","básico",10,"Tratar solo los datos imprescindibles para la finalidad.","Guardar la materia de la consulta, no el nombre ni el RUT de nadie.","Conservar en el expediente solo lo que la actuación exige."],
+ ["Trazabilidad","avanzado",4,"Posibilidad de rastrear cada afirmación hasta su fuente.","Cada respuesta enlaza el fragmento normativo que la respalda.","La cadena que da validez al acto."],
+ ["Competencia","básico",5,"Ámbito material dentro del cual el agente puede actuar.","«Solo materia de plazos en el procedimiento X»; lo demás queda fuera.","El perímetro de actuación de un órgano."],
+ ["Deber de advertencia","avanzado",9,"Obligación de declarar límites e incertidumbre en la salida.","La interfaz avisa: «prototipo académico, no constituye asesoría legal».","El deber profesional de precisar los límites de una opinión."],
+ ["Proporcionalidad","avanzado",12,"A mayor impacto jurídico posible, mayor control humano exigible.","Riesgo bajo: responde; riesgo alto: deriva. La respuesta se gradúa.","El test de proporcionalidad aplicado a la operación."]
+];
+
+/* Plantillas A1–A18 (reutilizadas del material docente) */
+const PLANTILLAS = [
+ ["A1","Constitución del agente",6,["Art. 1° Finalidad — para qué existe / qué queda fuera","Art. 2° Competencia — puede / no puede","Art. 3° Fuentes autorizadas — lista cerrada","Art. 4° Reglas duras — inderogables y verificables","Art. 5° Preferencias — criterios de elección","Art. 6° Procedimiento — iter de cada actuación","Art. 7° Verificación — control antes de responder","Art. 8° Escalamiento — umbral de derivación","Art. 9° Bitácora — qué se registra","Art. 10° Cláusula de cierre — lo no atribuido está prohibido"]],
+ ["A2","Ficha de problema jurídico",5,["Problema en una frase","Materia y sub-materia","Por qué es lícito prometerlo","Por qué es abordable en 16 semanas","Tres materias vecinas que se declinan"]],
+ ["A3","Ficha de usuario destinatario",5,["Perfil del destinatario","Qué necesita resolver","Qué nivel de riesgo tolera","Qué NO debe esperar del agente"]],
+ ["A4","Protocolo de fuentes autorizadas",4,["Fuentes admitidas (lista cerrada)","Fuentes vedadas y motivo","Regla de cita obligatoria","Qué se hace ante ausencia de fuente"]],
+ ["A5","Prompt canvas jurídico",3,["Rol","Contexto (anonimizado)","Tarea","Restricciones + exigencia de fuente","Formato de salida"]],
+ ["A6","Checklist de anonimización",10,["Nombres, RUT y contacto eliminados","Seudónimos consistentes","Sin reidentificación por combinación","Fechas y montos generalizados","Valor jurídico conservado","Documentado qué se anonimizó"]],
+ ["A7","Matriz de riesgos",12,["Tipos de salida del agente","Nivel bajo/medio/alto por tipo","Acción: responde / advierte / deriva","Justificación de cada nivel"]],
+ ["A8","Checklist de verificación",11,["¿Separé hecho / inferencia / recomendación?","¿Cada hecho tiene fuente citable?","¿Marqué la incertidumbre?","¿Detecté posibles alucinaciones?","¿Registré lo verificado?"]],
+ ["A9","Bitácora de decisiones",13,["Fecha","Decisión adoptada","Alternativas descartadas","Fundamento","Fuente / cláusula"]],
+ ["A10","Bitácora de pruebas",14,["Caso de prueba","Resultado esperado","Resultado obtenido","Error / hallazgo","Corrección y re-prueba"]],
+ ["A11","Informe de cumplimiento básico",13,["Lo que el diseño ya cumple","Riesgos abiertos","Decisiones fuera del alcance del estudiante","Normativa a verificar a la fecha"]],
+ ["A12","Guion de defensa final",15,["Finalidad y competencia (por qué este recorte)","Constitución (qué reglas y por qué)","Fuentes","Interfaz y advertencias","Verificación y riesgos","Respuestas a preguntas críticas"]],
+ ["A13","Rúbrica del proyecto",16,["Delimitación 10%","Constitución 20%","Fuentes y trazabilidad 15%","Prototipo 20%","Verificación 15%","Riesgos y escalamiento 10%","Defensa 10%"]],
+ ["A14","Evaluación entre pares",14,["Claridad de la finalidad","Solidez de la Constitución","Calidad de las fuentes","¿Deriva cuando debe?","Un elogio y una mejora concreta"]],
+ ["A15","Buenas prácticas de laboratorio",1,["Casos ficticios o anonimizados siempre","Cita de fuente por afirmación","Un commit por decisión","Sin secretos en el repositorio","Verificar antes de confiar"]],
+ ["A16","Errores frecuentes y cómo corregirlos",14,["Cita inventada → cotejar o derivar","Poder sin cláusula → añadir o quitar la capacidad","Salida sin verificación → insertar control","Datos de más → minimizar","Un commit gigante → versionar por decisión"]],
+ ["A17","Esquema de datos",10,["Tabla y campos","Justificación por campo (obligatoria)","Plazo de conservación","Criterio de borrado"]],
+ ["A18","Mapa de riesgos y oportunidades",1,["Usos propios de IA","Consultar / delegar / automatizar","Ubicación en matriz oportunidad×riesgo","Usos sin verificación (rojo)"]]
+];
+
+/* ===== helpers ===== */
+const $ = s => document.querySelector(s);
+function icons(){ if(window.lucide) lucide.createIcons(); }
+function descargar(nombre, texto){
+  const b = new Blob([texto], {type:"text/markdown;charset=utf-8"});
+  const u = URL.createObjectURL(b); const a = document.createElement("a");
+  a.href = u; a.download = nombre; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u), 1500);
+}
+
+/* ===== hub ===== */
+$("#hubGrid").innerHTML = TOOLS.map(t=>`
+  <a class="tool-card hud" href="#/${t[0]}">
+    <span class="n mono">${t[5]}</span>
+    <span class="ic" style="background:${TINT[t[4]]};color:${CLR[t[4]]}"><i data-lucide="${t[3]}"></i></span>
+    <h3>${t[1]}</h3><p>${t[2]}</p>
+    <span class="go" style="color:${CLR[t[4]]}">Abrir <i data-lucide="arrow-right"></i></span>
+  </a>`).join("");
+
+/* ===== 1 · RUTA ===== */
+const PROG_KEY = "eco-ruta-v1";
+function progGet(){ try{ return JSON.parse(localStorage.getItem(PROG_KEY)||"{}"); }catch(e){ return {}; } }
+function progSet(o){ localStorage.setItem(PROG_KEY, JSON.stringify(o)); }
+function renderRuta(){
+  const done = progGet();
+  const n = Object.values(done).filter(Boolean).length;
+  const pct = Math.round(n/16*100);
+  const ensamblaje = ROUTE.filter(c=>done[c[0]]).map(c=>c[6]);
+  $("#rutaProg").innerHTML = `<div class="row" style="align-items:center">
+    <div class="col"><b class="mono" style="color:var(--cyan)">${n} / 16 clases</b> · progreso del recorrido
+      <div class="meter" style="margin-top:8px"><i style="width:${pct}%"></i></div></div>
+    <div class="col"><b class="mono" style="color:var(--mint);font-size:.72rem">PIEZAS ENSAMBLADAS</b>
+      <div style="font-size:.85rem;color:var(--muted);margin-top:4px">${ensamblaje.length? ensamblaje.map(e=>"· "+e).join("<br>") : "Aún ninguna — marque una clase para empezar a ensamblar el proyecto."}</div></div>
+  </div>`;
+  let mods = "";
+  [1,2,3,4,5].forEach(m=>{
+    const info = MODS[m]; const clases = ROUTE.filter(c=>c[1]===m);
+    mods += `<div class="card"><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <span class="chip ${m===1?"":m<4?"g":m===4?"m":"v"}">Módulo ${info[0]}</span>
+      <b style="font-family:var(--disp)">${info[1]}</b></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px">
+      ${clases.map(c=>`<button class="tool-card" style="min-height:auto;padding:12px 14px;cursor:pointer" data-clase="${c[0]}">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="mono" style="font-size:.72rem;color:${CLR[info[2]]}">Clase ${String(c[0]).padStart(2,"0")}</span>
+          <i data-lucide="${done[c[0]]?"check-circle":"circle"}" style="width:16px;height:16px;color:${done[c[0]]?"var(--mint)":"var(--dim)"}"></i>
+        </div>
+        <div style="font-family:var(--disp);font-size:.95rem;margin-top:3px">${c[2]}</div>
+        <div style="font-size:.78rem;color:var(--muted)">${c[3]}</div>
+      </button>`).join("")}
+      </div></div>`;
+  });
+  $("#rutaMods").innerHTML = mods;
+  $("#rutaDetalle").style.display = "none";
+  icons();
+}
+function verClase(id){
+  const c = ROUTE.find(x=>x[0]===id); if(!c) return;
+  const done = progGet(); const info = MODS[c[1]];
+  const prev = c[0]>1 ? ROUTE.find(x=>x[0]===c[0]-1)[6] : "el diagnóstico inicial";
+  const next = c[0]<16 ? ROUTE.find(x=>x[0]===c[0]+1)[2] : "la entrega final";
+  $("#rutaDetalle").style.display = "block";
+  $("#rutaDetalle").innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+      <div><span class="chip ${c[1]===1?"":c[1]<4?"g":c[1]===4?"m":"v"}">Módulo ${info[0]} · Clase ${String(c[0]).padStart(2,"0")}</span>
+        <h3 style="font-size:1.3rem;margin:8px 0 2px">${c[2]}</h3>
+        <div style="color:var(--muted)">${c[3]}</div></div>
+      <button class="btn ${done[c[0]]?"":"primary"}" id="toggleClase"><i data-lucide="${done[c[0]]?"rotate-ccw":"check"}"></i><span>${done[c[0]]?"Marcar como pendiente":"Marcar como completada"}</span></button>
+    </div>
+    <div style="font-family:var(--mono);font-size:.74rem;color:var(--dim);margin:10px 0">Viene de: ${prev} &nbsp;→&nbsp; Habilita: ${next}</div>
+    <div class="row">
+      <div class="col card2" style="padding:14px;border-radius:9px">
+        <span class="chip">Ruta núcleo · para todos</span>
+        <div style="margin:8px 0 4px;font-family:var(--mono);font-size:.72rem;color:var(--cyan)">MICRO-LABORATORIOS</div>
+        <ol style="margin:0;padding-left:18px">${c[5].map(s=>`<li style="margin:4px 0">${s}</li>`).join("")}</ol>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line-soft)"><span class="chip m">Entregable</span> <span style="font-size:.9rem">${c[6]}</span></div>
+      </div>
+      <div class="col" style="min-width:220px">
+        <div class="card2" style="padding:14px;border-radius:9px"><span class="chip g">Extensión · opcional</span>
+          <ul style="margin:8px 0 0;padding-left:18px;color:var(--muted)">${c[7].map(s=>`<li style="margin:3px 0">${s}</li>`).join("")}</ul></div>
+        <div style="margin-top:10px"><span class="mono" style="font-size:.7rem;color:var(--gold)">TÉRMINO(S) DE LA SEMANA</span><br>${c[4].map(t=>`<span class="chip g" style="margin-top:6px">${t}</span>`).join(" ")}</div>
+      </div>
+    </div>`;
+  $("#rutaDetalle").scrollIntoView({behavior:"smooth",block:"nearest"});
+  $("#toggleClase").onclick = ()=>{ const d=progGet(); d[id]=!d[id]; progSet(d); renderRuta(); verClase(id); };
+  icons();
+}
+
+/* ===== 4 · GLOSARIO ===== */
+let glNivel = "todos";
+function renderGlosario(){
+  const q = ($("#glBuscar").value||"").toLowerCase();
+  const items = GLOSARIO.filter(g=> (glNivel==="todos"||g[1]===glNivel) && (g[0].toLowerCase().includes(q)||g[3].toLowerCase().includes(q)) );
+  $("#glBody").innerHTML = items.length ? items.map(g=>`
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <b style="font-family:var(--disp);font-size:1.08rem">${g[0]}</b>
+        <span class="chip ${g[1]==="básico"?"m":"g"}">${g[1]}</span>
+        <span class="chip">Clase ${String(g[2]).padStart(2,"0")}</span>
+      </div>
+      <p style="margin:8px 0 6px">${g[3]}</p>
+      <div class="row">
+        <div class="col" style="min-width:240px"><span class="mono" style="font-size:.68rem;color:var(--cyan)">EJEMPLO JURÍDICO</span><div style="font-size:.9rem;color:var(--muted)">${g[4]}</div></div>
+        <div class="col" style="min-width:240px"><span class="mono" style="font-size:.68rem;color:var(--gold)">ANALOGÍA</span><div style="font-size:.9rem;color:var(--muted)">${g[5]}</div></div>
+      </div>
+    </div>`).join("") : `<p style="color:var(--muted)">Sin resultados para «${q}».</p>`;
+}
+$("#glBuscar").addEventListener("input", renderGlosario);
+document.querySelectorAll("[data-glnivel]").forEach(b=> b.addEventListener("click", ()=>{ glNivel=b.dataset.glnivel; renderGlosario(); }));
+
+/* ===== 5 · CAJA ===== */
+function plantillaMD(p){
+  return `# ${p[1]}\n\n> Plantilla del curso Derecho e IA · se usa en la Clase ${String(p[2]).padStart(2,"0")}.\n> Casos ficticios o anonimizados. Verificar normativa a la fecha de dictación.\n\n`
+    + p[3].map(c=>`- [ ] ${c}\n\n`).join("");
+}
+function renderCaja(){
+  $("#cajaBody").innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">`
+   + PLANTILLAS.map(p=>`<div class="card hud" style="display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span class="chip v">${p[0]}</span><span class="mono" style="font-size:.7rem;color:var(--dim)">Clase ${String(p[2]).padStart(2,"0")}</span></div>
+      <b style="font-family:var(--disp);font-size:1rem">${p[1]}</b>
+      <div style="font-size:.8rem;color:var(--muted);flex:1">${p[3].length} campos · Markdown editable</div>
+      <button class="btn" data-plant="${p[0]}" style="margin-top:4px"><i data-lucide="download"></i><span>Descargar .md</span></button>
+    </div>`).join("") + `</div>`;
+  document.querySelectorAll("[data-plant]").forEach(b=> b.addEventListener("click", ()=>{
+    const p = PLANTILLAS.find(x=>x[0]===b.dataset.plant);
+    descargar(`${p[0]}-${p[1].replace(/[^\w]+/g,"-").toLowerCase()}.md`, plantillaMD(p));
+  }));
+  icons();
+}
+
+/* ===== 2 · PROMPTLAB ===== */
+const PL_FIELDS = [
+ ["rol","Rol","Actúa como abogado analista en [materia]…"],
+ ["contexto","Contexto (anonimizado)","Hechos ficticios del caso, sin datos personales reales…"],
+ ["tarea","Tarea","Identifica las cuestiones jurídicas relevantes…"],
+ ["restricciones","Restricciones + fuentes","Cita la fuente de cada afirmación; marca toda incertidumbre; no concluyas fuera de [materia]…"],
+ ["formato","Formato de salida","Tres bloques: hechos asumidos · cuestiones jurídicas · vacíos de información…"]
+];
+const PL_PRESET = {
+ rol:"Actúa como abogado analista en derecho procesal, con criterio prudente.",
+ contexto:"Caso ficticio: una persona recibió una notificación y consulta cómo reaccionar. Datos anonimizados.",
+ tarea:"Identifica las cuestiones jurídicas que deberían analizarse antes de recomendar una vía.",
+ restricciones:"Cita la fuente de cada afirmación; si no tienes fuente confiable, dilo en vez de inventar; marca toda incertidumbre; no concluyas sobre materias fuera del derecho procesal; deriva a revisión humana los asuntos de plazo o prescripción.",
+ formato:"Estructura la salida en: hechos asumidos, cuestiones jurídicas, vacíos de información y preguntas pendientes."
+};
+const PL_CONTRAST = {
+ pobre:{ prompt:"Dime qué hago con esta demanda.",
+   resp:"Presenta un recurso de inmediato, seguro que ganas. El plazo es de 10 días según el artículo 250.",
+   fallas:["Sin rol ni contexto: la instrucción es indeterminada.","Afirma un resultado («seguro que ganas»): recomendación sin fundamento.","Cita un artículo sin advertir que debe verificarse.","No marca incertidumbre ni deriva un asunto de plazo."] },
+ bien:{ prompt:"[prompt bien formado, con rol, contexto, restricciones y formato]",
+   resp:"Hechos asumidos: … Cuestiones jurídicas: … Vacíos: falta el texto de la resolución. No puedo afirmar el plazo sin verificar la norma aplicable; por tratarse de un plazo, conviene la revisión de un abogado. Fuentes: [a cotejar].",
+   fallas:["Declara lo que asume y lo que ignora.","No inventa el plazo: lo marca como pendiente de verificación.","Deriva la materia de riesgo a revisión humana."] }
+};
+function renderPromptlab(){
+  $("#plBody").innerHTML = `
+    <div class="row">
+      <div class="col">
+        ${PL_FIELDS.map(f=>`<label>${f[1]}</label><textarea id="pl-${f[0]}" rows="${f[0]==="restricciones"?4:2}" placeholder="${f[2]}"></textarea>`).join("")}
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+          <button class="btn primary" id="plCheck"><i data-lucide="scan-search"></i><span>Revisar mi prompt</span></button>
+          <button class="btn ghost" id="plEjemplo"><i data-lucide="wand-2"></i><span>Cargar ejemplo bien formado</span></button>
+        </div>
+      </div>
+      <div class="col">
+        <label>Prompt armado</label><div class="code" id="plArmado" style="min-height:90px">Complete las casillas y pulse «Revisar mi prompt».</div>
+        <div id="plScore"></div>
+      </div>
+    </div>
+    <div class="card2" style="margin-top:18px">
+      <b style="font-family:var(--disp)">Comparación ilustrativa · mismo encargo, dos prompts</b>
+      <div class="row" style="margin-top:10px">
+        <div class="col"><span class="chip r">Prompt pobre</span><div class="code" style="margin-top:6px">${PL_CONTRAST.pobre.prompt}</div>
+          <div style="font-size:.85rem;color:var(--muted);margin-top:6px"><b style="color:var(--coral)">Respuesta:</b> ${PL_CONTRAST.pobre.resp}</div>
+          <ul style="margin:6px 0 0;padding-left:18px;font-size:.83rem;color:var(--muted)">${PL_CONTRAST.pobre.fallas.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+        <div class="col"><span class="chip m">Prompt bien formado</span><div class="code" style="margin-top:6px">${PL_CONTRAST.bien.prompt}</div>
+          <div style="font-size:.85rem;color:var(--muted);margin-top:6px"><b style="color:var(--mint)">Respuesta:</b> ${PL_CONTRAST.bien.resp}</div>
+          <ul style="margin:6px 0 0;padding-left:18px;font-size:.83rem;color:var(--muted)">${PL_CONTRAST.bien.fallas.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+      </div>
+    </div>`;
+  $("#plEjemplo").onclick = ()=>{ PL_FIELDS.forEach(f=> $("#pl-"+f[0]).value = PL_PRESET[f[0]]); };
+  $("#plCheck").onclick = ()=>{
+    const v = {}; PL_FIELDS.forEach(f=> v[f[0]] = ($("#pl-"+f[0]).value||"").trim());
+    const armado = PL_FIELDS.filter(f=>v[f[0]]).map(f=>`${f[1].toUpperCase()}: ${v[f[0]]}`).join("\n");
+    $("#plArmado").textContent = armado || "Aún no hay contenido en las casillas.";
+    const r = v.restricciones.toLowerCase();
+    const crit = [
+      ["Rol definido", !!v.rol, "Indique quién debe ser el modelo (p. ej. abogado analista)."],
+      ["Contexto entregado", !!v.contexto, "Aporte los hechos anonimizados sobre los que trabajar."],
+      ["Tarea clara", !!v.tarea, "Defina una tarea acotada, no «todo sobre X»."],
+      ["Exige fuente", /fuente|cit|respald/.test(r), "Pida citar la fuente de cada afirmación."],
+      ["Pide marcar la incertidumbre", /incert|duda|no s[eé]|desconoc|marca/.test(r), "Exija que el modelo distinga lo cierto de lo dudoso."],
+      ["Fija límites de competencia", /\bno\b|fuera|l[íi]mite|solo|únic|deriv/.test(r), "Acote las materias y ordene derivar lo que exceda el ámbito."],
+      ["Formato de salida", !!v.formato, "Indique cómo estructurar la respuesta."]
+    ];
+    const ok = crit.filter(c=>c[1]).length; const pct = Math.round(ok/crit.length*100);
+    $("#plScore").innerHTML = `<div style="margin-top:12px"><b class="mono" style="color:${pct>=71?"var(--mint)":pct>=43?"var(--gold)":"var(--red)"}">${ok} / ${crit.length} criterios</b>
+      <div class="meter" style="margin:6px 0 10px"><i style="width:${pct}%;background:${pct>=71?"var(--mint)":pct>=43?"var(--gold)":"var(--red)"}"></i></div>
+      ${crit.map(c=>`<div style="display:flex;gap:8px;align-items:flex-start;margin:4px 0;font-size:.86rem">
+        <i data-lucide="${c[1]?"check":"x"}" style="width:15px;height:15px;margin-top:3px;color:${c[1]?"var(--mint)":"var(--red)"}"></i>
+        <span><b>${c[0]}.</b> ${c[1]?"<span style='color:var(--muted)'>presente</span>":`<span style='color:var(--muted)'>${c[2]}</span>`}</span></div>`).join("")}</div>`;
+    icons();
+  };
+  icons();
+}
+
+/* ===== 3 · CAZADOR ===== */
+const CAZA = [
+ { nivel:"Nivel I", ctx:"Consulta a un asistente sobre el plazo para apelar en un procedimiento determinado (caso ficticio).", or:[
+   ["El plazo para apelar es de cinco días contados desde la notificación.", true, "Afirmación sin fuente", "Da un plazo concreto sin citar la norma que lo fija; debe cotejarse con el código del procedimiento."],
+   ["Así lo dispone el artículo 189 bis del código respectivo.", true, "Cita por verificar", "Cita un artículo específico; el número puede ser inexacto o inexistente. Verificar en la fuente oficial antes de confiar."],
+   ["En todos los procedimientos el plazo es siempre el mismo.", true, "Afirmación categórica", "Generaliza con «todos» y «siempre»; los plazos varían según el procedimiento."],
+   ["Conviene confirmar el plazo aplicable con la normativa vigente del procedimiento específico.", false, "", "Afirmación prudente y correcta: remite a verificar la fuente."]
+ ]},
+ { nivel:"Nivel II", ctx:"Consulta sobre si un contrato ficticio es válido.", or:[
+   ["El contrato es plenamente válido y no presenta ningún problema.", true, "Inferencia como hecho", "Concluye la validez sin analizar el texto ni las cláusulas: presenta una inferencia como si fuera un hecho comprobado."],
+   ["La jurisprudencia uniforme de los tribunales respalda esta conclusión.", true, "Fuente no trazable", "Invoca «jurisprudencia uniforme» sin identificar fallos; no es verificable."],
+   ["Para una respuesta fundada convendría revisar el texto completo del contrato.", false, "", "Correcto: reconoce que faltan antecedentes."],
+   ["Puedo redactar y firmar el contrato en su representación.", true, "Fuera de competencia", "Ofrece una actuación (firmar en representación) que excede el ámbito de un asistente informativo."]
+ ]},
+ { nivel:"Nivel III", ctx:"Consulta de materia penal a un asistente cuya competencia es solo informativa (caso ficticio).", or:[
+   ["El delito por el que consulta prescribe exactamente a los tres años.", true, "Sin fuente · riesgo alto", "Afirma un plazo de prescripción sin fuente y en materia de riesgo alto: debería derivar, no responder."],
+   ["Puedo indicarle con precisión qué declarar ante la policía.", true, "Fuera de competencia", "Ofrece orientación sobre una actuación de riesgo alto, fuera de un asistente informativo."],
+   ["Este tipo de consulta debería derivarse a un abogado penalista.", false, "", "Correcto: reconoce el límite y escala a un humano."],
+   ["Todos los delitos tienen el mismo plazo de prescripción.", true, "Afirmación categórica falsa", "Generaliza erróneamente; los plazos dependen del delito."]
+ ]}
+];
+let czIdx = 0, czSel = {}, czRev = false;
+function renderCazador(){
+  const ex = CAZA[czIdx];
+  $("#czBody").innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div><span class="chip r">${ex.nivel}</span> <span class="mono" style="font-size:.72rem;color:var(--dim)">Ejercicio ${czIdx+1} de ${CAZA.length}</span></div>
+      <div class="mono" style="font-size:.72rem;color:var(--muted)">Marque las oraciones que le parezcan poco confiables</div>
+    </div>
+    <p style="color:var(--muted);font-size:.9rem;margin:8px 0 12px">${ex.ctx}</p>
+    <div id="czList">${ex.or.map((o,i)=>{
+      const sel = czSel[i]; let bd="var(--line-soft)", bg="var(--panel)", tag="";
+      if(czRev){
+        if(o[1]){ bd="rgba(228,73,73,.5)"; bg="rgba(228,73,73,.07)"; tag=`<div style="margin-top:6px;font-size:.8rem"><span class="chip r">${o[2]}</span> <span style="color:var(--muted)">${o[3]}</span></div>`; }
+        else{ bd="rgba(84,214,160,.5)"; bg="rgba(84,214,160,.06)"; tag=`<div style="margin-top:6px;font-size:.8rem;color:var(--mint)">Correcta · ${o[3]}</div>`; }
+      } else if(sel){ bd="var(--gold)"; bg="rgba(224,176,74,.07)"; }
+      return `<div class="czor" data-i="${i}" style="border:1px solid ${bd};background:${bg};border-radius:8px;padding:11px 13px;margin:8px 0;cursor:${czRev?"default":"pointer"}">
+        <div style="display:flex;gap:9px;align-items:flex-start">
+          <i data-lucide="${czRev?(o[1]?"alert-triangle":"check-circle"):(sel?"flag":"circle")}" style="width:16px;height:16px;margin-top:2px;color:${czRev?(o[1]?"var(--red)":"var(--mint)"):(sel?"var(--gold)":"var(--dim)")}"></i>
+          <span style="font-size:.92rem">${o[0]}</span></div>${tag}</div>`;
+    }).join("")}</div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      ${czRev ? `<div id="czRes"></div><button class="btn primary" id="czNext"><i data-lucide="arrow-right"></i><span>${czIdx<CAZA.length-1?"Siguiente ejercicio":"Reiniciar"}</span></button>`
+              : `<button class="btn primary" id="czCheck"><i data-lucide="scan-search"></i><span>Verificar mi criterio</span></button>`}
+    </div>`;
+  if(!czRev){
+    document.querySelectorAll(".czor").forEach(d=> d.addEventListener("click", ()=>{ const i=+d.dataset.i; czSel[i]=!czSel[i]; renderCazador(); }));
+    const cb=$("#czCheck"); if(cb) cb.onclick=()=>{ czRev=true; renderCazador(); };
+  } else {
+    const plantadas = ex.or.map((o,i)=>[o,i]).filter(x=>x[0][1]);
+    const aciertos = plantadas.filter(x=>czSel[x[1]]).length;
+    const falsos = ex.or.map((o,i)=>[o,i]).filter(x=>!x[0][1] && czSel[x[1]]).length;
+    $("#czRes").innerHTML = `<span class="mono" style="align-self:center;font-size:.82rem;color:var(--muted)">Detectó <b style="color:var(--mint)">${aciertos}/${plantadas.length}</b> errores plantados${falsos?` · <b style="color:var(--gold)">${falsos}</b> falsa(s) alarma(s)`:""}.</span>`;
+    $("#czNext").onclick=()=>{ czRev=false; czSel={}; czIdx=(czIdx+1)%CAZA.length; renderCazador(); };
+  }
+  icons();
+}
+
+/* ===== 6 · CANVAS ===== */
+const CV_BOX = [
+ ["finalidad","Finalidad","¿Para qué existe el agente y qué queda fuera de su objeto?","Orientar sobre plazos del procedimiento X con datos ficticios; no asesora en otras materias."],
+ ["competencia","Competencia","¿Qué puede y qué no puede hacer?","Puede informar plazos generales; no calcula plazos de un caso real ni redacta escritos."],
+ ["destinatario","Destinatario","¿Para quién es y qué NO debe esperar?","Estudiantes; no deben esperar asesoría vinculante."],
+ ["fuentes","Fuentes autorizadas","¿Qué fuentes puede invocar? Todo lo demás no es fuente.","Solo la normativa procesal cargada y su reglamento."],
+ ["reglas","Reglas duras","Mandatos y prohibiciones inderogables y verificables.","Nunca afirmar sin citar fuente; nunca actuar fuera de la materia."],
+ ["preferencias","Preferencias y prohibiciones","Criterios de elección y materias vedadas.","Preferir la lectura más protectora; prohibido opinar sobre materia penal."],
+ ["procedimiento","Procedimiento / flujo","Entrada → proceso → salida, con control y bitácora.","Consulta → busca en fuentes → verifica → responde con advertencia → registra."],
+ ["verificacion","Verificación","¿Cómo controla su salida antes de confiar?","Separa hecho e inferencia; cada hecho enlaza su fuente; marca lo dudoso."],
+ ["riesgos","Riesgos y escalamiento","Niveles de riesgo y cuándo deriva a un humano.","Riesgo alto (plazos, prescripción) → deriva a revisión de un abogado."],
+ ["plan","Plan de mantenimiento","¿Cómo se prueba, versiona y actualiza?","Casos de prueba por versión; bitácora de cambios; revisión al cambiar la norma."]
+];
+const CV_KEY = "eco-canvas-v1";
+function cvGet(){ try{ return JSON.parse(localStorage.getItem(CV_KEY)||"{}"); }catch(e){ return {}; } }
+function renderCanvas(){
+  const data = cvGet();
+  $("#cvBody").innerHTML = CV_BOX.map((b,i)=>`
+    <div class="card hud" style="margin:0">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span class="chip">${String(i+1).padStart(2,"0")}</span><b style="font-family:var(--disp)">${b[1]}</b></div>
+      <div style="font-size:.8rem;color:var(--muted);margin:6px 0 4px">${b[2]}</div>
+      <textarea data-cv="${b[0]}" rows="3" placeholder="Ej.: ${b[3]}">${data[b[0]]||""}</textarea>
+    </div>`).join("");
+  const upd = ()=>{ const d=cvGet(); const filled=CV_BOX.filter(b=>(d[b[0]]||"").trim()).length; $("#cvMeter").style.width=Math.round(filled/CV_BOX.length*100)+"%"; };
+  document.querySelectorAll("[data-cv]").forEach(t=> t.addEventListener("input", ()=>{ const d=cvGet(); d[t.dataset.cv]=t.value; localStorage.setItem(CV_KEY, JSON.stringify(d)); upd(); }));
+  upd();
+  $("#cvExport").onclick = ()=>{ const d=cvGet();
+    const md = "# Canvas de Proyecto Final · Agente jurídico delimitado\n\n> Borrador de diseño · Derecho e IA · PUCV. Caso ficticio. Verificar normativa a la fecha.\n\n"
+      + CV_BOX.map((b,i)=>`## ${i+1}. ${b[1]}\n_${b[2]}_\n\n${(d[b[0]]||"").trim()||"(pendiente)"}\n`).join("\n");
+    descargar("canvas-proyecto-agente-juridico.md", md);
+  };
+  $("#cvPrint").onclick = ()=> window.print();
+  icons();
+}
+
+/* ===== router ===== */
+function route(){
+  const h = (location.hash||"#/").replace(/^#\//,"") || "hub";
+  const id = ["ruta","promptlab","cazador","glosario","caja","canvas"].includes(h) ? h : "hub";
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("on"));
+  $("#v-"+id).classList.add("on");
+  window.scrollTo(0,0);
+  if(id==="ruta") renderRuta();
+  if(id==="glosario") renderGlosario();
+  if(id==="caja") renderCaja();
+  if(id==="promptlab") renderPromptlab();
+  if(id==="cazador") renderCazador();
+  if(id==="canvas") renderCanvas();
+  icons();
+}
+window.addEventListener("hashchange", route);
+document.addEventListener("click", e=>{ const b=e.target.closest("[data-clase]"); if(b) verClase(+b.dataset.clase); });
+route();
+window.addEventListener("load", icons);
+</script>
+</body>
+</html>
