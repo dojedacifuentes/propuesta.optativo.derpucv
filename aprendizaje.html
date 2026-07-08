@@ -179,6 +179,15 @@ td{ padding:7px 8px; border-bottom:1px solid var(--line-soft); vertical-align:to
   <div class="grid6" id="cvBody" style="grid-template-columns:1fr 1fr;padding:0"></div>
 </section>
 
+<!-- ================= 7 · PROTOTIPOLAB ================= -->
+<section class="view wrap" id="v-prototipolab">
+  <a class="btn ghost back" href="#/"><i data-lucide="layout-grid"></i><span>Ecosistema</span></a>
+  <div class="view-head"><div><span class="eyebrow">Herramienta 7 · De idea jurídica a prototipo</span><h2>PrototipoLab Jurídico</h2></div></div>
+  <p class="view-lede">De problema jurídico a prototipo funcional: define el problema, arma el flujo, genera el metaprompt y el prompt técnico, y publica con guías simples de GitHub y Vercel.</p>
+  <span class="sim-note"><i data-lucide="flask-conical"></i>Generadores deterministas · la herramienta no ejecuta IA ni programa: produce las instrucciones que usted lleva a ChatGPT, Gemini y Claude</span>
+  <div id="plabBody" style="margin-top:14px"></div>
+</section>
+
 <footer class="foot wrap">Ecosistema de Aprendizaje Guiado · Derecho e Inteligencia Artificial · Escuela de Derecho PUCV · material de trabajo preliminar · casos ficticios · toda referencia normativa debe verificarse a la fecha de dictación.</footer>
 
 <script>
@@ -189,10 +198,11 @@ const TOOLS = [
   ["cazador","Cazador de Alucinaciones","Ejercicios para detectar errores de IA.","target","red","03"],
   ["glosario","Glosario Vivo","Conceptos explicados con ejemplos jurídicos.","book-open","mint","04"],
   ["caja","Caja de Herramientas","Plantillas, checklists y matrices descargables.","package","violet","05"],
-  ["canvas","Canvas de Proyecto Final","Guía para diseñar una solución jurídica con IA.","layout-dashboard","cyan","06"]
+  ["canvas","Canvas de Proyecto Final","Guía para diseñar una solución jurídica con IA.","layout-dashboard","cyan","06"],
+  ["prototipolab","PrototipoLab Jurídico","De problema jurídico a prototipo funcional.","boxes","coral","07"]
 ];
-const CLR = { cyan:"var(--cyan)", gold:"var(--gold)", red:"var(--red)", mint:"var(--mint)", violet:"var(--violet)" };
-const TINT = { cyan:"rgba(75,231,255,.1)", gold:"rgba(224,176,74,.1)", red:"rgba(228,73,73,.1)", mint:"rgba(84,214,160,.1)", violet:"rgba(155,140,255,.1)" };
+const CLR = { cyan:"var(--cyan)", gold:"var(--gold)", red:"var(--red)", mint:"var(--mint)", violet:"var(--violet)", coral:"var(--coral)" };
+const TINT = { cyan:"rgba(75,231,255,.1)", gold:"rgba(224,176,74,.1)", red:"rgba(228,73,73,.1)", mint:"rgba(84,214,160,.1)", violet:"rgba(155,140,255,.1)", coral:"rgba(236,126,114,.1)" };
 
 const MODS = { 1:["01","Usar con criterio","cyan"], 2:["02","Diseño constitucional","gold"], 3:["03","Construir","gold"], 4:["04","Verificar y gobernar","mint"], 5:["05","Evaluar y defender","violet"] };
 const ROUTE = [
@@ -552,10 +562,254 @@ function renderCanvas(){
   icons();
 }
 
+/* ===== 7 · PROTOTIPOLAB ===== */
+function copiar(txt, btn){
+  const done = ()=>{ if(!btn) return; const o=btn.innerHTML; btn.innerHTML='<i data-lucide="check"></i><span>Copiado</span>'; icons(); setTimeout(()=>{ btn.innerHTML=o; icons(); },1300); };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done).catch(()=>{fb();}); }
+  else fb();
+  function fb(){ const t=document.createElement("textarea"); t.value=txt; t.style.position="fixed"; t.style.opacity="0"; document.body.appendChild(t); t.select(); try{document.execCommand("copy");}catch(e){} t.remove(); done(); }
+}
+const PLAB_OPT = {
+  usuario:["Estudiante de Derecho","Abogado/a","Profesor/a","Cliente o usuario jurídico","Funcionario/a","Equipo de investigación"],
+  problema:["Comprender una sentencia","Revisar un contrato","Ordenar documentos","Preparar una minuta","Generar preguntas de estudio","Detectar riesgos jurídicos","Explicar conceptos complejos en lenguaje claro","Comparar normas","Crear un simulador de casos","Otro"],
+  tipo:["Asistente de estudio","Generador de prompts","Checklist jurídico","Simulador de casos","Evaluador de respuestas de IA","Buscador de conceptos","Organizador de documentos","Prototipo de plataforma educativa","Otro"],
+  entrada:["Texto libre","Documento","Pregunta jurídica","Datos de un caso ficticio","Selección de alternativas","Categoría jurídica","Nivel de conocimiento del usuario"],
+  salida:["Resumen","Tabla","Checklist","Informe breve","Mapa conceptual","Preguntas de repaso","Matriz de riesgos","Diagrama de flujo","Prompt mejorado","Propuesta de solución"],
+  restric:["No entregar asesoría legal definitiva","Advertir que la respuesta debe verificarse","No usar datos personales reales","Explicar límites de la IA","Mantener lenguaje claro","Citar fuentes solo si el usuario las proporciona","Distinguir hechos, normas, argumentos y conclusiones"],
+  formato:["especificación funcional","diagrama de flujo","prompt técnico","lista de componentes","estructura de pantallas","plan de desarrollo","checklist de prueba"]
+};
+const PLAB = {
+  usuario:"Estudiante de Derecho", problema:"Comprender una sentencia", problemaOtro:"", tipo:"Asistente de estudio", tipoOtro:"",
+  entrada:new Set(["Texto libre","Pregunta jurídica"]), salida:new Set(["Resumen","Preguntas de repaso"]),
+  restric:new Set(["No entregar asesoría legal definitiva","Advertir que la respuesta debe verificarse","No usar datos personales reales"]),
+  formato:"especificación funcional", nombre:"", objetivo:""
+};
+function plabProblema(){ return PLAB.problema==="Otro" ? (PLAB.problemaOtro||"[describe tu problema]") : PLAB.problema; }
+function plabTipo(){ return PLAB.tipo==="Otro" ? (PLAB.tipoOtro||"[describe tu herramienta]") : PLAB.tipo; }
+function plabNombre(){ return PLAB.nombre || (plabTipo()!=="[describe tu herramienta]" ? plabTipo()+" jurídico" : "Herramienta jurídica"); }
+function plabObjetivo(){ return PLAB.objetivo || ("ayudar a "+PLAB.usuario.toLowerCase()+" a "+plabProblema().toLowerCase()); }
+function metaPrompt(){
+  return "Actúa como diseñador de producto, profesor de Derecho y arquitecto de información. Ayúdame a transformar esta idea jurídica en una especificación clara para construir un prototipo funcional con ayuda de IA. Primero no programes. Antes de eso, ordena el problema, identifica al usuario, define el flujo de trabajo, propone pantallas, entradas, salidas, riesgos jurídicos, límites éticos y criterios de evaluación. Luego genera un diagrama de flujo textual claro y una versión lista para convertir en prompt técnico para Claude.\n\nMi idea:\n"
+    + "- Usuario principal: "+PLAB.usuario+"\n"
+    + "- Problema a resolver: "+plabProblema()+"\n"
+    + "- Tipo de herramienta: "+plabTipo()+"\n"
+    + "- El usuario ingresa: "+([...PLAB.entrada].join(", ")||"por definir")+"\n"
+    + "- La herramienta entrega: "+([...PLAB.salida].join(", ")||"por definir")+"\n"
+    + "- Restricciones jurídicas y éticas: "+([...PLAB.restric].join("; ")||"por definir")+"\n"
+    + "- Formato de salida que necesito ahora: "+PLAB.formato+".";
+}
+function flowPrompt(){
+  return "Con la siguiente idea de herramienta jurídica, crea un diagrama de flujo textual y visualmente comprensible. No escribas código todavía. Representa el recorrido del usuario desde que entra a la herramienta hasta que obtiene un resultado. Incluye pantallas, decisiones, entradas, salidas, validaciones, advertencias jurídicas y puntos de supervisión humana. Usa una estructura clara con flechas, bloques y nombres breves. Luego agrega una explicación simple para estudiantes de Derecho.\n\nIdea: un "+plabTipo().toLowerCase()+" para que "+PLAB.usuario.toLowerCase()+" pueda "+plabProblema().toLowerCase()+". Ingresa "+([...PLAB.entrada].join(", ")||"…")+" y entrega "+([...PLAB.salida].join(", ")||"…")+". Debe respetar: "+([...PLAB.restric].join("; ")||"…")+".";
+}
+function claudePrompt(){
+  const L = [
+   "Actúa como desarrollador front-end senior, product designer y arquitecto de información. Quiero construir un prototipo funcional de una herramienta educativa/jurídica llamada "+plabNombre()+". El objetivo es "+plabObjetivo()+". El usuario principal será "+PLAB.usuario+". La herramienta debe resolver el siguiente problema: "+plabProblema()+".",
+   "",
+   "Contexto de la idea:",
+   "- Entradas del usuario: "+([...PLAB.entrada].join(", ")||"por definir")+".",
+   "- Salidas esperadas: "+([...PLAB.salida].join(", ")||"por definir")+".",
+   "- Restricciones jurídicas y éticas: "+([...PLAB.restric].join("; ")||"por definir")+".",
+   "",
+   "Antes de escribir código, realiza estas tareas:",
+   "1. Resume el problema en lenguaje simple.",
+   "2. Propón un flujo de usuario claro.",
+   "3. Diseña un mapa de pantallas.",
+   "4. Define componentes reutilizables.",
+   "5. Propón una estructura de carpetas.",
+   "6. Lista los datos necesarios.",
+   "7. Identifica riesgos jurídicos y advertencias.",
+   "8. Propón criterios de prueba.",
+   "9. Luego construye el prototipo.",
+   "",
+   "Requisitos del prototipo:",
+   "- Aplicación web clara, moderna y responsive, con estética tecnológica, sobria y profesional.",
+   "- Comprensible para estudiantes de Derecho.",
+   "- Usa datos locales o mock data si no hay backend; sin autenticación compleja.",
+   "- No prometas asesoría legal definitiva; incluye advertencias sobre verificación humana y límites de la IA.",
+   "- Componentes reutilizables; una sección de explicación pedagógica; estados vacíos, ejemplos prellenados y textos de ayuda.",
+   "- Un checklist final para probar que todo funciona.",
+   "",
+   "Entregables: 1) estructura del proyecto; 2) código completo; 3) componentes principales; 4) datos de ejemplo; 5) instrucciones para ejecutar localmente; 6) instrucciones para subir a GitHub; 7) instrucciones para desplegar en Vercel; 8) checklist de revisión; 9) sugerencias de mejora futura.",
+   "",
+   "Primero explícame el plan de implementación y espera mi confirmación antes de hacer cambios grandes."
+  ];
+  return L.join("\n");
+}
+const GH_PROMPT = "Explícame paso a paso cómo crear un repositorio en GitHub para este proyecto. Asume que soy estudiante de Derecho y no programador. Usa lenguaje simple. Indica qué botones debo buscar, qué nombre poner al repositorio, qué archivos subir y qué errores evitar. Si estás trabajando dentro de un entorno con acceso a Git, prepara los comandos necesarios, pero antes explícame qué hace cada uno.";
+const VC_PROMPT = "Explícame paso a paso cómo desplegar este proyecto en Vercel desde GitHub. Asume que soy estudiante de Derecho sin conocimientos técnicos. Explica qué significa cada pantalla, qué opciones debo mantener por defecto, qué debo revisar antes de presionar Deploy y cómo verificar que la página quedó publicada correctamente.";
+
+const ESTACIONES = [
+ ["A","Problema jurídico","Ordenas la idea: quién, qué, entradas, salidas y límites.","Básico","Un problema bien definido.","cyan"],
+ ["B","Flujo de trabajo","Representas el recorrido del usuario y sus decisiones.","Básico","Un diagrama de flujo claro.","cyan"],
+ ["C","Metaprompt","Pides a ChatGPT o Gemini que estructure la especificación.","Intermedio","Una especificación funcional.","gold"],
+ ["D","Prompt técnico","Conviertes todo en un prompt para Claude.","Intermedio","Un prompt listo para construir.","gold"],
+ ["E","GitHub + Vercel","Guardas versiones y publicas el prototipo.","Intermedio","Una URL pública.","coral"]
+];
+function difBadge(t){ const c = t==="Básico"?"m":t==="Intermedio"?"g":"r"; return `<span class="chip ${c}">${t}</span>`; }
+function chips(name,opts,sel){ return `<div style="display:flex;flex-wrap:wrap;gap:6px">`+opts.map(o=>`<button type="button" class="chip plab-chip${sel.has(o)?" on":""}" data-chip="${name}" data-val="${o.replace(/"/g,'&quot;')}" style="cursor:pointer;${sel.has(o)?"border-color:var(--cyan);color:var(--cyan)":""}">${o}</button>`).join("")+`</div>`; }
+function sel(id,opts,val){ return `<select id="${id}">`+opts.map(o=>`<option${o===val?" selected":""}>${o}</option>`).join("")+`</select>`; }
+function miniFlow(pasos){ return `<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0">`+pasos.map((p,i)=>`<span class="chip">${p}</span>${i<pasos.length-1?'<i data-lucide="arrow-right" style="width:14px;height:14px;color:var(--dim)"></i>':""}`).join("")+`</div>`; }
+
+function renderPrototipolab(){
+  const B = $("#plabBody");
+  B.innerHTML = `
+  <div class="card2 hud" style="border-color:rgba(236,126,114,.35)">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:44px;height:44px;display:grid;place-items:center;border-radius:10px;background:var(--coral);color:#180a08"><i data-lucide="boxes"></i></span>
+      <div><h3 style="font-family:var(--disp);font-size:1.3rem">PrototipoLab Jurídico</h3><small style="color:var(--muted);font-family:var(--mono)">De problema jurídico a prototipo funcional</small></div>
+    </div>
+    <p style="margin:10px 0 4px">Una guía paso a paso para convertir una idea jurídica en un flujo, prompt, repositorio y despliegue web básico.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+      <button class="btn primary" data-scroll="#plab-p1"><i data-lucide="play"></i><span>Iniciar simulación</span></button>
+      <button class="btn" data-copy="#pm-meta"><i data-lucide="copy"></i><span>Copiar metaprompt</span></button>
+      <button class="btn" data-scroll="#plab-claude"><i data-lucide="sparkles"></i><span>Prompt para Claude</span></button>
+      <button class="btn" data-scroll="#plab-github"><i data-lucide="github"></i><span>Guía GitHub</span></button>
+      <button class="btn" data-scroll="#plab-vercel"><i data-lucide="triangle"></i><span>Guía Vercel</span></button>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0">
+    ${ESTACIONES.map((e,i)=>`<div class="card hud" style="flex:1;min-width:180px;margin:0">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span class="mono" style="font-size:1.3rem;color:${CLR[e[5]]}">${e[0]}</span>${difBadge(e[3])}</div>
+      <b style="font-family:var(--disp);display:block;margin:4px 0 2px">${e[1]}</b>
+      <div style="font-size:.82rem;color:var(--muted)">${e[2]}</div>
+      <div style="font-size:.76rem;color:${CLR[e[5]]};margin-top:6px"><i data-lucide="arrow-right" style="width:12px;height:12px"></i> ${e[4]}</div>
+    </div>${i<ESTACIONES.length-1?'':''}`).join("")}
+  </div>
+
+  <!-- PASO 1 -->
+  <div class="card" id="plab-p1">
+    <div style="display:flex;align-items:center;gap:8px"><span class="chip">Paso 1</span><b style="font-family:var(--disp);font-size:1.1rem">Definir el problema jurídico</b></div>
+    <p style="color:var(--muted);font-size:.88rem;margin:6px 0 8px">Sus respuestas completan automáticamente los prompts de los pasos siguientes. Puede editar todo antes de copiarlo.</p>
+    <div class="row">
+      <div class="col"><label>¿Quién usará la herramienta?</label>${sel("pl-usuario",PLAB_OPT.usuario,PLAB.usuario)}</div>
+      <div class="col"><label>¿Qué problema quiere resolver?</label>${sel("pl-problema",PLAB_OPT.problema,PLAB.problema)}<input id="pl-problema-otro" placeholder="Describe el problema…" style="margin-top:6px;display:none"></div>
+      <div class="col"><label>¿Qué tipo de herramienta imagina?</label>${sel("pl-tipo",PLAB_OPT.tipo,PLAB.tipo)}<input id="pl-tipo-otro" placeholder="Describe la herramienta…" style="margin-top:6px;display:none"></div>
+    </div>
+    <label style="margin-top:12px">¿Qué debe ingresar el usuario? <span style="color:var(--dim);text-transform:none;font-weight:400">(selección múltiple)</span></label>${chips("entrada",PLAB_OPT.entrada,PLAB.entrada)}
+    <label style="margin-top:12px">¿Qué debe entregar la herramienta? <span style="color:var(--dim);text-transform:none;font-weight:400">(selección múltiple)</span></label>${chips("salida",PLAB_OPT.salida,PLAB.salida)}
+    <label style="margin-top:12px">¿Qué restricciones debe respetar? <span style="color:var(--dim);text-transform:none;font-weight:400">(selección múltiple)</span></label>${chips("restric",PLAB_OPT.restric,PLAB.restric)}
+  </div>
+
+  <!-- PASO 2 -->
+  <div class="card" id="plab-meta">
+    <div style="display:flex;align-items:center;gap:8px"><span class="chip g">Paso 2</span><b style="font-family:var(--disp);font-size:1.1rem">Metaprompt para ChatGPT o Gemini</b></div>
+    <p style="color:var(--muted);font-size:.88rem;margin:6px 0 8px">Este texto le pide a la IA que <b>ordene la idea antes de programar</b>. Elija el formato de salida, cópielo y péguelo en ChatGPT o Gemini.</p>
+    <label>Formato de salida que quiere pedir</label>${sel("pl-formato",PLAB_OPT.formato,PLAB.formato)}
+    <label style="margin-top:10px">Metaprompt (editable)</label><textarea id="pm-meta" rows="9" class="mono" style="font-size:.82rem"></textarea>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+      <button class="btn primary" data-copy="#pm-meta"><i data-lucide="copy"></i><span>Copiar metaprompt</span></button>
+      <a class="btn" href="https://chatgpt.com" target="_blank" rel="noopener"><i data-lucide="external-link"></i><span>Abrir ChatGPT</span></a>
+      <a class="btn" href="https://gemini.google.com/app" target="_blank" rel="noopener"><i data-lucide="external-link"></i><span>Abrir Gemini</span></a>
+    </div>
+  </div>
+
+  <!-- PASO 3 -->
+  <div class="card" id="plab-flow">
+    <div style="display:flex;align-items:center;gap:8px"><span class="chip g">Paso 3</span><b style="font-family:var(--disp);font-size:1.1rem">Pedir el diagrama de flujo</b></div>
+    <p style="color:var(--muted);font-size:.88rem;margin:6px 0 8px">Antes del código, pida el recorrido del usuario. La salida esperada incluye:</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">${["Flujo textual","Mapa de pantallas","Tabla de entradas y salidas","Lista de riesgos","Criterios de revisión"].map(x=>`<span class="chip">${x}</span>`).join("")}</div>
+    <textarea id="pm-flow" rows="6" class="mono" style="font-size:.82rem"></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px"><button class="btn primary" data-copy="#pm-flow"><i data-lucide="copy"></i><span>Copiar prompt de flujo</span></button></div>
+  </div>
+
+  <!-- PASO 4 -->
+  <div class="card card2" id="plab-claude">
+    <div style="display:flex;align-items:center;gap:8px"><span class="chip">Paso 4</span><b style="font-family:var(--disp);font-size:1.1rem">Prompt técnico para Claude</b></div>
+    <p style="color:var(--muted);font-size:.88rem;margin:6px 0 8px">Convierte la idea y el flujo en un prompt listo para pegar en Claude Sonnet o Claude Code. Ajuste el nombre y el objetivo si quiere.</p>
+    <div class="row">
+      <div class="col"><label>Nombre del prototipo</label><input id="pl-nombre" placeholder="Ej.: Lector de sentencias"></div>
+      <div class="col"><label>Objetivo (opcional)</label><input id="pl-objetivo" placeholder="Se completa solo con sus respuestas"></div>
+    </div>
+    <label style="margin-top:10px">Prompt para Claude (editable)</label><textarea id="pm-claude" rows="14" class="mono" style="font-size:.8rem"></textarea>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+      <button class="btn primary" data-copy="#pm-claude"><i data-lucide="copy"></i><span>Copiar prompt de Claude</span></button>
+      <a class="btn" href="https://claude.ai/new" target="_blank" rel="noopener"><i data-lucide="external-link"></i><span>Abrir Claude</span></a>
+    </div>
+  </div>
+
+  <!-- PASO 5 · GITHUB -->
+  <div class="card" id="plab-github">
+    <div style="display:flex;align-items:center;gap:8px"><span class="chip r">Paso 5</span><b style="font-family:var(--disp);font-size:1.1rem">GitHub en simple</b></div>
+    <div class="row" style="margin-top:8px">
+      <div class="col" style="min-width:260px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          ${[["Repositorio","La carpeta del proyecto en GitHub."],["Commit","Una versión guardada, con su fecha y motivo."],["Rama","Una línea de trabajo paralela."],["Subir (push)","Enviar tus archivos al repositorio."],["Versiones","El historial que puedes recuperar."],["Conexión con Vercel","Vercel lee tu repo para publicarlo."]].map(c=>`<div class="card" style="margin:0;padding:9px 11px" title="${c[1]}"><b style="font-size:.86rem">${c[0]}</b><div style="font-size:.76rem;color:var(--muted)">${c[1]}</div></div>`).join("")}
+        </div>
+      </div>
+      <div class="col" style="min-width:240px">
+        ${miniFlow(["Crear cuenta","New repository","Nombrar","Crear repo","Subir archivos","Conectar Vercel"])}
+        <div class="card2" style="padding:11px 13px;border-radius:9px"><span class="mono" style="font-size:.68rem;color:var(--gold)">PARA ESTUDIANTES DE DERECHO</span><div style="font-size:.86rem;margin-top:3px">Piense en GitHub como una carpeta inteligente que guarda versiones de su proyecto y permite que otras herramientas lo lean.</div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+      <a class="btn" href="https://github.com/new" target="_blank" rel="noopener"><i data-lucide="external-link"></i><span>Abrir GitHub</span></a>
+      <button class="btn" data-copytext="gh"><i data-lucide="copy"></i><span>Copiar instrucciones para Claude</span></button>
+    </div>
+    <div class="box-warn" style="margin-top:8px;font-size:.8rem;color:var(--gold)"><i data-lucide="alert-triangle" style="width:14px;height:14px"></i> Según la versión o plan utilizado, algunas acciones pueden requerir intervención manual del usuario.</div>
+  </div>
+
+  <!-- PASO 6 · VERCEL -->
+  <div class="card" id="plab-vercel">
+    <div style="display:flex;align-items:center;gap:8px"><span class="chip r">Paso 6</span><b style="font-family:var(--disp);font-size:1.1rem">Publicar en Vercel</b></div>
+    <div class="row" style="margin-top:8px">
+      <div class="col" style="min-width:260px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          ${[["Vercel","Servicio que publica tu web gratis."],["Desplegar","Poner el prototipo en línea."],["URL pública","La dirección donde vive tu web."],["Proyecto","Tu prototipo dentro de Vercel."],["Importar de GitHub","Traer el repo para publicarlo."],["Producción vs. preview","La versión final vs. una de prueba."]].map(c=>`<div class="card" style="margin:0;padding:9px 11px" title="${c[1]}"><b style="font-size:.86rem">${c[0]}</b><div style="font-size:.76rem;color:var(--muted)">${c[1]}</div></div>`).join("")}
+        </div>
+      </div>
+      <div class="col" style="min-width:240px">
+        ${miniFlow(["Crear cuenta","Add New Project","Import Git Repository","Seleccionar repo","Configurar","Deploy","Obtener URL"])}
+        <div class="card2" style="padding:11px 13px;border-radius:9px"><span class="mono" style="font-size:.68rem;color:var(--mint)">RESULTADO</span><div style="font-size:.86rem;margin-top:3px">Una URL pública que puede compartir con la cátedra: el prototipo "entra en vigencia".</div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+      <a class="btn" href="https://vercel.com/new" target="_blank" rel="noopener"><i data-lucide="external-link"></i><span>Abrir Vercel</span></a>
+      <button class="btn" data-copytext="vc"><i data-lucide="copy"></i><span>Copiar instrucciones para Claude</span></button>
+    </div>
+  </div>
+
+  <!-- CHECKLIST + AVISO -->
+  <div class="card card2">
+    <b style="font-family:var(--disp)">Checklist de entregables</b>
+    <ul class="check" style="margin-top:8px">${["Problema definido (usuario, entradas, salidas, restricciones)","Metaprompt generado y llevado a ChatGPT o Gemini","Diagrama de flujo obtenido y revisado","Prompt técnico para Claude preparado","Repositorio creado en GitHub","Prototipo desplegado en Vercel con URL pública","Advertencias de verificación humana y límites de la IA incluidas"].map(x=>`<li>${x}</li>`).join("")}</ul>
+  </div>
+  <div class="box-warn" style="border:1px solid rgba(224,176,74,.3);background:rgba(224,176,74,.05);border-radius:9px;padding:12px 14px;margin-top:10px;font-size:.86rem;color:var(--muted)">
+    <b style="color:var(--gold);font-family:var(--mono);font-size:.72rem">AVISO PEDAGÓGICO</b><br>Esta herramienta no busca reemplazar formación técnica ni asesoría legal. Su propósito es enseñar a estructurar problemas, formular instrucciones precisas y comprender el ciclo básico de diseño, desarrollo asistido por IA y despliegue de prototipos jurídicos.
+  </div>`;
+
+  // wiring
+  const toggleOtro = ()=>{ $("#pl-problema-otro").style.display = PLAB.problema==="Otro"?"block":"none"; $("#pl-tipo-otro").style.display = PLAB.tipo==="Otro"?"block":"none"; };
+  $("#pl-usuario").onchange = e=>{ PLAB.usuario=e.target.value; updatePlab(); };
+  $("#pl-problema").onchange = e=>{ PLAB.problema=e.target.value; toggleOtro(); updatePlab(); };
+  $("#pl-tipo").onchange = e=>{ PLAB.tipo=e.target.value; toggleOtro(); updatePlab(); };
+  $("#pl-formato").onchange = e=>{ PLAB.formato=e.target.value; updatePlab(); };
+  $("#pl-problema-otro").oninput = e=>{ PLAB.problemaOtro=e.target.value; updatePlab(); };
+  $("#pl-tipo-otro").oninput = e=>{ PLAB.tipoOtro=e.target.value; updatePlab(); };
+  $("#pl-nombre").oninput = e=>{ PLAB.nombre=e.target.value; updatePlab(); };
+  $("#pl-objetivo").oninput = e=>{ PLAB.objetivo=e.target.value; updatePlab(); };
+  B.querySelectorAll(".plab-chip").forEach(c=> c.addEventListener("click", ()=>{
+    const set = PLAB[c.dataset.chip]; const v = c.dataset.val.replace(/&quot;/g,'"');
+    if(set.has(v)){ set.delete(v); c.classList.remove("on"); c.style.borderColor=""; c.style.color=""; }
+    else{ set.add(v); c.classList.add("on"); c.style.borderColor="var(--cyan)"; c.style.color="var(--cyan)"; }
+    updatePlab();
+  }));
+  B.querySelectorAll("[data-copy]").forEach(b=> b.addEventListener("click", ()=> copiar($(b.dataset.copy).value, b) ));
+  B.querySelectorAll("[data-copytext]").forEach(b=> b.addEventListener("click", ()=> copiar(b.dataset.copytext==="gh"?GH_PROMPT:VC_PROMPT, b) ));
+  B.querySelectorAll("[data-scroll]").forEach(b=> b.addEventListener("click", ()=> $(b.dataset.scroll).scrollIntoView({behavior:"smooth",block:"start"}) ));
+  toggleOtro(); updatePlab(); icons();
+}
+function updatePlab(){
+  const m=$("#pm-meta"), f=$("#pm-flow"), c=$("#pm-claude");
+  if(m) m.value = metaPrompt();
+  if(f) f.value = flowPrompt();
+  if(c) c.value = claudePrompt();
+}
+
 /* ===== router ===== */
 function route(){
   const h = (location.hash||"#/").replace(/^#\//,"") || "hub";
-  const id = ["ruta","promptlab","cazador","glosario","caja","canvas"].includes(h) ? h : "hub";
+  const id = ["ruta","promptlab","cazador","glosario","caja","canvas","prototipolab"].includes(h) ? h : "hub";
   document.querySelectorAll(".view").forEach(v=>v.classList.remove("on"));
   $("#v-"+id).classList.add("on");
   window.scrollTo(0,0);
@@ -565,6 +819,7 @@ function route(){
   if(id==="promptlab") renderPromptlab();
   if(id==="cazador") renderCazador();
   if(id==="canvas") renderCanvas();
+  if(id==="prototipolab") renderPrototipolab();
   icons();
 }
 window.addEventListener("hashchange", route);
